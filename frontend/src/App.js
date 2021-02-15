@@ -12,7 +12,7 @@ function App() {
     axios.get(`${process.env.REACT_APP_API_URL}/health`,).then((res) => {
       setMessage(res.data);
     })
-  }, []);
+  });
 
   return (
     <div>{message}</div>
