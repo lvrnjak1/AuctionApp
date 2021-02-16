@@ -1,21 +1,13 @@
 import './App.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGavel } from '@fortawesome/free-solid-svg-icons'
-import axios from 'axios'
-import { useState, useEffect } from 'react';
+import { ThemeProvider } from '@material-ui/styles';
+import theme from "./util/theme";
+import Navbar from './components/navbar';
 
 function App() {
-
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/health`,).then((res) => {
-      setMessage(res.data);
-    })
-  });
-
   return (
-    <div>{message}</div>
+    <ThemeProvider theme={theme}>
+      <Navbar />
+    </ThemeProvider>
   );
 }
 
