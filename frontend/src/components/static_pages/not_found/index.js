@@ -6,14 +6,14 @@ import "./index.css"
 
 function NotFound() {
     return (
-        <div id="content">
-            <div id="title">
-                <FontAwesomeIcon icon={faGavel} size="lg" id="title-icon" />
-                <p id="title-text">AUCTION</p>
+        <div id="not-found-content">
+            <div id="not-found-title">
+                <FontAwesomeIcon icon={faGavel} size="lg" id="not-found-title-icon" />
+                <p id="not-found-title-text">AUCTION</p>
             </div>
             <p id="not-found">404</p>
-            <p id="text">Ooops! Looks like the page is Not Found!</p>
-            <button id="back-button">GO BACK</button>
+            <p id="not-found-text">Ooops! Looks like the page is Not Found!</p>
+            <button id="not-found-back-button">GO BACK</button>
         </div>
     );
 }
