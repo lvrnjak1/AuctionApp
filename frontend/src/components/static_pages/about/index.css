@@ -1,0 +1,45 @@
+#about-page {
+  padding-left: 11.1%;
+  padding-right: 11.1%;
+}
+
+#content {
+  float: left;
+  width: 50%;
+  font-size: 18px;
+  color: #9b9b9b;
+  letter-spacing: 0.63px;
+  line-height: 25px;
+}
+
+#content p {
+  margin-top: 0;
+}
+
+#images {
+  float: left;
+  width: 50%;
+  text-align: center;
+}
+
+#about-title {
+  font-size: 46px;
+  color: #252525;
+  letter-spacing: 1.61px;
+}
+
+#image-large {
+  width: 500px;
+  height: 375px;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+.image-small {
+  width: 240px;
+  height: 181px;
+}
+
+.image-small:last-of-type {
+  margin-left: 20px;
+}

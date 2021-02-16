@@ -11,7 +11,7 @@ function Footer() {
     const classes = useStyles();
     return (
         <Container className={classes.root} maxWidth="xl">
-            <Grid container justify="center" className={classes.footer} xs={12}>
+            <Grid container justify="center" className={classes.footer}>
                 <Grid item xs={3} />
                 <Grid item className={classes.content} xs={3}>
                     <div>
