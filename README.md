@@ -14,12 +14,12 @@ JDBC_DATABASE_URL
 JDBC_DATABASE_USERNAME
 JDBC_DATABASE_PASSWORD
 JWT_SECRET
-SERVER_PORT
 ```
 - make sure you assign the appropriate values to these variables
 - clone this repository
 - navigate to the **backend** folder and run **mvn spring-boot:run** 
-- The API will be available at http://localhost:8080 (change 8080 with the port you set in your environment variable) 
+- if you wish to change the port at which your application runs, change the server.port property in **application.yml** file; This file is located in backend/main/src/resources directory
+- The API will be available at http://localhost:8080 (or the port you set)
 
 To open the API documentation locally go to API_URL/swagger-ui.html
 
