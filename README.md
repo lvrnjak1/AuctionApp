@@ -14,11 +14,12 @@ JDBC_DATABASE_URL
 JDBC_DATABASE_USERNAME
 JDBC_DATABASE_PASSWORD
 JWT_SECRET
+SERVER_PORT
 ```
 - make sure you assign the appropriate values to these variables
 - clone this repository
 - navigate to the **backend** folder and run **mvn spring-boot:run** 
-- The API will be available at http://localhost:8080 by default
+- The API will be available at http://localhost:8080 (change 8080 with the port you set in your environment variable) 
 
 To open the API documentation locally go to API_URL/swagger-ui.html
 
@@ -32,7 +33,9 @@ You can find the source code for the web application in the **frontend** directo
 
 ```javascript
 REACT_APP_API_URL=
+PORT=
 ```
-- make sure you assign the variable its appropriate value (url at which your server is hosted)
+- make sure you assign the variables its appropriate values (url at which your server is hosted)
+- your application will run on port 3000 by default; if you want to change this configure the variable above, otherwise you can omit the variable 
 - run **npm start** to start the application (it will run the app in development mode) 
-- To view the application in your browser open http://localhost:3000
+- To view the application in your browser open http://localhost:3000 (or your port of choice)
