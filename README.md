@@ -3,7 +3,7 @@
 ### Set up and start instructions
 
 ##### Backend application
-You can find the source code for the web application in the **backend** directory. It is a Spring Boot application. To set up and start the server locally:
+You can find the source code for the backend application in the **backend** directory. It is a Spring Boot project. To set up and start the server locally:
 
 - make sure you have **git**, **Java Development Kit**, **Maven** and **PostgreSQL** installed
 - create a PostgreSQL database on your machine 
