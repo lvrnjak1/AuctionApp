@@ -1,9 +1,10 @@
 import React from 'react'
-import { Grid, Link, Container } from '@material-ui/core';
+import { Grid, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faTwitter, faGooglePlus } from "@fortawesome/free-brands-svg-icons";
 import style from './style';
+import { Link } from "react-router-dom"
 
 const useStyles = makeStyles(style)
 
@@ -18,13 +19,13 @@ function Footer() {
                         <div className={classes.contentDiv}>AUCTION</div>
                         <ul className={classes.contentList}>
                             <li className={classes.contentListItem}>
-                                <Link href="#" className={classes.headerItemLink}>About Us</Link>
+                                <Link to="/about" className={classes.headerItemLink}>About Us</Link>
                             </li>
                             <li className={classes.contentListItem}>
-                                <Link href="#" className={classes.headerItemLink}>Terms and Conditions</Link>
+                                <Link to="/terms" className={classes.headerItemLink}>Terms and Conditions</Link>
                             </li>
                             <li className={classes.contentListItem}>
-                                <Link href="#" className={classes.headerItemLink}>Privacy and Policy</Link>
+                                <Link to="/privacy" className={classes.headerItemLink}>Privacy and Policy</Link>
                             </li>
                         </ul>
                     </div>
@@ -37,16 +38,16 @@ function Footer() {
                             <li className={classes.contentListItem}>support@auction.com</li>
                         </ul>
                         <div className={classes.contentDiv}>
-                            <Link href="#" className={classes.headerItemLink}>
+                            <Link to="/home" className={classes.headerItemLink}>
                                 <FontAwesomeIcon icon={faFacebook} className={classes.headerIcon} />
                             </Link>
-                            <Link href="#" className={classes.headerItemLink}>
+                            <Link to="/home" className={classes.headerItemLink}>
                                 <FontAwesomeIcon icon={faInstagram} className={classes.headerIcon} />
                             </Link>
-                            <Link href="#" className={classes.headerItemLink}>
+                            <Link to="/home" className={classes.headerItemLink}>
                                 <FontAwesomeIcon icon={faTwitter} className={classes.headerIcon} />
                             </Link>
-                            <Link href="#" className={classes.headerItemLink}>
+                            <Link to="/home" className={classes.headerItemLink}>
                                 <FontAwesomeIcon icon={faGooglePlus} className={classes.headerIcon} />
                             </Link>
                         </div>

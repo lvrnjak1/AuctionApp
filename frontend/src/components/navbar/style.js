@@ -17,6 +17,7 @@ const style = {
     },
     headerItemLink: {
         color: "#FFFFFF",
+        textDecoration: "none",
         '&:hover': {
             textDecoration: 'none'
         }

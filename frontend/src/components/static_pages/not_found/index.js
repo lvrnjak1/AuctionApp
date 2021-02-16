@@ -2,6 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGavel } from "@fortawesome/free-solid-svg-icons"
 import "./index.css"
+import { Link } from 'react-router-dom';
 
 
 function NotFound() {
@@ -13,7 +14,9 @@ function NotFound() {
             </div>
             <p id="not-found">404</p>
             <p id="not-found-text">Ooops! Looks like the page is Not Found!</p>
-            <button id="not-found-back-button">GO BACK</button>
+            <Link to="/home">
+                <button id="not-found-back-button">GO BACK</button>
+            </Link>
         </div>
     );
 }
