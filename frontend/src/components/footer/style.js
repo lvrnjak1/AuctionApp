@@ -6,6 +6,8 @@ const style = {
         fontSize: "16px",
         letterSpacing: "0.56px",
         textAlign: "center",
+        fontFamily: "Lato",
+        marginTop: "20px"
     },
     content: {
         paddingLeft: "20",
