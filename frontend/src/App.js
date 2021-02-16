@@ -1,12 +1,14 @@
 import './App.css';
 import { ThemeProvider } from '@material-ui/styles';
 import theme from "./util/theme";
-import Navbar from './components/navbar';
+import Layout from './components/main_layout/layout';
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Navbar />
+      <Layout>
+
+      </Layout>
     </ThemeProvider>
   );
 }
