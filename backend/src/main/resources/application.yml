@@ -16,4 +16,4 @@ app:
   jwtSecret: ${JWT_SECRET}
   jwtExpirationMs: 604800000
 server:
-  port: ${SERVER_PORT}
+  port: 8080
