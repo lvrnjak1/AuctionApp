@@ -6,7 +6,6 @@ import { faFacebook, faInstagram, faTwitter, faGooglePlus } from "@fortawesome/f
 import clsx from 'clsx';
 import style from './style';
 import { Link } from "react-router-dom"
-
 const useStyles = makeStyles(style)
 
 function Navbar() {
@@ -31,11 +30,11 @@ function Navbar() {
                 <Typography>
                     <Link to="/login" className={clsx(classes.headerItemLink, classes.root)}>
                         Login
-                    </Link>
+                </Link>
                     <Typography display="inline" className={clsx(classes.headerItem, classes.root)}>{' '}or {' '}</Typography>
                     <Link to="/register" className={clsx(classes.headerItemLink, classes.root)}>
                         Create an Account
-                    </Link>
+                </Link>
                 </Typography>
             </Toolbar>
         </AppBar >
