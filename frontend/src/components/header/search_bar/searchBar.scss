@@ -1,0 +1,54 @@
+@import "../../../util/constants.scss";
+
+#search-bar {
+  padding-left: 11.1%;
+  padding-right: 11.9%;
+  display: block;
+  height: 80px;
+
+  #search-bar-title {
+    font-size: 24px;
+    letter-spacing: 0.84px;
+    font-weight: lighter;
+    float: left;
+    margin-top: 20px;
+
+    #search-bar-title-icon {
+      margin-bottom: 2px;
+      color: #c4bfd6;
+    }
+
+    p {
+      display: inline;
+      margin-left: 10px;
+      color: #8367d8;
+    }
+  }
+
+  #search-bar-links {
+    text-decoration: none;
+    margin-top: 10px;
+    float: right;
+
+    ul {
+      list-style: none;
+
+      li {
+        display: inline;
+        margin-right: 10px;
+
+        .search-bar-link {
+          text-decoration: none;
+          color: #252525;
+          font-weight: lighter;
+          letter-spacing: 0.56px;
+          font-size: 16px;
+        }
+      }
+
+      li :last-of-type {
+        margin-right: 0px;
+      }
+    }
+  }
+}

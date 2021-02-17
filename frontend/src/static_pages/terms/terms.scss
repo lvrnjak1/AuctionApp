@@ -1,0 +1,22 @@
+@import "../../util/constants.scss";
+
+#terms-content {
+  margin: auto;
+  width: 700px;
+  font-size: 18px;
+  color: $gray;
+  letter-spacing: 0.63px;
+  line-height: 25px;
+
+  #terms-content-title {
+    font-size: 46px;
+    color: $black;
+    letter-spacing: 1.61px;
+  }
+
+  #terms-content-subtitle {
+    font-size: 24px;
+    color: $black;
+    letter-spacing: 0.84px;
+  }
+}

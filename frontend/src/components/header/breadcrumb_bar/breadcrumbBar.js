@@ -1,5 +1,5 @@
 import React from 'react'
-import "./breadcrumbBar.css"
+import "./breadcrumbBar.scss"
 
 
 function BreadcrumbBar(props) {
@@ -8,7 +8,7 @@ function BreadcrumbBar(props) {
         <div id="breadcrumb-bar">
             <div id="current">{props.content.current}</div>
             <div id="breadcrumbs">
-                {props.content.breadcrumbs.map(bc => <p class="breadcrumb">{bc}</p>)}
+                {props.content.breadcrumbs.map(bc => <p>{bc}</p>)}
             </div>
         </div>
     )
