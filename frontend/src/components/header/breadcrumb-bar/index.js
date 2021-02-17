@@ -1,13 +1,15 @@
 import React from 'react'
-import { Link } from "react-router-dom"
 import "./index.css"
 
 
-function BreadcrumbBar() {
+function BreadcrumbBar(props) {
+
     return (
         <div id="breadcrumb-bar">
-            <div id="current">ABOUT US</div>
-            <div id="breadcrumb">SHOP/ ABOUT</div>
+            <div id="current">{props.content.current}</div>
+            <div id="breadcrumbs">
+                {props.content.breadcrumbs.map(bc => <p class="breadcrumb">{bc}</p>)}
+            </div>
         </div>
     )
 }

@@ -1,0 +1,32 @@
+#breadcrumb-bar {
+  text-transform: uppercase;
+  color: #252525;
+  padding-left: 11.1%;
+  padding-right: 11.1%;
+  height: 60px;
+  background: #fafafa;
+}
+
+#current {
+  font-size: 18px;
+  letter-spacing: 0.63px;
+  float: left;
+  padding-top: 1.5%;
+}
+
+#breadcrumbs {
+  float: right;
+  padding-top: 1.5%;
+}
+
+.breadcrumb {
+  font-size: 16px;
+  letter-spacing: 0.56px;
+  font-weight: lighter;
+  display: inline;
+  margin-right: 10px;
+}
+
+.breadcrumb:last-of-type {
+  font-weight: normal;
+}

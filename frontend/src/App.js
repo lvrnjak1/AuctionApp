@@ -19,17 +19,17 @@ function App() {
       <ThemeProvider theme={theme}>
         <Switch>
           <Route exact path="/shop/about">
-            <Layout>
+            <Layout breadcrumbs={{ current: "about us", breadcrumbs: ["shop/", "about"] }}>
               <About />
             </Layout>
           </Route>
           <Route exact path="/shop/terms">
-            <Layout>
+            <Layout breadcrumbs={{ current: "terms and conditions", breadcrumbs: ["shop/", "terms and conditions"] }}>
               <Terms />
             </Layout>
           </Route>
           <Route exact path="/shop/privacy">
-            <Layout>
+            <Layout breadcrumbs={{ current: "privacy and policy", breadcrumbs: ["shop/", "privacy and policy"] }}>
               <Privacy />
             </Layout>
           </Route>
@@ -40,7 +40,7 @@ function App() {
           </Route>
         </Switch>
       </ThemeProvider>
-    </Router>
+    </Router >
   );
 }
 
