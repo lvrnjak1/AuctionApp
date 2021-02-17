@@ -29,7 +29,7 @@ function Footer() {
                     <li><NavLink to="/privacy" className={classes.link}>Privacy and Policy</NavLink></li>
                 </ul>
             </div>
-            <div class="content-right">
+            <div className="content-right">
                 <p>GET IN TOUCH</p>
                 <ul>
                     <li >Call Us at +123 797-567-2535</li>

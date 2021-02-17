@@ -4,6 +4,7 @@
   background: $black;
   height: 40px;
   color: $white;
+  width: 100%;
 
   .navbar-socials {
     float: left;
@@ -26,6 +27,35 @@
         color: $gray;
         letter-spacing: 0.49px;
       }
+    }
+  }
+
+  @media screen and (max-width: $medium) {
+    .navbar-socials {
+      margin: 2% 0 0 5%;
+    }
+    .navbar-links {
+      margin: 2% 5% 0 0;
+    }
+  }
+
+  @media screen and (max-width: $small) {
+    .navbar-links {
+      float: left;
+    }
+  }
+
+  @media screen and (max-width: $tiny) {
+    height: 60px;
+
+    .navbar-socials {
+      clear: both;
+      margin-left: 35%;
+    }
+
+    .navbar-links {
+      clear: both;
+      margin-left: 6%;
     }
   }
 }

@@ -10,10 +10,10 @@ const useStyles = makeStyles({
         width: "100%"
     },
     navbar: {
-        height: 40
+        // height: 40
     },
     searchbar: {
-        height: 60
+        // height: 60
     }
 })
 

@@ -10,7 +10,6 @@
     font-size: 24px;
     letter-spacing: 0.84px;
     font-weight: lighter;
-    float: left;
     margin-top: 20px;
 
     .search-bar-title-icon {
@@ -28,7 +27,6 @@
   .search-bar-links {
     text-decoration: none;
     margin-top: 10px;
-    float: right;
 
     ul {
       list-style: none;
@@ -49,6 +47,31 @@
       li :last-of-type {
         margin-right: 0px;
       }
+    }
+  }
+
+  @media screen and (max-width: $small) {
+    height: 130px;
+    text-align: center;
+    .search-bar-links {
+      ul {
+        text-align: center;
+        margin-right: 5%;
+        li {
+          display: block;
+          margin-bottom: 2px;
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: $medium) {
+    .search-bar-title {
+      float: left;
+    }
+
+    .search-bar-links {
+      float: right;
     }
   }
 }
