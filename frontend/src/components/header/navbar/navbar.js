@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faTwitter, faGooglePlus } from "@fortawesome/free-brands-svg-icons";
 import clsx from 'clsx';
-import style from './style';
+import style from './navbarStyle';
 import { Link } from "react-router-dom"
 const useStyles = makeStyles(style)
 

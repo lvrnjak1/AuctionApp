@@ -1,11 +1,11 @@
 import './App.css';
 import { ThemeProvider } from '@material-ui/styles';
 import theme from "./util/theme";
-import Layout from './components/layout';
-import Terms from './static_pages/terms';
-import Privacy from './static_pages/privacy';
-import NotFound from './static_pages/not_found';
-import About from './static_pages/about';
+import Layout from './components/layout/layout';
+import Terms from './static_pages/terms/terms';
+import Privacy from './static_pages/privacy/privacy';
+import NotFound from './static_pages/not_found/notFound';
+import About from './static_pages/about/about';
 import {
   BrowserRouter as Router,
   Switch,

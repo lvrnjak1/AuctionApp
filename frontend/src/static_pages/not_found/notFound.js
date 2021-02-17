@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGavel } from "@fortawesome/free-solid-svg-icons"
-import "./index.css"
+import "./notFound.css"
 import { Link } from 'react-router-dom';
 
 

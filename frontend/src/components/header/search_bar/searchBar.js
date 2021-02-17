@@ -2,7 +2,7 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGavel } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom"
-import "./index.css"
+import "./searchBar.css"
 
 
 function SearchBar() {
