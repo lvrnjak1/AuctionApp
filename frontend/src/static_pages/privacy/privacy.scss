@@ -2,7 +2,7 @@
 
 .privacy-content {
   margin: auto;
-  width: 700px;
+  width: 40%;
   font-size: 18px;
   color: $gray;
   letter-spacing: 0.63px;
@@ -18,5 +18,13 @@
     font-size: 24px;
     color: $black;
     letter-spacing: 0.84px;
+  }
+
+  @media screen and (max-width: $medium) {
+    padding: 0 20px 0 20px;
+    width: 90%;
+    .terms-content-title {
+      font-size: 40px;
+    }
   }
 }

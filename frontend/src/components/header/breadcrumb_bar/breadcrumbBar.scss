@@ -6,6 +6,7 @@
   padding: 0 11.1% 0 11.1%;
   height: 60px;
   background: $lightGray;
+  text-align: center;
 
   div {
     padding-top: 1.5%;
@@ -14,12 +15,9 @@
   .current {
     font-size: 18px;
     letter-spacing: 0.63px;
-    float: left;
   }
 
   .breadcrumb {
-    float: right;
-
     p {
       font-size: 16px;
       letter-spacing: 0.56px;
@@ -30,6 +28,19 @@
 
     :last-child {
       font-weight: normal;
+    }
+  }
+
+  @media screen and (max-width: $medium) {
+    font-size: 20px;
+  }
+
+  @media screen and (min-width: $medium) {
+    .current {
+      float: left;
+    }
+    .breadcrumb {
+      float: right;
     }
   }
 }
