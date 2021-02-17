@@ -1,43 +1,52 @@
 import React from 'react'
-import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faTwitter, faGooglePlus } from "@fortawesome/free-brands-svg-icons";
-import clsx from 'clsx';
-import style from './navbarStyle';
-import { Link } from "react-router-dom"
-const useStyles = makeStyles(style)
+import { Link, NavLink } from "react-router-dom"
+import "./navbar.scss";
+
+const useStyles = makeStyles({
+    link: {
+        textDecoration: "none",
+        color: "#FFFFFF",
+        fontWeight: "bold",
+        fontSize: 14,
+        letterSpacing: 0.49
+    },
+    icon: {
+        color: "#9B9B9B",
+        marginInline: 3,
+        fontSize: 20
+    }
+})
+
 
 function Navbar() {
     const classes = useStyles();
     return (
-        <AppBar color="secondary" position="static">
-            <Toolbar className={classes.header}>
-                <div className={classes.headerSocials}>
-                    <Link to="/home" className={clsx(classes.headerItemLink, classes.root)}>
-                        <FontAwesomeIcon icon={faFacebook} className={classes.headerIcon} />
-                    </Link>
-                    <Link to="/home" className={clsx(classes.headerItemLink, classes.root)}>
-                        <FontAwesomeIcon icon={faInstagram} className={classes.headerIcon} />
-                    </Link>
-                    <Link to="/home" className={clsx(classes.headerItemLink, classes.root)}>
-                        <FontAwesomeIcon icon={faTwitter} className={classes.headerIcon} />
-                    </Link>
-                    <Link to="/home" className={clsx(classes.headerItemLink, classes.root)}>
-                        <FontAwesomeIcon icon={faGooglePlus} className={classes.headerIcon} />
-                    </Link>
-                </div>
-                <Typography>
-                    <Link to="/login" className={clsx(classes.headerItemLink, classes.root)}>
-                        Login
-                </Link>
-                    <Typography display="inline" className={clsx(classes.headerItem, classes.root)}>{' '}or {' '}</Typography>
-                    <Link to="/register" className={clsx(classes.headerItemLink, classes.root)}>
-                        Create an Account
-                </Link>
-                </Typography>
-            </Toolbar>
-        </AppBar >
+        <div id="navbar-black">
+            <div id="navbar-socials">
+                <NavLink to="/home">
+                    <FontAwesomeIcon icon={faFacebook} className={classes.icon} />
+                </NavLink>
+                <NavLink to="/home">
+                    <FontAwesomeIcon icon={faInstagram} className={classes.icon} />
+                </NavLink>
+                <NavLink to="/home">
+                    <FontAwesomeIcon icon={faTwitter} className={classes.icon} />
+                </NavLink>
+                <NavLink to="/home">
+                    <FontAwesomeIcon icon={faGooglePlus} className={classes.icon} />
+                </NavLink>
+            </div>
+            <div id="navbar-links">
+                <ul>
+                    <li><Link to="/login" className={classes.link}>Login</Link></li>
+                    <li>or</li>
+                    <li><Link to="/register" className={classes.link}>Create an Account</Link></li>
+                </ul>
+            </div>
+        </div>
     )
 }
 
