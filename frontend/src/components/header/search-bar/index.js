@@ -1,7 +1,7 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGavel } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 import "./index.css"
 
 
@@ -15,13 +15,13 @@ function SearchBar() {
             <div id="search-bar-links">
                 <ul id="search-bar-links-list">
                     <li>
-                        <Link to="/home" class="search-bar-link">HOME</Link>
+                        <NavLink to="/home" class="search-bar-link" activeStyle={{ color: "#8367D8", textDecoration: "none" }}>HOME</NavLink>
                     </li>
                     <li>
-                        <Link to="/home" class="search-bar-link">SHOP</Link>
+                        <NavLink to="/shop" class="search-bar-link" activeStyle={{ color: "#8367D8", textDecoration: "none" }}>SHOP</NavLink>
                     </li>
                     <li>
-                        <Link to="/home" class="search-bar-link">MY ACCOUNT</Link>
+                        <NavLink to="/account" class="search-bar-link" activeStyle={{ color: "#8367D8", textDecoration: "none" }}>MY ACCOUNT</NavLink>
                     </li>
                 </ul>
             </div>

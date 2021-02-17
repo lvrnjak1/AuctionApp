@@ -18,17 +18,17 @@ function App() {
     <Router>
       <ThemeProvider theme={theme}>
         <Switch>
-          <Route exact path="/about">
+          <Route exact path="/shop/about">
             <Layout>
               <About />
             </Layout>
           </Route>
-          <Route exact path="/terms">
+          <Route exact path="/shop/terms">
             <Layout>
               <Terms />
             </Layout>
           </Route>
-          <Route exact path="/privacy">
+          <Route exact path="/shop/privacy">
             <Layout>
               <Privacy />
             </Layout>

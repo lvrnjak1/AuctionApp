@@ -25,6 +25,7 @@
 }
 
 #search-bar-links {
+  text-decoration: none;
   margin-top: 10px;
   float: right;
 }

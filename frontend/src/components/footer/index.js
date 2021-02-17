@@ -19,13 +19,13 @@ function Footer() {
                         <div className={classes.contentDiv}>AUCTION</div>
                         <ul className={classes.contentList}>
                             <li className={classes.contentListItem}>
-                                <Link to="/about" className={classes.headerItemLink}>About Us</Link>
+                                <Link to="/shop/about" className={classes.headerItemLink}>About Us</Link>
                             </li>
                             <li className={classes.contentListItem}>
-                                <Link to="/terms" className={classes.headerItemLink}>Terms and Conditions</Link>
+                                <Link to="/shop/terms" className={classes.headerItemLink}>Terms and Conditions</Link>
                             </li>
                             <li className={classes.contentListItem}>
-                                <Link to="/privacy" className={classes.headerItemLink}>Privacy and Policy</Link>
+                                <Link to="/shop/privacy" className={classes.headerItemLink}>Privacy and Policy</Link>
                             </li>
                         </ul>
                     </div>
