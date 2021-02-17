@@ -5,10 +5,10 @@ import "components/header/breadcrumb_bar/breadcrumbBar.scss"
 function BreadcrumbBar(props) {
 
     return (
-        <div id="breadcrumb-bar">
-            <div id="current">{props.content.current}</div>
-            <div id="breadcrumbs">
-                {props.content.breadcrumbs.map(bc => <p>{bc}</p>)}
+        <div className="breadcrumb-bar">
+            <div className="current">{props.content.current}</div>
+            <div className="breadcrumb">
+                {props.content.breadcrumbs.map(bc => <p key={bc}>{bc}</p>)}
             </div>
         </div>
     )

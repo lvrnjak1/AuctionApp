@@ -1,6 +1,6 @@
 @import "util/constants.scss";
 
-#footer {
+.footer {
   background-color: $black;
   height: 356px;
   text-align: center;
@@ -22,13 +22,13 @@
     }
   }
 
-  #content-left {
+  .content-left {
     float: left;
     margin: 4% 0 0 35%;
     text-align: left;
   }
 
-  #content-right {
+  .content-right {
     float: right;
     margin: 4% 35% 0 0;
     text-align: left;

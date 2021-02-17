@@ -1,15 +1,15 @@
 @import "util/constants.scss";
 
-#about-page {
+.about-page {
   padding: 0 11.1% 0 11.1%;
 
-  #about-title {
+  .about-title {
     font-size: 46px;
     color: $black;
     letter-spacing: 1.61px;
   }
 
-  #content {
+  .content {
     float: left;
     width: 50%;
     font-size: 18px;
@@ -23,12 +23,12 @@
     }
   }
 
-  #images {
+  .images {
     float: left;
     width: 50%;
     text-align: right;
 
-    #image-large {
+    .image-large {
       width: 500px;
       height: 375px;
       margin: auto;

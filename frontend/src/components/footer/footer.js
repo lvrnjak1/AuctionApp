@@ -20,8 +20,8 @@ const useStyles = makeStyles({
 function Footer() {
     const classes = useStyles();
     return (
-        <div id="footer">
-            <div id="content-left">
+        <div className="footer">
+            <div className="content-left">
                 <p>AUCTION</p>
                 <ul>
                     <li><NavLink to="/shop/about" className={classes.link}>About Us</NavLink></li>
@@ -29,7 +29,7 @@ function Footer() {
                     <li><NavLink to="/shop/privacy" className={classes.link}>Privacy and Policy</NavLink></li>
                 </ul>
             </div>
-            <div id="content-right">
+            <div class="content-right">
                 <p>GET IN TOUCH</p>
                 <ul>
                     <li >Call Us at +123 797-567-2535</li>

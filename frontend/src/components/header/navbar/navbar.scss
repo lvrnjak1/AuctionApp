@@ -1,16 +1,16 @@
 @import "util/constants.scss";
 
-#navbar-black {
+.navbar-black {
   background: $black;
   height: 40px;
   color: $white;
 
-  #navbar-socials {
+  .navbar-socials {
     float: left;
     margin: 0.6% 0 0 11.1%;
   }
 
-  #navbar-links {
+  .navbar-links {
     float: right;
     margin: 0.6% 11.1% 0 0;
     text-align: center;

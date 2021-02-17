@@ -7,12 +7,12 @@ import "components/header/search_bar/searchBar.scss"
 
 function SearchBar() {
     return (
-        <div id="search-bar">
-            <div id="search-bar-title">
-                <FontAwesomeIcon icon={faGavel} size="sm" id="search-bar-title-icon" />
+        <div className="search-bar">
+            <div className="search-bar-title">
+                <FontAwesomeIcon icon={faGavel} size="sm" className="search-bar-title-icon" />
                 <p>AUCTION</p>
             </div>
-            <div id="search-bar-links">
+            <div className="search-bar-links">
                 <ul>
                     <li>
                         <NavLink to="/home" class="search-bar-link" activeStyle={{ color: "#8367D8", textDecoration: "none" }}>HOME</NavLink>

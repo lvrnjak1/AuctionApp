@@ -1,6 +1,6 @@
 @import "util/constants.scss";
 
-#privacy-content {
+.privacy-content {
   margin: auto;
   width: 700px;
   font-size: 18px;
@@ -8,13 +8,13 @@
   letter-spacing: 0.63px;
   line-height: 25px;
 
-  #privacy-content-title {
+  .privacy-content-title {
     font-size: 46px;
     color: $black;
     letter-spacing: 1.61px;
   }
 
-  #privacy-content-subtitle {
+  .privacy-content-subtitle {
     font-size: 24px;
     color: $black;
     letter-spacing: 0.84px;

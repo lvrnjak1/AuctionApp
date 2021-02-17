@@ -24,8 +24,8 @@ const useStyles = makeStyles({
 function Navbar() {
     const classes = useStyles();
     return (
-        <div id="navbar-black">
-            <div id="navbar-socials">
+        <div className="navbar-black">
+            <div className="navbar-socials">
                 <NavLink to="/home">
                     <FontAwesomeIcon icon={faFacebook} className={classes.icon} />
                 </NavLink>
@@ -39,7 +39,7 @@ function Navbar() {
                     <FontAwesomeIcon icon={faGooglePlus} className={classes.icon} />
                 </NavLink>
             </div>
-            <div id="navbar-links">
+            <div className="navbar-links">
                 <ul>
                     <li><Link to="/login" className={classes.link}>Login</Link></li>
                     <li>or</li>

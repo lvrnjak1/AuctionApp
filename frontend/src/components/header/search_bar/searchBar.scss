@@ -1,19 +1,19 @@
 @import "util/constants.scss";
 
-#search-bar {
+.search-bar {
   padding-left: 11.1%;
   padding-right: 11.1%;
   display: block;
   height: 80px;
 
-  #search-bar-title {
+  .search-bar-title {
     font-size: 24px;
     letter-spacing: 0.84px;
     font-weight: lighter;
     float: left;
     margin-top: 20px;
 
-    #search-bar-title-icon {
+    .search-bar-title-icon {
       margin-bottom: 2px;
       color: $lightPurple;
     }
@@ -25,7 +25,7 @@
     }
   }
 
-  #search-bar-links {
+  .search-bar-links {
     text-decoration: none;
     margin-top: 10px;
     float: right;

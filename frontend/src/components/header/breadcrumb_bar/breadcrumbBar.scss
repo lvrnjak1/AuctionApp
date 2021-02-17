@@ -1,6 +1,6 @@
 @import "util/constants.scss";
 
-#breadcrumb-bar {
+.breadcrumb-bar {
   text-transform: uppercase;
   color: $black;
   padding: 0 11.1% 0 11.1%;
@@ -11,13 +11,13 @@
     padding-top: 1.5%;
   }
 
-  #current {
+  .current {
     font-size: 18px;
     letter-spacing: 0.63px;
     float: left;
   }
 
-  #breadcrumbs {
+  .breadcrumb {
     float: right;
 
     p {

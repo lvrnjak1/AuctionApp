@@ -1,10 +1,10 @@
 @import "util/constants.scss";
 
-#not-found-content {
+.not-found-content {
   text-align: center;
   margin: 2% 0 4% 0;
 
-  #not-found-title {
+  .not-found-title {
     color: $lightPurple;
     font-weight: lighter;
 
@@ -17,7 +17,7 @@
     }
   }
 
-  #not-found-code {
+  .not-found-code {
     font-size: 300px;
     color: $purple;
     letter-spacing: 10.5px;
@@ -25,7 +25,7 @@
     margin: 0;
   }
 
-  #not-found-text {
+  .not-found-text {
     font-size: 36px;
     color: $black;
     letter-spacing: 1.26px;
