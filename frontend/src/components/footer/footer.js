@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faTwitter, faGooglePlus } from "@fortawesome/free-brands-svg-icons";
 import { NavLink } from "react-router-dom"
-import "./footer.scss";
+import "components/footer/footer.scss";
 
 const useStyles = makeStyles({
     link: {

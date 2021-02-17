@@ -1,9 +1,9 @@
 import React from 'react'
-import Navbar from '../header/navbar/navbar';
-import Footer from '../footer/footer';
+import Navbar from 'components/header/navbar/navbar';
+import Footer from 'components/footer/footer';
 import { Grid, makeStyles } from '@material-ui/core';
-import SearchBar from '../header/search_bar/searchBar';
-import BreadcrumbBar from '../header/breadcrumb_bar/breadcrumbBar';
+import SearchBar from 'components/header/search_bar/searchBar';
+import BreadcrumbBar from 'components/header/breadcrumb_bar/breadcrumbBar';
 
 const useStyles = makeStyles({
     container: {

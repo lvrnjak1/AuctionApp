@@ -1,5 +1,5 @@
 import React from 'react';
-import "./privacy.scss";
+import "static_pages/privacy/privacy.scss";
 
 function Privacy() {
     return (

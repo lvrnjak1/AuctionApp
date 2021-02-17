@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faTwitter, faGooglePlus } from "@fortawesome/free-brands-svg-icons";
 import { Link, NavLink } from "react-router-dom"
-import "./navbar.scss";
+import "components/header/navbar/navbar.scss";
 
 const useStyles = makeStyles({
     link: {

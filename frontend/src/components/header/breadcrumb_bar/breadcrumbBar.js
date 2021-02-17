@@ -1,5 +1,5 @@
 import React from 'react'
-import "./breadcrumbBar.scss"
+import "components/header/breadcrumb_bar/breadcrumbBar.scss"
 
 
 function BreadcrumbBar(props) {

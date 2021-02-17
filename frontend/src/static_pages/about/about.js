@@ -1,5 +1,5 @@
 import React from 'react';
-import "./about.scss";
+import "static_pages/about/about.scss";
 
 function About() {
     return (
