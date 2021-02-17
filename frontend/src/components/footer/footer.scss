@@ -1,0 +1,36 @@
+@import "../../util/constants.scss";
+
+#footer {
+  background-color: $black;
+  height: 356px;
+  text-align: center;
+  color: $white;
+  letter-spacing: 0.56px;
+  font-size: 16px;
+  margin-top: 5%;
+
+  p {
+    opacity: 0.5;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      margin-bottom: 10px;
+    }
+  }
+
+  #content-left {
+    float: left;
+    margin: 4% 0 0 35%;
+    text-align: left;
+  }
+
+  #content-right {
+    float: right;
+    margin: 4% 35% 0 0;
+    text-align: left;
+  }
+}
