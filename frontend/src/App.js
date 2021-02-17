@@ -17,22 +17,28 @@ function App() {
   return (
     <Router>
       <ThemeProvider theme={theme}>
-        <Layout>
-          <Switch>
-            <Route exact path="/about">
+        <Switch>
+          <Route exact path="/about">
+            <Layout>
               <About />
-            </Route>
-            <Route exact path="/terms">
+            </Layout>
+          </Route>
+          <Route exact path="/terms">
+            <Layout>
               <Terms />
-            </Route>
-            <Route exact path="/privacy">
+            </Layout>
+          </Route>
+          <Route exact path="/privacy">
+            <Layout>
               <Privacy />
-            </Route>
-            <Route path="/">
+            </Layout>
+          </Route>
+          <Route path="/">
+            <Layout removeHeader>
               <NotFound />
-            </Route>
-          </Switch>
-        </Layout>
+            </Layout>
+          </Route>
+        </Switch>
       </ThemeProvider>
     </Router>
   );
