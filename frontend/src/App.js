@@ -17,17 +17,17 @@ function App() {
     <Router>
       <ThemeProvider theme={theme}>
         <Switch>
-          <Route exact path="/shop/about">
+          <Route exact path="/about">
             <Layout breadcrumbs={{ current: "about us", breadcrumbs: ["shop/", "about"] }}>
               <About />
             </Layout>
           </Route>
-          <Route exact path="/shop/terms">
+          <Route exact path="/terms">
             <Layout breadcrumbs={{ current: "terms and conditions", breadcrumbs: ["shop/", "terms and conditions"] }}>
               <Terms />
             </Layout>
           </Route>
-          <Route exact path="/shop/privacy">
+          <Route exact path="/privacy">
             <Layout breadcrumbs={{ current: "privacy and policy", breadcrumbs: ["shop/", "privacy and policy"] }}>
               <Privacy />
             </Layout>

@@ -24,9 +24,9 @@ function Footer() {
             <div className="content-left">
                 <p>AUCTION</p>
                 <ul>
-                    <li><NavLink to="/shop/about" className={classes.link}>About Us</NavLink></li>
-                    <li><NavLink to="/shop/terms" className={classes.link}>Terms and Conditions</NavLink></li>
-                    <li><NavLink to="/shop/privacy" className={classes.link}>Privacy and Policy</NavLink></li>
+                    <li><NavLink to="/about" className={classes.link}>About Us</NavLink></li>
+                    <li><NavLink to="/terms" className={classes.link}>Terms and Conditions</NavLink></li>
+                    <li><NavLink to="/privacy" className={classes.link}>Privacy and Policy</NavLink></li>
                 </ul>
             </div>
             <div class="content-right">
