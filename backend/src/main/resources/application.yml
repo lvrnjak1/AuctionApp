@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: ${JDBC_DATABASE_URL}
-    username: ${JDBC_DATABASE_USERNAME}
-    password: ${JDBC_DATABASE_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/auctionappdb
+    username: postgres
+    password: password
   jpa:
     properties:
       hibernate:
@@ -11,9 +11,8 @@ spring:
       ddl-auto: update
   flyway:
     baseline-on-migrate: true
-    enabled: false #until we need it
 app:
-  jwtSecret: ${JWT_SECRET}
+  jwtSecret: hu\St}{k]:}:R2*V9ax7
   jwtExpirationMs: 604800000
 server:
   port: 8080

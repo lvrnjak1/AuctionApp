@@ -12,9 +12,9 @@ import java.util.Date;
 @Component
 @RequiredArgsConstructor
 public class JwtProvider {
-    @Value("${app.jwt.secret}")
+    @Value("${app.jwtSecret}")
     private String secret;
-    @Value("${app.jwt.expirationms}")
+    @Value("${app.jwtExpirationMs}")
     private Long expiry;
 
     public String generateToken(UserDetails userDetails) {
