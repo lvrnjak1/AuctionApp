@@ -3,6 +3,7 @@ package ba.abh.AuctionApp.requests;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -11,9 +12,9 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegisterRequest {
-    @NotBlank(message = "First name should not be blank")
+    @NotBlank
     private String name;
-    @NotBlank(message = "Last name should not be blank")
+    @NotBlank
     private String surname;
     @Email(message = "Email should be valid")
     private String email;
