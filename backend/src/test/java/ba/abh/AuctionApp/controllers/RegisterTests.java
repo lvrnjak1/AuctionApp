@@ -130,19 +130,18 @@ public class RegisterTests {
                 .andExpect(jsonPath("message", is("email must be a well-formed email address")));
     }
 
-    //mora se popraviti kod
-//    @Test
-//    public void testRegisterNoPassword() throws Exception {
-//        mockMvc.perform(post("/auth/register")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content("{\n" +
-//                        "    \"name\": \"Milo\",\n" +
-//                        "    \"surname\": \"Milic\",\n" +
-//                        "    \"email\": \"milo.milic@etf.unsa.ba\",\n" +
-//                        "}"))
-//                .andExpect(status().isUnprocessableEntity())
-//                .andExpect(jsonPath("message", is("password should not be blank")));
-//    }
+    @Test
+    public void testRegisterNoPassword() throws Exception {
+        mockMvc.perform(post("/auth/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "    \"name\": \"Milo\",\n" +
+                        "    \"surname\": \"Milic\",\n" +
+                        "    \"email\": \"milo.milic@etf.unsa.ba\"\n" +
+                        "}"))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("message", is("password must not be blank")));
+    }
 
     @Test
     public void testRegisterInvalidPassword() throws Exception {

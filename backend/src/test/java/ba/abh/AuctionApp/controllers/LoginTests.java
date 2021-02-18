@@ -64,14 +64,14 @@ public class LoginTests {
                 .andExpect(jsonPath("message", is("email must not be blank")));
     }
 
-//    @Test
-//    public void testLoginNoPassword() throws Exception {
-//        mockMvc.perform(post("/auth/login")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content("{\n" +
-//                        "    \"email\": \"lamija.vrnjak@gmail.com\",\n" +
-//                        "}"))
-//                .andExpect(status().isUnprocessableEntity())
-//                .andExpect(jsonPath("message", is("password should not be blank")));
-//    }
+    @Test
+    public void testLoginNoPassword() throws Exception {
+        mockMvc.perform(post("/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "    \"email\": \"lamija.vrnjak@gmail.com\"\n" +
+                        "}"))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("message", is("password must not be blank")));
+    }
 }
