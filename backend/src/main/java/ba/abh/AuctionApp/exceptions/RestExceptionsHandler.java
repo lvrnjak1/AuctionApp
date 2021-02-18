@@ -21,8 +21,8 @@ public class RestExceptionsHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(InvalidCredentialsException.class)
-    public ResponseEntity<Object> handleInvalidCredentials(EmailInUseException ex) {
-        ApiException apiException = new ApiException(HttpStatus.UNPROCESSABLE_ENTITY);
+    public ResponseEntity<Object> handleInvalidCredentials(InvalidCredentialsException ex) {
+        ApiException apiException = new ApiException(HttpStatus.BAD_REQUEST);
         apiException.setMessage(ex.getMessage());
         return buildResponseEntity(apiException);
     }
