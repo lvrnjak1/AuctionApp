@@ -6,6 +6,16 @@
       "description": "Description for app.jwtSecret."
     },
     {
+      "name": "app.jwtAccessExpirationMs",
+      "type": "java.lang.String",
+      "description": "Description for app.jwtAccessExpirationMs."
+    },
+    {
+      "name": "app.jwtRefreshExpirationMs",
+      "type": "java.lang.String",
+      "description": "Description for app.jwtRefreshExpirationMs."
+    },
+    {
       "name": "app.jwtExpirationMs",
       "type": "java.lang.String",
       "description": "Description for app.jwtExpirationMs."
