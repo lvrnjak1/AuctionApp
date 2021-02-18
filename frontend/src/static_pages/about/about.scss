@@ -1,0 +1,103 @@
+@import "util/constants.scss";
+
+.about-page {
+  padding: 0 11.1% 0 11.1%;
+
+  .about-title {
+    font-size: 46px;
+    color: $black;
+    letter-spacing: 1.61px;
+  }
+
+  .content {
+    float: left;
+    width: 50%;
+    font-size: 18px;
+    color: $gray;
+    letter-spacing: 0.63px;
+    line-height: 25px;
+    text-align: left;
+
+    p {
+      margin-top: 0;
+      padding-right: 10px;
+    }
+
+    @media screen and (max-width: $medium) {
+      width: 100%;
+    }
+  }
+
+  .images {
+    float: left;
+    width: 50%;
+    text-align: center;
+
+    .image-large {
+      width: 500px;
+      height: 375px;
+      margin: auto;
+      margin-bottom: 20px;
+    }
+
+    .image-small {
+      width: 240px;
+      height: 181px;
+    }
+
+    .image-small:last-of-type {
+      margin-left: 20px;
+    }
+
+    @media screen and (max-width: $small) {
+      clear: both;
+      width: 100%;
+
+      .image-large {
+        width: 240px;
+        height: 181px;
+        margin: 0;
+      }
+
+      .image-small:last-of-type {
+        margin: 0;
+      }
+    }
+
+    @media screen and (max-width: $medium) {
+      width: 100%;
+
+      .image-large {
+        width: 400px;
+        height: 181px;
+        margin-bottom: 1%;
+      }
+
+      .image-small {
+        width: 120px;
+        height: 90px;
+      }
+
+      .image-small:last-of-type {
+        padding-right: 0.5%;
+      }
+    }
+
+    @media screen and (max-width: $large) {
+      .image-large {
+        width: 250px;
+        height: 181px;
+        margin: 0;
+      }
+
+      .image-small {
+        width: 250px;
+        height: 181px;
+      }
+
+      .image-small:last-of-type {
+        margin: 0;
+      }
+    }
+  }
+}

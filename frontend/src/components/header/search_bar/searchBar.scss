@@ -1,0 +1,77 @@
+@import "util/constants.scss";
+
+.search-bar {
+  padding-left: 11.1%;
+  padding-right: 11.1%;
+  height: 80px;
+  text-align: center;
+
+  .search-bar-title {
+    font-size: 24px;
+    letter-spacing: 0.84px;
+    font-weight: lighter;
+    margin-top: 20px;
+
+    .search-bar-title-icon {
+      margin-bottom: 2px;
+      color: $lightPurple;
+    }
+
+    p {
+      display: inline;
+      margin-left: 10px;
+      color: $purple;
+    }
+  }
+
+  .search-bar-links {
+    text-decoration: none;
+    margin-top: 10px;
+
+    ul {
+      list-style: none;
+
+      li {
+        display: inline;
+        margin-right: 10px;
+
+        .search-bar-link {
+          text-decoration: none;
+          color: $black;
+          font-weight: lighter;
+          letter-spacing: 0.56px;
+          font-size: 16px;
+        }
+      }
+
+      li :last-of-type {
+        margin-right: 0px;
+      }
+    }
+  }
+
+  @media screen and (max-width: $small) {
+    height: 130px;
+    text-align: center;
+    .search-bar-links {
+      ul {
+        text-align: center;
+        margin-right: 5%;
+        li {
+          display: block;
+          margin-bottom: 2px;
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: $medium) {
+    .search-bar-title {
+      float: left;
+    }
+
+    .search-bar-links {
+      float: right;
+    }
+  }
+}

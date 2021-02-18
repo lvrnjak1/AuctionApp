@@ -1,0 +1,69 @@
+@import "util/constants.scss";
+
+.not-found-content {
+  text-align: center;
+  margin: 2% 0 4% 0;
+
+  .not-found-title {
+    color: $lightPurple;
+    font-weight: lighter;
+
+    p {
+      font-size: 24px;
+      letter-spacing: 0.84px;
+      display: inline;
+      margin-left: 10px;
+      color: $purple;
+    }
+  }
+
+  .not-found-code {
+    font-size: 300px;
+    color: $purple;
+    letter-spacing: 10.5px;
+    text-shadow: 8px 10px 0 $shadowGray;
+    margin: 0;
+  }
+
+  .not-found-text {
+    font-size: 36px;
+    color: $black;
+    letter-spacing: 1.26px;
+    margin-top: 10px;
+  }
+
+  button {
+    background: $white;
+    border: 3px solid $purple;
+    box-shadow: 3px 3px 0 0 rgba(131, 103, 216, 0.31);
+    width: 179px;
+    height: 57px;
+    font-size: 18px;
+    font-weight: bold;
+    color: $black;
+    letter-spacing: 0.63px;
+    cursor: pointer;
+  }
+
+  button:focus {
+    outline: none;
+  }
+
+  @media screen and (max-width: $medium) {
+    height: 300px;
+    margin-top: 15%;
+    .not-found-code {
+      font-size: 100px;
+    }
+
+    .not-found-text {
+      font-size: 20px;
+    }
+
+    button {
+      width: 90px;
+      height: 30px;
+      font-size: 12px;
+    }
+  }
+}
