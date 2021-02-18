@@ -16,8 +16,10 @@ public class RegisterRequest {
     private String name;
     @NotBlank
     private String surname;
-    @Email(message = "Email should be valid")
+    @NotBlank
+    @Email
     private String email;
-    @Size(min = 5, message = "Password should contain at least 5 characters")
+    @NotBlank
+    @Size(min = 5, message = "should be at least 5 characters")
     private String password;
 }
