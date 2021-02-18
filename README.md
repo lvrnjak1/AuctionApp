@@ -2,7 +2,7 @@
 
 ### Set up and start instructions
 
-##### Backend application
+#### Backend application
 You can find the source code for the backend application in the **backend** directory. It is a Spring Boot project. To set up and start the server locally:
 
 - make sure you have **git**, **Java Development Kit**, **Maven** and **PostgreSQL** installed
@@ -23,7 +23,13 @@ JWT_SECRET
 
 To open the API documentation locally go to API_URL/swagger-ui.html
 
-##### Web application
+##### Running tests
+To run API tests:
+- navigate to the **application.yml** file (located in backend/main/src/resources directory)
+- change the property spring.profiles.active to **test** (this will switch to the testing profile which will use an in-memory database to execute tests on)
+- execute **mvn test** 
+
+#### Web application
 You can find the source code for the web application in the **frontend** directory. It is a ReactJS application. To set up and start the web application locally: 
 
 - make sure you have **git** and **Node** installed 
