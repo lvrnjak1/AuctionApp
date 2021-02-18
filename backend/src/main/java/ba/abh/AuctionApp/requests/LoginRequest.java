@@ -9,8 +9,8 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginRequest {
-    @NotBlank
+    @NotBlank(message = "Email must be present")
     private String email;
-    @NotBlank
+    @NotBlank(message = "Password must be present")
     private String password;
 }

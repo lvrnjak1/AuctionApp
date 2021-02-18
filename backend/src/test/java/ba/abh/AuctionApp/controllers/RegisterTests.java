@@ -45,7 +45,7 @@ public class RegisterTests {
                         "    \"password\": \"password\"\n" +
                         "}"))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(jsonPath("message", is("name must not be blank")));
+                .andExpect(jsonPath("message", is("Name shouldn't be blank")));
     }
 
     @Test
@@ -59,7 +59,7 @@ public class RegisterTests {
                         "    \"password\": \"password\"\n" +
                         "}"))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(jsonPath("message", is("name must not be blank")));
+                .andExpect(jsonPath("message", is("Name shouldn't be blank")));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class RegisterTests {
                         "    \"password\": \"password\"\n" +
                         "}"))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(jsonPath("message", is("surname must not be blank")));
+                .andExpect(jsonPath("message", is("Surname shouldn't be blank")));
     }
 
     @Test
@@ -86,7 +86,7 @@ public class RegisterTests {
                         "    \"password\": \"password\"\n" +
                         "}"))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(jsonPath("message", is("surname must not be blank")));
+                .andExpect(jsonPath("message", is("Surname shouldn't be blank")));
     }
 
     @Test
@@ -99,7 +99,7 @@ public class RegisterTests {
                         "    \"password\": \"password\"\n" +
                         "}"))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(jsonPath("message", is("email must not be blank")));
+                .andExpect(jsonPath("message", is("Email shouldn't be blank")));
     }
 
     @Test
@@ -113,7 +113,7 @@ public class RegisterTests {
                         "    \"password\": \"password\"\n" +
                         "}"))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(jsonPath("message", is("email must not be blank")));
+                .andExpect(jsonPath("message", is("Email shouldn't be blank")));
     }
 
     @Test
@@ -127,7 +127,7 @@ public class RegisterTests {
                         "    \"password\": \"password\"\n" +
                         "}"))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(jsonPath("message", is("email must be a well-formed email address")));
+                .andExpect(jsonPath("message", is("Provide a valid email address")));
     }
 
     @Test
@@ -140,7 +140,7 @@ public class RegisterTests {
                         "    \"email\": \"milo.milic@etf.unsa.ba\"\n" +
                         "}"))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(jsonPath("message", is("password must not be blank")));
+                .andExpect(jsonPath("message", is("Password must be present")));
     }
 
     @Test
@@ -154,6 +154,6 @@ public class RegisterTests {
                         "    \"password\": \"pas\"\n" +
                         "}"))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(jsonPath("message", is("password should be at least 5 characters")));
+                .andExpect(jsonPath("message", is("Password should contain at least 5 characters")));
     }
 }

@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Data
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NONE, property = "error", visible = true)
@@ -39,9 +38,6 @@ public class ApiException {
     }
 
     public void setMessageFromMap(Map<String, String> errors){
-        this.message = errors
-                .entrySet()
-                .stream().map(entry -> entry.getKey() + " " + entry.getValue())
-                .collect(Collectors.joining(","));
+        this.message = String.join(", ", errors.values());
     }
 }
