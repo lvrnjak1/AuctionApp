@@ -35,7 +35,12 @@ function Register(props) {
 
         await postRequest(REGISTER_ENDPOINT,
             registerBody,
-            () => { history.push("/login", { email }) },
+            () => {
+                dispatch(set(
+                    "Registration was successful. Login to start bidding.",
+                    "success"));
+                setTimeout(() => { history.push("/login", { email }) }, 2000);
+            },
             (error) => {
                 resetFormFields();
                 if (error.response) {
