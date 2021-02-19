@@ -1,7 +1,6 @@
 package ba.abh.AuctionApp.auth;
 
 import ba.abh.AuctionApp.services.AuthService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,10 +16,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-@RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
     private final JwtProvider jwtProvider;
     private final AuthService authService;
+
+    public JwtFilter(JwtProvider jwtProvider, AuthService authService) {
+        this.jwtProvider = jwtProvider;
+        this.authService = authService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest,

@@ -1,8 +1,9 @@
 package ba.abh.AuctionApp.auth;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 @Component
-@RequiredArgsConstructor
 public class JwtProvider {
     @Value("${app.jwtSecret}")
     private String secret;
@@ -29,17 +29,19 @@ public class JwtProvider {
     }
 
     public String extractUsername(String token) {
-        return Jwts.parser().setSigningKey(secret)
-                .parseClaimsJws(token)
-                .getBody().getSubject();
+        return getClaimsJws(token).getBody().getSubject();
     }
 
     public boolean isValid(String token) {
         try {
-            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+            getClaimsJws(token);
             return true;
         }
         catch (Exception ignored) { }
         return false;
+    }
+
+    private Jws<Claims> getClaimsJws(String token) {
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
     }
 }

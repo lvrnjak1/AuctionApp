@@ -7,7 +7,6 @@ import ba.abh.AuctionApp.exceptions.custom.EmailInUseException;
 import ba.abh.AuctionApp.exceptions.custom.InvalidCredentialsException;
 import ba.abh.AuctionApp.repositories.UserRepository;
 import ba.abh.AuctionApp.requests.RegisterRequest;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,12 +16,21 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class AuthService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final RoleService roleService;
     private final JwtProvider jwtProvider;
+
+    public AuthService(PasswordEncoder passwordEncoder,
+                       UserRepository userRepository,
+                       RoleService roleService,
+                       JwtProvider jwtProvider) {
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+        this.roleService = roleService;
+        this.jwtProvider = jwtProvider;
+    }
 
     public User register(RegisterRequest registerRequest) {
         if (userExists(registerRequest.getEmail())){

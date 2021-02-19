@@ -3,7 +3,6 @@ package ba.abh.AuctionApp.configuration;
 import ba.abh.AuctionApp.auth.JwtEntryPoint;
 import ba.abh.AuctionApp.auth.JwtFilter;
 import ba.abh.AuctionApp.services.AuthService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,7 +22,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         jsr250Enabled = true,
         prePostEnabled = true
 )
-@RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final AuthService authService;
     private final PasswordEncoder passwordEncoder;
@@ -34,8 +32,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/swagger-ui.html",
             "/v2/api-docs",
             "/webjars/**",
-            "/auth/**"
+            "/auth/**",
+            "/health"
     };
+
+    public SecurityConfiguration(
+            AuthService authService,
+            PasswordEncoder passwordEncoder,
+            JwtEntryPoint jwtEntryPoint,
+            JwtFilter jwtFilter) {
+        this.authService = authService;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtEntryPoint = jwtEntryPoint;
+        this.jwtFilter = jwtFilter;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

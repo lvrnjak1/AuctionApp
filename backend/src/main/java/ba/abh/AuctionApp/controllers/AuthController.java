@@ -5,7 +5,6 @@ import ba.abh.AuctionApp.requests.LoginRequest;
 import ba.abh.AuctionApp.requests.RegisterRequest;
 import ba.abh.AuctionApp.responses.LoginResponse;
 import ba.abh.AuctionApp.services.AuthService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,10 +16,13 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")
-@RequiredArgsConstructor
 public class AuthController {
 
     private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@Valid @RequestBody RegisterRequest registerRequest){
