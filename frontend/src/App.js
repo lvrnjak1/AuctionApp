@@ -10,6 +10,7 @@ import {
   Switch,
   Route
 } from "react-router-dom";
+import Register from 'components/register/register';
 
 
 function App() {
@@ -30,6 +31,11 @@ function App() {
           <Route exact path="/privacy">
             <Layout breadcrumbs={{ current: "privacy and policy", breadcrumbs: ["shop/", "privacy and policy"] }}>
               <Privacy />
+            </Layout>
+          </Route>
+          <Route exact path="/register">
+            <Layout breadcrumbs={{ current: "register" }}>
+              <Register />
             </Layout>
           </Route>
           <Route path="/">
