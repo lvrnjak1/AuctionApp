@@ -3,24 +3,27 @@ import { NavLink, useHistory } from 'react-router-dom';
 import "components/forms/forms.scss";
 import { REGISTER_ENDPOINT } from 'http/endpoints';
 import { postRequest } from 'http/requests';
+import { useDispatch } from 'react-redux';
+import { set, reset } from 'state/actions/infoMessageActions';
 
 function Register(props) {
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [message, setMessage] = useState("");
-    const [messageStyleClass, setMessageStyleClass] = useState("");
     const history = useHistory();
-
-    const setInfoMessage = (message, className = "") => {
-        setMessage(message);
-        setMessageStyleClass(className);
-    }
+    const dispatch = useDispatch();
 
     const handleInputChange = (e, setter) => {
         setter(e.target.value);
-        setInfoMessage("");
+        dispatch(reset());
+    }
+
+    const resetFormFields = () => {
+        setName("");
+        setSurname("");
+        setEmail("");
+        setPassword("");
     }
 
     const handleSubmit = async (e) => {
@@ -34,10 +37,12 @@ function Register(props) {
             registerBody,
             () => { history.push("/login", { email }) },
             (error) => {
+                resetFormFields();
                 if (error.response) {
-                    setInfoMessage(error.response.data.message, "error");
+                    dispatch(set(error.response.data.message, "error"))
+                } else {
+                    dispatch(set("Something went wrong, try that again", "error"));
                 }
-                setInfoMessage("Something went wrong, try that again.", "error");
             });
     }
 
@@ -76,7 +81,6 @@ function Register(props) {
 
                 <button type="submit">REGISTER</button>
                 <p>Already have an account? <NavLink to="/login" className="link">Login</NavLink></p>
-                <p className={`${messageStyleClass}`}>{message}</p>
             </div>
         </form>
     );

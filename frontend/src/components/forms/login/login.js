@@ -4,13 +4,14 @@ import "components/forms/login/login.scss";
 import { useHistory } from 'react-router-dom';
 import { LOGIN_ENDPOINT } from 'http/endpoints';
 import { postRequest } from 'http/requests';
+import { useDispatch } from 'react-redux';
+import { set, reset } from 'state/actions/infoMessageActions';
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [message, setMessage] = useState("");
-    const [messageStyleClass, setMessageStyleClass] = useState("");
     const history = useHistory();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (history.location.state) {
@@ -18,14 +19,15 @@ function Login() {
         }
     }, [history.location.state]);
 
-    const setInfoMessage = (message, className = "") => {
-        setMessage(message);
-        setMessageStyleClass(className);
-    }
 
     const handleInputChange = (e, setter) => {
         setter(e.target.value);
-        setInfoMessage("");
+        dispatch(reset());
+    }
+
+    const resetFormFields = () => {
+        setEmail("");
+        setPassword("");
     }
 
     const handleSubmit = async (e) => {
@@ -38,15 +40,16 @@ function Login() {
         await postRequest(LOGIN_ENDPOINT,
             loginBody,
             (response) => {
-                // console.log(response);
                 //save token and user
                 history.push("/home");
             },
             (error) => {
+                resetFormFields();
                 if (error.response) {
-                    setInfoMessage(error.response.data.message, "error");
+                    dispatch(set(error.response.data.message, "error"))
+                } else {
+                    dispatch(set("Something went wrong, try that again", "error"));
                 }
-                setInfoMessage("Something went wrong, try that again", "error");
             });
     }
 
@@ -69,7 +72,6 @@ function Login() {
                     onChange={e => handleInputChange(e, setPassword)} />
 
                 <button type="submit">LOGIN</button>
-                <p className={`${messageStyleClass}`}>{message}</p>
             </div>
         </form>
     );

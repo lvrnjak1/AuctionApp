@@ -1,7 +1,7 @@
-const set = (message) => {
+const set = (message, className) => {
     return {
         type: 'SET',
-        payload: message
+        payload: { message, className }
     }
 }
 

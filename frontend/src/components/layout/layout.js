@@ -4,6 +4,7 @@ import Footer from 'components/footer/footer';
 import { Grid, makeStyles } from '@material-ui/core';
 import SearchBar from 'components/header/search_bar/searchBar';
 import BreadcrumbBar from 'components/header/breadcrumb_bar/breadcrumbBar';
+import InfoDiv from 'components/header/info_div/infoDiv';
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -28,6 +29,7 @@ function Layout(props) {
                     <Grid item><Navbar /></Grid>
                     <Grid item className={classes.searchbar}><SearchBar /></Grid>
                     <Grid item><BreadcrumbBar content={props.breadcrumbs} /></Grid>
+                    <Grid item><InfoDiv /></Grid>
                 </> : ""}
             <Grid item>{props.children}</Grid>
             <Grid item><Footer /></Grid>
