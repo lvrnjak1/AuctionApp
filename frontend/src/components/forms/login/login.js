@@ -5,7 +5,8 @@ import { useHistory } from 'react-router-dom';
 import { LOGIN_ENDPOINT } from 'http/endpoints';
 import { postRequest } from 'http/requests';
 import { useDispatch } from 'react-redux';
-import { set, reset } from 'state/actions/infoMessageActions';
+import { set as setInfoMessage, reset as resetInfoMessage } from 'state/actions/infoMessageActions';
+import { set as setUser } from 'state/actions/userActions';
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -22,7 +23,7 @@ function Login() {
 
     const handleInputChange = (e, setter) => {
         setter(e.target.value);
-        dispatch(reset());
+        dispatch(resetInfoMessage());
     }
 
     const resetFormFields = () => {
@@ -41,14 +42,15 @@ function Login() {
             loginBody,
             (response) => {
                 //save token and user
+                dispatch(setUser(response.data.user));
                 history.push("/home");
             },
             (error) => {
                 resetFormFields();
                 if (error.response) {
-                    dispatch(set(error.response.data.message, "error"))
+                    dispatch(setInfoMessage(error.response.data.message, "error"))
                 } else {
-                    dispatch(set("Something went wrong, try that again", "error"));
+                    dispatch(setInfoMessage("Something went wrong, try that again", "error"));
                 }
             });
     }
