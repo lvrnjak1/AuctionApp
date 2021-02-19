@@ -1,17 +1,18 @@
 import { ThemeProvider } from '@material-ui/styles';
 import theme from "util/theme";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
 import Layout from 'components/layout/layout';
 import Terms from 'static_pages/terms/terms';
 import Privacy from 'static_pages/privacy/privacy';
 import NotFound from 'static_pages/not_found/notFound';
 import About from 'static_pages/about/about';
 import Register from 'components/forms/register/register';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
 import Login from 'components/forms/login/login';
+import Home from 'components/home/home';
 
 
 function App() {
@@ -44,7 +45,12 @@ function App() {
               <Login />
             </Layout>
           </Route>
-          <Route path="/">
+          <Route exact path={["/home", "/"]}>
+            <Layout breadcrumbs={{ current: "home" }}>
+              <Home />
+            </Layout>
+          </Route>
+          <Route path="/**">
             <Layout removeHeader>
               <NotFound />
             </Layout>

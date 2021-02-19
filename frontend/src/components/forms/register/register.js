@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import "components/forms/forms.scss";
 
-function Register(props) {
+function Register() {
     return (
         <form className="register-form">
             <p className="title">REGISTER</p>

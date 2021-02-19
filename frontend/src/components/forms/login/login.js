@@ -2,7 +2,7 @@ import React from 'react';
 import "components/forms/forms.scss";
 import "components/forms/login/login.scss";
 
-function Login(props) {
+function Login() {
     return (
         <form className="register-form">
             <p className="title">LOGIN</p>
