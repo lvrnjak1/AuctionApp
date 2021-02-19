@@ -3,9 +3,10 @@ spring:
     hibernate:
       ddl-auto: update
   flyway:
+    baseline-version: 0
     baseline-on-migrate: true
   profiles:
     active: prod
 app:
-  jwtSecret: hu\St}{k]:}:R2*V9ax7
+  jwtSecret: ${JWT_SECRET}
   jwtExpirationMs: 604800000
