@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import "components/register/register.scss";
+import "components/forms/forms.scss";
 
 function Register(props) {
     return (
@@ -16,7 +16,7 @@ function Register(props) {
                 <label>Password</label>
                 <input type="password" />
                 <button type="submit">REGISTER</button>
-                <p>Already have an account? <NavLink to="/#" className="link">Login</NavLink></p>
+                <p>Already have an account? <NavLink to="/login" className="link">Login</NavLink></p>
             </div>
         </form>
     );
