@@ -1,8 +1,14 @@
-const set = (user) => {
+const setUser = (user) => {
     return {
-        type: 'SET',
+        type: 'SET_USER',
         payload: user
     }
 }
 
-export { set };
+const resetUser = () => {
+    return {
+        type: 'RESET_USER'
+    }
+}
+
+export { setUser, resetUser };

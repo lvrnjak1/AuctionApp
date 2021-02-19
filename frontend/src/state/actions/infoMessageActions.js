@@ -1,14 +1,14 @@
-const set = (message, className) => {
+const setInfoMessage = (message, className) => {
     return {
-        type: 'SET',
+        type: 'SET_INFO_MESSAGE',
         payload: { message, className }
     }
 }
 
-const reset = () => {
+const resetInfoMessage = () => {
     return {
-        type: 'RESET'
+        type: 'RESET_INFO_MESSAGE'
     }
 }
 
-export { set, reset }
+export { setInfoMessage, resetInfoMessage }

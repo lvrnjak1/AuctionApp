@@ -5,8 +5,8 @@ import { useHistory } from 'react-router-dom';
 import { LOGIN_ENDPOINT } from 'http/endpoints';
 import { postRequest } from 'http/requests';
 import { useDispatch } from 'react-redux';
-import { set as setInfoMessage, reset as resetInfoMessage } from 'state/actions/infoMessageActions';
-import { set as setUser } from 'state/actions/userActions';
+import { setInfoMessage, resetInfoMessage } from 'state/actions/infoMessageActions';
+import { setUser } from 'state/actions/userActions';
 
 function Login() {
     const [email, setEmail] = useState("");

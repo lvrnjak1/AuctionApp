@@ -4,7 +4,7 @@ import "components/forms/forms.scss";
 import { REGISTER_ENDPOINT } from 'http/endpoints';
 import { postRequest } from 'http/requests';
 import { useDispatch } from 'react-redux';
-import { set as setInfoMessage, reset as resetInfoMessage } from 'state/actions/infoMessageActions';
+import { setInfoMessage, resetInfoMessage } from 'state/actions/infoMessageActions';
 
 function Register(props) {
     const [name, setName] = useState("");

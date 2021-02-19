@@ -2,9 +2,9 @@ const defaultState = { message: "", className: "invisible" };
 
 const infoMessageReducer = (state = defaultState, action) => {
     switch (action.type) {
-        case 'SET':
+        case 'SET_INFO_MESSAGE':
             return action.payload;
-        case 'RESET':
+        case 'RESET_INFO_MESSAGE':
             return defaultState;
         default:
             return state;

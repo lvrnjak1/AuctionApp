@@ -6,7 +6,7 @@ import SearchBar from 'components/header/search_bar/searchBar';
 import BreadcrumbBar from 'components/header/breadcrumb_bar/breadcrumbBar';
 import InfoDiv from 'components/header/info_div/infoDiv';
 import { useDispatch } from 'react-redux';
-import { reset as resetInfoMessage } from 'state/actions/infoMessageActions';
+import { resetInfoMessage } from 'state/actions/infoMessageActions';
 
 const useStyles = makeStyles(theme => ({
     container: {
