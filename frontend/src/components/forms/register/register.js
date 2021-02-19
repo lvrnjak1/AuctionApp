@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import "components/forms/forms.scss";
-import axios from 'axios';
-import { REGISTER_ENDPOINT } from 'util/endpoints';
+import { REGISTER_ENDPOINT } from 'http/endpoints';
+import { postRequest } from 'http/requests';
 
 function Register(props) {
     const [name, setName] = useState("");
@@ -11,7 +11,6 @@ function Register(props) {
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
     const [messageStyleClass, setMessageStyleClass] = useState("");
-
     const history = useHistory();
 
     const setInfoMessage = (message, className = "") => {
@@ -31,15 +30,15 @@ function Register(props) {
             name, surname, email, password
         }
 
-        try {
-            await axios.post(REGISTER_ENDPOINT, registerBody);
-            history.push("/login");
-        } catch (error) {
-            if (error.response) {
-                setInfoMessage(error.response.data.message, "error");
-            }
-            setInfoMessage("Something went wrong, try that again.", "error");
-        }
+        await postRequest(REGISTER_ENDPOINT,
+            registerBody,
+            () => { history.push("/login", { email }) },
+            (error) => {
+                if (error.response) {
+                    setInfoMessage(error.response.data.message, "error");
+                }
+                setInfoMessage("Something went wrong, try that again.", "error");
+            });
     }
 
     return (

@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "components/forms/forms.scss";
 import "components/forms/login/login.scss";
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
-import { LOGIN_ENDPOINT } from 'util/endpoints';
+import { LOGIN_ENDPOINT } from 'http/endpoints';
+import { postRequest } from 'http/requests';
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
     const [messageStyleClass, setMessageStyleClass] = useState("");
-
     const history = useHistory();
+
+    useEffect(() => {
+        if (history.location.state) {
+            setEmail(history.location.state.email || "");
+        }
+    }, [history.location.state]);
 
     const setInfoMessage = (message, className = "") => {
         setMessage(message);
@@ -30,17 +35,19 @@ function Login() {
             email, password
         }
 
-        try {
-            const response = await axios.post(LOGIN_ENDPOINT, loginBody);
-            console.log(response);
-            //save token and user
-            history.push("/home");
-        } catch (error) {
-            if (error.response) {
-                setInfoMessage(error.response.data.message, "error");
-            }
-            setInfoMessage("Something went wrong, try that again", "error");
-        }
+        await postRequest(LOGIN_ENDPOINT,
+            loginBody,
+            (response) => {
+                // console.log(response);
+                //save token and user
+                history.push("/home");
+            },
+            (error) => {
+                if (error.response) {
+                    setInfoMessage(error.response.data.message, "error");
+                }
+                setInfoMessage("Something went wrong, try that again", "error");
+            });
     }
 
     return (
