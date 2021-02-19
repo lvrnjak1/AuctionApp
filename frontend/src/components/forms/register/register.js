@@ -35,7 +35,10 @@ function Register(props) {
             await axios.post(REGISTER_ENDPOINT, registerBody);
             history.push("/login");
         } catch (error) {
-            setInfoMessage(error.response.data.message, "error");
+            if (error.response) {
+                setInfoMessage(error.response.data.message, "error");
+            }
+            setInfoMessage("Something went wrong, try that again.", "error");
         }
     }
 
