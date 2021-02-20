@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
 import infoMessageReducer from "state/reducers/infoMessageReducer";
-import userReducer from "state/reducers/userReducer";
+import loggedInReducer from "state/reducers/loggedInReducer";
 
 const rootReducer = combineReducers({
     infoMessage: infoMessageReducer,
-    user: userReducer
+    loggedIn: loggedInReducer
 });
 export default rootReducer;

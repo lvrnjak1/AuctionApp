@@ -6,7 +6,7 @@ import { LOGIN_ENDPOINT } from 'http/endpoints';
 import { postRequest } from 'http/requests';
 import { useDispatch } from 'react-redux';
 import { setInfoMessage, resetInfoMessage } from 'state/actions/infoMessageActions';
-import { setUser } from 'state/actions/userActions';
+import { setLoggedIn } from 'state/actions/loggedInActions';
 import { loginUser } from 'util/auth';
 
 function Login() {
@@ -42,8 +42,8 @@ function Login() {
         await postRequest(LOGIN_ENDPOINT,
             loginBody,
             (response) => {
-                loginUser(response.data.token);
-                dispatch(setUser(response.data.user));
+                loginUser(response.data.user, response.data.token);
+                dispatch(setLoggedIn());
                 history.push("/home");
             },
             (error) => {

@@ -6,9 +6,9 @@ import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { Link, NavLink, useHistory } from "react-router-dom"
 import "components/header/navbar/navbar.scss";
 import { useSelector } from "react-redux";
-import { logoutUser } from "util/auth";
+import { getUser, logoutUser } from "util/auth";
 import { useDispatch } from 'react-redux';
-import { resetUser } from 'state/actions/userActions';
+import { resetLoggedIn } from 'state/actions/loggedInActions';
 
 const useStyles = makeStyles({
     link: {
@@ -28,12 +28,13 @@ const useStyles = makeStyles({
 
 function Navbar() {
     const classes = useStyles();
-    const user = useSelector(state => state.user);
+    const user = getUser();
     const dispatch = useDispatch();
     const history = useHistory();
+    const loggedIn = useSelector(state => state.loggedIn)
 
     const handleLogout = () => {
-        dispatch(resetUser());
+        dispatch(resetLoggedIn());
         logoutUser();
         history.push("/home");
     }
@@ -46,7 +47,7 @@ function Navbar() {
         </ul>
     </div>
 
-    const logout = <div className="navbar-links">
+    const logout = user ? <div className="navbar-links">
         <ul>
             <li>{`Hello, ${user.name} ${user.surname}`}</li>
             <li>|</li>
@@ -56,7 +57,7 @@ function Navbar() {
                 </button>
             </li>
         </ul>
-    </div>
+    </div> : "";
 
     return (
         <div className="navbar-black">
@@ -74,7 +75,7 @@ function Navbar() {
                     <FontAwesomeIcon icon={faGooglePlus} className={classes.icon} />
                 </NavLink>
             </div>
-            {user.name ? logout : navBarLinks}
+            {loggedIn ? logout : navBarLinks}
         </div>
     )
 }
