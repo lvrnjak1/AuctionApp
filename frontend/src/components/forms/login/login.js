@@ -7,6 +7,7 @@ import { postRequest } from 'http/requests';
 import { useDispatch } from 'react-redux';
 import { setInfoMessage, resetInfoMessage } from 'state/actions/infoMessageActions';
 import { setUser } from 'state/actions/userActions';
+import { loginUser } from 'util/auth';
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -41,7 +42,7 @@ function Login() {
         await postRequest(LOGIN_ENDPOINT,
             loginBody,
             (response) => {
-                //save token and user
+                loginUser(response.data.token);
                 dispatch(setUser(response.data.user));
                 history.push("/home");
             },
