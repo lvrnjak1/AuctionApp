@@ -5,7 +5,6 @@ const postRequest = async (endpoint, body, successHandler, errorHandler, request
         const response = await axios.post(endpoint, body, requestConfig);
         successHandler(response);
     } catch (error) {
-        console.log(error)
         errorHandler(error);
     }
 }

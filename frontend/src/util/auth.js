@@ -4,7 +4,19 @@ const loginUser = (user, token) => {
 }
 
 const logoutUser = () => {
-    localStorage.clear();
+    localStorage.removeItem("TOKEN");
+    localStorage.removeItem("USER");
+}
+
+const handleRememberMe = (rememberMe, email, password) => {
+    //Or handle in a different way
+    if (rememberMe) {
+        localStorage.setItem("EMAIL", email);
+        localStorage.setItem("PASSWORD", password);
+    } else {
+        localStorage.removeItem("EMAIL");
+        localStorage.removeItem("PASSWORD");
+    }
 }
 
 const getToken = () => {
@@ -15,9 +27,20 @@ const getUser = () => {
     return JSON.parse(localStorage.getItem("USER"));
 }
 
+const getEmail = () => {
+    return localStorage.getItem("EMAIL") || "";
+}
+
+const getPassword = () => {
+    return localStorage.getItem("PASSWORD") || "";
+}
+
 export {
     loginUser,
     logoutUser,
+    handleRememberMe,
     getToken,
-    getUser
+    getUser,
+    getEmail,
+    getPassword
 }
