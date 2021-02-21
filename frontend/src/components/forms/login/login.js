@@ -7,12 +7,12 @@ import { postRequest } from 'http/requests';
 import { useDispatch } from 'react-redux';
 import { setInfoMessage, resetInfoMessage } from 'state/actions/infoMessageActions';
 import { setLoggedIn } from 'state/actions/loggedInActions';
-import { getEmail, getPassword, handleRememberMe, loginUser } from 'util/auth';
+import { loginUser } from 'util/auth';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
 
 function Login() {
-    const [email, setEmail] = useState(getEmail());
-    const [password, setPassword] = useState(getPassword());
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
     const history = useHistory();
     const dispatch = useDispatch();
@@ -41,7 +41,6 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        handleRememberMe(rememberMe, email, password);
 
         const loginBody = {
             email, password
@@ -50,7 +49,7 @@ function Login() {
         await postRequest(LOGIN_ENDPOINT,
             loginBody,
             (response) => {
-                loginUser(response.data.user, response.data.token);
+                loginUser(response.data.user, response.data.token, rememberMe);
                 dispatch(setLoggedIn());
                 history.push("/home");
             },
