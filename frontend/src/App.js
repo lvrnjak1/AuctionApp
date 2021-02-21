@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@material-ui/styles';
-import theme from "util/theme";
+import theme from "util/style/theme";
 import {
   BrowserRouter as Router,
   Switch,

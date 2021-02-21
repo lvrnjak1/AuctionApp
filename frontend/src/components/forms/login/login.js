@@ -7,7 +7,7 @@ import { postRequest } from 'http/requests';
 import { useDispatch } from 'react-redux';
 import { setInfoMessage, resetInfoMessage } from 'state/actions/infoMessageActions';
 import { setLoggedIn } from 'state/actions/loggedInActions';
-import { loginUser } from 'util/auth';
+import { loginUser } from 'util/auth/auth';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
 
 function Login() {

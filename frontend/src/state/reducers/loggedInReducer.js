@@ -1,4 +1,4 @@
-import { getToken } from "util/auth";
+import { getToken } from "util/auth/auth";
 
 const loggedInReducer = (state = getToken(), action) => {
     switch (action.type) {

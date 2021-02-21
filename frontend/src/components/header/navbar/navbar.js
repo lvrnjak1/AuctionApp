@@ -6,7 +6,7 @@ import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { Link, NavLink, useHistory } from "react-router-dom"
 import "components/header/navbar/navbar.scss";
 import { useSelector } from "react-redux";
-import { getUser, logoutUser } from "util/auth";
+import { getUser, logoutUser } from "util/auth/auth";
 import { useDispatch } from 'react-redux';
 import { resetLoggedIn } from 'state/actions/loggedInActions';
 

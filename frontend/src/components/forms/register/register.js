@@ -6,7 +6,7 @@ import { postRequest } from 'http/requests';
 import { useDispatch } from 'react-redux';
 import { setInfoMessage, resetInfoMessage } from 'state/actions/infoMessageActions';
 
-function Register(props) {
+function Register() {
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
     const [email, setEmail] = useState("");
