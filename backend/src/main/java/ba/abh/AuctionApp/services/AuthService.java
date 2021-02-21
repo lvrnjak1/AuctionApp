@@ -38,7 +38,10 @@ public class AuthService implements UserDetailsService {
         }
 
         String password = passwordEncoder.encode(registerRequest.getPassword());
-        User user = new User(registerRequest.getName(), registerRequest.getSurname(), registerRequest.getEmail(), password);
+        User user = new User(registerRequest.getName(),
+                registerRequest.getSurname(),
+                registerRequest.getEmail(),
+                password);
         user.addRole(roleService.findByRoleName(RoleName.ROLE_BUYER));
         userRepository.save(user);
         return user;
