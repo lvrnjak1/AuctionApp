@@ -69,7 +69,10 @@ public class AuthService implements UserDetailsService {
         }
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                userDetails, password, userDetails.getAuthorities());
+                userDetails,
+                password,
+                userDetails.getAuthorities()
+        );
 
         SecurityContextHolder.getContext().setAuthentication(token);
         return jwtProvider.generateToken(userDetails);

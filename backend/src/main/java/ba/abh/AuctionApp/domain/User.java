@@ -112,7 +112,6 @@ public class User extends BaseEntity implements UserDetails {
         return Objects.hash(super.hashCode(), name, surname, email, password, roles);
     }
 
-    //user details
     @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
