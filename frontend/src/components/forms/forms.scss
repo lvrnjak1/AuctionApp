@@ -1,0 +1,93 @@
+@import "util/style/constants.scss";
+
+.register-form {
+  font-size: 16px;
+  color: $black;
+  letter-spacing: 0.63px;
+  width: 90%;
+  margin: auto;
+  margin-top: 20px;
+  background: $white;
+  border: 1px solid $lightGray2;
+  text-align: center;
+
+  .title {
+    font-weight: bold;
+    font-size: 18px;
+    color: $black;
+    letter-spacing: 0.84px;
+    text-align: center;
+    margin: 0;
+    padding: 12px;
+    background: $lightGray;
+  }
+
+  .form-content {
+    padding: 10px;
+  }
+
+  label {
+    float: left;
+    margin-bottom: 5px;
+    margin-left: 9px;
+  }
+
+  input {
+    display: block;
+    margin: auto;
+    margin-bottom: 15px;
+    background: $lightWhite;
+    border: 1px solid $lightGray2;
+    padding: 12px;
+    width: 90%;
+  }
+
+  p {
+    color: $gray;
+    .link {
+      text-decoration: none;
+      color: $purple;
+    }
+  }
+
+  button {
+    font-weight: bold;
+    font-size: 18px;
+    background: $white;
+    color: $black;
+    border: 3px solid $purple;
+    box-shadow: 3px 3px 0 0 rgba(131, 103, 216, 0.31);
+    padding: 10px 30px 10px 30px;
+    margin: 10px;
+    background: $lightWhite;
+    text-align: center;
+    width: 96%;
+    cursor: pointer;
+  }
+
+  .error {
+    color: $red;
+    font-size: 15px;
+  }
+
+  @media screen and (min-width: $medium) {
+    width: 60%;
+  }
+
+  @media screen and (min-width: $large) {
+    width: 40%;
+    font-size: 18px;
+
+    .title {
+      font-size: 24px;
+    }
+
+    label {
+      margin-left: 15px;
+    }
+
+    input {
+      margin-bottom: 20px;
+    }
+  }
+}

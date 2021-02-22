@@ -1,0 +1,39 @@
+@import "util/style/constants.scss";
+
+.info-div {
+  text-align: center;
+  opacity: 0.5;
+
+  p {
+    margin: 0;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  @media screen and (min-width: $medium) {
+    text-align: left;
+    p {
+      margin-left: 10%;
+    }
+  }
+}
+
+.invisible {
+  display: none;
+}
+
+.success {
+  background: $green;
+  color: $darkGreen;
+}
+
+.error {
+  background: $red;
+  color: $darkRed;
+}
+
+.info {
+  background: $yellow;
+  color: $darkYellow;
+}

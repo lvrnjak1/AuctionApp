@@ -1,4 +1,4 @@
-@import "util/constants.scss";
+@import "util/style/constants.scss";
 
 .navbar-black {
   background: $black;
@@ -26,6 +26,16 @@
         font-size: 14px;
         color: $gray;
         letter-spacing: 0.49px;
+
+        .logout-button {
+          background-color: transparent;
+          border: none;
+          cursor: pointer;
+        }
+
+        .logout-button:focus {
+          outline: transparent;
+        }
       }
     }
   }

@@ -1,19 +1,12 @@
 spring:
-  datasource:
-    url: ${JDBC_DATABASE_URL}
-    username: ${JDBC_DATABASE_USERNAME}
-    password: ${JDBC_DATABASE_PASSWORD}
   jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
   flyway:
+    baseline-version: 0
     baseline-on-migrate: true
-    enabled: false #until we need it
+  profiles:
+    active: prod
 app:
   jwtSecret: ${JWT_SECRET}
-  jwtExpirationMs: 604800000
-server:
-  port: 8080
+  jwtExpirationMs: 300000

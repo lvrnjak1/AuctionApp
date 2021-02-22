@@ -8,7 +8,7 @@ function BreadcrumbBar(props) {
         <div className="breadcrumb-bar">
             <div className="current">{props.content.current}</div>
             <div className="breadcrumb">
-                {props.content.breadcrumbs.map(bc => <p key={bc}>{bc}</p>)}
+                {props.content.breadcrumbs ? props.content.breadcrumbs.map(bc => <p key={bc}>{bc}</p>) : ""}
             </div>
         </div>
     )
