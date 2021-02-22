@@ -11,7 +11,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "roles")
-public class Role extends BaseEntity{
+public class Role extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     @NaturalId
     private RoleName role;
@@ -19,7 +19,7 @@ public class Role extends BaseEntity{
     public Role() {
     }
 
-    public Role(RoleName role) {
+    public Role(final RoleName role) {
         this.role = role;
     }
 
@@ -27,7 +27,7 @@ public class Role extends BaseEntity{
         return role;
     }
 
-    public void setRole(RoleName role) {
+    public void setRole(final RoleName role) {
         this.role = role;
     }
 

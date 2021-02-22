@@ -36,8 +36,8 @@ public class JwtProvider {
         try {
             getClaimsJws(token);
             return true;
+        } catch (Exception ignored) {
         }
-        catch (Exception ignored) { }
         return false;
     }
 

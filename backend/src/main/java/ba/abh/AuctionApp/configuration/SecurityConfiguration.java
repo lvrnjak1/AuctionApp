@@ -36,11 +36,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/health"
     };
 
-    public SecurityConfiguration(
-            AuthService authService,
-            PasswordEncoder passwordEncoder,
-            JwtEntryPoint jwtEntryPoint,
-            JwtFilter jwtFilter) {
+    public SecurityConfiguration(final AuthService authService,
+                                 final PasswordEncoder passwordEncoder,
+                                 final JwtEntryPoint jwtEntryPoint,
+                                 final JwtFilter jwtFilter) {
         this.authService = authService;
         this.passwordEncoder = passwordEncoder;
         this.jwtEntryPoint = jwtEntryPoint;

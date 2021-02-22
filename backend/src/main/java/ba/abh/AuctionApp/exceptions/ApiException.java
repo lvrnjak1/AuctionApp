@@ -37,7 +37,7 @@ public class ApiException {
         this.message = message;
     }
 
-    public void setMessageFromMap(Map<String, String> errors){
+    public void setMessageFromMap(Map<String, String> errors) {
         this.message = String.join(", ", errors.values());
     }
 

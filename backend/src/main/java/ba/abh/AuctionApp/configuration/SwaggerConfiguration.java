@@ -24,7 +24,8 @@ public class SwaggerConfiguration {
     }
 
     private ApiInfo apiEndPointsInfo() {
-        return new ApiInfoBuilder().title("Auction App")
+        return new ApiInfoBuilder()
+                .title("Auction App")
                 .description("Auction App API documentation")
                 .license("Apache 2.0")
                 .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")

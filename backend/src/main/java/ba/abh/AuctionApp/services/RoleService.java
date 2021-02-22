@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 public class RoleService {
     private final RoleRepository roleRepository;
 
-    public RoleService(RoleRepository roleRepository) {
+    public RoleService(final RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
     }
 
-    Role findByRoleName(RoleName roleName){
+    Role findByRoleName(RoleName roleName) {
         return roleRepository.findByRole(roleName).orElseThrow();
     }
 }

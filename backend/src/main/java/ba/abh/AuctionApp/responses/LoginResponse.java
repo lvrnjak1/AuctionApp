@@ -6,7 +6,7 @@ public class LoginResponse {
     private User user;
     private String token;
 
-    public LoginResponse(User user, String token) {
+    public LoginResponse(final User user, final String token) {
         this.user = user;
         this.token = token;
     }
@@ -15,7 +15,7 @@ public class LoginResponse {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(final User user) {
         this.user = user;
     }
 
@@ -23,7 +23,7 @@ public class LoginResponse {
         return token;
     }
 
-    public void setToken(String token) {
+    public void setToken(final String token) {
         this.token = token;
     }
 }

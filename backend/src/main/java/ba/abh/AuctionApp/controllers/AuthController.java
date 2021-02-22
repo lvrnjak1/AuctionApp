@@ -20,18 +20,18 @@ public class AuthController {
 
     private final AuthService authService;
 
-    public AuthController(AuthService authService) {
+    public AuthController(final AuthService authService) {
         this.authService = authService;
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@Valid @RequestBody RegisterRequest registerRequest){
+    public ResponseEntity<User> register(@Valid @RequestBody RegisterRequest registerRequest) {
         User registeredUser = authService.register(registerRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(registeredUser);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest){
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
         String jwtToken = authService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
         User user = authService.loadUserByEmail(loginRequest.getEmail());
         return ResponseEntity.status(HttpStatus.OK).body(new LoginResponse(user, jwtToken));

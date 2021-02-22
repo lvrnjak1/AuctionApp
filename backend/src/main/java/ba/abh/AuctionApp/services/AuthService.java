@@ -22,10 +22,10 @@ public class AuthService implements UserDetailsService {
     private final RoleService roleService;
     private final JwtProvider jwtProvider;
 
-    public AuthService(PasswordEncoder passwordEncoder,
-                       UserRepository userRepository,
-                       RoleService roleService,
-                       JwtProvider jwtProvider) {
+    public AuthService(final PasswordEncoder passwordEncoder,
+                       final UserRepository userRepository,
+                       final RoleService roleService,
+                       final JwtProvider jwtProvider) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.roleService = roleService;
@@ -33,7 +33,7 @@ public class AuthService implements UserDetailsService {
     }
 
     public User register(RegisterRequest registerRequest) {
-        if (userExists(registerRequest.getEmail())){
+        if (userExists(registerRequest.getEmail())) {
             throw new EmailInUseException("Email " + registerRequest.getEmail() + " is already in use");
         }
 
@@ -47,7 +47,7 @@ public class AuthService implements UserDetailsService {
         return user;
     }
 
-    private boolean userExists(String email){
+    private boolean userExists(String email) {
         return userRepository.findByEmail(email).isPresent();
     }
 
@@ -64,7 +64,7 @@ public class AuthService implements UserDetailsService {
     public String authenticate(String email, String password) {
         UserDetails userDetails = loadUserByEmail(email);
         boolean correctPassword = passwordEncoder.matches(password, userDetails.getPassword());
-        if(!correctPassword){
+        if(!correctPassword) {
             throw new InvalidCredentialsException("Invalid credentials");
         }
 

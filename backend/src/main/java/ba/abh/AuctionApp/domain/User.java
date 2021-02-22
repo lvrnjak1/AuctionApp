@@ -42,7 +42,7 @@ public class User extends BaseEntity implements UserDetails {
     public User() {
     }
 
-    public User(String name, String surname, String email, String password) {
+    public User(final String name, final String surname, final String email, final String password) {
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -53,7 +53,7 @@ public class User extends BaseEntity implements UserDetails {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -61,7 +61,7 @@ public class User extends BaseEntity implements UserDetails {
         return surname;
     }
 
-    public void setSurname(String surname) {
+    public void setSurname(final String surname) {
         this.surname = surname;
     }
 
@@ -69,7 +69,7 @@ public class User extends BaseEntity implements UserDetails {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
@@ -78,7 +78,7 @@ public class User extends BaseEntity implements UserDetails {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
@@ -86,7 +86,7 @@ public class User extends BaseEntity implements UserDetails {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(final Set<Role> roles) {
         this.roles = roles;
     }
 

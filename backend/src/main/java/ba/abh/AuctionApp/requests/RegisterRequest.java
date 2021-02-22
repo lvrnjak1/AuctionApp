@@ -23,7 +23,7 @@ public class RegisterRequest {
     public RegisterRequest() {
     }
 
-    public RegisterRequest(String name, String surname, String email, String password) {
+    public RegisterRequest(final String name, final String surname, final String email, final String password) {
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -34,7 +34,7 @@ public class RegisterRequest {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -42,7 +42,7 @@ public class RegisterRequest {
         return surname;
     }
 
-    public void setSurname(String surname) {
+    public void setSurname(final String surname) {
         this.surname = surname;
     }
 
@@ -50,7 +50,7 @@ public class RegisterRequest {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
@@ -58,7 +58,7 @@ public class RegisterRequest {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 }

@@ -12,7 +12,7 @@ public class LoginRequest {
     public LoginRequest() {
     }
 
-    public LoginRequest(String email, String password) {
+    public LoginRequest(final String email, final String password) {
         this.email = email;
         this.password = password;
     }
@@ -25,11 +25,11 @@ public class LoginRequest {
         return password;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 }
