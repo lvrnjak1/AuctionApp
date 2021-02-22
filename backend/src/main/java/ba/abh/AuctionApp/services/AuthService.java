@@ -32,7 +32,7 @@ public class AuthService implements UserDetailsService {
         this.jwtProvider = jwtProvider;
     }
 
-    public User register(RegisterRequest registerRequest) {
+    public User register(final RegisterRequest registerRequest) {
         if (userExists(registerRequest.getEmail())) {
             throw new EmailInUseException("Email " + registerRequest.getEmail() + " is already in use");
         }
@@ -49,11 +49,11 @@ public class AuthService implements UserDetailsService {
         return user;
     }
 
-    private boolean userExists(String email) {
+    private boolean userExists(final String email) {
         return userRepository.findByEmail(email).isPresent();
     }
 
-    public User loadUserByEmail(String email) {
+    public User loadUserByEmail(final String email) {
         return loadUserByUsername(email);
     }
 
@@ -64,7 +64,7 @@ public class AuthService implements UserDetailsService {
                 .orElseThrow(() -> new InvalidCredentialsException("User with email " + s + " doesn't exist"));
     }
 
-    public String authenticate(String email, String password) {
+    public String authenticate(final String email, final String password) {
         UserDetails userDetails = loadUserByEmail(email);
         boolean correctPassword = passwordEncoder.matches(password, userDetails.getPassword());
         if(!correctPassword) {

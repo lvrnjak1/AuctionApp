@@ -20,24 +20,24 @@ public class ApiException {
         timestamp = LocalDateTime.now();
     }
 
-    ApiException(HttpStatus status) {
+    ApiException(final HttpStatus status) {
         this();
         this.status = status;
     }
 
-    ApiException(HttpStatus status, Throwable ex) {
+    ApiException(final HttpStatus status, final Throwable ex) {
         this();
         this.status = status;
         this.message = "Unexpected error";
     }
 
-    ApiException(HttpStatus status, String message, Throwable ex) {
+    ApiException(final HttpStatus status, final String message, final Throwable ex) {
         this();
         this.status = status;
         this.message = message;
     }
 
-    public void setMessageFromMap(Map<String, String> errors) {
+    public void setMessageFromMap(final Map<String, String> errors) {
         this.message = String.join(", ", errors.values());
     }
 
@@ -45,7 +45,7 @@ public class ApiException {
         return status;
     }
 
-    public void setStatus(HttpStatus status) {
+    public void setStatus(final HttpStatus status) {
         this.status = status;
     }
 
@@ -53,7 +53,7 @@ public class ApiException {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(final LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -61,7 +61,7 @@ public class ApiException {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(final String message) {
         this.message = message;
     }
 }

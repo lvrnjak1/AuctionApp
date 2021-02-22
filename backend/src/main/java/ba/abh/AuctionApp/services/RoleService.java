@@ -13,7 +13,7 @@ public class RoleService {
         this.roleRepository = roleRepository;
     }
 
-    Role findByRoleName(RoleName roleName) {
+    Role findByRoleName(final RoleName roleName) {
         return roleRepository.findByRole(roleName).orElseThrow();
     }
 }
