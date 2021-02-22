@@ -6,7 +6,7 @@ spring:
     baseline-version: 0
     baseline-on-migrate: true
   profiles:
-    active: dev
+    active: prod
 app:
-  jwtSecret: hu\St}{k]:}:R2*V9ax7 #${JWT_SECRET}
+  jwtSecret: ${JWT_SECRET}
   jwtExpirationMs: 300000
