@@ -37,10 +37,6 @@ public class Product extends BaseEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
-//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JoinColumn(name = "product_id")
-//    private Set<ProductImage> images = new HashSet<>();
-
     public Product() {
     }
 
@@ -62,7 +58,6 @@ public class Product extends BaseEntity {
         this.size = size;
         this.colors = colors;
         this.category = category;
-//        this.images = images;
     }
 
     public String getName() {
@@ -104,14 +99,6 @@ public class Product extends BaseEntity {
     public void setCategory(final Category category) {
         this.category = category;
     }
-
-//    public Set<ProductImage> getImages() {
-//        return images;
-//    }
-//
-//    public void setImages(final Set<ProductImage> images) {
-//        this.images = images;
-//    }
 
     @Override
     public boolean equals(Object o) {

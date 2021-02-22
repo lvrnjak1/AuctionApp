@@ -36,13 +36,18 @@ public class User extends BaseEntity implements UserDetails {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
 
-    public User(final String name, final String surname, final String email, final String password) {
+    public User(final String name,
+                final String surname,
+                final String email,
+                final String password) {
         this.name = name;
         this.surname = surname;
         this.email = email;
