@@ -38,10 +38,12 @@ public class AuthService implements UserDetailsService {
         }
 
         String password = passwordEncoder.encode(registerRequest.getPassword());
-        User user = new User(registerRequest.getName(),
+        User user = new User(
+                registerRequest.getName(),
                 registerRequest.getSurname(),
                 registerRequest.getEmail(),
-                password);
+                password
+        );
         user.addRole(roleService.findByRoleName(RoleName.ROLE_BUYER));
         userRepository.save(user);
         return user;
@@ -57,7 +59,8 @@ public class AuthService implements UserDetailsService {
 
     @Override
     public User loadUserByUsername(String s) throws UsernameNotFoundException {
-        return userRepository.findByEmail(s)
+        return userRepository
+                .findByEmail(s)
                 .orElseThrow(() -> new InvalidCredentialsException("User with email " + s + " doesn't exist"));
     }
 
