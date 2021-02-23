@@ -1,15 +1,14 @@
 package ba.abh.AuctionApp.domain;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 @Entity
@@ -24,11 +23,11 @@ public class Auction extends BaseEntity {
     @JoinColumn(name = "seller_id")
     private User seller;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date startDateTime;
+    @Basic
+    private ZonedDateTime startDateTime;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date endDateTime;
+    @Basic
+    private ZonedDateTime endDateTime;
 
     private BigDecimal startPrice;
 
@@ -38,8 +37,8 @@ public class Auction extends BaseEntity {
     public Auction(final Long id,
                    final Product product,
                    final User seller,
-                   final Date startDateTime,
-                   final Date endDateTime,
+                   final ZonedDateTime startDateTime,
+                   final ZonedDateTime endDateTime,
                    final BigDecimal startPrice) {
         super(id);
         this.product = product;
@@ -51,8 +50,8 @@ public class Auction extends BaseEntity {
 
     public Auction(final Product product,
                    final User seller,
-                   final Date startDateTime,
-                   final Date endDateTime,
+                   final ZonedDateTime startDateTime,
+                   final ZonedDateTime endDateTime,
                    final BigDecimal startPrice) {
         this.product = product;
         this.seller = seller;
@@ -77,19 +76,19 @@ public class Auction extends BaseEntity {
         this.seller = seller;
     }
 
-    public Date getStartDateTime() {
+    public ZonedDateTime getStartDateTime() {
         return startDateTime;
     }
 
-    public void setStartDateTime(final Date startDateTime) {
+    public void setStartDateTime(final ZonedDateTime startDateTime) {
         this.startDateTime = startDateTime;
     }
 
-    public Date getEndDateTime() {
+    public ZonedDateTime getEndDateTime() {
         return endDateTime;
     }
 
-    public void setEndDateTime(final Date endDateTime) {
+    public void setEndDateTime(final ZonedDateTime endDateTime) {
         this.endDateTime = endDateTime;
     }
 

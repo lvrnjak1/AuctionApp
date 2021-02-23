@@ -50,7 +50,7 @@ public class AuctionController {
 
     @GetMapping
     public ResponseEntity<PageableResponse> getAllAuctions(@RequestParam(defaultValue = MIN_PAGE) int page,
-                                                           @RequestParam(defaultValue = "10") int size) {
+                                                           @RequestParam(defaultValue = MIN_SIZE) int size) {
         Slice<Auction> slice = auctionService.getAuctions(page, size);
         PageableResponse response = buildPageableResponse(slice);
         return ResponseEntity.ok(response);
