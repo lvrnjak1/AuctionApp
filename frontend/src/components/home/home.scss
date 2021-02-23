@@ -1,0 +1,20 @@
+@import "util/style/constants.scss";
+
+.home {
+  .top {
+    background: $lightGray;
+
+    .categories {
+      margin: 10px;
+    }
+  }
+
+  //   @media screen and (min-width: $medium) {
+  //     .top {
+  //       .categories {
+  //         margin-left: 20%;
+  //         width: 20%;
+  //       }
+  //     }
+  //   }
+}
