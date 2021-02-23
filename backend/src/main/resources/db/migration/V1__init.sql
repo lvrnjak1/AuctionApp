@@ -102,4 +102,66 @@ insert into colors (id, color) values (8, 'PURPLE');
 insert into colors (id, color) values (9, 'YELLOW');
 insert into colors (id, color) values (10, 'GRAY');
 
-
+insert into categories (id, name, parent_category_id)
+values (1, 'Women', null);
+insert into categories (id, name, parent_category_id)
+values (2, 'Men', null);
+insert into categories (id, name, parent_category_id)
+values (3, 'Kids', null);
+insert into categories (id, name, parent_category_id)
+values (4, 'Home', null);
+insert into categories (id, name, parent_category_id)
+values (5, 'Art', null);
+insert into categories (id, name, parent_category_id)
+values (6, 'Electronics', null);
+-- subcategories of women
+insert into categories (id, name, parent_category_id)
+values (7, 'Accessories', 1);
+insert into categories (id, name, parent_category_id)
+values (8, 'Bags', 1);
+insert into categories (id, name, parent_category_id)
+values (9, 'Clothes', 1);
+insert into categories (id, name, parent_category_id)
+values (10, 'Sleepwear', 1);
+insert into categories (id, name, parent_category_id)
+values (11, 'Swimwear', 1);
+insert into categories (id, name, parent_category_id)
+values (12, 'Shoes', 1);
+-- subcategories of men
+insert into categories (id, name, parent_category_id)
+values (13, 'Accessories', 2);
+insert into categories (id, name, parent_category_id)
+values (14, 'Clothes', 2);
+insert into categories (id, name, parent_category_id)
+values (15, 'Sleepwear', 2);
+insert into categories (id, name, parent_category_id)
+values (16, 'Swimwear', 2);
+insert into categories (id, name, parent_category_id)
+values (17, 'Shoes', 2);
+-- subcategories of kids
+insert into categories (id, name, parent_category_id)
+values (18, 'Toys', 3);
+insert into categories (id, name, parent_category_id)
+values (19, 'Clothes', 3);
+insert into categories (id, name, parent_category_id)
+values (20, 'Sleepwear', 3);
+insert into categories (id, name, parent_category_id)
+values (21, 'Swimwear', 3);
+insert into categories (id, name, parent_category_id)
+values (22, 'Shoes', 3);
+-- subcategories of home
+insert into categories (id, name, parent_category_id)
+values (23, 'Decor', 4);
+insert into categories (id, name, parent_category_id)
+values (24, 'Furniture', 4);
+insert into categories (id, name, parent_category_id)
+values (25, 'Appliances', 4);
+-- subcategories of electronics
+insert into categories (id, name, parent_category_id)
+values (26, 'PC', 6);
+insert into categories (id, name, parent_category_id)
+values (27, 'Phones', 6);
+insert into categories (id, name, parent_category_id)
+values (28, 'Peripheral', 6);
+insert into categories (id, name, parent_category_id)
+values (29, 'Accessories', 6);

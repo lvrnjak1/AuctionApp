@@ -1,9 +1,15 @@
 package ba.abh.AuctionApp.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -12,16 +18,30 @@ public class Category extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
     private Category parentCategory;
+
+    @OneToMany(mappedBy = "parentCategory")
+    private List<Category> subCategories = new ArrayList<>();
 
     public Category() {
     }
 
-    public Category(Long id, String name, Category parentCategory) {
+    public Category(final Long id, final String name, final Category parentCategory) {
         super(id);
         this.name = name;
         this.parentCategory = parentCategory;
+    }
+
+    public Category(final Long id,
+                    final String name,
+                    final Category parentCategory,
+                    final List<Category> subCategories) {
+        super(id);
+        this.name = name;
+        this.parentCategory = parentCategory;
+        this.subCategories = subCategories;
     }
 
     public String getName() {
@@ -40,6 +60,14 @@ public class Category extends BaseEntity {
         this.parentCategory = parentCategory;
     }
 
+    public List<Category> getSubCategories() {
+        return subCategories;
+    }
+
+    public void setSubCategories(final List<Category> subCategories) {
+        this.subCategories = subCategories;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -47,11 +75,12 @@ public class Category extends BaseEntity {
         if (!super.equals(o)) return false;
         Category category = (Category) o;
         return Objects.equals(name, category.name) &&
-                Objects.equals(parentCategory, category.parentCategory);
+                Objects.equals(parentCategory, category.parentCategory) &&
+                Objects.equals(subCategories, category.subCategories);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, parentCategory);
+        return Objects.hash(super.hashCode(), name, parentCategory, subCategories);
     }
 }

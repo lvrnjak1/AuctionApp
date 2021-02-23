@@ -33,7 +33,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/v2/api-docs",
             "/webjars/**",
             "/auth/**",
-            "/health"
+            "/health",
+            "/categories"
     };
 
     public SecurityConfiguration(final AuthService authService,
