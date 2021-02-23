@@ -38,7 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/categories/**"
     };
 
-    private final String[] getUnprotectedEndpoints = {"/auctions"};
+    private final String[] getUnprotectedEndpoints = {"/auctions/**"};
 
     public SecurityConfiguration(final AuthService authService,
                                  final PasswordEncoder passwordEncoder,

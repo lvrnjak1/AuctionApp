@@ -1,6 +1,7 @@
 package ba.abh.AuctionApp.controllers;
 
 import ba.abh.AuctionApp.domain.Auction;
+import ba.abh.AuctionApp.domain.Category;
 import ba.abh.AuctionApp.domain.User;
 import ba.abh.AuctionApp.pagination.PageableEntity;
 import ba.abh.AuctionApp.pagination.PaginationDetails;
@@ -40,24 +41,30 @@ public class AuctionController {
     @PostMapping
     @Secured("ROLE_SELLER")
     public ResponseEntity<AuctionResponse> createAuction(@Valid @RequestBody AuctionRequest auctionRequest,
-                                           Principal principal) {
+                                                         Principal principal) {
         Auction auction = auctionService.createAuction(auctionRequest, getUserFromPrincipal(principal));
         return ResponseEntity.status(HttpStatus.CREATED).body(new AuctionResponse(auction));
     }
 
     @GetMapping
     public ResponseEntity<?> getAllAuctions(@RequestParam(defaultValue = "0") int page,
-                                            @RequestParam(defaultValue = "10") int size){
+                                            @RequestParam(defaultValue = "10") int size) {
         Slice<Auction> slice = auctionService.getAuctions(page, size);
         PageableResponse response = buildPageableResponse(slice);
         return ResponseEntity.ok(response);
     }
 
-    private User getUserFromPrincipal(final Principal principal){
+    @GetMapping("/featured")
+    public ResponseEntity<List<Auction>> getFeaturedCategories(@RequestParam(defaultValue = "3") int limit) {
+        List<Auction> featuredProducts = auctionService.getFeaturedProducts(limit);
+        return ResponseEntity.ok(featuredProducts);
+    }
+
+    private User getUserFromPrincipal(final Principal principal) {
         return userService.getUserByEmail(principal.getName());
     }
 
-    private PageableResponse buildPageableResponse(Slice<Auction> slice){
+    private PageableResponse buildPageableResponse(Slice<Auction> slice) {
         PaginationDetails details = new PaginationDetails(slice.getNumber(), slice.hasNext());
         List<? extends PageableEntity> data = slice
                 .getContent()

@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -63,5 +64,10 @@ public class AuctionService {
     public Slice<Auction> getAuctions(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return auctionRepository.findAll(pageable);
+    }
+
+    public List<Auction> getFeaturedProducts(int numberOfProducts) {
+        Pageable pageable = PageRequest.of(0, numberOfProducts);
+        return auctionRepository.findAll(pageable).getContent();
     }
 }
