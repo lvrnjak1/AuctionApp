@@ -12,10 +12,14 @@ import ba.abh.AuctionApp.requests.AuctionRequest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Service
 public class AuctionService {
@@ -69,5 +73,23 @@ public class AuctionService {
     public List<Auction> getFeaturedProducts(int numberOfProducts) {
         Pageable pageable = PageRequest.of(0, numberOfProducts);
         return auctionRepository.findAll(pageable).getContent();
+    }
+
+    public Slice<Auction> getNewestAuctions(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("startDateTime").ascending());
+        return auctionRepository.findAll(pageable);
+    }
+
+    public List<Auction> getLastChance(int limit, int durationInMins) {
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("endDateTime").ascending());
+        return auctionRepository
+                .findAll(pageable)
+                .stream()
+                .filter(auction -> {
+                    long diffMs = auction.getEndDateTime().getTime() - new Date().getTime();
+                    long diffMin = TimeUnit.MINUTES.convert(diffMs, TimeUnit.MILLISECONDS);
+                    return diffMin <= durationInMins;
+                })
+                .collect(Collectors.toList());
     }
 }

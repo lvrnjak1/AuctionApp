@@ -1,7 +1,6 @@
 package ba.abh.AuctionApp.controllers;
 
 import ba.abh.AuctionApp.domain.Auction;
-import ba.abh.AuctionApp.domain.Category;
 import ba.abh.AuctionApp.domain.User;
 import ba.abh.AuctionApp.pagination.PageableEntity;
 import ba.abh.AuctionApp.pagination.PaginationDetails;
@@ -29,6 +28,9 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/auctions")
 public class AuctionController {
+    private static final String DAY_IN_MIN = "1440";
+    private static final String MIN_PAGE = "0";
+    private static final String MIN_SIZE = "10";
 
     private final AuctionService auctionService;
     private final UserService userService;
@@ -47,9 +49,17 @@ public class AuctionController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllAuctions(@RequestParam(defaultValue = "0") int page,
-                                            @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<PageableResponse> getAllAuctions(@RequestParam(defaultValue = MIN_PAGE) int page,
+                                                           @RequestParam(defaultValue = "10") int size) {
         Slice<Auction> slice = auctionService.getAuctions(page, size);
+        PageableResponse response = buildPageableResponse(slice);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/new")
+    public ResponseEntity<PageableResponse> getNewestAuctions(@RequestParam(defaultValue = MIN_PAGE) int page,
+                                                              @RequestParam(defaultValue = MIN_SIZE) int size) {
+        Slice<Auction> slice = auctionService.getNewestAuctions(page, size);
         PageableResponse response = buildPageableResponse(slice);
         return ResponseEntity.ok(response);
     }
@@ -58,6 +68,15 @@ public class AuctionController {
     public ResponseEntity<List<Auction>> getFeaturedCategories(@RequestParam(defaultValue = "3") int limit) {
         List<Auction> featuredProducts = auctionService.getFeaturedProducts(limit);
         return ResponseEntity.ok(featuredProducts);
+    }
+
+    @GetMapping("/lastChance")
+    public ResponseEntity<List<Auction>> getLastChanceAuctions(@RequestParam(defaultValue = "3") int limit,
+                                                               @RequestParam(defaultValue = DAY_IN_MIN,
+                                                                       name = "criteria"
+                                                               ) int durationInMins) {
+        List<Auction> lastChanceAuctions = auctionService.getLastChance(limit, durationInMins);
+        return ResponseEntity.ok(lastChanceAuctions);
     }
 
     private User getUserFromPrincipal(final Principal principal) {
