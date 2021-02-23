@@ -2,12 +2,13 @@ package ba.abh.AuctionApp.responses;
 
 import ba.abh.AuctionApp.domain.Auction;
 import ba.abh.AuctionApp.domain.Product;
+import ba.abh.AuctionApp.pagination.PageableEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class AuctionResponse {
+public class AuctionResponse implements PageableEntity {
     private Long id;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)

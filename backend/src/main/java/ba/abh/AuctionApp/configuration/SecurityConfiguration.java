@@ -5,6 +5,7 @@ import ba.abh.AuctionApp.auth.JwtFilter;
 import ba.abh.AuctionApp.services.AuthService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -36,6 +37,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/health",
             "/categories"
     };
+
+    private final String[] getUnprotectedEndpoints = {"/auctions"};
 
     public SecurityConfiguration(final AuthService authService,
                                  final PasswordEncoder passwordEncoder,
@@ -72,6 +75,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/**/*.js")
                 .permitAll()
                 .antMatchers(unprotectedEndpoints)
+                .permitAll()
+                .antMatchers(HttpMethod.GET, getUnprotectedEndpoints)
                 .permitAll()
                 .anyRequest()
                 .authenticated();

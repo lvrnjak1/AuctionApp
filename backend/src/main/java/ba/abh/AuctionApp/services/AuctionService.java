@@ -9,6 +9,9 @@ import ba.abh.AuctionApp.domain.enums.Size;
 import ba.abh.AuctionApp.repositories.AuctionRepository;
 import ba.abh.AuctionApp.repositories.ColorRepository;
 import ba.abh.AuctionApp.requests.AuctionRequest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -55,5 +58,10 @@ public class AuctionService {
                 auctionRequest.getEndDateTime(),
                 auctionRequest.getStartPrice()
         );
+    }
+
+    public Slice<Auction> getAuctions(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return auctionRepository.findAll(pageable);
     }
 }
