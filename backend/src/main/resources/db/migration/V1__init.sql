@@ -33,9 +33,8 @@ create table user_roles
 create table categories
 (
     id bigint not null constraint categories_pkey primary key,
-    c_left integer not null,
-    c_right integer not null,
-    name varchar(255) not null
+    name varchar(255) not null,
+    parent_category_id bigint constraint fk_parent_category references categories
 );
 
 create table colors
@@ -102,4 +101,5 @@ insert into colors (id, color) values (7, 'PINK');
 insert into colors (id, color) values (8, 'PURPLE');
 insert into colors (id, color) values (9, 'YELLOW');
 insert into colors (id, color) values (10, 'GRAY');
+
 
