@@ -40,8 +40,7 @@ public class Product extends BaseEntity {
     public Product() {
     }
 
-    public Product(final Long id, final String name, final String description) {
-        super(id);
+    public Product(final String name, final String description) {
         this.name = name;
         this.description = description;
     }
@@ -53,6 +52,18 @@ public class Product extends BaseEntity {
                    final Set<Color> colors,
                    final Category category) {
         super(id);
+        this.name = name;
+        this.description = description;
+        this.size = size;
+        this.colors = colors;
+        this.category = category;
+    }
+
+    public Product(final String name,
+                   final String description,
+                   final Size size,
+                   final Set<Color> colors,
+                   final Category category) {
         this.name = name;
         this.description = description;
         this.size = size;

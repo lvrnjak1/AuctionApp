@@ -2,6 +2,7 @@ package ba.abh.AuctionApp.exceptions;
 
 import ba.abh.AuctionApp.exceptions.custom.EmailInUseException;
 import ba.abh.AuctionApp.exceptions.custom.InvalidCredentialsException;
+import ba.abh.AuctionApp.exceptions.custom.ResourceNotFoundException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
@@ -22,16 +23,17 @@ import java.util.Map;
 public class RestExceptionsHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(EmailInUseException.class)
     public ResponseEntity<Object> handleEmailInUse(EmailInUseException ex) {
-        ApiException apiException = new ApiException(HttpStatus.UNPROCESSABLE_ENTITY);
-        apiException.setMessage(ex.getMessage());
-        return buildResponseEntity(apiException);
+        return buildResponseEntity(ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<Object> handleInvalidCredentials(InvalidCredentialsException ex) {
-        ApiException apiException = new ApiException(HttpStatus.BAD_REQUEST);
-        apiException.setMessage(ex.getMessage());
-        return buildResponseEntity(apiException);
+        return buildResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<Object> handleResourceNotFound(ResourceNotFoundException ex) {
+        return buildResponseEntity(ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @Override
@@ -50,7 +52,13 @@ public class RestExceptionsHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiException);
     }
 
-    private ResponseEntity<Object> buildResponseEntity(ApiException ex) {
-        return new ResponseEntity<>(ex, ex.getStatus());
+    private ResponseEntity<Object> buildResponseEntity(String message, HttpStatus status) {
+        ApiException apiException = new ApiException(status);
+        apiException.setMessage(message);
+        return buildResponseEntity(apiException);
+    }
+
+    private ResponseEntity<Object> buildResponseEntity(ApiException apiException) {
+        return new ResponseEntity<>(apiException, apiException.getStatus());
     }
 }

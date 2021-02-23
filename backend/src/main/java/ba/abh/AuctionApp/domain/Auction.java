@@ -49,6 +49,18 @@ public class Auction extends BaseEntity {
         this.startPrice = startPrice;
     }
 
+    public Auction(final Product product,
+                   final User seller,
+                   final Date startDateTime,
+                   final Date endDateTime,
+                   final BigDecimal startPrice) {
+        this.product = product;
+        this.seller = seller;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        this.startPrice = startPrice;
+    }
+
     public Product getProduct() {
         return product;
     }

@@ -2,6 +2,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
   flyway:
     baseline-version: 0
     baseline-on-migrate: true
@@ -9,4 +13,4 @@ spring:
     active: prod
 app:
   jwtSecret: ${JWT_SECRET}
-  jwtExpirationMs: 300000
+  jwtExpirationMs: 600000000
