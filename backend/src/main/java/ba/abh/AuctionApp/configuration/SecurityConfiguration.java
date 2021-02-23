@@ -35,7 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/webjars/**",
             "/auth/**",
             "/health",
-            "/categories"
+            "/categories/**"
     };
 
     private final String[] getUnprotectedEndpoints = {"/auctions"};
