@@ -2,10 +2,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    properties:
-      hibernate:
-        jdbc:
-          time_zone: UTC
   flyway:
     baseline-version: 0
     baseline-on-migrate: true
