@@ -17,7 +17,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -39,7 +38,7 @@ public class AuctionService {
 
     public Auction createAuction(AuctionRequest auctionRequest, User seller) {
         if (auctionRequest.getStartDateTime().isAfter(auctionRequest.getEndDateTime()) ||
-                auctionRequest.getStartDateTime().isBefore(ZonedDateTime.now())){
+                auctionRequest.getStartDateTime().isBefore(ZonedDateTime.now())) {
             throw new InvalidDateException("Invalid start or end date");
         }
 
@@ -69,12 +68,12 @@ public class AuctionService {
         );
     }
 
-    private Slice<Auction> getActiveAuctions(int page, int size, Sort sort){
+    private Slice<Auction> getActiveAuctions(int page, int size, Sort sort) {
         Pageable pageable = PageRequest.of(page, size, sort);
         return auctionRepository.findByStartDateTimeBeforeAndEndDateTimeAfter(ZonedDateTime.now(), pageable);
     }
 
-    private Slice<Auction> getActiveAuctions(int page, int size){
+    private Slice<Auction> getActiveAuctions(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return auctionRepository.findByStartDateTimeBeforeAndEndDateTimeAfter(ZonedDateTime.now(), pageable);
     }
@@ -87,16 +86,18 @@ public class AuctionService {
         return getActiveAuctions(page, size, Sort.by("startDateTime").descending());
     }
 
-    public List<Auction> getFeaturedProducts(int numberOfProducts) {
+    public Slice<Auction> getFeaturedProducts(int page, int size) {
         //implement different algorithm for featured
-        return getActiveAuctions(0, numberOfProducts).getContent();
+        return getActiveAuctions(page, size);
     }
 
-    public List<Auction> getLastChance(int limit, int durationInMins) {
-        Pageable pageable = PageRequest.of(0, limit);
+    public Slice<Auction> getLastChance(int page, int size, int durationInMins) {
+        Pageable pageable = PageRequest.of(page, size);
         ZonedDateTime now = ZonedDateTime.now();
-        return auctionRepository
-                .findByStartDateTimeBeforeAndEndDateTimeBetween(now, now, now.plusMinutes(durationInMins), pageable)
-                .getContent();
+        return auctionRepository.findByStartDateTimeBeforeAndEndDateTimeBetween(now,
+                now,
+                now.plusMinutes(durationInMins),
+                pageable
+        );
     }
 }

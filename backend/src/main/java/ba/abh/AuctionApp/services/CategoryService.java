@@ -27,7 +27,7 @@ public class CategoryService {
                 .orElseThrow(() -> new ResourceNotFoundException("Category with id " + id + " doesn't exist"));
     }
 
-    public List<Category> getFeaturedCategories(int numberOfCategories) {
+    public List<Category> getFeaturedCategories(final int numberOfCategories) {
         Pageable pageable = PageRequest.of(0, numberOfCategories);
         return categoryRepository.findAllByParentCategoryIsNotNull(pageable);
     }

@@ -47,12 +47,12 @@ public class RestExceptionsHandler extends ResponseEntityExceptionHandler {
                                                                   HttpHeaders headers,
                                                                   HttpStatus status,
                                                                   WebRequest request) {
-            Map<String, String> errors = new HashMap<>();
-            ex.getBindingResult().getAllErrors().forEach((error) -> {
-                String fieldName = ((FieldError) error).getField();
-                String errorMessage = error.getDefaultMessage();
-                errors.put(fieldName, errorMessage);
-            });
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
         ApiException apiException = new ApiException(HttpStatus.UNPROCESSABLE_ENTITY);
         apiException.setMessageFromMap(errors);
         return buildResponseEntity(apiException);

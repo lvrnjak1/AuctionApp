@@ -13,17 +13,15 @@ public class PaginationDetails {
         return currentPage;
     }
 
-    public PaginationDetails setCurrentPage(final int currentPage) {
+    public void setCurrentPage(final int currentPage) {
         this.currentPage = currentPage;
-        return this;
     }
 
     public boolean isNextPageAvailable() {
         return nextPageAvailable;
     }
 
-    public PaginationDetails setNextPageAvailable(final boolean nextPageAvailable) {
+    public void setNextPageAvailable(final boolean nextPageAvailable) {
         this.nextPageAvailable = nextPageAvailable;
-        return this;
     }
 }

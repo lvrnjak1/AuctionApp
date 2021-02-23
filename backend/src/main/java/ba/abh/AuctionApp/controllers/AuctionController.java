@@ -65,17 +65,19 @@ public class AuctionController {
     }
 
     @GetMapping("/featured")
-    public ResponseEntity<List<Auction>> getFeaturedCategories(@RequestParam(defaultValue = "3") int limit) {
-        List<Auction> featuredProducts = auctionService.getFeaturedProducts(limit);
+    public ResponseEntity<Slice<Auction>> getFeaturedCategories(@RequestParam(defaultValue = MIN_PAGE) int page,
+                                                                @RequestParam(defaultValue = MIN_SIZE) int size) {
+        Slice<Auction> featuredProducts = auctionService.getFeaturedProducts(page, size);
         return ResponseEntity.ok(featuredProducts);
     }
 
     @GetMapping("/lastChance")
-    public ResponseEntity<List<Auction>> getLastChanceAuctions(@RequestParam(defaultValue = "3") int limit,
-                                                               @RequestParam(defaultValue = DAY_IN_MIN,
-                                                                       name = "criteria"
-                                                               ) int durationInMins) {
-        List<Auction> lastChanceAuctions = auctionService.getLastChance(limit, durationInMins);
+    public ResponseEntity<Slice<Auction>> getLastChanceAuctions(@RequestParam(defaultValue = MIN_PAGE) int page,
+                                                                @RequestParam(defaultValue = MIN_SIZE) int size,
+                                                                @RequestParam(defaultValue = DAY_IN_MIN,
+                                                                        name = "criteria"
+                                                                ) int durationInMins) {
+        Slice<Auction> lastChanceAuctions = auctionService.getLastChance(page, size, durationInMins);
         return ResponseEntity.ok(lastChanceAuctions);
     }
 

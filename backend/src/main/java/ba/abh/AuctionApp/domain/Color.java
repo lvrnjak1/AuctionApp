@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "colors")
-public class Color extends BaseEntity{
+public class Color extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     @NaturalId
     private ColorName color;

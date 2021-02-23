@@ -67,7 +67,7 @@ public class AuthService implements UserDetailsService {
     public String authenticate(final String email, final String password) {
         UserDetails userDetails = loadUserByEmail(email);
         boolean correctPassword = passwordEncoder.matches(password, userDetails.getPassword());
-        if(!correctPassword) {
+        if (!correctPassword) {
             throw new InvalidCredentialsException("Invalid credentials");
         }
 
