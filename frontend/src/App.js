@@ -46,7 +46,7 @@ function App() {
             </Layout>
           </Route>
           <Route exact path={["/home", "/"]}>
-            <Layout breadcrumbs={{ current: "home" }}>
+            <Layout>
               <Home />
             </Layout>
           </Route>

@@ -9,7 +9,7 @@ function ProductGrid(props) {
 
     for (let j = 0; j < ncols; j++) {
         cols.push(
-            <div className="product">
+            <div key={j} className="product">
                 <img className="product-image"
                     src={process.env.PUBLIC_URL + '/images/shoes.jpg'}
                     alt="Something"
@@ -22,7 +22,7 @@ function ProductGrid(props) {
 
     for (let i = 0; i < props.nrows; i++) {
         rows.push(
-            <div className={`row ${props.categories ? "row-3" : "row-4"} ${props.small ? "small" : ""}`}>
+            <div key={i} className={`row ${props.categories ? "row-3" : "row-4"} ${props.small ? "small" : ""}`}>
                 {cols}
             </div>
         );

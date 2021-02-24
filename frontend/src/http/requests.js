@@ -9,6 +9,39 @@ const postRequest = async (endpoint, body, successHandler, errorHandler, request
     }
 }
 
+const getRequest = async (endpoint, successHandler, errorHandler, queryParams) => {
+    try {
+
+        const response = await axios.get(endpoint, { params: queryParams });
+        successHandler(response);
+    } catch (error) {
+        errorHandler(error);
+    }
+}
+
+const sendMultipleGetRequests = async (requests, handlers) => {
+    const reqs = []
+    requests.forEach(request => {
+        reqs.push(
+            axios.get(request.endpoint, { params: request.params })
+        );
+    })
+
+    try {
+        const responses = await axios.all(reqs);
+        console.log(responses);
+        let i = 0;
+        requests.forEach(request => {
+            request.successHandler(responses[i]);
+            i++;
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export {
-    postRequest
+    postRequest,
+    getRequest,
+    sendMultipleGetRequests
 }
