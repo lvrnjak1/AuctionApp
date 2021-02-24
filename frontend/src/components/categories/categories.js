@@ -15,13 +15,13 @@ function Categories() {
     }
 
     return (
-        <div className="categories">
+        <div className="categories-div">
             <button className="title">Categories</button>
             <div className="line"></div>
             <ul>
                 {categories.map(c => {
                     const index = categories.indexOf(c)
-                    return <li key={index}>
+                    return <li key={c.id}>
                         <button onClick={e => toggleExpand(index)}>{c.name}</button>
                         <div className={activeCategory !== index ? "inactive sub-categories" : "sub-categories"}>
                             <ul>
