@@ -68,6 +68,21 @@
       }
     }
 
+    .small {
+      .product {
+        padding: 10px 30px 10px 30px;
+      }
+
+      :first-child {
+        padding-left: 0;
+        padding-right: 40px;
+      }
+      :last-child {
+        padding-left: 40px;
+        padding-right: 0;
+      }
+    }
+
     .row-3 {
       .product {
         .product-image {

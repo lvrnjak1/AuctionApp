@@ -53,8 +53,6 @@
         margin: 10px 0 0 0;
         height: 300px;
         min-width: 350px;
-        border: 0.5px solid $gray;
-        box-shadow: 3px 3px 0 0 rgba(131, 103, 216, 0.31);
       }
     }
   }
@@ -83,10 +81,9 @@
 
   .bottom {
     text-align: center;
-    border-bottom: 2px solid $gray;
     button {
       font-family: "Lato";
-      margin-right: 10px;
+      margin-right: 15px;
       font-size: 28px;
       color: $black;
       letter-spacing: 0.98px;
@@ -99,6 +96,11 @@
     button:focus {
       outline: transparent;
       border-bottom: 3px solid $purple;
+    }
+
+    .button-bar {
+      border-bottom: 2px solid $gray;
+      margin-bottom: 15px;
     }
   }
 
@@ -131,8 +133,6 @@
           margin: 0 0 0 20px;
           height: 200px;
           min-width: 200px;
-          border: 0.5px solid $gray;
-          box-shadow: 3px 3px 0 0 rgba(131, 103, 216, 0.31);
         }
       }
     }
@@ -187,8 +187,6 @@
           margin: 10px 0 0 20px;
           height: 300px;
           min-width: 300px;
-          border: 0.5px solid $gray;
-          box-shadow: 3px 3px 0 0 rgba(131, 103, 216, 0.31);
         }
       }
     }

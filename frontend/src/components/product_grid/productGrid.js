@@ -22,7 +22,7 @@ function ProductGrid(props) {
 
     for (let i = 0; i < props.nrows; i++) {
         rows.push(
-            <div className={`row ${props.categories ? "row-3" : "row-4"}`}>
+            <div className={`row ${props.categories ? "row-3" : "row-4"} ${props.small ? "small" : ""}`}>
                 {cols}
             </div>
         );

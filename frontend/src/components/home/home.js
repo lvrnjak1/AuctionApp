@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Categories from 'components/categories/categories';
 import "components/home/home.scss"
 import ProductGrid from 'components/product_grid/productGrid';
@@ -9,6 +9,9 @@ function Home() {
         "startPrice": 240,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
     }
+
+    const [showNew, setShowNew] = useState(true);
+
     return (
         <div className="home">
             <div className="top">
@@ -37,8 +40,11 @@ function Home() {
                 <ProductGrid nrows={1} />
             </div>
             <div className="bottom">
-                <button>New Arrivals</button>
-                <button>Last Chance</button>
+                <div className="button-bar">
+                    <button>New Arrivals</button>
+                    <button>Last Chance</button>
+                </div>
+                <ProductGrid nrows={2} small />
             </div>
         </div>
     );
