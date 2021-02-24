@@ -65,20 +65,22 @@ public class AuctionController {
     }
 
     @GetMapping("/featured")
-    public ResponseEntity<Slice<Auction>> getFeaturedCategories(@RequestParam(defaultValue = MIN_PAGE) int page,
-                                                                @RequestParam(defaultValue = MIN_SIZE) int size) {
-        Slice<Auction> featuredProducts = auctionService.getFeaturedProducts(page, size);
-        return ResponseEntity.ok(featuredProducts);
+    public ResponseEntity<PageableResponse> getFeaturedCategories(@RequestParam(defaultValue = MIN_PAGE) int page,
+                                                                  @RequestParam(defaultValue = MIN_SIZE) int size) {
+        Slice<Auction> slice = auctionService.getFeaturedProducts(page, size);
+        PageableResponse response = buildPageableResponse(slice);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/lastChance")
-    public ResponseEntity<Slice<Auction>> getLastChanceAuctions(@RequestParam(defaultValue = MIN_PAGE) int page,
-                                                                @RequestParam(defaultValue = MIN_SIZE) int size,
-                                                                @RequestParam(defaultValue = DAY_IN_MIN,
-                                                                        name = "criteria"
-                                                                ) int durationInMins) {
-        Slice<Auction> lastChanceAuctions = auctionService.getLastChance(page, size, durationInMins);
-        return ResponseEntity.ok(lastChanceAuctions);
+    public ResponseEntity<PageableResponse> getLastChanceAuctions(@RequestParam(defaultValue = MIN_PAGE) int page,
+                                                                  @RequestParam(defaultValue = MIN_SIZE) int size,
+                                                                  @RequestParam(defaultValue = DAY_IN_MIN,
+                                                                          name = "criteria"
+                                                                  ) int durationInMins) {
+        Slice<Auction> slice = auctionService.getLastChance(page, size, durationInMins);
+        PageableResponse response = buildPageableResponse(slice);
+        return ResponseEntity.ok(response);
     }
 
     private User getUserFromPrincipal(final Principal principal) {
