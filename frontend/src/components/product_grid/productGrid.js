@@ -24,15 +24,19 @@ function ProductGrid(props) {
         for (let j = 0; j < ncols && index < nItems; j++) {
             cols.push(
                 <div key={j} className="product">
-                    <img className="product-image"
-                        src={process.env.PUBLIC_URL + '/images/shoes.jpg'}
-                        alt="Something"
-                    />
                     {props.categories ?
                         <>
+                            <img className="product-image"
+                                src={process.env.PUBLIC_URL + '/images/shoes.jpg'}
+                                alt={props.items[index].name}
+                            />
                             <p className="name">{props.items[index].name}</p>
                         </>
                         : <>
+                            <img className="product-image"
+                                src={props.items[index].product.images[0].imageUrl}
+                                alt={props.items[index].product.name}
+                            />
                             <p className="name">{props.items[index].product.name}</p>
                             <p className="price">{`Start from - $${props.items[index].startPrice.toFixed(2)}`}</p>
                         </>

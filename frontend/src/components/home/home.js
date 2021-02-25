@@ -78,7 +78,7 @@ function Home() {
                     </div>
                     <div className="featured-product-image">
                         <img
-                            src={process.env.PUBLIC_URL + '/images/shoes.jpg'}
+                            src={featuredProduct.product.images[0].imageUrl}
                             alt={featuredProduct.name}
                         />
                     </div>
