@@ -70,36 +70,36 @@ public class AuctionService {
         );
     }
 
-    private void saveImagesForProduct(List<String> imageUrls, Long productId) {
-        if (imageUrls != null){
+    private void saveImagesForProduct(final List<String> imageUrls, Long productId) {
+        if (imageUrls != null) {
             imageUrls.forEach(imageUrl -> productService.saveImageForProduct(productId, imageUrl));
         }
     }
 
-    private Slice<Auction> getActiveAuctions(int page, int size, Sort sort) {
+    private Slice<Auction> getActiveAuctions(final int page, final int size, final Sort sort) {
         Pageable pageable = PageRequest.of(page, size, sort);
         return auctionRepository.findByStartDateTimeBeforeAndEndDateTimeAfter(ZonedDateTime.now(), pageable);
     }
 
-    private Slice<Auction> getActiveAuctions(int page, int size) {
+    private Slice<Auction> getActiveAuctions(final int page, final int size) {
         Pageable pageable = PageRequest.of(page, size);
         return auctionRepository.findByStartDateTimeBeforeAndEndDateTimeAfter(ZonedDateTime.now(), pageable);
     }
 
-    public Slice<Auction> getAuctions(int page, int size) {
+    public Slice<Auction> getAuctions(final int page, final int size) {
         return getActiveAuctions(page, size);
     }
 
-    public Slice<Auction> getNewestAuctions(int page, int size) {
+    public Slice<Auction> getNewestAuctions(final int page, final int size) {
         return getActiveAuctions(page, size, Sort.by("startDateTime").descending());
     }
 
-    public Slice<Auction> getFeaturedProducts(int page, int size) {
+    public Slice<Auction> getFeaturedProducts(final int page, final int size) {
         //implement different algorithm for featured
         return getActiveAuctions(page, size);
     }
 
-    public Slice<Auction> getLastChance(int page, int size, int durationInMins) {
+    public Slice<Auction> getLastChance(final int page, final int size, final int durationInMins) {
         Pageable pageable = PageRequest.of(page, size);
         ZonedDateTime now = ZonedDateTime.now();
         return auctionRepository.findByStartDateTimeBeforeAndEndDateTimeBetween(now,

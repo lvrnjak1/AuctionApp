@@ -22,13 +22,13 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product findProductById(Long productId) {
+    public Product findProductById(final Long productId) {
         return productRepository
                 .findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product with id " + productId + " doesn't exist"));
     }
 
-    public void saveImageForProduct(Long productId, String imageUrl) {
+    public void saveImageForProduct(final Long productId, final String imageUrl) {
         Product product = findProductById(productId);
         ProductImage productImage = new ProductImage(imageUrl, product);
         productImageRepository.save(productImage);

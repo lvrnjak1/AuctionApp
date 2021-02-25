@@ -77,7 +77,7 @@ public class Category extends BaseEntity {
         return imageUrl;
     }
 
-    public Category setImageUrl(String imageUrl) {
+    public Category setImageUrl(final String imageUrl) {
         this.imageUrl = imageUrl;
         return this;
     }

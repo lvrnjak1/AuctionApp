@@ -6,7 +6,7 @@ public class ProductImageRequest {
     public ProductImageRequest() {
     }
 
-    public ProductImageRequest(String imageUrl) {
+    public ProductImageRequest(final String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
@@ -14,7 +14,7 @@ public class ProductImageRequest {
         return imageUrl;
     }
 
-    public ProductImageRequest setImageUrl(String imageUrl) {
+    public ProductImageRequest setImageUrl(final String imageUrl) {
         this.imageUrl = imageUrl;
         return this;
     }
