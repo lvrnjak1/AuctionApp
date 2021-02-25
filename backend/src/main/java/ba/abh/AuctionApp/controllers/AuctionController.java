@@ -75,9 +75,7 @@ public class AuctionController {
     @GetMapping("/lastChance")
     public ResponseEntity<PageableResponse> getLastChanceAuctions(@RequestParam(defaultValue = MIN_PAGE) int page,
                                                                   @RequestParam(defaultValue = MIN_SIZE) int size,
-                                                                  @RequestParam(defaultValue = DAY_IN_MIN,
-                                                                          name = "criteria"
-                                                                  ) int durationInMins) {
+                                                                  @RequestParam(defaultValue = DAY_IN_MIN, name = "criteria") int durationInMins) {
         Slice<Auction> slice = auctionService.getLastChance(page, size, durationInMins);
         PageableResponse response = buildPageableResponse(slice);
         return ResponseEntity.ok(response);
