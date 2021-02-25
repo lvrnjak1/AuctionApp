@@ -25,23 +25,28 @@ public class Category extends BaseEntity {
     @OneToMany(mappedBy = "parentCategory")
     private List<Category> subCategories = new ArrayList<>();
 
+    private String imageUrl;
+
     public Category() {
     }
 
-    public Category(final Long id, final String name, final Category parentCategory) {
+    public Category(final Long id, final String name, final Category parentCategory, final String imageUrl) {
         super(id);
         this.name = name;
         this.parentCategory = parentCategory;
+        this.imageUrl = imageUrl;
     }
 
     public Category(final Long id,
                     final String name,
                     final Category parentCategory,
-                    final List<Category> subCategories) {
+                    final List<Category> subCategories,
+                    final String imageUrl) {
         super(id);
         this.name = name;
         this.parentCategory = parentCategory;
         this.subCategories = subCategories;
+        this.imageUrl = imageUrl;
     }
 
     public String getName() {
@@ -68,6 +73,15 @@ public class Category extends BaseEntity {
         this.subCategories = subCategories;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public Category setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -76,11 +90,12 @@ public class Category extends BaseEntity {
         Category category = (Category) o;
         return Objects.equals(name, category.name) &&
                 Objects.equals(parentCategory, category.parentCategory) &&
-                Objects.equals(subCategories, category.subCategories);
+                Objects.equals(subCategories, category.subCategories) &&
+                Objects.equals(imageUrl, category.imageUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, parentCategory, subCategories);
+        return Objects.hash(super.hashCode(), name, parentCategory, subCategories, imageUrl);
     }
 }
