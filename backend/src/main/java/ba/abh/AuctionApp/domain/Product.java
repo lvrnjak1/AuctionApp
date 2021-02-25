@@ -122,10 +122,7 @@ public class Product extends BaseEntity {
         return images;
     }
 
-    public Product setImages(final List<ProductImage> images) {
+    public void setImages(final List<ProductImage> images) {
         this.images = images;
-        return this;
     }
-
-
 }

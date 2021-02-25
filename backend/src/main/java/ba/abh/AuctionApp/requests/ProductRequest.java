@@ -82,8 +82,7 @@ public class ProductRequest {
         return images;
     }
 
-    public ProductRequest setImages(final List<String> images) {
+    public void setImages(final List<String> images) {
         this.images = images;
-        return this;
     }
 }

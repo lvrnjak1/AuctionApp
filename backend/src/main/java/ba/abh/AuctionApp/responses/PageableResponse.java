@@ -18,17 +18,15 @@ public class PageableResponse {
         return pagination;
     }
 
-    public PageableResponse setPagination(final PaginationDetails pagination) {
+    public void setPagination(final PaginationDetails pagination) {
         this.pagination = pagination;
-        return this;
     }
 
     public List<PageableEntity> getData() {
         return data;
     }
 
-    public PageableResponse setData(final List<PageableEntity> data) {
+    public void setData(final List<PageableEntity> data) {
         this.data = data;
-        return this;
     }
 }

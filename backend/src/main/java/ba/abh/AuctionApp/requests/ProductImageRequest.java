@@ -14,8 +14,7 @@ public class ProductImageRequest {
         return imageUrl;
     }
 
-    public ProductImageRequest setImageUrl(final String imageUrl) {
+    public void setImageUrl(final String imageUrl) {
         this.imageUrl = imageUrl;
-        return this;
     }
 }

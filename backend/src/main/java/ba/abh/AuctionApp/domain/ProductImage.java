@@ -42,18 +42,16 @@ public class ProductImage extends BaseEntity {
         return imageUrl;
     }
 
-    public ProductImage setImageUrl(final String imageUrl) {
+    public void setImageUrl(final String imageUrl) {
         this.imageUrl = imageUrl;
-        return this;
     }
 
     public Product getProduct() {
         return product;
     }
 
-    public ProductImage setProduct(final Product product) {
+    public void setProduct(final Product product) {
         this.product = product;
-        return this;
     }
 
     @Override
