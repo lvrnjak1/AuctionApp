@@ -11,6 +11,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -187,5 +188,19 @@ class AuctionControllerTest {
                         "}"))
                 .andExpect(status().isUnprocessableEntity())
                 .andExpect(jsonPath("message", containsString("Start price can't be lower than zero")));
+    }
+
+    @Test
+    public void testGetAuctions1() throws Exception {
+        mockMvc.perform(get("/auctions"))
+                .andExpect(jsonPath("$.pagination.nextPageAvailable", is(false)))
+                .andExpect(jsonPath("$.data", hasSize(8)));
+    }
+
+    @Test
+    public void testGetAuctions2() throws Exception {
+        mockMvc.perform(get("/auctions?size=3"))
+                .andExpect(jsonPath("$.pagination.nextPageAvailable", is(true)))
+                .andExpect(jsonPath("$.data", hasSize(3)));
     }
 }
