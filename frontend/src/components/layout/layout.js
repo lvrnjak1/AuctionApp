@@ -5,8 +5,9 @@ import { Grid, makeStyles } from '@material-ui/core';
 import SearchBar from 'components/header/search_bar/searchBar';
 import BreadcrumbBar from 'components/header/breadcrumb_bar/breadcrumbBar';
 import InfoDiv from 'components/header/info_div/infoDiv';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { resetInfoMessage } from 'state/actions/infoMessageActions';
+import Loader from 'react-loader-spinner';
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -17,20 +18,27 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.up('md')]: {
             height: 60,
         }
+    },
+    loader: {
+        width: "100%",
+        height: "100",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
     }
 }))
 
 function Layout(props) {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const asyncInProgress = useSelector(state => state.asyncInProgress);
 
     useEffect(() => {
         dispatch(resetInfoMessage());
     });
 
     return (
-        <Grid container
-            direction="column" className={classes.container}>
+        <Grid container direction="column" className={classes.container}>
             {!props.removeHeader ?
                 <>
                     <Grid item><Navbar /></Grid>
@@ -38,6 +46,7 @@ function Layout(props) {
                     <Grid item><BreadcrumbBar content={props.breadcrumbs} /></Grid>
                     <Grid item><InfoDiv /></Grid>
                 </> : ""}
+            {asyncInProgress ? <Loader className={classes.loader} type="ThreeDots" color="#8367d8" height="100" width="100" /> : ""}
             <Grid item>{props.children}</Grid>
             <Grid item><Footer /></Grid>
         </Grid>
