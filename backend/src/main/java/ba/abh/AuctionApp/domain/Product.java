@@ -11,9 +11,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Objects;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -37,6 +39,9 @@ public class Product extends BaseEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @OneToMany(mappedBy = "product")
+    private List<ProductImage> images = new ArrayList<>();
+
     public Product() {
     }
 
@@ -50,13 +55,15 @@ public class Product extends BaseEntity {
                    final String description,
                    final Size size,
                    final Set<Color> colors,
-                   final Category category) {
+                   final Category category,
+                   final List<ProductImage> images) {
         super(id);
         this.name = name;
         this.description = description;
         this.size = size;
         this.colors = colors;
         this.category = category;
+        this.images = images;
     }
 
     public Product(final String name,
@@ -111,18 +118,14 @@ public class Product extends BaseEntity {
         this.category = category;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Product product = (Product) o;
-        return Objects.equals(name, product.name) &&
-                Objects.equals(description, product.description);
+    public List<ProductImage> getImages() {
+        return images;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), name, description);
+    public Product setImages(final List<ProductImage> images) {
+        this.images = images;
+        return this;
     }
+
+
 }

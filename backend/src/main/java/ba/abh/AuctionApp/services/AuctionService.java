@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -43,8 +44,9 @@ public class AuctionService {
         }
 
         Auction auction = getAuctionFromAuctionRequest(auctionRequest, seller);
-        productService.save(auction.getProduct());
+        Product product = productService.save(auction.getProduct());
         auctionRepository.save(auction);
+        saveImagesForProduct(auctionRequest.getProduct().getImages(), product.getId());
         return auction;
     }
 
@@ -66,6 +68,12 @@ public class AuctionService {
                 auctionRequest.getEndDateTime(),
                 auctionRequest.getStartPrice()
         );
+    }
+
+    private void saveImagesForProduct(List<String> imageUrls, Long productId) {
+        if (imageUrls != null){
+            imageUrls.forEach(imageUrl -> productService.saveImageForProduct(productId, imageUrl));
+        }
     }
 
     private Slice<Auction> getActiveAuctions(int page, int size, Sort sort) {

@@ -22,16 +22,20 @@ public class ProductRequest {
     @NotEmpty(message = "Provide at least one color")
     private List<Long> colors;
 
+    private List<String> images;
+
     public ProductRequest(final String name,
                           final String description,
                           final Long categoryId,
                           final Size size,
-                          final List<Long> colors) {
+                          final List<Long> colors,
+                          final List<String> images) {
         this.name = name;
         this.description = description;
         this.categoryId = categoryId;
         this.size = size;
         this.colors = colors;
+        this.images = images;
     }
 
     public String getName() {
@@ -72,5 +76,14 @@ public class ProductRequest {
 
     public void setColors(final List<Long> colors) {
         this.colors = colors;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public ProductRequest setImages(final List<String> images) {
+        this.images = images;
+        return this;
     }
 }

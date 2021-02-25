@@ -1,45 +1,59 @@
 package ba.abh.AuctionApp.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.util.Arrays;
 import java.util.Objects;
 
 @Entity
 @Table(name = "images")
 public class ProductImage extends BaseEntity {
-    @Lob
     @Column(nullable = false)
-    private byte[] image;
+    private String imageUrl;
 
+    @JsonIgnore
     @ManyToOne
     private Product product;
 
     public ProductImage() {
     }
 
-    public ProductImage(final Long id, final byte[] image) {
+    public ProductImage(final Long id, final String imageUrl, final Product product) {
         super(id);
-        this.image = image;
+        this.imageUrl = imageUrl;
+        this.product = product;
     }
 
-    public byte[] getImage() {
-        return image;
+    public ProductImage(final String imageUrl, final Product product) {
+        super();
+        this.imageUrl = imageUrl;
+        this.product = product;
     }
 
-    public void setImage(final byte[] image) {
-        this.image = image;
+    public ProductImage(String imageUrl) {
+        super();
+        this.imageUrl = imageUrl;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public ProductImage setImageUrl(final String imageUrl) {
+        this.imageUrl = imageUrl;
+        return this;
     }
 
     public Product getProduct() {
         return product;
     }
 
-    public void setProduct(final Product product) {
+    public ProductImage setProduct(final Product product) {
         this.product = product;
+        return this;
     }
 
     @Override
@@ -48,13 +62,12 @@ public class ProductImage extends BaseEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         ProductImage that = (ProductImage) o;
-        return Arrays.equals(image, that.image);
+        return Objects.equals(imageUrl, that.imageUrl) &&
+                Objects.equals(product, that.product);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(super.hashCode());
-        result = 31 * result + Arrays.hashCode(image);
-        return result;
+        return Objects.hash(super.hashCode(), imageUrl, product);
     }
 }
