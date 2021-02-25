@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import "components/product_grid/productGrid.scss"
+import React from 'react';
+import "components/product_grid/productGrid.scss";
+import { Image, Transformation } from 'cloudinary-react';
 
 function ProductGrid(props) {
     const ncols = props.categories ? 3 : 4;
@@ -22,25 +23,24 @@ function ProductGrid(props) {
         let index = nrow * ncols;
         const cols = [];
         for (let j = 0; j < ncols && index < nItems; j++) {
+            const name = props.categories ?
+                props.items[index].name :
+                props.items[index].product.name;
+            const imageUrl = props.categories ?
+                props.items[index].imageUrl :
+                props.items[index].product.images[0].imageUrl;
+            const price = props.categories ?
+                null :
+                props.items[index].startPrice.toFixed(2);
+
             cols.push(
                 <div key={j} className="product">
-                    {props.categories ?
-                        <>
-                            <img className="product-image"
-                                src={process.env.PUBLIC_URL + '/images/shoes.jpg'}
-                                alt={props.items[index].name}
-                            />
-                            <p className="name">{props.items[index].name}</p>
-                        </>
-                        : <>
-                            <img className="product-image"
-                                src={props.items[index].product.images[0].imageUrl}
-                                alt={props.items[index].product.name}
-                            />
-                            <p className="name">{props.items[index].product.name}</p>
-                            <p className="price">{`Start from - $${props.items[index].startPrice.toFixed(2)}`}</p>
-                        </>
-                    }
+                    {/* <img className="product-image" src={imageUrl} alt={name} /> */}
+                    <Image className="product-image" cloudName="lvrnjak" publicId={imageUrl} >
+                        <Transformation height="400" crop="scale" />
+                    </Image>
+                    <p className="name">{name}</p>
+                    {price ? <p className="price">{`Start from - $${price}`}</p> : ""}
                 </div>
             );
             index++;

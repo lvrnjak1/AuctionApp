@@ -6,7 +6,8 @@ import {
     FEATURED_PRODUCTS_ENDPOINT,
     FEATURED_CATEGORIES_ENDPOINT,
     NEW_PRODUCTS_ENDPOINT,
-    LAST_CHANCE_PRODUCTS_ENDPOINT
+    LAST_CHANCE_PRODUCTS_ENDPOINT,
+    CATEGORIES_ENDPOINT
 } from 'http/endpoints';
 import { getRequest, sendMultipleGetRequests } from 'http/requests';
 
@@ -16,10 +17,17 @@ function Home() {
     const [featuredCategories, setFeaturedCategories] = useState();
     const [products, setProducts] = useState();
     const [newArrivalsActive, setNewArrivalsActive] = useState(true);
+    const [categories, setCategories] = useState();
 
     useEffect(() => {
         async function fetchData() {
             const requests = [];
+
+            requests.push({
+                endpoint: CATEGORIES_ENDPOINT,
+                successHandler: (response) => setCategories(response.data)
+            });
+
             requests.push({
                 endpoint: FEATURED_PRODUCTS_ENDPOINT,
                 params: { size: 1 },
@@ -69,7 +77,7 @@ function Home() {
         <div className="home">
             {featuredProduct ?
                 <div className="top">
-                    <div className="categories"><Categories /></div>
+                    <div className="categories"><Categories items={categories} /></div>
                     <div className="featured-product">
                         <p className="featured-product-name">{featuredProduct.product.name}</p>
                         <p className="featured-product-price">{`Start from - $${featuredProduct.startPrice.toFixed(2)}`}</p>
