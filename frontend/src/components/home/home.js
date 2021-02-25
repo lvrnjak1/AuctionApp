@@ -10,6 +10,8 @@ import {
     LAST_CHANCE_PRODUCTS_ENDPOINT,
     CATEGORIES_ENDPOINT
 } from 'http/endpoints';
+import { useDispatch } from 'react-redux';
+import { setInfoMessage } from 'state/actions/infoMessageActions';
 
 function Home() {
     const [featuredProduct, setFeaturedProduct] = useState();
@@ -18,6 +20,8 @@ function Home() {
     const [products, setProducts] = useState();
     const [newArrivalsActive, setNewArrivalsActive] = useState(true);
     const [categories, setCategories] = useState();
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         async function fetchData() {
@@ -58,24 +62,27 @@ function Home() {
     }, [])
 
     const toggleBottomGrid = async (e) => {
+        let endpoint;
         if (e.target.id === "new" && !newArrivalsActive) {
             setNewArrivalsActive(true);
-            await getRequest(NEW_PRODUCTS_ENDPOINT,
-                { size: 8 },
-                (response) => setProducts(response.data.data)
-            );
+            endpoint = NEW_PRODUCTS_ENDPOINT;
         } else if (e.target.id === "lastChance" && newArrivalsActive) {
             setNewArrivalsActive(false);
-            await getRequest(LAST_CHANCE_PRODUCTS_ENDPOINT,
+            endpoint = LAST_CHANCE_PRODUCTS_ENDPOINT;
+        }
+
+        if (endpoint) {
+            await getRequest(endpoint,
                 { size: 8 },
-                (response) => setProducts(response.data.data)
+                (response) => setProducts(response.data.data),
+                () => dispatch(setInfoMessage("Something went wrong, come back soon", "error"))
             );
         }
     }
 
     return (
         <div className="home">
-            {featuredProduct ?
+            {featuredProduct &&
                 <div className="top">
                     <div className="categories"><Categories items={categories} /></div>
                     <div className="featured-product">
@@ -91,23 +98,21 @@ function Home() {
                         />
                     </div>
                 </div>
-                : ""}
+            }
 
             <div className="featured-collections">
                 <p className="title">Featured Categories</p>
                 <div className="title-line"></div>
-                {featuredCategories ?
+                {featuredCategories &&
                     <ProductGrid nrows={1} items={featuredCategories} categories />
-                    : ""
                 }
             </div>
 
             <div className="featured-products">
                 <p className="title">Featured Products</p>
                 <div className="title-line"></div>
-                {featuredProducts ?
+                {featuredProducts &&
                     <ProductGrid nrows={1} items={featuredProducts} />
-                    : ""
                 }
             </div>
 
@@ -116,9 +121,8 @@ function Home() {
                     <button id="new" onClick={toggleBottomGrid} autoFocus>New Arrivals</button>
                     <button id="lastChance" onClick={toggleBottomGrid}>Last Chance</button>
                 </div>
-                {products ?
+                {products &&
                     <ProductGrid nrows={2} small items={products} />
-                    : ""
                 }
             </div>
         </div>

@@ -7,24 +7,22 @@ const postRequest = async (endpoint, body, successHandler, errorHandler, request
     try {
         store.dispatch(setAsyncTaskInProgress(true));
         const response = await axios.post(endpoint, body, requestConfig);
+        store.dispatch(setAsyncTaskInProgress(false));
         successHandler(response);
     } catch (error) {
         errorHandler(error);
     }
-
-    store.dispatch(setAsyncTaskInProgress(false));
 }
 
 const getRequest = async (endpoint, queryParams, successHandler, errorHandler) => {
     try {
         store.dispatch(setAsyncTaskInProgress(true));
         const response = await axios.get(endpoint, { params: queryParams });
+        store.dispatch(setAsyncTaskInProgress(false));
         successHandler(response);
     } catch (error) {
         errorHandler(error);
     }
-
-    store.dispatch(setAsyncTaskInProgress(false));
 }
 
 const sendMultipleGetRequests = async (requests) => {
@@ -38,17 +36,15 @@ const sendMultipleGetRequests = async (requests) => {
 
     try {
         const responses = await axios.all(reqs);
+        store.dispatch(setAsyncTaskInProgress(false));
         let i = 0;
         requests.forEach(request => {
             request.successHandler(responses[i]);
             i++;
         });
     } catch (error) {
-        console.log(error);
-        setTimeout(() => store.dispatch(setInfoMessage("Failed to connect to server, reload in a couple of minutes")), 5000);
+        store.dispatch(setInfoMessage("Something went wrong, come back soon", "error"));
     }
-
-    store.dispatch(setAsyncTaskInProgress(false));
 }
 
 export {
