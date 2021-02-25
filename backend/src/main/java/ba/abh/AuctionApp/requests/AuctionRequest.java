@@ -4,14 +4,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 
 public class AuctionRequest {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private ZonedDateTime startDateTime;
+    private Instant startDateTime;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private ZonedDateTime endDateTime;
+    private Instant endDateTime;
 
     @NotNull(message = "Start price must be present")
     private BigDecimal startPrice;
@@ -19,8 +19,8 @@ public class AuctionRequest {
     @NotNull(message = "Product details must be present")
     private ProductRequest product;
 
-    public AuctionRequest(final ZonedDateTime startDateTime,
-                          final ZonedDateTime endDateTime,
+    public AuctionRequest(final Instant startDateTime,
+                          final Instant endDateTime,
                           final BigDecimal startPrice,
                           final ProductRequest product) {
         this.startDateTime = startDateTime;
@@ -29,19 +29,19 @@ public class AuctionRequest {
         this.product = product;
     }
 
-    public ZonedDateTime getStartDateTime() {
+    public Instant getStartDateTime() {
         return startDateTime;
     }
 
-    public void setStartDateTime(final ZonedDateTime startDateTime) {
+    public void setStartDateTime(final Instant startDateTime) {
         this.startDateTime = startDateTime;
     }
 
-    public ZonedDateTime getEndDateTime() {
+    public Instant getEndDateTime() {
         return endDateTime;
     }
 
-    public void setEndDateTime(final ZonedDateTime endDateTime) {
+    public void setEndDateTime(final Instant endDateTime) {
         this.endDateTime = endDateTime;
     }
 

@@ -16,6 +16,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
@@ -39,7 +40,7 @@ public class AuctionService {
 
     public Auction createAuction(AuctionRequest auctionRequest, User seller) {
         if (auctionRequest.getStartDateTime().isAfter(auctionRequest.getEndDateTime()) ||
-                auctionRequest.getStartDateTime().isBefore(ZonedDateTime.now())) {
+                auctionRequest.getStartDateTime().isBefore(ZonedDateTime.now().toInstant())) {
             throw new InvalidDateException("Invalid start or end date");
         }
 
@@ -78,12 +79,12 @@ public class AuctionService {
 
     private Slice<Auction> getActiveAuctions(final int page, final int size, final Sort sort) {
         Pageable pageable = PageRequest.of(page, size, sort);
-        return auctionRepository.findByStartDateTimeBeforeAndEndDateTimeAfter(ZonedDateTime.now(), pageable);
+        return auctionRepository.findByStartDateTimeBeforeAndEndDateTimeAfter(ZonedDateTime.now().toInstant(), pageable);
     }
 
     private Slice<Auction> getActiveAuctions(final int page, final int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return auctionRepository.findByStartDateTimeBeforeAndEndDateTimeAfter(ZonedDateTime.now(), pageable);
+        return auctionRepository.findByStartDateTimeBeforeAndEndDateTimeAfter(ZonedDateTime.now().toInstant(), pageable);
     }
 
     public Slice<Auction> getAuctions(final int page, final int size) {
@@ -101,11 +102,8 @@ public class AuctionService {
 
     public Slice<Auction> getLastChance(final int page, final int size, final int durationInMins) {
         Pageable pageable = PageRequest.of(page, size);
-        ZonedDateTime now = ZonedDateTime.now();
-        return auctionRepository.findByStartDateTimeBeforeAndEndDateTimeBetween(now,
-                now,
-                now.plusMinutes(durationInMins),
-                pageable
-        );
+        Instant now = ZonedDateTime.now().toInstant();
+        Instant end = ZonedDateTime.now().plusMinutes(durationInMins).toInstant();
+        return auctionRepository.findByStartDateTimeBeforeAndEndDateTimeBetween(now, now, end, pageable);
     }
 }

@@ -56,8 +56,8 @@ create table products
 create table auctions
 (
     id bigint not null constraint auctions_pkey primary key,
-    end_date_time timestamp,
-    start_date_time timestamp,
+    end_date_time timestamp with time zone,
+    start_date_time timestamp with time zone,
     start_price numeric(19, 2),
     product_id bigint constraint fk_product references products,
     seller_id bigint constraint fk_user references users

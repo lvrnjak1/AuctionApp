@@ -6,16 +6,16 @@ import ba.abh.AuctionApp.pagination.PageableEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 
 public class AuctionResponse implements PageableEntity {
     private Long id;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private ZonedDateTime startDateTime;
+    private Instant startDateTime;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private ZonedDateTime endDateTime;
+    private Instant endDateTime;
 
     private BigDecimal startPrice;
     private Product product;
@@ -38,19 +38,19 @@ public class AuctionResponse implements PageableEntity {
         this.id = id;
     }
 
-    public ZonedDateTime getStartDateTime() {
+    public Instant getStartDateTime() {
         return startDateTime;
     }
 
-    public void setStartDateTime(final ZonedDateTime startDateTime) {
+    public void setStartDateTime(final Instant startDateTime) {
         this.startDateTime = startDateTime;
     }
 
-    public ZonedDateTime getEndDateTime() {
+    public Instant getEndDateTime() {
         return endDateTime;
     }
 
-    public void setEndDateTime(final ZonedDateTime endDateTime) {
+    public void setEndDateTime(final Instant endDateTime) {
         this.endDateTime = endDateTime;
     }
 
