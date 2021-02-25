@@ -35,7 +35,6 @@ function ProductGrid(props) {
 
             cols.push(
                 <div key={j} className="product">
-                    {/* <img className="product-image" src={imageUrl} alt={name} /> */}
                     <Image className="product-image" cloudName="lvrnjak" publicId={imageUrl} >
                         <Transformation height="400" crop="scale" />
                     </Image>

@@ -28,7 +28,6 @@ const sendMultipleGetRequests = async (requests) => {
 
     try {
         const responses = await axios.all(reqs);
-        console.log(responses);
         let i = 0;
         requests.forEach(request => {
             request.successHandler(responses[i]);

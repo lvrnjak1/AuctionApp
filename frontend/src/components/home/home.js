@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Categories from 'components/categories/categories';
 import "components/home/home.scss"
 import ProductGrid from 'components/product_grid/productGrid';
+import { getRequest, sendMultipleGetRequests } from 'http/requests';
 import {
     FEATURED_PRODUCTS_ENDPOINT,
     FEATURED_CATEGORIES_ENDPOINT,
@@ -9,7 +10,6 @@ import {
     LAST_CHANCE_PRODUCTS_ENDPOINT,
     CATEGORIES_ENDPOINT
 } from 'http/endpoints';
-import { getRequest, sendMultipleGetRequests } from 'http/requests';
 
 function Home() {
     const [featuredProduct, setFeaturedProduct] = useState();
@@ -98,18 +98,18 @@ function Home() {
                 <div className="title-line"></div>
                 {featuredCategories ?
                     <ProductGrid nrows={1} items={featuredCategories} categories />
-                    : ""}
+                    : ""
+                }
             </div>
-
 
             <div className="featured-products">
                 <p className="title">Featured Products</p>
                 <div className="title-line"></div>
                 {featuredProducts ?
                     <ProductGrid nrows={1} items={featuredProducts} />
-                    : ""}
+                    : ""
+                }
             </div>
-
 
             <div className="bottom">
                 <div className="button-bar">
@@ -118,7 +118,8 @@ function Home() {
                 </div>
                 {products ?
                     <ProductGrid nrows={2} small items={products} />
-                    : ""}
+                    : ""
+                }
             </div>
         </div>
     );
