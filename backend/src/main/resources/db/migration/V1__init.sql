@@ -59,20 +59,20 @@ create table auctions
     end_date_time timestamp with time zone,
     start_date_time timestamp with time zone,
     start_price numeric(19, 2),
-    product_id bigint constraint fk_product references products,
-    seller_id bigint constraint fk_user references users
+    product_id bigint constraint fk_product_1 references products,
+    seller_id bigint constraint fk_seller references users
 );
 
 create table images
 (
     id bigint not null constraint images_pkey primary key,
     image_url varchar(255) not null,
-    product_id bigint constraint fk_product references products
+    product_id bigint constraint fk_product_2 references products
 );
 
 create table product_colors
 (
-    product_id bigint not null constraint fk_product references products,
+    product_id bigint not null constraint fk_product_3 references products,
     color_id bigint not null constraint fk_color references colors,
     constraint product_colors_pkey primary key (product_id, color_id)
 );

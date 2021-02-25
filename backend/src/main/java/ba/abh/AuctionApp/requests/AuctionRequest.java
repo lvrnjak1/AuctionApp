@@ -2,21 +2,27 @@ package ba.abh.AuctionApp.requests;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.Instant;
 
 public class AuctionRequest {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @NotNull(message = "Start date and time must be present")
     private Instant startDateTime;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @NotNull(message = "End date and time must be present")
     private Instant endDateTime;
 
     @NotNull(message = "Start price must be present")
+    @DecimalMin(value = "0.00", message = "Start price can't be lower than zero")
     private BigDecimal startPrice;
 
     @NotNull(message = "Product details must be present")
+    @Valid
     private ProductRequest product;
 
     public AuctionRequest(final Instant startDateTime,
