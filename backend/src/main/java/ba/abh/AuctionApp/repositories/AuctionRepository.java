@@ -30,9 +30,7 @@ public interface AuctionRepository extends JpaRepository<Auction, Long> {
             Pageable pageable
     );
 
-    default Slice<Auction> findActiveAuctionsByCategoryId(Instant date,
-                                                          Long categoryId,
-                                                          Pageable pageable) {
+    default Slice<Auction> findActiveAuctionsByCategoryId(Instant date, Long categoryId, Pageable pageable) {
         return findByStartDateTimeBeforeAndEndDateTimeAfterAndProduct_Category_IdOrProduct_Category_ParentCategory_Id(
                 date,
                 date,
