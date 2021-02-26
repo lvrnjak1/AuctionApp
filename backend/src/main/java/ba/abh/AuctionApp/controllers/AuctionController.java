@@ -50,8 +50,9 @@ public class AuctionController {
 
     @GetMapping
     public ResponseEntity<PageableResponse> getAllAuctions(@RequestParam(defaultValue = MIN_PAGE) int page,
-                                                           @RequestParam(defaultValue = MIN_SIZE) int size) {
-        Slice<Auction> slice = auctionService.getAuctions(page, size);
+                                                           @RequestParam(defaultValue = MIN_SIZE) int size,
+                                                           @RequestParam(required = false) Long categoryId) {
+        Slice<Auction> slice = auctionService.getAuctions(page, size, categoryId);
         PageableResponse response = buildPageableResponse(slice);
         return ResponseEntity.ok(response);
     }
@@ -86,7 +87,7 @@ public class AuctionController {
     }
 
     private PageableResponse buildPageableResponse(Slice<Auction> slice) {
-        PaginationDetails details = new PaginationDetails(slice.getNumber(), slice.hasNext());
+        PaginationDetails details = new PaginationDetails(slice.getNumber(), slice.hasNext(), slice.getNumberOfElements());
         List<? extends PageableEntity> data = slice
                 .getContent()
                 .stream()

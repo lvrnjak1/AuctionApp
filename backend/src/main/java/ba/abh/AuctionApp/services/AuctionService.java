@@ -79,16 +79,25 @@ public class AuctionService {
 
     private Slice<Auction> getActiveAuctions(final int page, final int size, final Sort sort) {
         Pageable pageable = PageRequest.of(page, size, sort);
-        return auctionRepository.findByStartDateTimeBeforeAndEndDateTimeAfter(ZonedDateTime.now().toInstant(), pageable);
+        return auctionRepository.findActiveAuctions(ZonedDateTime.now().toInstant(), pageable);
     }
 
     private Slice<Auction> getActiveAuctions(final int page, final int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return auctionRepository.findByStartDateTimeBeforeAndEndDateTimeAfter(ZonedDateTime.now().toInstant(), pageable);
+        return auctionRepository.findActiveAuctions(ZonedDateTime.now().toInstant(), pageable);
     }
 
-    public Slice<Auction> getAuctions(final int page, final int size) {
-        return getActiveAuctions(page, size);
+    private Slice<Auction> getActiveAuctionsWithinCategory(final int page, final int size, Long categoryId) {
+        Pageable pageable = PageRequest.of(page, size);
+        return auctionRepository.findActiveAuctionsByCategoryId(ZonedDateTime.now().toInstant(), categoryId, pageable);
+    }
+
+    public Slice<Auction> getAuctions(final int page, final int size, final Long categoryId) {
+        if(categoryId != null){
+            return getActiveAuctionsWithinCategory(page, size, categoryId);
+        }else{
+            return getActiveAuctions(page, size);
+        }
     }
 
     public Slice<Auction> getNewestAuctions(final int page, final int size) {

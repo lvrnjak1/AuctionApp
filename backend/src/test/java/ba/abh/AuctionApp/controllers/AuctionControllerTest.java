@@ -203,4 +203,52 @@ class AuctionControllerTest {
                 .andExpect(jsonPath("$.pagination.nextPageAvailable", is(true)))
                 .andExpect(jsonPath("$.data", hasSize(3)));
     }
+
+    @Test
+    public void testFindByCategory1() throws Exception {
+        mockMvc.perform(get("/auctions?categoryId=1"))
+                .andExpect(jsonPath("$.pagination.numberOfItemsOnPage", is(7)));
+    }
+
+    @Test
+    public void testFindByCategory2() throws Exception {
+        mockMvc.perform(get("/auctions?categoryId=2"))
+                .andExpect(jsonPath("$.pagination.numberOfItemsOnPage", is(1)));
+    }
+
+    @Test
+    public void testFindByCategory3() throws Exception {
+        mockMvc.perform(get("/auctions?categoryId=3"))
+                .andExpect(jsonPath("$.pagination.numberOfItemsOnPage", is(0)));
+    }
+
+    @Test
+    public void testFindByCategory4() throws Exception {
+        mockMvc.perform(get("/auctions?categoryId=9"))
+                .andExpect(jsonPath("$.pagination.numberOfItemsOnPage", is(4)));
+    }
+
+    @Test
+    public void testFindByCategory5() throws Exception {
+        mockMvc.perform(get("/auctions?categoryId=12"))
+                .andExpect(jsonPath("$.pagination.numberOfItemsOnPage", is(2)));
+    }
+
+    @Test
+    public void testFindByCategory6() throws Exception {
+        mockMvc.perform(get("/auctions?categoryId=13"))
+                .andExpect(jsonPath("$.pagination.numberOfItemsOnPage", is(1)));
+    }
+
+    @Test
+    public void testFindByCategory8() throws Exception {
+        mockMvc.perform(get("/auctions?categoryId=8"))
+                .andExpect(jsonPath("$.pagination.numberOfItemsOnPage", is(1)));
+    }
+
+    @Test
+    public void testFindByCategory9() throws Exception {
+        mockMvc.perform(get("/auctions?categoryId=17"))
+                .andExpect(jsonPath("$.pagination.numberOfItemsOnPage", is(0)));
+    }
 }

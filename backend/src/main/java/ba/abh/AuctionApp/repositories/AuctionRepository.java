@@ -10,12 +10,9 @@ import java.time.Instant;
 
 @Repository
 public interface AuctionRepository extends JpaRepository<Auction, Long> {
-    Slice<Auction> findByStartDateTimeBeforeAndEndDateTimeAfter(Instant dateBefore,
-                                                                Instant dateAfter,
-                                                                Pageable pageable
-    );
+    Slice<Auction> findByStartDateTimeBeforeAndEndDateTimeAfter(Instant dateBefore, Instant dateAfter, Pageable pageable);
 
-    default Slice<Auction> findByStartDateTimeBeforeAndEndDateTimeAfter(Instant date, Pageable pageable) {
+    default Slice<Auction> findActiveAuctions(Instant date, Pageable pageable) {
         return findByStartDateTimeBeforeAndEndDateTimeAfter(date, date, pageable);
     }
 
@@ -24,4 +21,24 @@ public interface AuctionRepository extends JpaRepository<Auction, Long> {
                                                                   Instant dateAfterEnd,
                                                                   Pageable pageable
     );
+
+    Slice<Auction> findByStartDateTimeBeforeAndEndDateTimeAfterAndProduct_Category_IdOrProduct_Category_ParentCategory_Id(
+            Instant dateBefore,
+            Instant dateAfter,
+            Long categoryId,
+            Long parentCategoryId,
+            Pageable pageable
+    );
+
+    default Slice<Auction> findActiveAuctionsByCategoryId(Instant date,
+                                                          Long categoryId,
+                                                          Pageable pageable) {
+        return findByStartDateTimeBeforeAndEndDateTimeAfterAndProduct_Category_IdOrProduct_Category_ParentCategory_Id(
+                date,
+                date,
+                categoryId,
+                categoryId,
+                pageable
+        );
+    }
 }
