@@ -97,7 +97,7 @@ public class AuctionFilter {
         return startBefore;
     }
 
-    public void setStartBefore(Instant startBefore) {
+    public void setStartBefore(final Instant startBefore) {
         this.startBefore = startBefore;
     }
 
@@ -105,7 +105,7 @@ public class AuctionFilter {
         return startAfter;
     }
 
-    public void setStartAfter(Instant startAfter) {
+    public void setStartAfter(final Instant startAfter) {
         this.startAfter = startAfter;
     }
 
@@ -113,7 +113,7 @@ public class AuctionFilter {
         return endBefore;
     }
 
-    public void setEndBefore(Instant endBefore) {
+    public void setEndBefore(final Instant endBefore) {
         this.endBefore = endBefore;
     }
 
@@ -121,7 +121,7 @@ public class AuctionFilter {
         return endAfter;
     }
 
-    public void setEndAfter(Instant endAfter) {
+    public void setEndAfter(final Instant endAfter) {
         this.endAfter = endAfter;
     }
 
@@ -129,7 +129,7 @@ public class AuctionFilter {
         return sortSpecification;
     }
 
-    public void setSortSpecification(SortSpecification sortSpecification) {
+    public void setSortSpecification(final SortSpecification sortSpecification) {
         this.sortSpecification = sortSpecification;
     }
 }

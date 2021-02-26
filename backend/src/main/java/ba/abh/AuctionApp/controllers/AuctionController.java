@@ -56,16 +56,7 @@ public class AuctionController {
     }
 
     @GetMapping
-    public ResponseEntity<PageableResponse> getAllAuctions(@RequestParam(defaultValue = MIN_PAGE) int page,
-                                                           @RequestParam(defaultValue = MIN_SIZE) int size,
-                                                           @RequestParam(required = false) Long categoryId) {
-        Slice<Auction> slice = auctionService.getAuctions(page, size, categoryId);
-        PageableResponse response = buildPageableResponse(slice);
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/filter")
-    public ResponseEntity<PageableResponse> getFiltered(@RequestParam(defaultValue = MIN_PAGE) int page,
+    public ResponseEntity<PageableResponse> getAuctions(@RequestParam(defaultValue = MIN_PAGE) int page,
                                                         @RequestParam(defaultValue = MIN_SIZE) int limit,
                                                         @RequestParam(required = false) Long sellerId,
                                                         @RequestParam(required = false) BigDecimal priceMin,
@@ -90,27 +81,10 @@ public class AuctionController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/new")
-    public ResponseEntity<PageableResponse> getNewestAuctions(@RequestParam(defaultValue = MIN_PAGE) int page,
-                                                              @RequestParam(defaultValue = MIN_SIZE) int size) {
-        Slice<Auction> slice = auctionService.getNewestAuctions(page, size);
-        PageableResponse response = buildPageableResponse(slice);
-        return ResponseEntity.ok(response);
-    }
-
     @GetMapping("/featured")
     public ResponseEntity<PageableResponse> getFeaturedCategories(@RequestParam(defaultValue = MIN_PAGE) int page,
-                                                                  @RequestParam(defaultValue = MIN_SIZE) int size) {
-        Slice<Auction> slice = auctionService.getFeaturedProducts(page, size);
-        PageableResponse response = buildPageableResponse(slice);
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/lastChance")
-    public ResponseEntity<PageableResponse> getLastChanceAuctions(@RequestParam(defaultValue = MIN_PAGE) int page,
-                                                                  @RequestParam(defaultValue = MIN_SIZE) int size,
-                                                                  @RequestParam(defaultValue = DAY_IN_MIN, name = "criteria") int durationInMins) {
-        Slice<Auction> slice = auctionService.getLastChance(page, size, durationInMins);
+                                                                  @RequestParam(defaultValue = MIN_SIZE) int limit) {
+        Slice<Auction> slice = auctionService.getFeaturedProducts(page, limit);
         PageableResponse response = buildPageableResponse(slice);
         return ResponseEntity.ok(response);
     }

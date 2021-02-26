@@ -9,7 +9,7 @@ public class SortSpecification {
 
     public SortSpecification(final SortCriteria sortCriteria, final SortOrder sortOrder) {
         this.sortCriteria = sortCriteria;
-        if(sortOrder != null) {
+        if (sortOrder != null) {
             this.sortOrder = sortOrder;
         }
     }
@@ -27,7 +27,7 @@ public class SortSpecification {
     }
 
     public void setSortOrder(final SortOrder sortOrder) {
-        if(sortOrder != null) {
+        if (sortOrder != null) {
             this.sortOrder = sortOrder;
         }
     }

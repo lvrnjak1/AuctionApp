@@ -193,14 +193,24 @@ class AuctionControllerTest {
     @Test
     public void testGetAuctions1() throws Exception {
         mockMvc.perform(get("/auctions"))
-                .andExpect(jsonPath("$.pagination.nextPageAvailable", is(false)))
+                .andExpect(jsonPath("$.pagination.hasNext", is(false)))
+                .andExpect(jsonPath("$.pagination.hasPrevious", is(false)))
                 .andExpect(jsonPath("$.data", hasSize(8)));
     }
 
     @Test
     public void testGetAuctions2() throws Exception {
-        mockMvc.perform(get("/auctions?size=3"))
-                .andExpect(jsonPath("$.pagination.nextPageAvailable", is(true)))
+        mockMvc.perform(get("/auctions?limit=3"))
+                .andExpect(jsonPath("$.pagination.hasNext", is(true)))
+                .andExpect(jsonPath("$.pagination.hasPrevious", is(false)))
+                .andExpect(jsonPath("$.data", hasSize(3)));
+    }
+
+    @Test
+    public void testGetAuctions3() throws Exception {
+        mockMvc.perform(get("/auctions?page=1&limit=3"))
+                .andExpect(jsonPath("$.pagination.hasNext", is(true)))
+                .andExpect(jsonPath("$.pagination.hasPrevious", is(true)))
                 .andExpect(jsonPath("$.data", hasSize(3)));
     }
 
