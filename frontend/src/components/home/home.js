@@ -6,9 +6,8 @@ import { getRequest, sendMultipleGetRequests } from 'http/requests';
 import {
     FEATURED_PRODUCTS_ENDPOINT,
     FEATURED_CATEGORIES_ENDPOINT,
-    NEW_PRODUCTS_ENDPOINT,
-    LAST_CHANCE_PRODUCTS_ENDPOINT,
-    CATEGORIES_ENDPOINT
+    CATEGORIES_ENDPOINT,
+    AUCTIONS_ENDPOINT
 } from 'http/endpoints';
 import { useDispatch } from 'react-redux';
 import { setInfoMessage } from 'state/actions/infoMessageActions';
@@ -50,8 +49,8 @@ function Home() {
             });
 
             requests.push({
-                endpoint: NEW_PRODUCTS_ENDPOINT,
-                params: { size: 8 },
+                endpoint: AUCTIONS_ENDPOINT,
+                params: { limit: 8, sort: "DATE", order: "DESC" },
                 successHandler: (response) => setProducts(response.data.data)
             });
 
@@ -62,18 +61,19 @@ function Home() {
     }, [])
 
     const toggleBottomGrid = async (e) => {
-        let endpoint;
+        let endpoint = AUCTIONS_ENDPOINT;
+        let params;
         if (e.target.id === "new" && !newArrivalsActive) {
             setNewArrivalsActive(true);
-            endpoint = NEW_PRODUCTS_ENDPOINT;
+            params = { limit: 8, sort: "DATE", order: "DESC" }
         } else if (e.target.id === "lastChance" && newArrivalsActive) {
             setNewArrivalsActive(false);
-            endpoint = LAST_CHANCE_PRODUCTS_ENDPOINT;
+            params = { limit: 8, minutesLeft: 1440 }
         }
 
         if (endpoint) {
             await getRequest(endpoint,
-                { size: 8 },
+                params,
                 (response) => setProducts(response.data.data),
                 () => dispatch(setInfoMessage("Something went wrong, come back soon", "error"))
             );
