@@ -35,7 +35,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/auctions")
 public class AuctionController {
-    private static final String DAY_IN_MIN = "1440";
     private static final String MIN_PAGE = "0";
     private static final String MIN_SIZE = "10";
 
