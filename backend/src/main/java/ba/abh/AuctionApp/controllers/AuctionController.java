@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,8 +52,9 @@ public class AuctionController {
     @GetMapping
     public ResponseEntity<PageableResponse> getAllAuctions(@RequestParam(defaultValue = MIN_PAGE) int page,
                                                            @RequestParam(defaultValue = MIN_SIZE) int size,
-                                                           @RequestParam(required = false) Long categoryId) {
-        Slice<Auction> slice = auctionService.getAuctions(page, size, categoryId);
+                                                           @RequestParam(required = false) Long categoryId,
+                                                           @RequestParam(required = false)BigDecimal minPrice) {
+        Slice<Auction> slice = auctionService.getAuctions(page, size, categoryId, minPrice);
         PageableResponse response = buildPageableResponse(slice);
         return ResponseEntity.ok(response);
     }

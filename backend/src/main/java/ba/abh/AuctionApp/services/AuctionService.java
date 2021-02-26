@@ -7,7 +7,7 @@ import ba.abh.AuctionApp.domain.Product;
 import ba.abh.AuctionApp.domain.User;
 import ba.abh.AuctionApp.domain.enums.Size;
 import ba.abh.AuctionApp.exceptions.custom.InvalidDateException;
-import ba.abh.AuctionApp.repositories.AuctionRepository;
+import ba.abh.AuctionApp.repositories.auction.AuctionRepository;
 import ba.abh.AuctionApp.repositories.ColorRepository;
 import ba.abh.AuctionApp.requests.AuctionRequest;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +16,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -92,11 +93,15 @@ public class AuctionService {
         return auctionRepository.findActiveAuctionsByCategoryId(ZonedDateTime.now().toInstant(), categoryId, pageable);
     }
 
-    public Slice<Auction> getAuctions(final int page, final int size, final Long categoryId) {
+    public Slice<Auction> getAuctions(final int page, final int size, final Long categoryId, BigDecimal minPrice) {
         if(categoryId != null){
             return getActiveAuctionsWithinCategory(page, size, categoryId);
         }else{
             return getActiveAuctions(page, size);
+        }
+
+        if(minPrice){
+
         }
     }
 
