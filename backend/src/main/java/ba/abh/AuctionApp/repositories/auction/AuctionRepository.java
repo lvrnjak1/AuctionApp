@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.time.Instant;
 
 @Repository
-public interface AuctionRepository extends JpaRepository<Auction, Long> {
+public interface AuctionRepository extends JpaRepository<Auction, Long>, FilteredAuctionRepository {
     Slice<Auction> findByStartDateTimeBeforeAndEndDateTimeAfter(Instant dateBefore, Instant dateAfter, Pageable pageable);
 
     default Slice<Auction> findActiveAuctions(Instant date, Pageable pageable) {

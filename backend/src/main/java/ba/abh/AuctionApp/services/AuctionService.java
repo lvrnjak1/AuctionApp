@@ -7,8 +7,9 @@ import ba.abh.AuctionApp.domain.Product;
 import ba.abh.AuctionApp.domain.User;
 import ba.abh.AuctionApp.domain.enums.Size;
 import ba.abh.AuctionApp.exceptions.custom.InvalidDateException;
-import ba.abh.AuctionApp.repositories.auction.AuctionRepository;
+import ba.abh.AuctionApp.filters.AuctionFilter;
 import ba.abh.AuctionApp.repositories.ColorRepository;
+import ba.abh.AuctionApp.repositories.auction.AuctionRepository;
 import ba.abh.AuctionApp.requests.AuctionRequest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +17,6 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -93,15 +93,11 @@ public class AuctionService {
         return auctionRepository.findActiveAuctionsByCategoryId(ZonedDateTime.now().toInstant(), categoryId, pageable);
     }
 
-    public Slice<Auction> getAuctions(final int page, final int size, final Long categoryId, BigDecimal minPrice) {
+    public Slice<Auction> getAuctions(final int page, final int size, final Long categoryId) {
         if(categoryId != null){
             return getActiveAuctionsWithinCategory(page, size, categoryId);
         }else{
             return getActiveAuctions(page, size);
-        }
-
-        if(minPrice){
-
         }
     }
 
@@ -119,5 +115,13 @@ public class AuctionService {
         Instant now = ZonedDateTime.now().toInstant();
         Instant end = ZonedDateTime.now().plusMinutes(durationInMins).toInstant();
         return auctionRepository.findByStartDateTimeBeforeAndEndDateTimeBetween(now, now, end, pageable);
+    }
+
+    public Slice<Auction> getFilteredAuctions(int page, int size, AuctionFilter auctionFilter) {
+        Instant now = ZonedDateTime.now().toInstant();
+        auctionFilter.setStartBefore(now);
+        auctionFilter.setEndAfter(now);
+        Pageable pageable = PageRequest.of(page, size);
+        return auctionRepository.findAllByFilter(auctionFilter, pageable);
     }
 }
