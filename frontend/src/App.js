@@ -13,6 +13,7 @@ import About from 'static_pages/about/about';
 import Register from 'components/forms/register/register';
 import Login from 'components/forms/login/login';
 import Home from 'components/home/home';
+import Shop from 'components/shop/shop';
 
 
 function App() {
@@ -48,6 +49,11 @@ function App() {
           <Route exact path={["/home", "/"]}>
             <Layout>
               <Home />
+            </Layout>
+          </Route>
+          <Route exact path="/shop">
+            <Layout breadcrumbs={{ current: "shop" }}>
+              <Shop />
             </Layout>
           </Route>
           <Route path="/**">

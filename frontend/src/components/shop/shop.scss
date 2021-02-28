@@ -1,0 +1,46 @@
+@import "util/style/constants.scss";
+
+.shop-page {
+  margin-top: 20px;
+  .side-bar {
+  }
+
+  .content {
+    text-align: center;
+    button {
+      background: #8367d8;
+      font-weight: bold;
+      font-family: "Lato";
+      font-size: 18px;
+      color: $white;
+      letter-spacing: 0.63px;
+      border: none;
+      padding: 10px 30px 10px 30px;
+      margin-top: 20px;
+    }
+
+    button:focus {
+      outline: transparent;
+    }
+  }
+}
+
+@media screen and (min-width: $large) {
+  .shop-page {
+    display: grid;
+    grid-template-columns: 25% 75%;
+    padding: 0 190px 0 175px;
+
+    .side-bar {
+      margin-right: 10px;
+    }
+
+    .content {
+      margin-left: 10px;
+
+      button {
+        font-size: 18px;
+      }
+    }
+  }
+}
