@@ -77,44 +77,15 @@ public class AuctionService {
         }
     }
 
-//    private Slice<Auction> getActiveAuctions(final int page, final int size, final Sort sort) {
-//        Pageable pageable = PageRequest.of(page, size, sort);
-//        return auctionRepository.findActiveAuctions(ZonedDateTime.now().toInstant(), pageable);
-//    }
-
     private Slice<Auction> getActiveAuctions(final int page, final int size) {
         Pageable pageable = PageRequest.of(page, size);
         return auctionRepository.findActiveAuctions(ZonedDateTime.now().toInstant(), pageable);
     }
 
-//    private Slice<Auction> getActiveAuctionsWithinCategory(final int page, final int size, Long categoryId) {
-//        Pageable pageable = PageRequest.of(page, size);
-//        return auctionRepository.findActiveAuctionsByCategoryId(ZonedDateTime.now().toInstant(), categoryId, pageable);
-//    }
-
-//    public Slice<Auction> getAuctions(final int page, final int size, final Long categoryId) {
-//        if(categoryId != null){
-//            return getActiveAuctionsWithinCategory(page, size, categoryId);
-//        }else{
-//            return getActiveAuctions(page, size);
-//        }
-//    }
-
-//    public Slice<Auction> getNewestAuctions(final int page, final int size) {
-//        return getActiveAuctions(page, size, Sort.by("startDateTime").descending());
-//    }
-
     public Slice<Auction> getFeaturedProducts(final int page, final int size) {
         //implement different algorithm for featured
         return getActiveAuctions(page, size);
     }
-
-//    public Slice<Auction> getLastChance(final int page, final int size, final int durationInMins) {
-//        Pageable pageable = PageRequest.of(page, size);
-//        Instant now = ZonedDateTime.now().toInstant();
-//        Instant end = ZonedDateTime.now().plusMinutes(durationInMins).toInstant();
-//        return auctionRepository.findByStartDateTimeBeforeAndEndDateTimeBetween(now, now, end, pageable);
-//    }
 
     public Slice<Auction> getFilteredAuctions(int page, int size, AuctionFilter auctionFilter) {
         Instant now = ZonedDateTime.now().toInstant();
