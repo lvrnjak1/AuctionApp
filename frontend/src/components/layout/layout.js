@@ -8,6 +8,7 @@ import InfoDiv from 'components/header/info_div/infoDiv';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetInfoMessage } from 'state/actions/infoMessageActions';
 import Loader from 'react-loader-spinner';
+import { useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -32,10 +33,15 @@ function Layout(props) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const asyncInProgress = useSelector(state => state.asyncInProgress);
+    const { pathname } = useLocation();
 
     useEffect(() => {
         dispatch(resetInfoMessage());
     });
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname])
 
     return (
         <Grid container direction="column" className={classes.container}>
