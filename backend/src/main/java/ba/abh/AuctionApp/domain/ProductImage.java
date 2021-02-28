@@ -33,11 +33,6 @@ public class ProductImage extends BaseEntity {
         this.product = product;
     }
 
-    public ProductImage(String imageUrl) {
-        super();
-        this.imageUrl = imageUrl;
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }

@@ -7,13 +7,13 @@ import ba.abh.AuctionApp.domain.Product;
 import ba.abh.AuctionApp.domain.User;
 import ba.abh.AuctionApp.domain.enums.Size;
 import ba.abh.AuctionApp.exceptions.custom.InvalidDateException;
-import ba.abh.AuctionApp.repositories.AuctionRepository;
+import ba.abh.AuctionApp.filters.AuctionFilter;
 import ba.abh.AuctionApp.repositories.ColorRepository;
+import ba.abh.AuctionApp.repositories.auction.AuctionRepository;
 import ba.abh.AuctionApp.requests.AuctionRequest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -77,31 +77,9 @@ public class AuctionService {
         }
     }
 
-    private Slice<Auction> getActiveAuctions(final int page, final int size, final Sort sort) {
-        Pageable pageable = PageRequest.of(page, size, sort);
-        return auctionRepository.findActiveAuctions(ZonedDateTime.now().toInstant(), pageable);
-    }
-
     private Slice<Auction> getActiveAuctions(final int page, final int size) {
         Pageable pageable = PageRequest.of(page, size);
         return auctionRepository.findActiveAuctions(ZonedDateTime.now().toInstant(), pageable);
-    }
-
-    private Slice<Auction> getActiveAuctionsWithinCategory(final int page, final int size, Long categoryId) {
-        Pageable pageable = PageRequest.of(page, size);
-        return auctionRepository.findActiveAuctionsByCategoryId(ZonedDateTime.now().toInstant(), categoryId, pageable);
-    }
-
-    public Slice<Auction> getAuctions(final int page, final int size, final Long categoryId) {
-        if(categoryId != null){
-            return getActiveAuctionsWithinCategory(page, size, categoryId);
-        }else{
-            return getActiveAuctions(page, size);
-        }
-    }
-
-    public Slice<Auction> getNewestAuctions(final int page, final int size) {
-        return getActiveAuctions(page, size, Sort.by("startDateTime").descending());
     }
 
     public Slice<Auction> getFeaturedProducts(final int page, final int size) {
@@ -109,10 +87,11 @@ public class AuctionService {
         return getActiveAuctions(page, size);
     }
 
-    public Slice<Auction> getLastChance(final int page, final int size, final int durationInMins) {
-        Pageable pageable = PageRequest.of(page, size);
+    public Slice<Auction> getFilteredAuctions(int page, int size, AuctionFilter auctionFilter) {
         Instant now = ZonedDateTime.now().toInstant();
-        Instant end = ZonedDateTime.now().plusMinutes(durationInMins).toInstant();
-        return auctionRepository.findByStartDateTimeBeforeAndEndDateTimeBetween(now, now, end, pageable);
+        auctionFilter.setStartBefore(now);
+        auctionFilter.setEndAfter(now);
+        Pageable pageable = PageRequest.of(page, size);
+        return auctionRepository.findAllByFilter(auctionFilter, pageable);
     }
 }

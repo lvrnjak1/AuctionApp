@@ -2,12 +2,17 @@ package ba.abh.AuctionApp.pagination;
 
 public class PaginationDetails {
     private int currentPage;
-    private boolean nextPageAvailable;
+    private boolean hasNext;
+    private boolean hasPrevious;
     private int numberOfItemsOnPage;
 
-    public PaginationDetails(final int currentPage, final boolean nextPageAvailable, final int numberOfItemsOnPage) {
+    public PaginationDetails(final int currentPage,
+                             final boolean hasNext,
+                             final boolean hasPrevious,
+                             final int numberOfItemsOnPage) {
         this.currentPage = currentPage;
-        this.nextPageAvailable = nextPageAvailable;
+        this.hasNext = hasNext;
+        this.hasPrevious = hasPrevious;
         this.numberOfItemsOnPage = numberOfItemsOnPage;
     }
 
@@ -19,12 +24,12 @@ public class PaginationDetails {
         this.currentPage = currentPage;
     }
 
-    public boolean isNextPageAvailable() {
-        return nextPageAvailable;
+    public boolean isHasNext() {
+        return hasNext;
     }
 
-    public void setNextPageAvailable(final boolean nextPageAvailable) {
-        this.nextPageAvailable = nextPageAvailable;
+    public void setHasNext(final boolean hasNext) {
+        this.hasNext = hasNext;
     }
 
     public int getNumberOfItemsOnPage() {
@@ -33,5 +38,13 @@ public class PaginationDetails {
 
     public void setNumberOfItemsOnPage(final int numberOfItemsOnPage) {
         this.numberOfItemsOnPage = numberOfItemsOnPage;
+    }
+
+    public boolean isHasPrevious() {
+        return hasPrevious;
+    }
+
+    public void setHasPrevious(final boolean hasPrevious) {
+        this.hasPrevious = hasPrevious;
     }
 }
