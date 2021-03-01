@@ -25,11 +25,13 @@ function Categories(props) {
                     const index = props.items.indexOf(c)
                     return <li key={c.id}>
                         <button onClick={e => toggleExpand(index)}>{c.name}</button>
-                        <div className={activeCategory !== index ? "inactive sub-categories" : "sub-categories"}>
+                        <div className={`sub-categories ${activeCategory !== index && "inactive"}`}>
                             <ul>
                                 {c.subCategories.map(sc => {
                                     return <li key={c.subCategories.indexOf(sc)}>
-                                        <p>{`${sc.name} (0)`}</p>
+                                        <button className="subcategory">
+                                            {`${sc.name} (0)`}
+                                        </button>
                                     </li>
                                 })}
                             </ul>

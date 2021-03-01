@@ -104,7 +104,7 @@ function Home() {
                 <p className="title">Featured Categories</p>
                 <div className="title-line"></div>
                 {featuredCategories &&
-                    <ProductGrid nrows={1} items={featuredCategories} categories />
+                    <ProductGrid nrows={1} items={featuredCategories} col3 categories />
                 }
             </div>
 

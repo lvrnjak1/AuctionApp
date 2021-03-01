@@ -3,14 +3,14 @@ import "components/product_grid/productGrid.scss";
 import { Image, Transformation } from 'cloudinary-react';
 
 function ProductGrid(props) {
-    const ncols = props.categories ? 3 : 4;
+    const ncols = props.col3 ? 3 : 4;
     const nItems = props.items.length;
 
     const getRows = () => {
         const rows = [];
         for (let i = 0; i < props.nrows; i++) {
             rows.push(
-                <div key={i} className={`row ${props.categories ? "row-3" : "row-4"} ${props.small ? "small" : ""}`}>
+                <div key={i} className={`row ${props.col3 ? "row-3" : "row-4"} ${props.small ? "small" : ""}`}>
                     {getCols(i)}
                 </div>
             );

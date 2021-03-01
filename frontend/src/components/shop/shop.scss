@@ -2,8 +2,6 @@
 
 .shop-page {
   margin-top: 20px;
-  .side-bar {
-  }
 
   .content {
     text-align: center;
@@ -17,10 +15,19 @@
       border: none;
       padding: 10px 30px 10px 30px;
       margin-top: 20px;
+      cursor: pointer;
     }
 
     button:focus {
       outline: transparent;
+    }
+
+    .visible-text {
+      visibility: initial;
+    }
+
+    .invisible-text {
+      visibility: hidden;
     }
   }
 }
