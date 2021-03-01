@@ -63,6 +63,7 @@ function Home() {
     const toggleBottomGrid = async (e) => {
         let endpoint = AUCTIONS_ENDPOINT;
         let params;
+
         if (e.target.id === "new" && !newArrivalsActive) {
             setNewArrivalsActive(true);
             params = { limit: 8, sort: "DATE", order: "DESC" }
@@ -82,38 +83,31 @@ function Home() {
 
     return (
         <div className="home">
-            {featuredProduct &&
-                <div className="top">
-                    <div className="categories"><Categories items={categories} /></div>
-                    <div className="featured-product">
-                        <p className="featured-product-name">{featuredProduct.product.name}</p>
-                        <p className="featured-product-price">{`Start from - $${featuredProduct.startPrice.toFixed(2)}`}</p>
-                        <p className="featured-product-desc">{featuredProduct.product.description}</p>
-                        <button className="bid-now-button">{`BID NOW >`}</button>
-                    </div>
-                    <div className="featured-product-image">
-                        <img
-                            src={featuredProduct.product.images[0].imageUrl}
-                            alt={featuredProduct.name}
-                        />
-                    </div>
+            {featuredProduct && <div className="top">
+                <div className="categories"><Categories items={categories} /></div>
+                <div className="featured-product">
+                    <p className="featured-product-name">{featuredProduct.product.name}</p>
+                    <p className="featured-product-price">{`Start from - $${featuredProduct.startPrice.toFixed(2)}`}</p>
+                    <p className="featured-product-desc">{featuredProduct.product.description}</p>
+                    <button className="bid-now-button">{`BID NOW >`}</button>
                 </div>
-            }
+                <div className="featured-product-image">
+                    <img
+                        src={featuredProduct.product.images[0].imageUrl}
+                        alt={featuredProduct.name} />
+                </div>
+            </div>}
 
             <div className="featured-collections">
                 <p className="title">Featured Categories</p>
                 <div className="title-line"></div>
-                {featuredCategories &&
-                    <ProductGrid nrows={1} items={featuredCategories} col3 categories />
-                }
+                {featuredCategories && <ProductGrid nrows={1} items={featuredCategories} col3 categories />}
             </div>
 
             <div className="featured-products">
                 <p className="title">Featured Products</p>
                 <div className="title-line"></div>
-                {featuredProducts &&
-                    <ProductGrid nrows={1} items={featuredProducts} />
-                }
+                {featuredProducts && <ProductGrid nrows={1} items={featuredProducts} />}
             </div>
 
             <div className="bottom">
@@ -121,9 +115,7 @@ function Home() {
                     <button id="new" onClick={toggleBottomGrid} autoFocus>New Arrivals</button>
                     <button id="lastChance" onClick={toggleBottomGrid}>Last Chance</button>
                 </div>
-                {products &&
-                    <ProductGrid nrows={2} small items={products} />
-                }
+                {products && <ProductGrid nrows={2} small items={products} />}
             </div>
         </div>
     );

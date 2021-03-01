@@ -15,11 +15,23 @@ function Shop() {
     const handleNewProducts = (responseData) => {
         let oldProducts = products;
         const newProducts = oldProducts.concat(responseData.data);
-        setProducts([...new Set(newProducts)]);
+        setProducts(newProducts);
         if (!responseData.pagination.hasNext) {
             setHasNext(false);
             setTimeout(() => setHasNext(true), 5000);
         }
+    }
+
+    const loadMore = async () => {
+        setPage(page + 1);
+        await fetchProducts();
+    };
+
+    const fetchProducts = async () => {
+        await getRequest(AUCTIONS_ENDPOINT,
+            { page, limit },
+            (response) => handleNewProducts(response.data)
+        );
     }
 
     useEffect(() => {
@@ -42,18 +54,6 @@ function Shop() {
 
         fetchData();
     }, [limit, page]);
-
-    const loadMore = async () => {
-        setPage(page + 1);
-        await fetchProducts();
-    };
-
-    const fetchProducts = async () => {
-        await getRequest(AUCTIONS_ENDPOINT,
-            { page, limit },
-            (response) => handleNewProducts(response.data)
-        );
-    }
 
     return (
         <div className="shop-page">
