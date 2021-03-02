@@ -9,4 +9,4 @@ spring:
     active: prod
 app:
   jwtSecret: ${JWT_SECRET}
-  jwtExpirationMs: 300000
+  jwtExpirationMs: 600000000

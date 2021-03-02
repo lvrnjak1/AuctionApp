@@ -1,0 +1,52 @@
+@import "util/style/constants.scss";
+
+.shop-page {
+  margin-top: 20px;
+
+  .content {
+    text-align: center;
+    button {
+      background: $purple;
+      font-weight: bold;
+      font-size: 18px;
+      color: $white;
+      letter-spacing: 0.63px;
+      border: none;
+      padding: 10px 30px 10px 30px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    button:focus {
+      outline: transparent;
+    }
+
+    .visible-text {
+      visibility: initial;
+    }
+
+    .invisible-text {
+      visibility: hidden;
+    }
+  }
+}
+
+@media screen and (min-width: $large) {
+  .shop-page {
+    display: grid;
+    grid-template-columns: 25% 75%;
+    padding: 0 190px 0 175px;
+
+    .side-bar {
+      margin-right: 10px;
+    }
+
+    .content {
+      margin-left: 10px;
+
+      button {
+        font-size: 18px;
+      }
+    }
+  }
+}

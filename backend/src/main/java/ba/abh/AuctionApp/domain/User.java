@@ -36,13 +36,18 @@ public class User extends BaseEntity implements UserDetails {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
 
-    public User(final String name, final String surname, final String email, final String password) {
+    public User(final String name,
+                final String surname,
+                final String email,
+                final String password) {
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -90,12 +95,12 @@ public class User extends BaseEntity implements UserDetails {
         this.roles = roles;
     }
 
-    public void addRole(Role role) {
+    public void addRole(final Role role) {
         roles.add(role);
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;

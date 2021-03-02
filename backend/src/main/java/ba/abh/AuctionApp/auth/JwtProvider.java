@@ -17,7 +17,7 @@ public class JwtProvider {
     @Value("${app.jwtExpirationMs}")
     private Long expiry;
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(final UserDetails userDetails) {
         Date issuedAt = new Date();
         Date expiration = new Date(issuedAt.getTime() + expiry);
         return Jwts.builder()
@@ -28,11 +28,11 @@ public class JwtProvider {
                 .compact();
     }
 
-    public String extractUsername(String token) {
+    public String extractUsername(final String token) {
         return getClaimsJws(token).getBody().getSubject();
     }
 
-    public boolean isValid(String token) {
+    public boolean isValid(final String token) {
         try {
             getClaimsJws(token);
             return true;
@@ -41,7 +41,7 @@ public class JwtProvider {
         return false;
     }
 
-    private Jws<Claims> getClaimsJws(String token) {
+    private Jws<Claims> getClaimsJws(final String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
     }
 }

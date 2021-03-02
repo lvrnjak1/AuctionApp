@@ -1,0 +1,210 @@
+@import "util/style/constants.scss";
+
+.home {
+  .title-line {
+    height: 1px;
+    background: $gray;
+    margin-bottom: 15px;
+  }
+  .top {
+    background: $lightGray;
+    .featured-product {
+      text-align: center;
+      .featured-product-name {
+        font-size: 46px;
+        color: $black;
+        letter-spacing: 1.61px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+      }
+
+      .featured-product-price {
+        font-size: 24px;
+        color: $purple;
+        letter-spacing: 0.84px;
+        margin: 0 0 0 0;
+      }
+
+      .featured-product-desc {
+        font-size: 16px;
+        color: $black;
+        letter-spacing: 0.56px;
+        line-height: 22px;
+        margin: 10px;
+      }
+
+      .bid-now-button {
+        background: $white;
+        border: 3px solid $purple;
+        box-shadow: 3px 3px 0 0 rgba(131, 103, 216, 0.31);
+        font-weight: bold;
+        // font-family: "Lato";
+        font-size: 18px;
+        color: $black;
+        letter-spacing: 0.63px;
+        padding: 10px 40px 10px 40px;
+        cursor: pointer;
+      }
+
+      .bid-now-button:focus {
+        outline: transparent;
+      }
+    }
+
+    .featured-product-image {
+      text-align: center;
+      img {
+        margin: 10px 0 0 0;
+        height: 300px;
+        min-width: 350px;
+      }
+    }
+  }
+
+  .featured-collections {
+    text-align: center;
+    margin: 20px;
+    .title {
+      font-size: 28px;
+      color: $black;
+      letter-spacing: 0.98px;
+      margin-bottom: 15px;
+    }
+  }
+
+  .featured-products {
+    text-align: center;
+    margin: 20px;
+    .title {
+      font-size: 28px;
+      color: $black;
+      letter-spacing: 0.98px;
+      margin-bottom: 15px;
+    }
+  }
+
+  .bottom {
+    text-align: center;
+    button {
+      font-family: "Lato";
+      margin-right: 15px;
+      font-size: 28px;
+      color: $black;
+      letter-spacing: 0.98px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0 0 15px 0;
+    }
+
+    button:focus {
+      outline: transparent;
+      border-bottom: 3px solid $purple;
+    }
+
+    .button-bar {
+      border-bottom: 2px solid $gray;
+      margin-bottom: 15px;
+    }
+  }
+
+  @media screen and (min-width: $medium) {
+    .top {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+
+      .categories {
+        margin-left: 50px;
+      }
+
+      .featured-product {
+        .featured-product-name {
+          font-size: 40px;
+        }
+
+        .featured-product-price {
+          font-size: 20px;
+        }
+
+        .featured-product-desc {
+          font-size: 15px;
+        }
+      }
+
+      .featured-product-image {
+        text-align: left;
+        img {
+          margin: 0 0 0 20px;
+          height: 200px;
+          min-width: 200px;
+        }
+      }
+    }
+
+    .featured-collections {
+      text-align: left;
+      margin: 0 9% 20px 9%;
+    }
+
+    .featured-products {
+      text-align: left;
+      margin: 0 9% 20px 9%;
+    }
+
+    .bottom {
+      text-align: left;
+      margin: 0 9% 0 9%;
+    }
+  }
+
+  @media screen and (min-width: 1320px) {
+    .top {
+      height: 400px;
+      display: grid;
+      grid-template-columns: 30% 30% 40%;
+
+      .categories {
+        margin-left: 35%;
+        margin-right: 50px;
+      }
+
+      .featured-product {
+        text-align: left;
+        padding-right: 20px;
+
+        .featured-product-title {
+          font-size: 46px;
+        }
+
+        .featured-product-price {
+          font-size: 24px;
+        }
+
+        .featured-product-desc {
+          margin-left: 0;
+          font-size: 16px;
+        }
+      }
+
+      .featured-product-image {
+        img {
+          margin: 10px 0 0 20px;
+          height: 300px;
+          min-width: 300px;
+        }
+      }
+    }
+
+    .featured-collections {
+      margin: 0 11% 30px 11%;
+    }
+
+    .featured-products {
+      margin: 0 11% 30px 11%;
+    }
+
+    .bottom {
+      margin: 0 11% 0 11%;
+    }
+  }
+}
