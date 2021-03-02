@@ -1,6 +1,7 @@
 package ba.abh.AuctionApp.controllers;
 
 import ba.abh.AuctionApp.domain.Category;
+import ba.abh.AuctionApp.responses.CategoryResponse;
 import ba.abh.AuctionApp.services.CategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,7 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Category>> getAllCategories() {
+    public ResponseEntity<List<CategoryResponse>> getAllCategories() {
         return ResponseEntity.ok(categoryService.getCategoriesTree());
     }
 
