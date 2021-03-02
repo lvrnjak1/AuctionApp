@@ -1,7 +1,7 @@
 package ba.abh.AuctionApp.exceptions.custom;
 
 public class InvalidDateException extends RuntimeException {
-    public InvalidDateException(String message) {
+    public InvalidDateException(final String message) {
         super(message);
     }
 }

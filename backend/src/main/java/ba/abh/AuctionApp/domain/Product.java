@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -124,5 +125,24 @@ public class Product extends BaseEntity {
 
     public void setImages(final List<ProductImage> images) {
         this.images = images;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Product product = (Product) o;
+        return Objects.equals(name, product.name) &&
+                Objects.equals(description, product.description) &&
+                size == product.size &&
+                Objects.equals(colors, product.colors) &&
+                Objects.equals(category, product.category) &&
+                Objects.equals(images, product.images);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), name, description, size, colors, category, images);
     }
 }

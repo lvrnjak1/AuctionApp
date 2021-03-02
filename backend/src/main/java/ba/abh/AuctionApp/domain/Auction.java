@@ -7,7 +7,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -29,7 +28,7 @@ public class Auction extends BaseEntity {
     @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private Instant endDateTime;
 
-    private BigDecimal startPrice;
+    private Double startPrice;
 
     public Auction() {
     }
@@ -39,7 +38,7 @@ public class Auction extends BaseEntity {
                    final User seller,
                    final Instant startDateTime,
                    final Instant endDateTime,
-                   final BigDecimal startPrice) {
+                   final Double startPrice) {
         super(id);
         this.product = product;
         this.seller = seller;
@@ -52,7 +51,7 @@ public class Auction extends BaseEntity {
                    final User seller,
                    final Instant startDateTime,
                    final Instant endDateTime,
-                   final BigDecimal startPrice) {
+                   final Double startPrice) {
         this.product = product;
         this.seller = seller;
         this.startDateTime = startDateTime;
@@ -92,16 +91,16 @@ public class Auction extends BaseEntity {
         this.endDateTime = endDateTime;
     }
 
-    public BigDecimal getStartPrice() {
+    public Double getStartPrice() {
         return startPrice;
     }
 
-    public void setStartPrice(final BigDecimal startPrice) {
+    public void setStartPrice(final Double startPrice) {
         this.startPrice = startPrice;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;

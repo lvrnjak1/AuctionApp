@@ -5,6 +5,7 @@ import ba.abh.AuctionApp.controllers.utility.SortOrder;
 import ba.abh.AuctionApp.domain.Auction;
 import ba.abh.AuctionApp.domain.User;
 import ba.abh.AuctionApp.domain.enums.Size;
+import ba.abh.AuctionApp.exceptions.custom.InvalidPaginationException;
 import ba.abh.AuctionApp.filters.AuctionFilter;
 import ba.abh.AuctionApp.filters.ProductFilter;
 import ba.abh.AuctionApp.filters.SortSpecification;
@@ -15,7 +16,7 @@ import ba.abh.AuctionApp.responses.AuctionResponse;
 import ba.abh.AuctionApp.responses.PageableResponse;
 import ba.abh.AuctionApp.services.AuctionService;
 import ba.abh.AuctionApp.services.UserService;
-import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -27,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,8 +35,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/auctions")
 public class AuctionController {
-    private static final String MIN_PAGE = "0";
-    private static final String MIN_SIZE = "10";
+    private static final String MIN_PAGE = "1";
+    private static final String MIN_LIMIT = "10";
 
     private final AuctionService auctionService;
     private final UserService userService;
@@ -48,24 +48,25 @@ public class AuctionController {
 
     @PostMapping
     @Secured("ROLE_SELLER")
-    public ResponseEntity<AuctionResponse> createAuction(@Valid @RequestBody AuctionRequest auctionRequest,
-                                                         Principal principal) {
+    public ResponseEntity<AuctionResponse> createAuction(@Valid @RequestBody final AuctionRequest auctionRequest,
+                                                         final Principal principal) {
         Auction auction = auctionService.createAuction(auctionRequest, getUserFromPrincipal(principal));
         return ResponseEntity.status(HttpStatus.CREATED).body(new AuctionResponse(auction));
     }
 
     @GetMapping
-    public ResponseEntity<PageableResponse> getAuctions(@RequestParam(defaultValue = MIN_PAGE) int page,
-                                                        @RequestParam(defaultValue = MIN_SIZE) int limit,
-                                                        @RequestParam(required = false) Long sellerId,
-                                                        @RequestParam(required = false) BigDecimal priceMin,
-                                                        @RequestParam(required = false) BigDecimal priceMax,
-                                                        @RequestParam(required = false) Size size,
-                                                        @RequestParam(required = false) Long categoryId,
-                                                        @RequestParam(required = false) String name,
-                                                        @RequestParam(required = false) Long minutesLeft,
-                                                        @RequestParam(required = false) SortCriteria sort,
-                                                        @RequestParam(required = false) SortOrder sortOrder) {
+    public ResponseEntity<PageableResponse> getAuctions(@RequestParam(defaultValue = MIN_PAGE) final int page,
+                                                        @RequestParam(defaultValue = MIN_LIMIT) final int limit,
+                                                        @RequestParam(required = false) final Long sellerId,
+                                                        @RequestParam(required = false) final Double priceMin,
+                                                        @RequestParam(required = false) final Double priceMax,
+                                                        @RequestParam(required = false) final Size size,
+                                                        @RequestParam(required = false) final Long categoryId,
+                                                        @RequestParam(required = false) final String name,
+                                                        @RequestParam(required = false) final Long minutesLeft,
+                                                        @RequestParam(required = false) final SortCriteria sort,
+                                                        @RequestParam(required = false) final SortOrder sortOrder) {
+        checkPagination(page, limit);
         SortSpecification sortSpecification = new SortSpecification(sort, sortOrder);
         ProductFilter productFilter = new ProductFilter(name, size, categoryId);
         AuctionFilter auctionFilter = new AuctionFilter(sellerId,
@@ -75,16 +76,17 @@ public class AuctionController {
                 minutesLeft,
                 sortSpecification
         );
-        Slice<Auction> slice = auctionService.getFilteredAuctions(page, limit, auctionFilter);
-        PageableResponse response = buildPageableResponse(slice);
+        Page<Auction> auctionPage = auctionService.getFilteredAuctions(page - 1, limit, auctionFilter);
+        PageableResponse response = buildPageableResponse(auctionPage);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/featured")
-    public ResponseEntity<PageableResponse> getFeaturedCategories(@RequestParam(defaultValue = MIN_PAGE) int page,
-                                                                  @RequestParam(defaultValue = MIN_SIZE) int limit) {
-        Slice<Auction> slice = auctionService.getFeaturedProducts(page, limit);
-        PageableResponse response = buildPageableResponse(slice);
+    public ResponseEntity<PageableResponse> getFeaturedCategories(@RequestParam(defaultValue = MIN_PAGE) final int page,
+                                                                  @RequestParam(defaultValue = MIN_LIMIT) final int limit) {
+        checkPagination(page, limit);
+        Page<Auction> auctionPage = auctionService.getFeaturedProducts(page - 1, limit);
+        PageableResponse response = buildPageableResponse(auctionPage);
         return ResponseEntity.ok(response);
     }
 
@@ -92,17 +94,24 @@ public class AuctionController {
         return userService.getUserByEmail(principal.getName());
     }
 
-    private PageableResponse buildPageableResponse(Slice<Auction> slice) {
-        boolean hasPrevious = !slice.isFirst();
-        boolean hasNext = slice.hasNext();
-        int currentPage = slice.getNumber();
-        int numberOfItemsOnPage = slice.getNumberOfElements();
-        PaginationDetails details = new PaginationDetails(currentPage, hasNext, hasPrevious, numberOfItemsOnPage);
-        List<? extends PageableEntity> data = slice
+    private PageableResponse buildPageableResponse(final Page<Auction> page) {
+        boolean hasPrevious = !page.isFirst();
+        boolean hasNext = page.hasNext();
+        int currentPage = page.getNumber() + 1;
+        int numberOfItemsOnPage = page.getNumberOfElements();
+        long available = page.getTotalElements();
+        PaginationDetails details = new PaginationDetails(currentPage, hasNext, hasPrevious, numberOfItemsOnPage, available);
+        List<? extends PageableEntity> data = page
                 .getContent()
                 .stream()
                 .map(AuctionResponse::new)
                 .collect(Collectors.toList());
         return new PageableResponse(details, (List<PageableEntity>) data);
+    }
+
+    private void checkPagination(final int page, final int limit){
+        if(page < 1 || limit < 1){
+            throw new InvalidPaginationException("Page index should start at 1, and limit should be at least 1");
+        }
     }
 }

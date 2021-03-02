@@ -11,13 +11,14 @@ import ba.abh.AuctionApp.filters.AuctionFilter;
 import ba.abh.AuctionApp.repositories.ColorRepository;
 import ba.abh.AuctionApp.repositories.auction.AuctionRepository;
 import ba.abh.AuctionApp.requests.AuctionRequest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Set;
 
@@ -38,9 +39,9 @@ public class AuctionService {
         this.auctionRepository = auctionRepository;
     }
 
-    public Auction createAuction(AuctionRequest auctionRequest, User seller) {
-        if (auctionRequest.getStartDateTime().isAfter(auctionRequest.getEndDateTime()) ||
-                auctionRequest.getStartDateTime().isBefore(ZonedDateTime.now().toInstant())) {
+    public Auction createAuction(final AuctionRequest auctionRequest, final User seller) {
+        if (auctionRequest.getInstantStartDateTime().isAfter(auctionRequest.getInstantEndDateTime()) ||
+                auctionRequest.getInstantStartDateTime().isBefore(LocalDateTime.now().toInstant(ZoneOffset.UTC))) {
             throw new InvalidDateException("Invalid start or end date");
         }
 
@@ -65,8 +66,8 @@ public class AuctionService {
 
         return new Auction(product,
                 seller,
-                auctionRequest.getStartDateTime(),
-                auctionRequest.getEndDateTime(),
+                auctionRequest.getInstantStartDateTime(),
+                auctionRequest.getInstantEndDateTime(),
                 auctionRequest.getStartPrice()
         );
     }
@@ -77,18 +78,18 @@ public class AuctionService {
         }
     }
 
-    private Slice<Auction> getActiveAuctions(final int page, final int size) {
+    private Page<Auction> getActiveAuctions(final int page, final int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return auctionRepository.findActiveAuctions(ZonedDateTime.now().toInstant(), pageable);
+        return auctionRepository.findActiveAuctions(LocalDateTime.now().toInstant(ZoneOffset.UTC), pageable);
     }
 
-    public Slice<Auction> getFeaturedProducts(final int page, final int size) {
+    public Page<Auction> getFeaturedProducts(final int page, final int size) {
         //implement different algorithm for featured
         return getActiveAuctions(page, size);
     }
 
-    public Slice<Auction> getFilteredAuctions(int page, int size, AuctionFilter auctionFilter) {
-        Instant now = ZonedDateTime.now().toInstant();
+    public Page<Auction> getFilteredAuctions(int page, int size, AuctionFilter auctionFilter) {
+        Instant now = LocalDateTime.now().toInstant(ZoneOffset.UTC);
         auctionFilter.setStartBefore(now);
         auctionFilter.setEndAfter(now);
         Pageable pageable = PageRequest.of(page, size);

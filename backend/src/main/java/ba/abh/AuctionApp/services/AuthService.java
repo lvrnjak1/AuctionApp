@@ -58,7 +58,7 @@ public class AuthService implements UserDetailsService {
     }
 
     @Override
-    public User loadUserByUsername(String s) throws UsernameNotFoundException {
+    public User loadUserByUsername(final String s) throws UsernameNotFoundException {
         return userRepository
                 .findByEmail(s)
                 .orElseThrow(() -> new InvalidCredentialsException("User with email " + s + " doesn't exist"));

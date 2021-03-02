@@ -30,8 +30,8 @@ class AuctionControllerTest {
                 .with(user("lamija.vrnjak@gmail.com").password("password").roles("SELLER"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "    \"startDateTime\": \"2022-02-25T19:45:00+01:00\",\n" +
-                        "    \"endDateTime\": \"2022-03-23T21:45:00+01:00\",\n" +
+                        "    \"startDateTime\":1646305200000,\n" +
+                        "    \"endDateTime\": 1648980000000,\n" +
                         "    \"startPrice\": 140,\n" +
                         "    \"product\": {\n" +
                         "        \"name\": \"Barbie\",\n" +
@@ -43,7 +43,7 @@ class AuctionControllerTest {
                         "}"))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.sellerId", is(1)))
-                .andExpect(jsonPath("$.startPrice", is(140)))
+                .andExpect(jsonPath("$.startPrice", is(140.0)))
                 .andExpect(jsonPath("$.product.name", is("Barbie")))
                 .andExpect(jsonPath("$.product.description", is("Pink barbie doll")))
                 .andExpect(jsonPath("$.product.category.name", is("Toys")))
@@ -57,8 +57,8 @@ class AuctionControllerTest {
                 .with(user("lamija.vrnjak@gmail.com").password("password").roles("BUYER"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "    \"startDateTime\": \"2022-02-25T19:45:00+01:00\",\n" +
-                        "    \"endDateTime\": \"2022-03-23T21:45:00+01:00\",\n" +
+                        "    \"startDateTime\": 1646305200000,\n" +
+                        "    \"endDateTime\": 1648980000000,\n" +
                         "    \"startPrice\": 140,\n" +
                         "    \"product\": {\n" +
                         "        \"name\": \"Barbie\",\n" +
@@ -76,8 +76,8 @@ class AuctionControllerTest {
         mockMvc.perform(post("/auctions")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "    \"startDateTime\": \"2022-02-25T19:45:00+01:00\",\n" +
-                        "    \"endDateTime\": \"2022-03-23T21:45:00+01:00\",\n" +
+                        "    \"startDateTime\": 1646305200000,\n" +
+                        "    \"endDateTime\": 1648980000000,\n" +
                         "    \"startPrice\": 140,\n" +
                         "    \"product\": {\n" +
                         "        \"name\": \"Barbie\",\n" +
@@ -96,7 +96,7 @@ class AuctionControllerTest {
                 .with(user("lamija.vrnjak@gmail.com").password("password").roles("SELLER"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "    \"endDateTime\": \"2022-03-23T21:45:00+01:00\",\n" +
+                        "    \"endDateTime\": 1646305200000,\n" +
                         "    \"startPrice\": 140,\n" +
                         "    \"product\": {\n" +
                         "        \"name\": \"Barbie\",\n" +
@@ -116,7 +116,7 @@ class AuctionControllerTest {
                 .with(user("lamija.vrnjak@gmail.com").password("password").roles("SELLER"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "    \"startDateTime\": \"2022-03-23T21:45:00+01:00\",\n" +
+                        "    \"startDateTime\": 1646305200000,\n" +
                         "    \"startPrice\": 140,\n" +
                         "    \"product\": {\n" +
                         "        \"name\": \"Barbie\",\n" +
@@ -128,26 +128,6 @@ class AuctionControllerTest {
                         "}"))
                 .andExpect(status().isUnprocessableEntity())
                 .andExpect(jsonPath("message", is("End date and time must be present")));
-    }
-
-    @Test
-    public void testCreateAuctionBadDateFormat() throws Exception {
-        mockMvc.perform(post("/auctions")
-                .with(user("lamija.vrnjak@gmail.com").password("password").roles("SELLER"))
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\n" +
-                        "    \"startDateTime\": \"2022-03-23 21:45:00+01:00\",\n" +
-                        "    \"endDateTime\": \"2022-03-24T21:45:00+01:00\",\n" +
-                        "    \"startPrice\": 140,\n" +
-                        "    \"product\": {\n" +
-                        "        \"name\": \"Barbie\",\n" +
-                        "        \"description\": \"Pink barbie doll\",\n" +
-                        "        \"categoryId\": 18,\n" +
-                        "        \"size\": \"SMALL\",\n" +
-                        "        \"colors\": [1,7]\n" +
-                        "    }\n" +
-                        "}"))
-                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -175,8 +155,8 @@ class AuctionControllerTest {
                 .with(user("lamija.vrnjak@gmail.com").password("password").roles("SELLER"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "    \"startDateTime\": \"2022-02-25T19:45:00+01:00\",\n" +
-                        "    \"endDateTime\": \"2022-03-23T21:45:00+01:00\",\n" +
+                        "    \"startDateTime\":1646305200000,\n" +
+                        "    \"endDateTime\": 1648980000000,\n" +
                         "    \"startPrice\": -25,\n" +
                         "    \"product\": {\n" +
                         "        \"name\": \"Barbie\",\n" +
@@ -210,55 +190,55 @@ class AuctionControllerTest {
     public void testGetAuctions3() throws Exception {
         mockMvc.perform(get("/auctions?page=1&limit=3"))
                 .andExpect(jsonPath("$.pagination.hasNext", is(true)))
-                .andExpect(jsonPath("$.pagination.hasPrevious", is(true)))
+                .andExpect(jsonPath("$.pagination.hasPrevious", is(false)))
                 .andExpect(jsonPath("$.data", hasSize(3)));
     }
 
     @Test
     public void testFindByCategory1() throws Exception {
         mockMvc.perform(get("/auctions?categoryId=1"))
-                .andExpect(jsonPath("$.pagination.numberOfItemsOnPage", is(7)));
+                .andExpect(jsonPath("$.pagination.pageSize", is(7)));
     }
 
     @Test
     public void testFindByCategory2() throws Exception {
         mockMvc.perform(get("/auctions?categoryId=2"))
-                .andExpect(jsonPath("$.pagination.numberOfItemsOnPage", is(1)));
+                .andExpect(jsonPath("$.pagination.pageSize", is(1)));
     }
 
     @Test
     public void testFindByCategory3() throws Exception {
         mockMvc.perform(get("/auctions?categoryId=3"))
-                .andExpect(jsonPath("$.pagination.numberOfItemsOnPage", is(0)));
+                .andExpect(jsonPath("$.pagination.pageSize", is(0)));
     }
 
     @Test
     public void testFindByCategory4() throws Exception {
         mockMvc.perform(get("/auctions?categoryId=9"))
-                .andExpect(jsonPath("$.pagination.numberOfItemsOnPage", is(4)));
+                .andExpect(jsonPath("$.pagination.pageSize", is(4)));
     }
 
     @Test
     public void testFindByCategory5() throws Exception {
         mockMvc.perform(get("/auctions?categoryId=12"))
-                .andExpect(jsonPath("$.pagination.numberOfItemsOnPage", is(2)));
+                .andExpect(jsonPath("$.pagination.pageSize", is(2)));
     }
 
     @Test
     public void testFindByCategory6() throws Exception {
         mockMvc.perform(get("/auctions?categoryId=13"))
-                .andExpect(jsonPath("$.pagination.numberOfItemsOnPage", is(1)));
+                .andExpect(jsonPath("$.pagination.pageSize", is(1)));
     }
 
     @Test
     public void testFindByCategory8() throws Exception {
         mockMvc.perform(get("/auctions?categoryId=8"))
-                .andExpect(jsonPath("$.pagination.numberOfItemsOnPage", is(1)));
+                .andExpect(jsonPath("$.pagination.pageSize", is(1)));
     }
 
     @Test
     public void testFindByCategory9() throws Exception {
         mockMvc.perform(get("/auctions?categoryId=17"))
-                .andExpect(jsonPath("$.pagination.numberOfItemsOnPage", is(0)));
+                .andExpect(jsonPath("$.pagination.pageSize", is(0)));
     }
 }

@@ -9,5 +9,5 @@ import java.util.Set;
 
 @Repository
 public interface ColorRepository extends JpaRepository<Color, Long> {
-    Set<Color> getColorByIdIn(List<Long> colorIds);
+    Set<Color> getColorByIdIn(final List<Long> colorIds);
 }

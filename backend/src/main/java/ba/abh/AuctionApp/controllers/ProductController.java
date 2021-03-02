@@ -21,8 +21,8 @@ public class ProductController {
 
     @PostMapping("/{productId}/images")
     @Secured("ROLE_SELLER")
-    public ResponseEntity<?> addProductImage(@PathVariable Long productId,
-                                             @RequestBody ProductImageRequest productImageRequest) {
+    public ResponseEntity<?> addProductImage(@PathVariable final Long productId,
+                                             @RequestBody final ProductImageRequest productImageRequest) {
         productService.saveImageForProduct(productId, productImageRequest.getImageUrl());
         return ResponseEntity.ok().build();
     }

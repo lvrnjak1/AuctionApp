@@ -25,7 +25,7 @@ public class CategoryController {
     }
 
     @GetMapping("/featured")
-    public ResponseEntity<List<Category>> getFeaturedCategories(@RequestParam(defaultValue = "3") int limit) {
+    public ResponseEntity<List<Category>> getFeaturedCategories(@RequestParam(defaultValue = "3") final int limit) {
         List<Category> categories = categoryService.getFeaturedCategories(limit);
         return ResponseEntity.ok(categories);
     }

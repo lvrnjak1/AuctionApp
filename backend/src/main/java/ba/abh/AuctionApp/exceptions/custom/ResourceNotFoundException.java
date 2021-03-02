@@ -1,7 +1,7 @@
 package ba.abh.AuctionApp.exceptions.custom;
 
 public class ResourceNotFoundException extends RuntimeException {
-    public ResourceNotFoundException(String message) {
+    public ResourceNotFoundException(final String message) {
         super(message);
     }
 }

@@ -3,21 +3,14 @@ package ba.abh.AuctionApp.responses;
 import ba.abh.AuctionApp.domain.Auction;
 import ba.abh.AuctionApp.domain.Product;
 import ba.abh.AuctionApp.pagination.PageableEntity;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.math.BigDecimal;
 import java.time.Instant;
 
 public class AuctionResponse implements PageableEntity {
     private Long id;
-
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Instant startDateTime;
-
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Instant endDateTime;
-
-    private BigDecimal startPrice;
+    private Double startPrice;
     private Product product;
     private Long sellerId;
 
@@ -54,11 +47,11 @@ public class AuctionResponse implements PageableEntity {
         this.endDateTime = endDateTime;
     }
 
-    public BigDecimal getStartPrice() {
+    public Double getStartPrice() {
         return startPrice;
     }
 
-    public void setStartPrice(final BigDecimal startPrice) {
+    public void setStartPrice(final Double startPrice) {
         this.startPrice = startPrice;
     }
 

@@ -1,27 +1,30 @@
 package ba.abh.AuctionApp.pagination;
 
 public class PaginationDetails {
-    private int currentPage;
+    private int pageNumber;
     private boolean hasNext;
     private boolean hasPrevious;
-    private int numberOfItemsOnPage;
+    private int pageSize;
+    private long available;
 
-    public PaginationDetails(final int currentPage,
+    public PaginationDetails(final int pageNumber,
                              final boolean hasNext,
                              final boolean hasPrevious,
-                             final int numberOfItemsOnPage) {
-        this.currentPage = currentPage;
+                             final int pageSize,
+                             final long available) {
+        this.pageNumber = pageNumber;
         this.hasNext = hasNext;
         this.hasPrevious = hasPrevious;
-        this.numberOfItemsOnPage = numberOfItemsOnPage;
+        this.pageSize = pageSize;
+        this.available = available;
     }
 
-    public int getCurrentPage() {
-        return currentPage;
+    public int getPageNumber() {
+        return pageNumber;
     }
 
-    public void setCurrentPage(final int currentPage) {
-        this.currentPage = currentPage;
+    public void setPageNumber(final int pageNumber) {
+        this.pageNumber = pageNumber;
     }
 
     public boolean isHasNext() {
@@ -32,12 +35,12 @@ public class PaginationDetails {
         this.hasNext = hasNext;
     }
 
-    public int getNumberOfItemsOnPage() {
-        return numberOfItemsOnPage;
+    public int getPageSize() {
+        return pageSize;
     }
 
-    public void setNumberOfItemsOnPage(final int numberOfItemsOnPage) {
-        this.numberOfItemsOnPage = numberOfItemsOnPage;
+    public void setPageSize(final int pageSize) {
+        this.pageSize = pageSize;
     }
 
     public boolean isHasPrevious() {
@@ -46,5 +49,13 @@ public class PaginationDetails {
 
     public void setHasPrevious(final boolean hasPrevious) {
         this.hasPrevious = hasPrevious;
+    }
+
+    public long getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(final long available) {
+        this.available = available;
     }
 }

@@ -7,9 +7,9 @@ import ba.abh.AuctionApp.domain.enums.Size;
 import ba.abh.AuctionApp.filters.AuctionFilter;
 import ba.abh.AuctionApp.filters.ProductFilter;
 import ba.abh.AuctionApp.filters.SortSpecification;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -32,7 +32,7 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
     private EntityManager entityManager;
 
     @Override
-    public Slice<Auction> findAllByFilter(AuctionFilter filter, Pageable pageable) {
+    public Page<Auction> findAllByFilter(final AuctionFilter filter, final Pageable pageable) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Auction> criteriaQuery = criteriaBuilder.createQuery(Auction.class);
 
@@ -85,18 +85,28 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
         int size = pageable.getPageSize();
         TypedQuery<Auction> typedQuery = entityManager.createQuery(criteriaQuery);
         typedQuery.setFirstResult(page * size);
-        typedQuery.setMaxResults(size + 1);
+        typedQuery.setMaxResults(size);
 
         List<Auction> resultList = typedQuery.getResultList();
-        boolean hasNext = resultList.size() > size;
+        Long total = getTotal(criteriaBuilder, predicates);
 
-        return new SliceImpl<>(hasNext ? resultList.subList(0, size) : resultList, pageable, hasNext);
+        return new PageImpl<>(resultList, pageable, total);
     }
 
-    private void processProductFilter(ProductFilter productFilter,
-                                      List<Predicate> predicates,
-                                      CriteriaBuilder criteriaBuilder,
-                                      Root<Auction> root) {
+    private Long getTotal(final CriteriaBuilder criteriaBuilder, final List<Predicate> predicates) {
+        CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
+        Root<Auction> booksRootCount = countQuery.from(Auction.class);
+        countQuery
+                .select(criteriaBuilder.count(booksRootCount))
+                .where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
+
+        return entityManager.createQuery(countQuery).getSingleResult();
+    }
+
+    private void processProductFilter(final ProductFilter productFilter,
+                                      final List<Predicate> predicates,
+                                      final CriteriaBuilder criteriaBuilder,
+                                      final Root<Auction> root) {
         String name = productFilter.getName();
         if (name != null) {
             name = name.toLowerCase();
@@ -121,10 +131,10 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
         }
     }
 
-    private void sort(CriteriaQuery<Auction> criteriaQuery,
-                      CriteriaBuilder criteriaBuilder,
-                      Root<Auction> root,
-                      SortSpecification sortSpecification) {
+    private void sort(final CriteriaQuery<Auction> criteriaQuery,
+                      final CriteriaBuilder criteriaBuilder,
+                      final Root<Auction> root,
+                      final SortSpecification sortSpecification) {
         if (sortSpecification.getSortCriteria() != null) {
             String criteria = sortSpecification.getSortCriteria().getField();
             if (sortSpecification.getSortOrder().equals(SortOrder.ASC)) {

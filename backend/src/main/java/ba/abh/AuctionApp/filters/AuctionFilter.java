@@ -1,14 +1,14 @@
 package ba.abh.AuctionApp.filters;
 
-import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 public class AuctionFilter {
     private Long sellerId;
     private ProductFilter productFilter;
-    private BigDecimal priceMin;
-    private BigDecimal priceMax;
+    private Double priceMin;
+    private Double priceMax;
     private Instant startBefore;
     private Instant startAfter;
     private Instant endBefore;
@@ -20,8 +20,8 @@ public class AuctionFilter {
 
     public AuctionFilter(final Long sellerId,
                          final ProductFilter productFilter,
-                         final BigDecimal priceMin,
-                         final BigDecimal priceMax,
+                         final Double priceMin,
+                         final Double priceMax,
                          final Long minutesLeft,
                          final Instant startBefore,
                          final Instant startAfter,
@@ -42,8 +42,8 @@ public class AuctionFilter {
 
     public AuctionFilter(final Long sellerId,
                          final ProductFilter productFilter,
-                         final BigDecimal priceMin,
-                         final BigDecimal priceMax,
+                         final Double priceMin,
+                         final Double priceMax,
                          final Long minutesLeft,
                          final SortSpecification sortSpecification) {
         this.sellerId = sellerId;
@@ -56,7 +56,7 @@ public class AuctionFilter {
 
     public void setEndBefore(final Long minutesLeft) {
         if(minutesLeft != null){
-            Instant end = ZonedDateTime.now().plusMinutes(minutesLeft).toInstant();
+            Instant end = LocalDateTime.now().plusMinutes(minutesLeft).toInstant(ZoneOffset.UTC);
             setEndBefore(end);
         }
     }
@@ -77,19 +77,19 @@ public class AuctionFilter {
         this.productFilter = productFilter;
     }
 
-    public BigDecimal getPriceMin() {
+    public Double getPriceMin() {
         return priceMin;
     }
 
-    public void setPriceMin(final BigDecimal priceMin) {
+    public void setPriceMin(final Double priceMin) {
         this.priceMin = priceMin;
     }
 
-    public BigDecimal getPriceMax() {
+    public Double getPriceMax() {
         return priceMax;
     }
 
-    public void setPriceMax(final BigDecimal priceMax) {
+    public void setPriceMax(final Double priceMax) {
         this.priceMax = priceMax;
     }
 

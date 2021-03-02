@@ -1,33 +1,28 @@
 package ba.abh.AuctionApp.requests;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 import java.time.Instant;
 
 public class AuctionRequest {
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @NotNull(message = "Start date and time must be present")
-    private Instant startDateTime;
+    private Long startDateTime;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @NotNull(message = "End date and time must be present")
-    private Instant endDateTime;
+    private Long endDateTime;
 
     @NotNull(message = "Start price must be present")
     @DecimalMin(value = "0.00", message = "Start price can't be lower than zero")
-    private BigDecimal startPrice;
+    private Double startPrice;
 
     @NotNull(message = "Product details must be present")
     @Valid
     private ProductRequest product;
 
-    public AuctionRequest(final Instant startDateTime,
-                          final Instant endDateTime,
-                          final BigDecimal startPrice,
+    public AuctionRequest(final Long startDateTime,
+                          final Long endDateTime,
+                          final Double startPrice,
                           final ProductRequest product) {
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
@@ -35,27 +30,35 @@ public class AuctionRequest {
         this.product = product;
     }
 
-    public Instant getStartDateTime() {
+    public Long getStartDateTime() {
         return startDateTime;
     }
 
-    public void setStartDateTime(final Instant startDateTime) {
+    public Instant getInstantStartDateTime() {
+        return Instant.ofEpochMilli(startDateTime);
+    }
+
+    public void setStartDateTime(final Long startDateTime) {
         this.startDateTime = startDateTime;
     }
 
-    public Instant getEndDateTime() {
+    public Long getEndDateTime() {
         return endDateTime;
     }
 
-    public void setEndDateTime(final Instant endDateTime) {
+    public Instant getInstantEndDateTime() {
+        return Instant.ofEpochMilli(endDateTime);
+    }
+
+    public void setEndDateTime(final Long endDateTime) {
         this.endDateTime = endDateTime;
     }
 
-    public BigDecimal getStartPrice() {
+    public Double getStartPrice() {
         return startPrice;
     }
 
-    public void setStartPrice(final BigDecimal startPrice) {
+    public void setStartPrice(final Double startPrice) {
         this.startPrice = startPrice;
     }
 
