@@ -28,6 +28,21 @@
     color: $black;
     cursor: pointer;
     margin-bottom: 10px;
+    width: 100%;
+    text-align: left;
+
+    p {
+      display: inline;
+      margin: 0;
+      padding: 0;
+    }
+
+    .button-icon {
+      float: right;
+      padding-right: 15px;
+      font-weight: bolder;
+      font-size: 20px;
+    }
   }
 
   button:focus {

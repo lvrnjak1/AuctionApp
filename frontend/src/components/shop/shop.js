@@ -8,7 +8,7 @@ import { getRequest, sendMultipleGetRequests } from 'http/requests';
 function Shop() {
     const [categories, setCategories] = useState([]);
     const [products, setProducts] = useState([]);
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const [limit] = useState(3);
     const [hasNext, setHasNext] = useState(true);
 
