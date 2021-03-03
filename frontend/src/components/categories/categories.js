@@ -26,13 +26,13 @@ function Categories(props) {
                     return <li key={c.id}>
                         <button onClick={e => toggleExpand(index)}>
                             <p>{c.name}</p>
-                            <p className="button-icon">{index === activeCategory ? "-" : "+"}</p>
+                            {props.expandable && <p className="button-icon">{index === activeCategory ? "-" : "+"}</p>}
                         </button>
                         <div className={`sub-categories ${activeCategory !== index && "inactive"}`}>
                             <ul>
                                 {c.subcategories.map(sc => {
                                     return <li key={c.subcategories.indexOf(sc)}>
-                                        <button className="subcategory">
+                                        <button className="subcategory" onClick={() => props.onFilter(sc.id)}>
                                             {`${sc.name} (${sc.numberOfProducts})`}
                                         </button>
                                     </li>
@@ -42,7 +42,7 @@ function Categories(props) {
                         <div className="line"></div>
                     </li>
                 })}
-                <li><button>All Categories</button></li>
+                <li><button onClick={() => props.onFilter(null)}>All Categories</button></li>
             </ul>
         </div>
     );

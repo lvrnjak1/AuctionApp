@@ -3,18 +3,32 @@ import "components/shop/shop.scss";
 import Categories from 'components/categories/categories';
 import ProductGrid from 'components/product_grid/productGrid';
 import { AUCTIONS_ENDPOINT, CATEGORIES_ENDPOINT } from 'http/endpoints';
-import { getRequest, sendMultipleGetRequests } from 'http/requests';
+import { getRequest } from 'http/requests';
 
 function Shop() {
     const [categories, setCategories] = useState([]);
     const [products, setProducts] = useState([]);
-    const [page, setPage] = useState(1);
-    const [limit] = useState(3);
     const [hasNext, setHasNext] = useState(true);
+    const [filterParams, setFilterParams] = useState({ categoryId: null, sort: null, page: 1, limit: 3 });
+
+    useEffect(() => {
+        async function fetchCategories() {
+            await getRequest(CATEGORIES_ENDPOINT, {}, (response) => setCategories(response.data));
+        }
+
+        fetchCategories();
+    }, []);
 
     const handleNewProducts = (responseData) => {
         let oldProducts = products;
-        const newProducts = oldProducts.concat(responseData.data);
+        let newProducts;
+        if (filterParams.page === 1) {
+            newProducts = responseData.data;
+        } else {
+            newProducts = oldProducts.concat(responseData.data);
+            newProducts = [...new Map(newProducts.map(p => [p.id, p])).values()];
+        }
+
         setProducts(newProducts);
         if (!responseData.pagination.hasNext) {
             setHasNext(false);
@@ -22,48 +36,33 @@ function Shop() {
         }
     }
 
-    const loadMore = async () => {
-        setPage(page + 1);
-        await fetchProducts();
-    };
-
-    const fetchProducts = async () => {
-        await getRequest(AUCTIONS_ENDPOINT,
-            { page, limit },
-            (response) => handleNewProducts(response.data)
-        );
-    }
-
     useEffect(() => {
-        async function fetchData() {
-            const requests = [];
-            requests.push({
-                endpoint: CATEGORIES_ENDPOINT,
-                successHandler: (response) => setCategories(response.data)
-            });
-
-
-            requests.push({
-                endpoint: AUCTIONS_ENDPOINT,
-                params: { page, limit },
-                successHandler: (response) => handleNewProducts(response.data)
-            });
-
-            await sendMultipleGetRequests(requests);
+        async function fetchProducts() {
+            await getRequest(AUCTIONS_ENDPOINT, filterParams, (response) => handleNewProducts(response.data));
         }
 
-        fetchData();
-    }, [limit, page]);
+        fetchProducts();
+    }, [filterParams]);
+
+    const loadMore = async () => {
+        setFilterParams({ ...filterParams, page: filterParams.page + 1 });
+    };
+
+    const setCategoryFilter = (categoryId) => {
+        setFilterParams({ ...filterParams, categoryId, page: 1 });
+    }
 
     return (
         <div className="shop-page">
             <div className="side-bar">
-                <Categories expandable items={categories} border />
+                <Categories expandable items={categories} border onFilter={setCategoryFilter} />
             </div>
             <div className="content">
                 <ProductGrid nrows={Math.ceil(products.length / 3)} items={products} col3 />
                 <button onClick={loadMore}>Explore more</button>
-                <p className={`${!hasNext ? "visible-text" : "invisible-text"}`}>No more products to show</p>
+                <p className={`${!hasNext && products.length > 0 ? "visible-text" : "invisible-text"}`}>
+                    No more products to show
+                </p>
             </div>
         </div>
     );
