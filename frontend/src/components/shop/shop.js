@@ -13,7 +13,7 @@ function Shop() {
     const [products, setProducts] = useState([]);
     const [hasNext, setHasNext] = useState(true);
     const [message, setMessage] = useState("");
-    const [filterParams, setFilterParams] = useState({ categoryId: null, sort: null, sortOrder: null, page: 1, limit: 3 });
+    const [filterParams, setFilterParams] = useState({ categoryId: null, sort: null, sortOrder: "ASC", page: 1, limit: 3 });
 
     useEffect(() => {
         async function fetchCategories() {
@@ -62,7 +62,8 @@ function Shop() {
 
     const setSortCriteria = (criteria) => {
         const sort = criteria !== "DEFAULT" ? criteria : null;
-        setFilterParams({ ...filterParams, sort, page: 1 });
+        const sortOrder = criteria !== "DEFAULT" ? filterParams.sortOrder : "ASC";
+        setFilterParams({ ...filterParams, sort, sortOrder, page: 1 });
     }
 
     const setSortOrder = (order) => {
@@ -102,7 +103,7 @@ function Shop() {
                 <div className="center-content">
                     <ProductGrid nrows={Math.ceil(products.length / 3)} items={products} col3 />
                     {hasNext && <button onClick={loadMore}>Explore more</button>}
-                    <p >{message}</p>
+                    <p >{products.length > 0 && message}</p>
                 </div>
             </div>
         </div>
