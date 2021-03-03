@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import "components/categories/categories.scss";
+import { resetCurrentCategory, setCurrentCategory } from 'state/actions/currentCategoryActions';
+import { useDispatch } from 'react-redux';
 
 function Categories(props) {
     const [activeCategory, setActiveCategory] = useState(-1);
     const [activeSubcategory, setActiveSubcategory] = useState();
+    const dispatch = useDispatch();
 
     const toggleExpand = index => {
         if (!props.expandable) {
@@ -17,8 +20,16 @@ function Categories(props) {
         }
     }
 
-    const handleFilter = async (id) => {
-        setActiveSubcategory(id);
+    const handleFilter = async (c, sc) => {
+        let id = null;
+        if (c) {
+            setActiveSubcategory(sc.id);
+            dispatch(setCurrentCategory(`${c.name}/`, sc.name));
+            id = sc.id;
+        } else {
+            dispatch(resetCurrentCategory(true));
+        }
+
         await props.onFilter(id);
     }
 
@@ -32,7 +43,7 @@ function Categories(props) {
                     const isActive = index === activeCategory;
                     return <li key={c.id}>
                         <button onClick={e => toggleExpand(index)}>
-                            <p className={`${isActive && "active-text"}`}>{c.name}</p>
+                            <p>{c.name}</p>
                             {props.expandable && <p className="button-icon">{isActive ? "-" : "+"}</p>}
                         </button>
                         <div className={`sub-categories ${!isActive && "inactive"}`}>
@@ -42,7 +53,7 @@ function Categories(props) {
                                     return <li key={c.subcategories.indexOf(sc)}>
                                         <button
                                             className={`subcategory ${isActiveSub && "active-text"}`}
-                                            onClick={() => handleFilter(sc.id)}
+                                            onClick={() => handleFilter(c, sc)}
                                         >
                                             {`${sc.name} (${sc.numberOfProducts})`}
                                         </button>
@@ -53,7 +64,7 @@ function Categories(props) {
                         <div className="line"></div>
                     </li>
                 })}
-                <li><button onClick={() => props.onFilter(null)}>All Categories</button></li>
+                <li><button onClick={() => handleFilter(null)}>All Categories</button></li>
             </ul>
         </div>
     );

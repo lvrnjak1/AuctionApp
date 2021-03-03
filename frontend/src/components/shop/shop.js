@@ -7,13 +7,15 @@ import { getRequest } from 'http/requests';
 import { MenuItem, Select } from '@material-ui/core';
 import { faSortAmountUp, faSortAmountDown } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useDispatch } from 'react-redux';
+import { initializeCurrentCategory, resetCurrentCategory } from 'state/actions/currentCategoryActions';
 
 function Shop() {
     const [categories, setCategories] = useState([]);
     const [products, setProducts] = useState([]);
     const [hasNext, setHasNext] = useState(true);
-    const [message, setMessage] = useState("");
     const [filterParams, setFilterParams] = useState({ categoryId: null, sort: null, sortOrder: "ASC", page: 1, limit: 3 });
+    const dispatch = useDispatch();
 
     useEffect(() => {
         async function fetchCategories() {
@@ -21,6 +23,9 @@ function Shop() {
         }
 
         fetchCategories();
+        dispatch(initializeCurrentCategory());
+
+        return () => dispatch(resetCurrentCategory(false));
     }, []);
 
     const handleNewProducts = (responseData) => {
@@ -35,13 +40,7 @@ function Shop() {
         }
 
         setProducts(newProducts);
-        if (!responseData.pagination.hasNext) {
-            setHasNext(false);
-            setMessage(" No more products to show");
-            setTimeout(() => setMessage(""), 5000);
-        } else {
-            setHasNext(true);
-        }
+        setHasNext(responseData.pagination.hasNext);
     }
 
     useEffect(() => {
@@ -103,7 +102,6 @@ function Shop() {
                 <div className="center-content">
                     <ProductGrid nrows={Math.ceil(products.length / 3)} items={products} col3 />
                     {hasNext && <button onClick={loadMore}>Explore more</button>}
-                    <p >{products.length > 0 && message}</p>
                 </div>
             </div>
         </div>

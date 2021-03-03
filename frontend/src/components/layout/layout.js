@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { resetInfoMessage } from 'state/actions/infoMessageActions';
 import Loader from 'react-loader-spinner';
 import { useLocation } from 'react-router-dom';
+import { resetCurrentCategory } from 'state/actions/currentCategoryActions';
 
 const useStyles = makeStyles(theme => ({
     container: {
