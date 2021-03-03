@@ -4,6 +4,7 @@ import Categories from 'components/categories/categories';
 import ProductGrid from 'components/product_grid/productGrid';
 import { AUCTIONS_ENDPOINT, CATEGORIES_ENDPOINT } from 'http/endpoints';
 import { getRequest } from 'http/requests';
+import { MenuItem, Select } from '@material-ui/core';
 
 function Shop() {
     const [categories, setCategories] = useState([]);
@@ -22,6 +23,7 @@ function Shop() {
     const handleNewProducts = (responseData) => {
         let oldProducts = products;
         let newProducts;
+
         if (filterParams.page === 1) {
             newProducts = responseData.data;
         } else {
@@ -44,12 +46,17 @@ function Shop() {
         fetchProducts();
     }, [filterParams]);
 
-    const loadMore = async () => {
+    const loadMore = () => {
         setFilterParams({ ...filterParams, page: filterParams.page + 1 });
     };
 
     const setCategoryFilter = (categoryId) => {
         setFilterParams({ ...filterParams, categoryId, page: 1 });
+    }
+
+    const setSortCriteria = (criteria) => {
+        const sort = criteria !== "DEFAULT" ? criteria : null;
+        setFilterParams({ ...filterParams, sort, page: 1 });
     }
 
     return (
@@ -58,6 +65,15 @@ function Shop() {
                 <Categories expandable items={categories} border onFilter={setCategoryFilter} />
             </div>
             <div className="content">
+                <Select
+                    value={filterParams.sort || "DEFAULT"}
+                    onChange={(e) => setSortCriteria(e.target.value)}
+                    className="sort-select"
+                >
+                    <MenuItem value="DEFAULT">Default Sorting</MenuItem>
+                    <MenuItem value="PRICE">Sort by price</MenuItem>
+                    <MenuItem value="DATE">Sort by newness</MenuItem>
+                </Select>
                 <ProductGrid nrows={Math.ceil(products.length / 3)} items={products} col3 />
                 <button onClick={loadMore}>Explore more</button>
                 <p className={`${!hasNext && products.length > 0 ? "visible-text" : "invisible-text"}`}>
