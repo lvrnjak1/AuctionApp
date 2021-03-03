@@ -9,6 +9,7 @@ import { faSortAmountUp, faSortAmountDown } from "@fortawesome/free-solid-svg-ic
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
 import { initializeCurrentCategory, resetCurrentCategory } from 'state/actions/currentCategoryActions';
+import { setInfoMessage } from 'state/actions/infoMessageActions';
 
 function Shop() {
     const [categories, setCategories] = useState([]);
@@ -17,9 +18,13 @@ function Shop() {
     const [filterParams, setFilterParams] = useState({ categoryId: null, sort: null, sortOrder: "ASC", page: 1, limit: 3 });
     const dispatch = useDispatch();
 
+    const errorHandler = () => {
+        dispatch(setInfoMessage("Something went wrong, come back soon", "error"));
+    }
+
     useEffect(() => {
         async function fetchCategories() {
-            await getRequest(CATEGORIES_ENDPOINT, {}, (response) => setCategories(response.data));
+            await getRequest(CATEGORIES_ENDPOINT, {}, (response) => setCategories(response.data), errorHandler);
         }
 
         fetchCategories();
@@ -45,7 +50,7 @@ function Shop() {
 
     useEffect(() => {
         async function fetchProducts() {
-            await getRequest(AUCTIONS_ENDPOINT, filterParams, (response) => handleNewProducts(response.data));
+            await getRequest(AUCTIONS_ENDPOINT, filterParams, (response) => handleNewProducts(response.data), errorHandler);
         }
 
         fetchProducts();
