@@ -5,12 +5,15 @@ import ProductGrid from 'components/product_grid/productGrid';
 import { AUCTIONS_ENDPOINT, CATEGORIES_ENDPOINT } from 'http/endpoints';
 import { getRequest } from 'http/requests';
 import { MenuItem, Select } from '@material-ui/core';
+import { faSortAmountUp, faSortAmountDown } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function Shop() {
     const [categories, setCategories] = useState([]);
     const [products, setProducts] = useState([]);
     const [hasNext, setHasNext] = useState(true);
-    const [filterParams, setFilterParams] = useState({ categoryId: null, sort: null, page: 1, limit: 3 });
+    const [message, setMessage] = useState("");
+    const [filterParams, setFilterParams] = useState({ categoryId: null, sort: null, sortOrder: null, page: 1, limit: 3 });
 
     useEffect(() => {
         async function fetchCategories() {
@@ -34,7 +37,10 @@ function Shop() {
         setProducts(newProducts);
         if (!responseData.pagination.hasNext) {
             setHasNext(false);
-            setTimeout(() => setHasNext(true), 5000);
+            setMessage(" No more products to show");
+            setTimeout(() => setMessage(""), 5000);
+        } else {
+            setHasNext(true);
         }
     }
 
@@ -59,6 +65,10 @@ function Shop() {
         setFilterParams({ ...filterParams, sort, page: 1 });
     }
 
+    const setSortOrder = (order) => {
+        setFilterParams({ ...filterParams, sortOrder: order, page: 1 });
+    }
+
     return (
         <div className="shop-page">
             <div className="side-bar">
@@ -74,11 +84,26 @@ function Shop() {
                     <MenuItem value="PRICE">Sort by price</MenuItem>
                     <MenuItem value="DATE">Sort by newness</MenuItem>
                 </Select>
-                <ProductGrid nrows={Math.ceil(products.length / 3)} items={products} col3 />
-                <button onClick={loadMore}>Explore more</button>
-                <p className={`${!hasNext && products.length > 0 ? "visible-text" : "invisible-text"}`}>
-                    No more products to show
-                </p>
+                <button
+                    className={`sort-order-button ${filterParams.sortOrder === "ASC" && "active"}`}
+                    disabled={!filterParams.sort}
+                    onClick={() => setSortOrder("ASC")}
+                >
+                    <FontAwesomeIcon icon={faSortAmountUp} />
+                </button>
+                <button
+                    className={`sort-order-button ${filterParams.sortOrder === "DESC" && "active"}`}
+                    disabled={!filterParams.sort}
+                    value="DESC"
+                    onClick={() => setSortOrder("DESC")}
+                >
+                    <FontAwesomeIcon icon={faSortAmountDown} />
+                </button>
+                <div className="center-content">
+                    <ProductGrid nrows={Math.ceil(products.length / 3)} items={products} col3 />
+                    {hasNext && <button onClick={loadMore}>Explore more</button>}
+                    <p >{message}</p>
+                </div>
             </div>
         </div>
     );
