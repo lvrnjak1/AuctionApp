@@ -52,7 +52,7 @@ function ItemPage() {
                     <div className="bid-info"></div>
                     <div className="details">
                         <p className="details-title">Details</p>
-                        <p className="details-content">{item.product.details || "There are no details about this item."}</p>
+                        <p className="details-content">{item.product.description || "There are no details about this item."}</p>
                     </div>
                 </div>
             </div>

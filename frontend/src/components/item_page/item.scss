@@ -39,16 +39,17 @@
     }
 
     .image-gallery {
-      margin-left: 160px;
-      margin-right: 30px;
-
+      margin-bottom: 30px;
       .large-image-container {
+        margin: auto;
         background: $lightGray3;
         height: 450px;
         width: 400px;
         display: flex;
         align-items: center;
         justify-items: center;
+        border: 1px solid $lightGray2;
+
         .large-image {
           max-height: 450px;
           width: 100%;
@@ -56,11 +57,13 @@
       }
 
       .image-grid {
+        margin: auto;
         margin-top: 10px;
         overflow-y: hidden;
         overflow-x: scroll;
         white-space: nowrap;
         width: 400px;
+        border: 1px solid $lightGray2;
 
         .image-button {
           border: transparent;
@@ -100,11 +103,23 @@
     .item {
       display: grid;
       grid-template-columns: 40% 60%;
-
       .item-info {
-        width: 50%;
+        margin-left: 70px;
         text-align: left;
-        margin-left: 50px;
+        width: 70%;
+      }
+
+      .image-gallery {
+        margin-left: 30px;
+      }
+    }
+  }
+
+  @media screen and (min-width: 1300px) {
+    .item {
+      .image-gallery {
+        margin-left: 160px;
+        margin-right: 30px;
       }
     }
   }
