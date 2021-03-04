@@ -1,0 +1,111 @@
+@import "util/style/constants.scss";
+
+.item-page {
+  color: $black;
+  text-align: center;
+  padding: 10px;
+  margin-top: 10px;
+  .item {
+    .item-info {
+      text-align: center;
+      .name {
+        font-size: 46px;
+        letter-spacing: 1.61px;
+        margin: 0 0 10px 0;
+      }
+
+      .price {
+        font-size: 24px;
+        color: $purple;
+        letter-spacing: 0.84px;
+        margin: 0;
+      }
+
+      .details {
+        margin-top: 25px;
+        .details-title {
+          font-size: 18px;
+          letter-spacing: 0.63px;
+          border-bottom: 3px solid $lightGray3;
+          padding-bottom: 5px;
+        }
+
+        .details-content {
+          font-size: 15px;
+          letter-spacing: 0.52px;
+          line-height: 22px;
+        }
+      }
+    }
+
+    .image-gallery {
+      margin-left: 160px;
+      margin-right: 30px;
+
+      .large-image-container {
+        background: $lightGray3;
+        height: 450px;
+        width: 400px;
+        display: flex;
+        align-items: center;
+        justify-items: center;
+        .large-image {
+          max-height: 450px;
+          width: 100%;
+        }
+      }
+
+      .image-grid {
+        margin-top: 10px;
+        overflow-y: hidden;
+        overflow-x: scroll;
+        white-space: nowrap;
+        width: 400px;
+
+        .image-button {
+          border: transparent;
+          padding: 0;
+          cursor: pointer;
+          margin-right: 5px;
+          margin-left: 5px;
+          .small-image {
+            background: $gray;
+            height: 120px;
+            width: 120px;
+          }
+
+          &:first-of-type {
+            margin-left: 0;
+          }
+
+          &:last-of-type {
+            margin-right: 0;
+          }
+
+          &:focus {
+            outline: transparent;
+          }
+
+          &:hover {
+            .small-image {
+              filter: brightness(50%);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: $large) {
+    .item {
+      display: grid;
+      grid-template-columns: 40% 60%;
+
+      .item-info {
+        width: 50%;
+        text-align: left;
+        margin-left: 50px;
+      }
+    }
+  }
+}
