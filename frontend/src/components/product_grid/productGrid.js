@@ -8,8 +8,13 @@ function ProductGrid(props) {
     const nItems = props.items.length;
     const history = useHistory();
 
-    const handleProductClick = (id) => {
-        history.push(`shop/item/${id}`);
+    const handleProductClick = (id, name, categories) => {
+        if (!categories) {
+            history.push(`shop/item/${id}`);
+        } else {
+            //FIX THIS, SUBCATEGORY??
+            // history.push("/shop", { categoryId: id, categoryName: name });
+        }
     }
 
     const getRows = () => {
@@ -38,11 +43,11 @@ function ProductGrid(props) {
             const price = props.categories ?
                 null :
                 props.items[index].startPrice.toFixed(2);
-            const id = props.categories ? null : props.items[index].id;
+            const id = props.items[index].id;
 
             cols.push(
                 <div key={j} className="product">
-                    <button className="image-button" onClick={() => handleProductClick(id)}>
+                    <button className="image-button" onClick={() => handleProductClick(id, name, props.categories)}>
                         <Image className="product-image" cloudName="lvrnjak" publicId={imageUrl} >
                             <Transformation height="400" crop="scale" />
                         </Image>
