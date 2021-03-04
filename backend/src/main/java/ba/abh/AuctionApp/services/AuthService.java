@@ -34,7 +34,7 @@ public class AuthService implements UserDetailsService {
 
     public User register(final RegisterRequest registerRequest) {
         if (userExists(registerRequest.getEmail())) {
-            throw new EmailInUseException("Email " + registerRequest.getEmail() + " is already in use");
+            throw new EmailInUseException(String.format("Email %s is already in use", registerRequest.getEmail()));
         }
 
         String password = passwordEncoder.encode(registerRequest.getPassword());
@@ -61,7 +61,7 @@ public class AuthService implements UserDetailsService {
     public User loadUserByUsername(final String s) throws UsernameNotFoundException {
         return userRepository
                 .findByEmail(s)
-                .orElseThrow(() -> new InvalidCredentialsException("User with email " + s + " doesn't exist"));
+                .orElseThrow(() -> new InvalidCredentialsException(String.format("User with email %s doesn't exist", s)));
     }
 
     public String authenticate(final String email, final String password) {

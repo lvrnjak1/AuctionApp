@@ -51,7 +51,7 @@ public class CategoryService {
     public Category findById(final Long id) {
         return categoryRepository
                 .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Category with id " + id + " doesn't exist"));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Category with id %d doesn't exist", id)));
     }
 
     public List<Category> getFeaturedCategories(final int numberOfCategories) {

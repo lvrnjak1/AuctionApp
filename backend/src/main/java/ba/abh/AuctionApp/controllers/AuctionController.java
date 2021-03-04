@@ -21,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -88,6 +89,12 @@ public class AuctionController {
         Page<Auction> auctionPage = auctionService.getFeaturedProducts(page - 1, limit);
         PageableResponse response = buildPageableResponse(auctionPage);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AuctionResponse> getAuctionById(@PathVariable final Long id){
+        Auction auction = auctionService.getByIdIfExists(id);
+        return ResponseEntity.ok(new AuctionResponse(auction));
     }
 
     private User getUserFromPrincipal(final Principal principal) {
