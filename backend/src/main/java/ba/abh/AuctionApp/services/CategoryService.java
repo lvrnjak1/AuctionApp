@@ -40,7 +40,7 @@ public class CategoryService {
                         .filter(cr -> cr.getId().equals(category.getParentCategory().getId()))
                         .findFirst();
                 CategoryResponse sc = getCategoryResponseFromCategory(category, productsPerCategory);
-                c.get().addSubcategory(sc);
+                c.ifPresent(categoryResponse -> categoryResponse.addSubcategory(sc));
             }
         }
 
