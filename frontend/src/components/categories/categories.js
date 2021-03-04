@@ -2,30 +2,38 @@ import React, { useState } from 'react';
 import "components/categories/categories.scss";
 import { resetCurrentCategory, setCurrentCategory } from 'state/actions/currentCategoryActions';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 function Categories(props) {
     const [activeCategory, setActiveCategory] = useState(-1);
     const [activeSubcategory, setActiveSubcategory] = useState();
     const dispatch = useDispatch();
+    const history = useHistory();
 
-    const toggleExpand = index => {
-        if (!props.expandable) {
-            return;
-        }
-
+    const toggleExpand = async index => {
         if (activeCategory === index) {
             setActiveCategory(-1);
         } else {
             setActiveCategory(index);
         }
+
+        await handleFilter(props.items[index]);
     }
 
-    const handleFilter = async (c, sc) => {
+    const handleFilter = async (category, subcategory) => {
+        if (!props.expandable) {
+            history.push("/shop", { categoryId: category.id, categoryName: category.name });
+            return;
+        }
+
         let id = null;
-        if (c) {
-            setActiveSubcategory(sc.id);
-            dispatch(setCurrentCategory(`${c.name}/`, sc.name));
-            id = sc.id;
+        if (category && subcategory) {
+            setActiveSubcategory(subcategory.id);
+            dispatch(setCurrentCategory(`${category.name}/`, subcategory.name));
+            id = subcategory.id;
+        } else if (category) {
+            dispatch(setCurrentCategory(`${category.name}/`, ""));
+            id = category.id;
         } else {
             dispatch(resetCurrentCategory(true));
         }

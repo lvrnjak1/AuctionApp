@@ -8,8 +8,9 @@ import { MenuItem, Select } from '@material-ui/core';
 import { faSortAmountUp, faSortAmountDown } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
-import { initializeCurrentCategory, resetCurrentCategory } from 'state/actions/currentCategoryActions';
+import { initializeCurrentCategory, resetCurrentCategory, setCurrentCategory } from 'state/actions/currentCategoryActions';
 import { setInfoMessage } from 'state/actions/infoMessageActions';
+import { useHistory } from 'react-router-dom';
 
 function Shop() {
     const [categories, setCategories] = useState([]);
@@ -17,6 +18,7 @@ function Shop() {
     const [hasNext, setHasNext] = useState(true);
     const [filterParams, setFilterParams] = useState({ categoryId: null, sort: null, sortOrder: "ASC", page: 1, limit: 3 });
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const errorHandler = () => {
         dispatch(setInfoMessage("Something went wrong, come back soon", "error"));
@@ -28,7 +30,12 @@ function Shop() {
         }
 
         fetchCategories();
-        dispatch(initializeCurrentCategory());
+        if (history.location.state) {
+            setFilterParams({ ...filterParams, categoryId: history.location.state.categoryId });
+            dispatch(setCurrentCategory(history.location.state.categoryName, ""));
+        } else {
+            dispatch(initializeCurrentCategory());
+        }
 
         return () => dispatch(resetCurrentCategory(false));
     }, []);
