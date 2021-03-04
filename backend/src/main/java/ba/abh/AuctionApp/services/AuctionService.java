@@ -7,6 +7,7 @@ import ba.abh.AuctionApp.domain.Product;
 import ba.abh.AuctionApp.domain.User;
 import ba.abh.AuctionApp.domain.enums.Size;
 import ba.abh.AuctionApp.exceptions.custom.InvalidDateException;
+import ba.abh.AuctionApp.exceptions.custom.ResourceNotFoundException;
 import ba.abh.AuctionApp.filters.AuctionFilter;
 import ba.abh.AuctionApp.repositories.ColorRepository;
 import ba.abh.AuctionApp.repositories.auction.AuctionRepository;
@@ -16,7 +17,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -99,7 +99,7 @@ public class AuctionService {
 
     public Auction getByIdIfExists(final Long id) {
         return auctionRepository.findById(id).orElseThrow(() ->
-                new EntityNotFoundException(String.format("Auction with id %d doesn't exist", id))
+                new ResourceNotFoundException(String.format("Auction with id %d doesn't exist", id))
         );
     }
 }
