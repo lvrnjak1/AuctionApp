@@ -291,7 +291,7 @@ values (8,
         13
 );
 insert into images (id, image_url, product_id)
-values (16, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614250598/pexels-ravindra-rawat-1294731_wjiev6.jpg', 8);
+values (16, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614896321/pexels-pixabay-532803_txfapi.jpg', 8);
 insert into product_colors(product_id, color_id) values (8, 4);
 insert into auctions (id, end_date_time, start_date_time, start_price, product_id, seller_id)
 values (8, '2021-03-22 15:30:00.000000', '2021-02-26 09:30:00.000000', 25, 8, 1);
