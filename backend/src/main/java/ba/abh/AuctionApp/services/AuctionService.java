@@ -94,4 +94,10 @@ public class AuctionService {
         Pageable pageable = PageRequest.of(page, size);
         return auctionRepository.findAllByFilter(auctionFilter, pageable);
     }
+
+    public Auction getByIdIfExists(final Long id) {
+        return auctionRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(String.format("Auction with id %d doesn't exist", id))
+        );
+    }
 }
