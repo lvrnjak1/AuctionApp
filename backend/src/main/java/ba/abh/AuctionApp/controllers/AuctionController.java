@@ -3,7 +3,6 @@ package ba.abh.AuctionApp.controllers;
 import ba.abh.AuctionApp.controllers.utility.SortCriteria;
 import ba.abh.AuctionApp.controllers.utility.SortOrder;
 import ba.abh.AuctionApp.domain.Auction;
-import ba.abh.AuctionApp.domain.User;
 import ba.abh.AuctionApp.domain.enums.Size;
 import ba.abh.AuctionApp.exceptions.custom.InvalidPaginationException;
 import ba.abh.AuctionApp.filters.AuctionFilter;
@@ -51,7 +50,7 @@ public class AuctionController {
     @Secured("ROLE_SELLER")
     public ResponseEntity<AuctionResponse> createAuction(@Valid @RequestBody final AuctionRequest auctionRequest,
                                                          final Principal principal) {
-        Auction auction = auctionService.createAuction(auctionRequest, getUserFromPrincipal(principal));
+        Auction auction = auctionService.createAuction(auctionRequest, userService.getUserFromPrincipal(principal));
         return ResponseEntity.status(HttpStatus.CREATED).body(new AuctionResponse(auction));
     }
 
@@ -92,13 +91,9 @@ public class AuctionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AuctionResponse> getAuctionById(@PathVariable final Long id){
+    public ResponseEntity<AuctionResponse> getAuctionById(@PathVariable final Long id) {
         Auction auction = auctionService.getByIdIfExists(id);
         return ResponseEntity.ok(new AuctionResponse(auction));
-    }
-
-    private User getUserFromPrincipal(final Principal principal) {
-        return userService.getUserByEmail(principal.getName());
     }
 
     private PageableResponse buildPageableResponse(final Page<Auction> page) {
@@ -116,8 +111,8 @@ public class AuctionController {
         return new PageableResponse(details, (List<PageableEntity>) data);
     }
 
-    private void checkPagination(final int page, final int limit){
-        if(page < 1 || limit < 1){
+    private void checkPagination(final int page, final int limit) {
+        if (page < 1 || limit < 1) {
             throw new InvalidPaginationException("Page index should start at 1, and limit should be at least 1");
         }
     }

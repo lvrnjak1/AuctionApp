@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.Instant;
+import java.util.Objects;
 
 @Entity
 @Table(name = "bids")
@@ -76,5 +77,22 @@ public class Bid extends BaseEntity {
 
     public void setAmount(final Double amount) {
         this.amount = amount;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Bid bid = (Bid) o;
+        return Objects.equals(auction, bid.auction) &&
+                Objects.equals(bidder, bid.bidder) &&
+                Objects.equals(dateTime, bid.dateTime) &&
+                Objects.equals(amount, bid.amount);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), auction, bidder, dateTime, amount);
     }
 }
