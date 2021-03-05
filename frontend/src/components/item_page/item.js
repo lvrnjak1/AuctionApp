@@ -4,6 +4,7 @@ import "components/item_page/item.scss";
 import { getRequest } from 'http/requests';
 import { AUCTIONS_ENDPOINT } from 'http/endpoints';
 import { Image, Transformation } from 'cloudinary-react';
+import CustomTable from 'components/table/table';
 
 function ItemPage() {
 
@@ -49,14 +50,25 @@ function ItemPage() {
                 <div className="item-info">
                     <p className="name">{item.product.name}</p>
                     <p className="price">{`Start from - $${item.startPrice.toFixed(2)}`}</p>
-                    <div className="bid-info"></div>
+                    <div className="bid-info">
+                        <input className="bid-input" />
+                        <button className="bid-button">{`Place bid >`}</button>
+                        <p className="input-label">{`Enter -- or more`}</p>
+                        <ul className="bid-info-text">
+                            <li>Highest bid:</li>
+                            <li>No bids:</li>
+                            <li>Time left:</li>
+                        </ul>
+                    </div>
                     <div className="details">
                         <p className="details-title">Details</p>
                         <p className="details-content">{item.product.description || "There are no details about this item."}</p>
                     </div>
                 </div>
             </div>
-            <div className="bids-table"></div>
+            <div className="bids-table">
+                <CustomTable />
+            </div>
         </div> : ""
 
     );
