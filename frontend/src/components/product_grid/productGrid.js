@@ -12,8 +12,7 @@ function ProductGrid(props) {
         if (!categories) {
             history.push(`shop/item/${id}`);
         } else {
-            //FIX THIS, SUBCATEGORY??
-            // history.push("/shop", { categoryId: id, categoryName: name });
+            //TO DO FILTER BY CATEGORY ON CLICK
         }
     }
 
