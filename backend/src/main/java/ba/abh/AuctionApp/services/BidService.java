@@ -40,7 +40,6 @@ public class BidService {
         if (highestBid.isPresent() && bidRequest.getAmount() <= highestBid.get().getAmount()) {
             throw new LowBidException(String.format("You must place a bid higher than %.2f", highestBid.get().getAmount()));
         }
-
         Bid bid = getBidFromRequest(bidRequest, auction, user);
         auction.addBid(bid);
         bidRepository.save(bid);
