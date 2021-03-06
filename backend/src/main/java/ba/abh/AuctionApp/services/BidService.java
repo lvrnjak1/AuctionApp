@@ -17,9 +17,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Optional;
 
-import ba.abh.AuctionApp.repositories.BidRepository;
-import ba.abh.AuctionApp.requests.BidRequest;
-import org.springframework.stereotype.Service;
 
 @Service
 public class BidService {
