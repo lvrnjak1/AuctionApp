@@ -4,6 +4,7 @@ import ba.abh.AuctionApp.exceptions.custom.EmailInUseException;
 import ba.abh.AuctionApp.exceptions.custom.InvalidCredentialsException;
 import ba.abh.AuctionApp.exceptions.custom.InvalidDateException;
 import ba.abh.AuctionApp.exceptions.custom.InvalidPaginationException;
+import ba.abh.AuctionApp.exceptions.custom.LowBidException;
 import ba.abh.AuctionApp.exceptions.custom.ResourceNotFoundException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -46,6 +47,11 @@ public class RestExceptionsHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(InvalidPaginationException.class)
     public ResponseEntity<Object> handleInvalidPagination(final InvalidPaginationException ex) {
         return buildResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(LowBidException.class)
+    public ResponseEntity<Object> handleLowBid(final LowBidException ex) {
+        return buildResponseEntity(ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @Override
