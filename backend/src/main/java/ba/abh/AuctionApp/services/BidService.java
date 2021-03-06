@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Optional;
 
-
 @Service
 public class BidService {
     private final BidRepository bidRepository;
