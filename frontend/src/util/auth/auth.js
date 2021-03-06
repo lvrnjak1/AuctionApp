@@ -19,9 +19,14 @@ const getUser = () => {
     return JSON.parse(localStorage.getItem("USER")) || JSON.parse(sessionStorage.getItem("USER"));
 }
 
+const getAuthorizationConfig = () => {
+    return { headers: { Authorization: `Bearer ${getToken()}` } };
+}
+
 export {
     loginUser,
     logoutUser,
     getToken,
-    getUser
+    getUser,
+    getAuthorizationConfig
 }

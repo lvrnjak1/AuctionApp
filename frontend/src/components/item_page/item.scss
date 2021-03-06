@@ -45,6 +45,11 @@
           letter-spacing: 0.63px;
           font-weight: bold;
           padding: 8px 20px 10px 20px;
+          cursor: pointer;
+
+          &:focus {
+            outline: transparent;
+          }
         }
 
         p {

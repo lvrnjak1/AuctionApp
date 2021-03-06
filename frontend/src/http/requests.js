@@ -7,7 +7,7 @@ const postRequest = async (endpoint, body, successHandler, errorHandler, request
     try {
         store.dispatch(setAsyncTaskInProgress(true));
         const response = await axios.post(endpoint, body, requestConfig);
-        store.dispatch(setAsyncTaskInProgress(false));
+        // store.dispatch(setAsyncTaskInProgress(false));
         successHandler(response);
     } catch (error) {
         errorHandler(error);
