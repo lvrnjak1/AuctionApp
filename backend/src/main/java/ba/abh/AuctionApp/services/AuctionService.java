@@ -101,4 +101,9 @@ public class AuctionService {
                 new ResourceNotFoundException(String.format("Auction with id %d doesn't exist", id))
         );
     }
+
+    public Auction getActiveByIdIfExists(final Long id) {
+        return auctionRepository.findActiveById(id, LocalDateTime.now().toInstant(ZoneOffset.UTC))
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Auction with id %d doesn't exist", id)));
+    }
 }

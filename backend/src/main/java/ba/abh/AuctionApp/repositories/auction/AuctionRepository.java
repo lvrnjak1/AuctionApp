@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
+import java.util.Optional;
 
 @Repository
 public interface AuctionRepository extends JpaRepository<Auction, Long>, FilteredAuctionRepository {
@@ -17,5 +18,13 @@ public interface AuctionRepository extends JpaRepository<Auction, Long>, Filtere
 
     default Page<Auction> findActiveAuctions(final Instant date, final Pageable pageable) {
         return findByStartDateTimeBeforeAndEndDateTimeAfter(date, date, pageable);
+    }
+
+    Optional<Auction> findByIdAndStartDateTimeBeforeAndEndDateTimeAfter(final Long auctionId,
+                                                                        final Instant dateBefore,
+                                                                        final Instant dateAfter);
+
+    default Optional<Auction> findActiveById(final Long auctionId, final Instant date){
+        return findByIdAndStartDateTimeBeforeAndEndDateTimeAfter(auctionId, date, date);
     }
 }

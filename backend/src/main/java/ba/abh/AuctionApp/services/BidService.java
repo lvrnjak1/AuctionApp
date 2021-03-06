@@ -26,7 +26,7 @@ public class BidService {
     }
 
     public Bid saveBidForAuction(final Long auctionId, final User user, final BidRequest bidRequest) {
-        Auction auction = auctionService.getByIdIfExists(auctionId);
+        Auction auction = auctionService.getActiveByIdIfExists(auctionId);
         Bid bid = getBidFromRequest(bidRequest, auction, user);
         auction.addBid(bid);
         bidRepository.save(bid);
@@ -38,7 +38,8 @@ public class BidService {
     }
 
     public Page<Bid> findBidsForAuction(final Long auctionId, final int page, final int limit) {
+        Auction auction = auctionService.getActiveByIdIfExists(auctionId);
         Pageable pageable = PageRequest.of(page, limit, Sort.by("amount").descending());
-        return bidRepository.findAllByAuction_Id(auctionId, pageable);
+        return bidRepository.findAllByAuction(auction, pageable);
     }
 }
