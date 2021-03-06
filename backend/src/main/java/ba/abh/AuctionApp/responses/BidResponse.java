@@ -1,10 +1,11 @@
 package ba.abh.AuctionApp.responses;
 
 import ba.abh.AuctionApp.domain.Bid;
+import ba.abh.AuctionApp.pagination.PageableEntity;
 
 import java.time.Instant;
 
-public class BidResponse {
+public class BidResponse implements PageableEntity {
     private Long auctionId;
     private Long bidderId;
     private Instant dateTime;

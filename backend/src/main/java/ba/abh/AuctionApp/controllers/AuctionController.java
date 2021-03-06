@@ -97,12 +97,7 @@ public class AuctionController {
     }
 
     private PageableResponse buildPageableResponse(final Page<Auction> page) {
-        boolean hasPrevious = !page.isFirst();
-        boolean hasNext = page.hasNext();
-        int currentPage = page.getNumber() + 1;
-        int numberOfItemsOnPage = page.getNumberOfElements();
-        long available = page.getTotalElements();
-        PaginationDetails details = new PaginationDetails(currentPage, hasNext, hasPrevious, numberOfItemsOnPage, available);
+        PaginationDetails details = new PaginationDetails(page);
         List<? extends PageableEntity> data = page
                 .getContent()
                 .stream()

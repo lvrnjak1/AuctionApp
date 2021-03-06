@@ -1,5 +1,7 @@
 package ba.abh.AuctionApp.pagination;
 
+import org.springframework.data.domain.Page;
+
 public class PaginationDetails {
     private int pageNumber;
     private boolean hasNext;
@@ -17,6 +19,14 @@ public class PaginationDetails {
         this.hasPrevious = hasPrevious;
         this.pageSize = pageSize;
         this.available = available;
+    }
+
+    public PaginationDetails(final Page<?> page) {
+        this.hasPrevious = !page.isFirst();
+        this.hasNext = page.hasNext();
+        this.pageNumber = page.getNumber() + 1;
+        this.pageSize = page.getNumberOfElements();
+        this.available = page.getTotalElements();
     }
 
     public int getPageNumber() {
