@@ -241,4 +241,33 @@ class AuctionControllerTest {
         mockMvc.perform(get("/auctions?categoryId=17"))
                 .andExpect(jsonPath("$.pagination.pageSize", is(0)));
     }
+
+    @Test
+    public void testFindByIdError() throws Exception {
+        mockMvc.perform(get("/auctions/77"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("message", is("Auction with id 77 doesn't exist")));
+    }
+
+    @Test
+    public void testFindByIdSuccess1() throws Exception {
+        mockMvc.perform(get("/auctions/7"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id", is(7)))
+                .andExpect(jsonPath("startPrice", is(25.0)))
+                .andExpect(jsonPath("sellerId", is(1)))
+                .andExpect(jsonPath("$.product.id", is(7)))
+                .andExpect(jsonPath("$.product.name", is("Wool sweaters")));
+    }
+
+    @Test
+    public void testFindByIdSuccess2() throws Exception {
+        mockMvc.perform(get("/auctions/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id", is(1)))
+                .andExpect(jsonPath("startPrice", is(150.0)))
+                .andExpect(jsonPath("sellerId", is(1)))
+                .andExpect(jsonPath("$.product.id", is(1)))
+                .andExpect(jsonPath("$.product.name", is("Black sandals")));
+    }
 }

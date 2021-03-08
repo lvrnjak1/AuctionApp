@@ -1,10 +1,20 @@
 import React from 'react';
 import "components/product_grid/productGrid.scss";
 import { Image, Transformation } from 'cloudinary-react';
+import { useHistory } from 'react-router-dom';
 
 function ProductGrid(props) {
     const ncols = props.col3 ? 3 : 4;
     const nItems = props.items.length;
+    const history = useHistory();
+
+    const handleProductClick = (id, name, categories) => {
+        if (!categories) {
+            history.push(`shop/item/${id}`);
+        } else {
+            //TO DO FILTER BY CATEGORY ON CLICK
+        }
+    }
 
     const getRows = () => {
         const rows = [];
@@ -32,12 +42,15 @@ function ProductGrid(props) {
             const price = props.categories ?
                 null :
                 props.items[index].startPrice.toFixed(2);
+            const id = props.items[index].id;
 
             cols.push(
                 <div key={j} className="product">
-                    <Image className="product-image" cloudName="lvrnjak" publicId={imageUrl} >
-                        <Transformation height="400" crop="scale" />
-                    </Image>
+                    <button className="image-button" onClick={() => handleProductClick(id, name, props.categories)}>
+                        <Image className="product-image" cloudName="lvrnjak" publicId={imageUrl} >
+                            <Transformation height="400" crop="scale" />
+                        </Image>
+                    </button>
                     <p className="name">{name}</p>
                     {price ? <p className="price">{`Start from - $${price}`}</p> : ""}
                 </div>

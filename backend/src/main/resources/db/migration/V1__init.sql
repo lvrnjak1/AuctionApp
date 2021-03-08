@@ -170,9 +170,9 @@ values (29, 'Accessories', 6, 'https://res.cloudinary.com/lvrnjak/image/upload/v
 insert into products (id, description, name, size, category_id)
 values (1, 'Very comfortable high heels. Perfect for a party. Black sandals.', 'Black sandals', 'MEDIUM', 12);
 insert into images (id, image_url, product_id)
-values (1, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614250583/pexels-skylar-kang-6046183_ldznbw.jpg', 1);
+values (1, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614893229/product1/bs5_n5q2t5.jpg', 1);
 insert into images (id, image_url, product_id)
-values (2, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614250571/pexels-skylar-kang-6046186_yff8db.jpg', 1);
+values (2, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614893228/product1/bs4_x4eley.jpg', 1);
 insert into product_colors (product_id, color_id) values (1, 1);
 insert into auctions (id, end_date_time, start_date_time, start_price, product_id, seller_id)
 values (1, '2021-03-21 11:00:00.000000', '2021-02-25 11:00:00.000000', 150, 1, 1);
@@ -180,9 +180,9 @@ values (1, '2021-03-21 11:00:00.000000', '2021-02-25 11:00:00.000000', 150, 1, 1
 insert into products (id, description, name, size, category_id)
 values (2, 'Plain shirts in all colors imaginable. Comfortable made of cotton.', 'Plain T-shirt', 'LARGE', 9);
 insert into images (id, image_url, product_id)
-values (3, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614250604/pexels-sorapong-chaipanya-4530802_mb8col.jpg', 2);
+values (3, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614893807/product2/ts4_hvorwh.jpg', 2);
 insert into images (id, image_url, product_id)
-values (4, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614250607/pexels-sorapong-chaipanya-4530800_adrfmi.jpg', 2);
+values (4, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614893807/product2/ts4_hvorwh.jpg', 2);
 insert into product_colors(product_id, color_id) values (2, 1);
 insert into product_colors(product_id, color_id) values (2, 2);
 insert into product_colors(product_id, color_id) values (2, 3);
@@ -291,7 +291,59 @@ values (8,
         13
 );
 insert into images (id, image_url, product_id)
-values (16, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614250598/pexels-ravindra-rawat-1294731_wjiev6.jpg', 8);
+values (16, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614896321/pexels-pixabay-532803_txfapi.jpg', 8);
 insert into product_colors(product_id, color_id) values (8, 4);
 insert into auctions (id, end_date_time, start_date_time, start_price, product_id, seller_id)
 values (8, '2021-03-22 15:30:00.000000', '2021-02-26 09:30:00.000000', 25, 8, 1);
+
+insert into images (id, image_url, product_id)
+values (17, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614893227/product1/bs3_ilrzdo.jpg', 1);
+insert into images (id, image_url, product_id)
+values (18, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614893227/product1/bs2_z4aqek.jpg', 1);
+insert into images (id, image_url, product_id)
+values (19, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614893224/product1/bs1_sujfko.jpg', 1);
+
+insert into images (id, image_url, product_id)
+values (20, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614893808/product2/ts1_avkvz7.jpg', 2);
+insert into images (id, image_url, product_id)
+values (21, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614893809/product2/ts2_bhizaf.jpg', 2);
+insert into images (id, image_url, product_id)
+values (22, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614893811/product2/ts3_gkbp14.jpg', 2);
+
+insert into images (id, image_url, product_id)
+values (23, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614894073/hw1_k3ywod.jpg', 3);
+
+insert into images (id, image_url, product_id)
+values (24, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614894182/rs1_xfko96.webp', 4);
+
+insert into images (id, image_url, product_id)
+values (25, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614894291/hb1_jcsbvq.jpg', 5);
+insert into images (id, image_url, product_id)
+values (26, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614894290/hb2_phfewd.jpg', 5);
+
+insert into images (id, image_url, product_id)
+values (27, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614894490/rs2_m6bm7o.jpg', 6);
+insert into images (id, image_url, product_id)
+values (28, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614894488/rs3_gs55wo.jpg', 6);
+insert into images (id, image_url, product_id)
+values (29, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614894490/rs1_wfod14.jpg', 6);
+insert into images (id, image_url, product_id)
+values (30, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614250846/pexels-aman-jakhar-1124466_htyqfc.jpg', 6);
+insert into images (id, image_url, product_id)
+values (31, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614250716/pexels-styves-exantus-6412694_relxwd.jpg', 6);
+
+insert into images (id, image_url, product_id)
+values (32, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614894696/ws2_oswequ.jpg', 7);
+insert into images (id, image_url, product_id)
+values (33, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614894693/ws3_ys7o90.jpg', 7);
+insert into images (id, image_url, product_id)
+values (34, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614894702/ws1_lxwifm.jpg', 7);
+
+insert into images (id, image_url, product_id)
+values (35, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614894846/hbp2_tm5a2w.jpg', 8);
+insert into images (id, image_url, product_id)
+values (36, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614894845/hbp1_mnrkbt.jpg', 8);
+insert into images (id, image_url, product_id)
+values (37, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614894843/hbp3_jdkqrm.png', 8);
+insert into images (id, image_url, product_id)
+values (38, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614894840/hbp4_mk8wgi.webp', 8);

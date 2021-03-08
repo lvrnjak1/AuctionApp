@@ -3,7 +3,8 @@ import theme from "util/style/theme";
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Redirect
 } from "react-router-dom";
 import Layout from 'components/layout/layout';
 import Terms from 'static_pages/terms/terms';
@@ -14,6 +15,7 @@ import Register from 'components/forms/register/register';
 import Login from 'components/forms/login/login';
 import Home from 'components/home/home';
 import Shop from 'components/shop/shop';
+import ItemPage from 'components/item_page/item';
 
 
 function App() {
@@ -56,11 +58,21 @@ function App() {
               <Shop />
             </Layout>
           </Route>
-          <Route path="/**">
+          <Route exact path="/shop/item/:id">
+            <Layout breadcrumbs={{ current: "single product", breadcrumbs: ["shop/", "single product"] }}>
+              <ItemPage />
+            </Layout>
+          </Route>
+          <Route path="/404">
             <Layout removeHeader>
               <NotFound />
             </Layout>
           </Route>
+          <Redirect to="/404">
+            <Layout removeHeader>
+              <NotFound />
+            </Layout>
+          </Redirect>
         </Switch>
       </ThemeProvider>
     </Router >

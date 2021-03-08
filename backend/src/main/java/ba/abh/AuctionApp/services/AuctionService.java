@@ -7,6 +7,7 @@ import ba.abh.AuctionApp.domain.Product;
 import ba.abh.AuctionApp.domain.User;
 import ba.abh.AuctionApp.domain.enums.Size;
 import ba.abh.AuctionApp.exceptions.custom.InvalidDateException;
+import ba.abh.AuctionApp.exceptions.custom.ResourceNotFoundException;
 import ba.abh.AuctionApp.filters.AuctionFilter;
 import ba.abh.AuctionApp.repositories.ColorRepository;
 import ba.abh.AuctionApp.repositories.auction.AuctionRepository;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 
 import java.time.Clock;
 import java.time.Instant;
@@ -93,5 +95,11 @@ public class AuctionService {
         auctionFilter.setEndAfter(now);
         Pageable pageable = PageRequest.of(page, size);
         return auctionRepository.findAllByFilter(auctionFilter, pageable);
+    }
+
+    public Auction getByIdIfExists(final Long id) {
+        return auctionRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException(String.format("Auction with id %d doesn't exist", id))
+        );
     }
 }

@@ -25,7 +25,7 @@ public class ProductService {
     public Product findProductById(final Long productId) {
         return productRepository
                 .findById(productId)
-                .orElseThrow(() -> new ResourceNotFoundException("Product with id " + productId + " doesn't exist"));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Product with id %d doesn't exist", productId)));
     }
 
     public void saveImageForProduct(final Long productId, final String imageUrl) {

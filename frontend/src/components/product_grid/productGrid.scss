@@ -7,9 +7,26 @@
 
     .product {
       margin-bottom: 20px;
-      .product-image {
+      .image-button {
+        border: transparent;
+        padding: 0;
         height: 150px;
-        width: 150px;
+        cursor: pointer;
+        .product-image {
+          height: 150px;
+          width: 100%;
+          padding: 0;
+        }
+
+        &:focus {
+          outline: transparent;
+        }
+
+        &:hover {
+          .product-image {
+            filter: brightness(50%);
+          }
+        }
       }
 
       .name {
