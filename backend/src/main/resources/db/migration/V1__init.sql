@@ -175,7 +175,7 @@ insert into images (id, image_url, product_id)
 values (2, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614250571/pexels-skylar-kang-6046186_yff8db.jpg', 1);
 insert into product_colors (product_id, color_id) values (1, 1);
 insert into auctions (id, end_date_time, start_date_time, start_price, product_id, seller_id)
-values (1, '2021-03-04 11:00:00.000000', '2021-02-25 11:00:00.000000', 150, 1, 1);
+values (1, '2021-03-21 11:00:00.000000', '2021-02-25 11:00:00.000000', 150, 1, 1);
 
 insert into products (id, description, name, size, category_id)
 values (2, 'Plain shirts in all colors imaginable. Comfortable made of cotton.', 'Plain T-shirt', 'LARGE', 9);
@@ -194,7 +194,7 @@ insert into product_colors(product_id, color_id) values (2, 8);
 insert into product_colors(product_id, color_id) values (2, 9);
 insert into product_colors(product_id, color_id) values (2, 10);
 insert into auctions (id, end_date_time, start_date_time, start_price, product_id, seller_id)
-values (2, '2021-03-04 11:15:00.000000', '2021-02-25 11:30:00.000000', 30, 2, 1);
+values (2, '2021-03-22 11:15:00.000000', '2021-03-02 11:30:00.000000', 30, 2, 1);
 
 insert into products (id, description, name, size, category_id)
 values (3,
@@ -214,7 +214,7 @@ insert into product_colors(product_id, color_id) values (3, 2);
 insert into product_colors(product_id, color_id) values (3, 4);
 insert into product_colors(product_id, color_id) values (3, 10);
 insert into auctions (id, end_date_time, start_date_time, start_price, product_id, seller_id)
-values (3, '2021-03-04 11:30:00.000000', '2021-02-25 11:30:00.000000', 65.50, 3, 1);
+values (3, '2021-03-20 13:30:00.000000', '2021-02-24 11:30:00.000000', 65.50, 3, 1);
 
 insert into products (id, description, name, size, category_id)
 values (4,
@@ -229,7 +229,7 @@ insert into images (id, image_url, product_id)
 values (9, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614250798/pexels-cottonbro-4937448_acxl8s.jpg', 4);
 insert into product_colors(product_id, color_id) values (4, 4);
 insert into auctions (id, end_date_time, start_date_time, start_price, product_id, seller_id)
-values (4, '2021-03-04 11:30:00.000000', '2021-02-25 11:30:00.000000', 140.50, 4, 1);
+values (4, '2021-03-19 11:30:00.000000', '2021-02-26 11:30:00.000000', 140.50, 4, 1);
 
 insert into products (id, description, name, size, category_id)
 values (5,
@@ -248,7 +248,7 @@ insert into product_colors(product_id, color_id) values (5, 1);
 insert into product_colors(product_id, color_id) values (5, 2);
 insert into product_colors(product_id, color_id) values (5, 6);
 insert into auctions (id, end_date_time, start_date_time, start_price, product_id, seller_id)
-values (5, '2021-03-04 11:30:00.000000', '2021-02-25 11:30:00.000000', 55, 5, 1);
+values (5, '2021-03-29 11:30:00.000000', '2021-02-18 11:30:00.000000', 55, 5, 1);
 
 insert into products (id, description, name, size, category_id)
 values (6,
@@ -264,7 +264,7 @@ insert into product_colors(product_id, color_id) values (6, 2);
 insert into product_colors(product_id, color_id) values (6, 9);
 insert into product_colors(product_id, color_id) values (6, 10);
 insert into auctions (id, end_date_time, start_date_time, start_price, product_id, seller_id)
-values (6, '2021-03-04 12:30:00.000000', '2021-02-25 10:30:00.000000', 240, 6, 1);
+values (6, '2021-03-17 12:30:00.000000', '2021-02-25 10:30:00.000000', 240, 6, 1);
 
 insert into products (id, description, name, size, category_id)
 values (7,
@@ -281,7 +281,7 @@ insert into product_colors(product_id, color_id) values (7, 2);
 insert into product_colors(product_id, color_id) values (7, 5);
 insert into product_colors(product_id, color_id) values (7, 10);
 insert into auctions (id, end_date_time, start_date_time, start_price, product_id, seller_id)
-values (7, '2021-03-04 12:30:00.000000', '2021-02-25 10:30:00.000000', 25, 7, 1);
+values (7, '2021-03-27 12:30:00.000000', '2021-02-25 13:30:00.000000', 25, 7, 1);
 
 insert into products (id, description, name, size, category_id)
 values (8,
@@ -294,4 +294,4 @@ insert into images (id, image_url, product_id)
 values (16, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614250598/pexels-ravindra-rawat-1294731_wjiev6.jpg', 8);
 insert into product_colors(product_id, color_id) values (8, 4);
 insert into auctions (id, end_date_time, start_date_time, start_price, product_id, seller_id)
-values (8, '2021-03-03 12:30:00.000000', '2021-02-25 09:30:00.000000', 25, 8, 1);
+values (8, '2021-03-22 15:30:00.000000', '2021-02-26 09:30:00.000000', 25, 8, 1);

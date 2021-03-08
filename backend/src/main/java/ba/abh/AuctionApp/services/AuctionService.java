@@ -16,9 +16,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.Clock;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Set;
 
@@ -41,7 +40,7 @@ public class AuctionService {
 
     public Auction createAuction(final AuctionRequest auctionRequest, final User seller) {
         if (auctionRequest.getInstantStartDateTime().isAfter(auctionRequest.getInstantEndDateTime()) ||
-                auctionRequest.getInstantStartDateTime().isBefore(LocalDateTime.now().toInstant(ZoneOffset.UTC))) {
+                auctionRequest.getInstantStartDateTime().isBefore(Clock.systemUTC().instant())) {
             throw new InvalidDateException("Invalid start or end date");
         }
 
@@ -80,7 +79,7 @@ public class AuctionService {
 
     private Page<Auction> getActiveAuctions(final int page, final int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return auctionRepository.findActiveAuctions(LocalDateTime.now().toInstant(ZoneOffset.UTC), pageable);
+        return auctionRepository.findActiveAuctions(Clock.systemUTC().instant(), pageable);
     }
 
     public Page<Auction> getFeaturedProducts(final int page, final int size) {
@@ -89,7 +88,7 @@ public class AuctionService {
     }
 
     public Page<Auction> getFilteredAuctions(int page, int size, AuctionFilter auctionFilter) {
-        Instant now = LocalDateTime.now().toInstant(ZoneOffset.UTC);
+        Instant now = Clock.systemUTC().instant();
         auctionFilter.setStartBefore(now);
         auctionFilter.setEndAfter(now);
         Pageable pageable = PageRequest.of(page, size);
