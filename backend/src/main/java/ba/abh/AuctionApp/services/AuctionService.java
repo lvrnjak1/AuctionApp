@@ -96,12 +96,6 @@ public class AuctionService {
         return auctionRepository.findAllByFilter(auctionFilter, pageable);
     }
 
-    public Auction getByIdIfExists(final Long id) {
-        return auctionRepository.findById(id).orElseThrow(() ->
-                new ResourceNotFoundException(String.format("Auction with id %d doesn't exist", id))
-        );
-    }
-
     public Auction getActiveByIdIfExists(final Long id) {
         return auctionRepository.findActiveById(id, Clock.systemUTC().instant())
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Auction with id %d doesn't exist", id)));
