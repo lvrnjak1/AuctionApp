@@ -12,15 +12,6 @@ import java.util.Optional;
 
 @Repository
 public interface AuctionRepository extends JpaRepository<Auction, Long>, FilteredAuctionRepository {
-    Page<Auction> findByStartDateTimeBeforeAndEndDateTimeAfter(final Instant dateBefore,
-                                                               final Instant dateAfter,
-                                                               final Pageable pageable
-    );
-
-    default Page<Auction> findActiveAuctions(final Instant date, final Pageable pageable) {
-        return findByStartDateTimeBeforeAndEndDateTimeAfter(date, date, pageable);
-    }
-
     Optional<Auction> findByIdAndStartDateTimeBeforeAndEndDateTimeAfter(final Long auctionId,
                                                                         final Instant dateBefore,
                                                                         final Instant dateAfter);
