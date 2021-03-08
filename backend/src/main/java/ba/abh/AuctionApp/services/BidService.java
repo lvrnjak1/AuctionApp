@@ -21,14 +21,11 @@ import java.util.Optional;
 public class BidService {
     private final BidRepository bidRepository;
     private final AuctionService auctionService;
-    private final UserService userService;
 
     public BidService(final BidRepository bidRepository,
-                      final AuctionService auctionService,
-                      final UserService userService) {
+                      final AuctionService auctionService) {
         this.bidRepository = bidRepository;
         this.auctionService = auctionService;
-        this.userService = userService;
     }
 
     public Bid saveBidForAuction(final Long auctionId, final User user, final BidRequest bidRequest) {

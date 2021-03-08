@@ -1,29 +1,30 @@
 package ba.abh.AuctionApp.responses;
 
 import ba.abh.AuctionApp.domain.Bid;
+import ba.abh.AuctionApp.domain.User;
 import ba.abh.AuctionApp.pagination.PageableEntity;
 
 import java.time.Instant;
 
 public class BidResponse implements PageableEntity {
     private Long auctionId;
-    private Long bidderId;
+    private User bidder;
     private Instant dateTime;
     private Double amount;
 
     public BidResponse() {
     }
 
-    public BidResponse(final Long auctionId, final Long bidderId, final Instant dateTime, final Double amount) {
+    public BidResponse(final Long auctionId, final User bidder, final Instant dateTime, final Double amount) {
         this.auctionId = auctionId;
-        this.bidderId = bidderId;
+        this.bidder = bidder;
         this.dateTime = dateTime;
         this.amount = amount;
     }
 
     public BidResponse(final Bid bid){
         this.auctionId = bid.getAuction().getId();
-        this.bidderId = bid.getBidder().getId();
+        this.bidder = bid.getBidder();
         this.dateTime = bid.getDateTime();
         this.amount = bid.getAmount();
     }
@@ -36,12 +37,12 @@ public class BidResponse implements PageableEntity {
         this.auctionId = auctionId;
     }
 
-    public Long getBidderId() {
-        return bidderId;
+    public User getBidder() {
+        return bidder;
     }
 
-    public void setBidderId(final Long bidderId) {
-        this.bidderId = bidderId;
+    public void setBidder(final User bidder) {
+        this.bidder = bidder;
     }
 
     public Instant getDateTime() {
