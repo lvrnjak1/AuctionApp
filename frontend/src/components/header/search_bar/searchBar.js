@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGavel } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom"
 import "components/header/search_bar/searchBar.scss"
+import { getToken } from 'util/auth/auth';
 
 
 function SearchBar() {
@@ -20,9 +21,9 @@ function SearchBar() {
                     <li>
                         <NavLink to="/shop" className="search-bar-link" activeStyle={{ color: "#8367D8", textDecoration: "none" }}>SHOP</NavLink>
                     </li>
-                    <li>
+                    {getToken() && <li>
                         <NavLink to="/account" className="search-bar-link" activeStyle={{ color: "#8367D8", textDecoration: "none" }}>MY ACCOUNT</NavLink>
-                    </li>
+                    </li>}
                 </ul>
             </div>
         </div>

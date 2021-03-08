@@ -23,7 +23,9 @@ function CustomTable(props) {
                     {items.length > 0 ? items.map((row) => (
                         <TableRow key={row.bidder.name}>
                             <TableCell className="col col-bidder" component="th" scope="row">
-                                <div className="avatar"></div>
+                                <div className="avatar">
+                                    <img src="/images/profile-pic.png" alt="profile" />
+                                </div>
                                 <p> {`${row.bidder.name} ${row.bidder.surname}`}</p>
                             </TableCell>
                             <TableCell className="col col-date" align="right">
@@ -33,11 +35,13 @@ function CustomTable(props) {
                                 {`$ ${row.amount.toFixed(2)}`}
                             </TableCell>
                         </TableRow>
-                    )) : "There are no bids for this product. Be the first one!"}
+                    )) : <TableRow>
+                            <TableCell>There are no bids for this product. Be the first one!</TableCell>
+                        </TableRow>}
                 </TableBody>
             </Table>
         </TableContainer>
-    );
+    )
 }
 
 export default CustomTable;

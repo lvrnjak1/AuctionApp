@@ -102,8 +102,6 @@ function ItemPage() {
     const getTimeLeft = () => {
         const now = new Date();
         const end = new Date(item.endDateTime);
-        console.log(now);
-        console.log(end);
         let unit = "seconds";
         let difS = (end - now) / 1000;
         if (difS < 0) {
@@ -162,11 +160,11 @@ function ItemPage() {
                             <button className="bid-button" type="submit">{`Place bid >`}</button>
                         </form>
                         <p className="input-label">
-                            {`Enter more than ${bids.length > 0 ? bids[0].amount.toFixed(2) : item.startPrice.toFixed(2)}`}
+                            {`Enter more than $${bids.length > 0 ? bids[0].amount.toFixed(2) : item.startPrice.toFixed(2)}`}
                         </p>
                         <ul className="bid-info-text">
                             <li>{`Highest bid:`}
-                                <p className="highest-bid"> {`${bids.length > 0 ? bids[0].amount.toFixed(2) : ""}`}</p>
+                                <p className="highest-bid"> {`${bids.length > 0 ? `$${bids[0].amount.toFixed(2)}` : ""}`}</p>
                             </li>
                             <li>{`No bids: ${paginationMetaData ? paginationMetaData.available : "0"}`}</li>
                             <li>{`Time left: ${getTimeLeft()}`}</li>
