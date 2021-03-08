@@ -9,9 +9,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.Clock;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +24,7 @@ public class CategoryService {
     }
 
     public List<CategoryResponse> getCategoriesTree() {
-        Instant now = LocalDateTime.now().toInstant(ZoneOffset.UTC);
+        Instant now = Clock.systemUTC().instant();
         List<ExtendedCategory> queryResult = categoryRepository.findAllCategoriesWithActiveAuctionCount(now);
         List<CategoryResponse> categories = new ArrayList<>();
         for (ExtendedCategory ec : queryResult){
