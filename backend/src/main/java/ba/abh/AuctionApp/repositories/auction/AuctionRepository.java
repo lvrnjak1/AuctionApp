@@ -20,20 +20,10 @@ public interface AuctionRepository extends JpaRepository<Auction, Long>, Filtere
         return findByIdAndStartDateTimeBeforeAndEndDateTimeAfter(auctionId, date, date);
     }
 
-<<<<<<< HEAD
     @Query("select a from Auction a " +
             "left join Bid b on b.auction = a " +
             "where a.startDateTime <= ?1 and a.endDateTime >= ?1 " +
             "group by a " +
             "order by count(b.id) desc")
     Page<Auction> findAllActiveSortedByNumberOfBids(final Instant date, final Pageable pageable);
-=======
-    Optional<Auction> findByIdAndStartDateTimeBeforeAndEndDateTimeAfter(final Long auctionId,
-                                                                        final Instant dateBefore,
-                                                                        final Instant dateAfter);
-
-    default Optional<Auction> findActiveById(final Long auctionId, final Instant date){
-        return findByIdAndStartDateTimeBeforeAndEndDateTimeAfter(auctionId, date, date);
-    }
->>>>>>> Fix bid and auction endpoints to only consider active auctions
 }
