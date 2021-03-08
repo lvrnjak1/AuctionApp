@@ -11,6 +11,7 @@ import {
 } from 'http/endpoints';
 import { useDispatch } from 'react-redux';
 import { setInfoMessage } from 'state/actions/infoMessageActions';
+import { useHistory } from 'react-router-dom';
 
 function Home() {
     const [featuredProduct, setFeaturedProduct] = useState();
@@ -21,6 +22,7 @@ function Home() {
     const [categories, setCategories] = useState();
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
     useEffect(() => {
         async function fetchData() {
@@ -81,6 +83,10 @@ function Home() {
         }
     }
 
+    const handleBidNow = () => {
+        history.push(`/shop/item/${featuredProduct.id}`);
+    }
+
     return (
         <div className="home">
             {featuredProduct && <div className="top">
@@ -89,7 +95,7 @@ function Home() {
                     <p className="featured-product-name">{featuredProduct.product.name}</p>
                     <p className="featured-product-price">{`Start from - $${featuredProduct.startPrice.toFixed(2)}`}</p>
                     <p className="featured-product-desc">{featuredProduct.product.description}</p>
-                    <button className="bid-now-button">{`BID NOW >`}</button>
+                    <button className="bid-now-button" onClick={() => handleBidNow()}>{`BID NOW >`}</button>
                 </div>
                 <div className="featured-product-image">
                     <img

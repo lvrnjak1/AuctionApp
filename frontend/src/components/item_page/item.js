@@ -8,6 +8,7 @@ import CustomTable from 'components/table/table';
 import { getAuthorizationConfig, getToken, logoutUser } from 'util/auth/auth';
 import { useDispatch } from 'react-redux';
 import { resetInfoMessage, setInfoMessage } from 'state/actions/infoMessageActions';
+import { resetLoggedIn } from 'state/actions/loggedInActions';
 
 function ItemPage() {
 
@@ -16,16 +17,37 @@ function ItemPage() {
     const [item, setItem] = useState();
     const [largeImageIndex, setLargeImageIndex] = useState(0);
     const [bid, setBid] = useState("");
+    const [bids, setBids] = useState([]);
+    const [paginationMetaData, setPaginationMetaData] = useState();
     const dispatch = useDispatch();
+
+    const getBids = async () => {
+        const bidsEndpoint = `${AUCTIONS_ENDPOINT}/${id}/bids`;
+        await getRequest(bidsEndpoint,
+            { limit: 5 },
+            (res) => {
+                setBids(res.data.data);
+                setPaginationMetaData(res.data.pagination);
+            }
+        );
+    }
 
     useEffect(() => {
         async function fetchAuctionById() {
             const endpoint = `${AUCTIONS_ENDPOINT}/${id}`;
-            await getRequest(
-                endpoint,
+            await getRequest(endpoint,
                 {},
                 (res) => setItem(res.data),
                 (err) => history.push("/404")
+            );
+
+            const bidsEndpoint = `${AUCTIONS_ENDPOINT}/${id}/bids`;
+            await getRequest(bidsEndpoint,
+                { limit: 5 },
+                (res) => {
+                    setBids(res.data.data);
+                    setPaginationMetaData(res.data.pagination);
+                }
             );
         }
 
@@ -41,7 +63,7 @@ function ItemPage() {
         e.preventDefault();
         setBid("");
         if (!getToken()) {
-            dispatch(setInfoMessage("Login before you start bidding", "info"));
+            dispatch(setInfoMessage("Login before you start bidding!", "info"));
             setTimeout(() => dispatch(resetInfoMessage()), 3000);
         } else {
             await placeBid();
@@ -55,24 +77,53 @@ function ItemPage() {
         await postRequest(endpoint, body, (res) => bidSuccessHandler(res.data), (err) => bidErrorHandler(err), config);
     }
 
-    const bidSuccessHandler = (responseData) => {
+    const bidSuccessHandler = async (responseData) => {
+        await getBids();
         dispatch(setInfoMessage("Congrats! You are the highest bidder!", "success"));
     }
 
     const bidErrorHandler = (error) => {
         console.log(error.response);
         if (error.response && error.response.status === 422) {
-            dispatch(setInfoMessage("There are higher bids than yours. You could give a second try!", "warn"));
+            dispatch(setInfoMessage("There are higher bids than yours. You could give a second try!", "info"));
         } else if (error.response && error.response.status === 401) {
             dispatch(setInfoMessage("Your session has expired, please login again. We will redirect you in 3 seconds", "error"));
             setTimeout(() => {
+                dispatch(resetLoggedIn());
                 logoutUser();
                 history.push("/login");
-            });
+            }, 3000);
         } else {
             dispatch(setInfoMessage("Something went wrong, come back again soon!", "error"));
         }
 
+    }
+
+    const getTimeLeft = () => {
+        const now = new Date();
+        const end = new Date(item.endDateTime);
+        console.log(now);
+        console.log(end);
+        let unit = "seconds";
+        let difS = (end - now) / 1000;
+        if (difS < 0) {
+            return "closed";
+        }
+
+        if (difS > 60) {
+            unit = "minutes";
+            difS = difS / 60;
+
+            if (difS > 60) {
+                unit = "hours";
+                difS = difS / 60;
+            }
+            if (difS > 24) {
+                unit = "days";
+                difS = difS / 24;
+            }
+        }
+        return `${difS.toFixed(0)} ${unit}`;
     }
 
     return (
@@ -110,11 +161,15 @@ function ItemPage() {
                             />
                             <button className="bid-button" type="submit">{`Place bid >`}</button>
                         </form>
-                        <p className="input-label">{`Enter -- or more`}</p>
+                        <p className="input-label">
+                            {`Enter more than ${bids.length > 0 ? bids[0].amount.toFixed(2) : item.startPrice.toFixed(2)}`}
+                        </p>
                         <ul className="bid-info-text">
-                            <li>Highest bid:</li>
-                            <li>No bids:</li>
-                            <li>Time left:</li>
+                            <li>{`Highest bid:`}
+                                <p className="highest-bid"> {`${bids.length > 0 ? bids[0].amount.toFixed(2) : ""}`}</p>
+                            </li>
+                            <li>{`No bids: ${paginationMetaData ? paginationMetaData.available : "0"}`}</li>
+                            <li>{`Time left: ${getTimeLeft()}`}</li>
                         </ul>
                     </div>
                     <div className="details">
@@ -124,7 +179,7 @@ function ItemPage() {
                 </div>
             </div>
             <div className="bids-table">
-                <CustomTable />
+                <CustomTable items={bids} />
             </div>
         </div> : ""
 

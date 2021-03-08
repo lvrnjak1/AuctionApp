@@ -8,6 +8,7 @@ const formatDate = (date) => {
 }
 
 function CustomTable(props) {
+    const { items } = props;
     return (
         <TableContainer className="table-container" component={Paper}>
             <Table >
@@ -19,20 +20,20 @@ function CustomTable(props) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {props.items ? props.items.map((row) => (
-                        <TableRow key={row.name}>
+                    {items.length > 0 ? items.map((row) => (
+                        <TableRow key={row.bidder.name}>
                             <TableCell className="col col-bidder" component="th" scope="row">
                                 <div className="avatar"></div>
-                                <p> {row.name}</p>
+                                <p> {`${row.bidder.name} ${row.bidder.surname}`}</p>
                             </TableCell>
                             <TableCell className="col col-date" align="right">
-                                {formatDate(new Date(row.date))}
+                                {formatDate(new Date(row.dateTime))}
                             </TableCell>
                             <TableCell className="col col-bid" align="right">
-                                {`$ ${row.bid.toFixed(2)}`}
+                                {`$ ${row.amount.toFixed(2)}`}
                             </TableCell>
                         </TableRow>
-                    )) : "There are no bids for this product yet. Be the first one!"}
+                    )) : "There are no bids for this product. Be the first one!"}
                 </TableBody>
             </Table>
         </TableContainer>
