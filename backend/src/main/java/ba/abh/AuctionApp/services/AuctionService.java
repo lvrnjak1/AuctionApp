@@ -84,8 +84,8 @@ public class AuctionService {
     }
 
     public Page<Auction> getFeaturedProducts(final int page, final int size) {
-        //implement different algorithm for featured
-        return getActiveAuctions(page, size);
+        Pageable pageable = PageRequest.of(page, size);
+        return auctionRepository.findAllActiveSortedByNumberOfBids(Clock.systemUTC().instant(), pageable);
     }
 
     public Page<Auction> getFilteredAuctions(int page, int size, AuctionFilter auctionFilter) {
@@ -103,7 +103,7 @@ public class AuctionService {
     }
 
     public Auction getActiveByIdIfExists(final Long id) {
-        return auctionRepository.findActiveById(id, LocalDateTime.now().toInstant(ZoneOffset.UTC))
+        return auctionRepository.findActiveById(id, Clock.systemUTC().instant())
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Auction with id %d doesn't exist", id)));
     }
 }
