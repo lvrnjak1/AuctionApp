@@ -20,8 +20,9 @@ function CustomTable(props) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {items.length > 0 ? items.map((row) => (
-                        <TableRow key={row.bidder.name}>
+                    {items.length > 0 ? items.map((row) => {
+                        const index = items.indexOf(row);
+                        return <TableRow key={index}>
                             <TableCell className="col col-bidder" component="th" scope="row">
                                 <div className="avatar">
                                     <img src="/images/profile-pic.png" alt="profile" />
@@ -35,7 +36,7 @@ function CustomTable(props) {
                                 {`$ ${row.amount.toFixed(2)}`}
                             </TableCell>
                         </TableRow>
-                    )) : <TableRow>
+                    }) : <TableRow>
                             <TableCell>There are no bids for this product. Be the first one!</TableCell>
                         </TableRow>}
                 </TableBody>

@@ -22,7 +22,13 @@ function Categories(props) {
 
     const handleFilter = async (category, subcategory) => {
         if (!props.expandable) {
-            history.push("/shop", { categoryId: category.id, categoryName: category.name });
+            if (category) {
+                history.push("/shop", { categoryId: category.id, categoryName: category.name });
+
+            } else {
+                dispatch(resetCurrentCategory(true));
+                history.push("/shop", { categoryId: null, categoryName: "All categories" });
+            }
             return;
         }
 
