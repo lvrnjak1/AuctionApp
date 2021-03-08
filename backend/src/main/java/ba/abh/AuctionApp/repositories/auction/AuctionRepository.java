@@ -25,7 +25,7 @@ public interface AuctionRepository extends JpaRepository<Auction, Long>, Filtere
                                                                         final Instant dateBefore,
                                                                         final Instant dateAfter);
 
-    default Optional<Auction> findActiveById(final Long auctionId, final Instant date){
+    default Optional<Auction> findActiveById(final Long auctionId, final Instant date) {
         return findByIdAndStartDateTimeBeforeAndEndDateTimeAfter(auctionId, date, date);
     }
 

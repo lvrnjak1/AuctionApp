@@ -78,11 +78,6 @@ public class AuctionService {
         }
     }
 
-    private Page<Auction> getActiveAuctions(final int page, final int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return auctionRepository.findActiveAuctions(Clock.systemUTC().instant(), pageable);
-    }
-
     public Page<Auction> getFeaturedProducts(final int page, final int size) {
         Pageable pageable = PageRequest.of(page, size);
         return auctionRepository.findAllActiveSortedByNumberOfBids(Clock.systemUTC().instant(), pageable);
