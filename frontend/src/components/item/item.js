@@ -108,6 +108,14 @@ function ItemPage() {
         return `${dif.toFixed(0)} ${unit}`;
     }
 
+    const getLowestPossibleBidFormated = () => {
+        if (bids.length > 0) {
+            return `Enter more than $${bids[0].amount.toFixed(2)}`;
+        } else {
+            return `Enter at least $${item.startPrice.toFixed(2)}`;
+        }
+    }
+
     return (
         item ? <div className="item-page">
             <div className="item">
@@ -139,12 +147,13 @@ function ItemPage() {
                                 type="number"
                                 step=".01"
                                 value={bid}
+                                min={0}
                                 onChange={(e) => handleInputChange(e)}
                             />
                             <button className="bid-button" type="submit">{`Place bid >`}</button>
                         </form>
                         <p className="input-label">
-                            {`Enter more than $${bids.length > 0 ? bids[0].amount.toFixed(2) : item.startPrice.toFixed(2)}`}
+                            {getLowestPossibleBidFormated()}
                         </p>
                         <ul className="bid-info-text">
                             <li>{`Highest bid:`}
