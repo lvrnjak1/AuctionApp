@@ -48,7 +48,8 @@ function ItemPage() {
                 (res) => {
                     setBids(res.data.data);
                     setPaginationMetaData(res.data.pagination);
-                }
+                },
+                (err) => history.push("/404")
             );
         }
 
