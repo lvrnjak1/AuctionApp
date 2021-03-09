@@ -1,6 +1,7 @@
 import React from 'react';
 import { TableContainer, Table, TableBody, TableRow, TableCell, Paper, TableHead } from '@material-ui/core';
 import "components/table/table.scss";
+import { formatDate } from 'util/dateTimeService';
 
 function CustomTable(props) {
     const { items } = props;

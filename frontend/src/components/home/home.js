@@ -35,13 +35,13 @@ function Home() {
 
             requests.push({
                 endpoint: FEATURED_PRODUCTS_ENDPOINT,
-                params: { size: 1 },
+                params: { limit: 1 },
                 successHandler: (response) => setFeaturedProduct(response.data.data[0])
             });
 
             requests.push({
                 endpoint: FEATURED_PRODUCTS_ENDPOINT,
-                params: { size: 4 },
+                params: { limit: 4 },
                 successHandler: (response) => setFeaturedProducts(response.data.data)
             });
 
