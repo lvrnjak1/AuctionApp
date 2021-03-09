@@ -1,8 +1,8 @@
 package ba.abh.AuctionApp.controllers;
 
+import ba.abh.AuctionApp.controllers.utility.RequestParams;
 import ba.abh.AuctionApp.domain.Bid;
 import ba.abh.AuctionApp.domain.User;
-import ba.abh.AuctionApp.exceptions.custom.InvalidPaginationException;
 import ba.abh.AuctionApp.pagination.PageableEntity;
 import ba.abh.AuctionApp.pagination.PaginationDetails;
 import ba.abh.AuctionApp.requests.BidRequest;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -30,9 +29,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping
 public class BidController {
-    private static final String MIN_PAGE = "1";
-    private static final String MIN_LIMIT = "10";
-
     private final BidService bidService;
     private final UserService userService;
 
@@ -53,10 +49,8 @@ public class BidController {
 
     @GetMapping("/auctions/{auctionId}/bids")
     public ResponseEntity<PageableResponse> getAllBidsForAuction(@PathVariable final Long auctionId,
-                                                                 @RequestParam(defaultValue = MIN_PAGE) final int page,
-                                                                 @RequestParam(defaultValue = MIN_LIMIT) final int limit) {
-        checkPagination(page, limit);
-        Page<Bid> bidPage = bidService.findBidsForAuction(auctionId, page - 1, limit);
+                                                                 @Valid final RequestParams requestParams) {
+        Page<Bid> bidPage = bidService.findBidsForAuction(auctionId, requestParams.getPage() - 1, requestParams.getLimit());
         return ResponseEntity.ok(buildPageableResponse(bidPage));
     }
 
@@ -68,11 +62,5 @@ public class BidController {
                 .map(BidResponse::new)
                 .collect(Collectors.toList());
         return new PageableResponse(details, (List<PageableEntity>) data);
-    }
-
-    private void checkPagination(final int page, final int limit) {
-        if (page < 1 || limit < 1) {
-            throw new InvalidPaginationException("Page index should start at 1, and limit should be at least 1");
-        }
     }
 }
