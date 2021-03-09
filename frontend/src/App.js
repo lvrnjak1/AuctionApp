@@ -15,7 +15,7 @@ import Register from 'components/forms/register/register';
 import Login from 'components/forms/login/login';
 import Home from 'components/home/home';
 import Shop from 'components/shop/shop';
-import ItemPage from 'components/item_page/item';
+import ItemPage from 'components/item/item';
 
 
 function App() {

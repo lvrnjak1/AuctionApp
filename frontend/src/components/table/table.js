@@ -2,11 +2,6 @@ import React from 'react';
 import { TableContainer, Table, TableBody, TableRow, TableCell, Paper, TableHead } from '@material-ui/core';
 import "components/table/table.scss";
 
-const formatDate = (date) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return date.toLocaleDateString(undefined, options);
-}
-
 function CustomTable(props) {
     const { items } = props;
     return (

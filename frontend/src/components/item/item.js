@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom';
-import "components/item_page/item.scss";
+import "components/item/item.scss";
 import { getRequest, postRequest } from 'http/requests';
 import { AUCTIONS_ENDPOINT } from 'http/endpoints';
 import { Image, Transformation } from 'cloudinary-react';
@@ -9,6 +9,7 @@ import { getAuthorizationConfig, getToken, logoutUser } from 'util/auth/auth';
 import { useDispatch } from 'react-redux';
 import { resetInfoMessage, setInfoMessage } from 'state/actions/infoMessageActions';
 import { resetLoggedIn } from 'state/actions/loggedInActions';
+import { getDifferenceBetweenDates } from 'util/dateTimeService';
 
 function ItemPage() {
 
@@ -102,26 +103,8 @@ function ItemPage() {
     const getTimeLeft = () => {
         const now = new Date();
         const end = new Date(item.endDateTime);
-        let unit = "seconds";
-        let difS = (end - now) / 1000;
-        if (difS < 0) {
-            return "closed";
-        }
-
-        if (difS > 60) {
-            unit = "minutes";
-            difS = difS / 60;
-
-            if (difS > 60) {
-                unit = "hours";
-                difS = difS / 60;
-            }
-            if (difS > 24) {
-                unit = "days";
-                difS = difS / 24;
-            }
-        }
-        return `${difS.toFixed(0)} ${unit}`;
+        const { dif, unit } = getDifferenceBetweenDates(now, end);
+        return `${dif.toFixed(0)} ${unit}`;
     }
 
     return (
