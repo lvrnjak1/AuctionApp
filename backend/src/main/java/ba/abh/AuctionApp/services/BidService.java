@@ -38,6 +38,8 @@ public class BidService {
         Optional<Bid> highestBid = getHighestBidForAuction(auction);
         if (highestBid.isPresent() && bidRequest.getAmount() <= highestBid.get().getAmount()) {
             throw new LowBidException(String.format("You must place a bid higher than %.2f", highestBid.get().getAmount()));
+        }else if(highestBid.isEmpty() && bidRequest.getAmount() < auction.getStartPrice()){
+            throw new LowBidException(String.format("You must place a bid at least as high as %.2f", auction.getStartPrice()));
         }
         Bid bid = getBidFromRequest(bidRequest, auction, user);
         auction.addBid(bid);
@@ -50,13 +52,7 @@ public class BidService {
     }
 
     private Optional<Bid> getHighestBidForAuction(final Auction auction) {
-        Pageable pageable = PageRequest.of(0, 1, Sort.by("amount").descending());
-        Page<Bid> highestBid = bidRepository.findAllByAuction(auction, pageable);
-        Optional<Bid> bid = Optional.empty();
-        if (highestBid.hasContent()){
-            bid = Optional.ofNullable(highestBid.getContent().get(0));
-        }
-        return bid;
+        return bidRepository.findFirstByAuctionOrderByAmountDesc(auction);
     }
 
     public Page<Bid> findBidsForAuction(final Long auctionId, final int page, final int limit) {
