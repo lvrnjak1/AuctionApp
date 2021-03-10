@@ -22,7 +22,7 @@ public class BidResponse implements PageableEntity {
         this.amount = amount;
     }
 
-    public BidResponse(final Bid bid){
+    public BidResponse(final Bid bid) {
         this.auctionId = bid.getAuction().getId();
         this.bidder = bid.getBidder();
         this.dateTime = bid.getDateTime();

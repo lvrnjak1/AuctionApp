@@ -12,5 +12,6 @@ import java.util.Optional;
 @Repository
 public interface BidRepository extends JpaRepository<Bid, Long> {
     Page<Bid> findAllByAuction(final Auction auction, final Pageable pageable);
+
     Optional<Bid> findFirstByAuctionOrderByAmountDesc(final Auction auction);
 }
