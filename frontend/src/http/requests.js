@@ -1,13 +1,13 @@
 import axios from "axios";
 import { setAsyncTaskInProgress } from "state/actions/asyncTaskInProgressActions";
-import { setInfoMessage } from "state/actions/infoMessageActions";
 import store from "state/store";
+import { updateMessage } from "util/info_div_util";
 
 const postRequest = async (endpoint, body, successHandler, errorHandler, requestConfig) => {
     try {
         store.dispatch(setAsyncTaskInProgress(true));
         const response = await axios.post(endpoint, body, requestConfig);
-        // store.dispatch(setAsyncTaskInProgress(false));
+        store.dispatch(setAsyncTaskInProgress(false));
         successHandler(response);
     } catch (error) {
         errorHandler(error);
@@ -43,7 +43,7 @@ const sendMultipleGetRequests = async (requests) => {
             i++;
         });
     } catch (error) {
-        store.dispatch(setInfoMessage("Something went wrong, come back soon", "error"));
+        updateMessage("Something went wrong, come back soon", "error");
     }
 }
 

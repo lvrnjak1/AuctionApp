@@ -5,10 +5,11 @@ import { useHistory } from 'react-router-dom';
 import { LOGIN_ENDPOINT } from 'http/endpoints';
 import { postRequest } from 'http/requests';
 import { useDispatch } from 'react-redux';
-import { setInfoMessage, resetInfoMessage } from 'state/actions/infoMessageActions';
+import { resetInfoMessage } from 'state/actions/infoMessageActions';
 import { setLoggedIn } from 'state/actions/loggedInActions';
 import { loginUser } from 'util/auth/auth';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
+import { updateMessage } from 'util/info_div_util';
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -56,9 +57,9 @@ function Login() {
             (error) => {
                 resetFormFields();
                 if (error.response) {
-                    dispatch(setInfoMessage(error.response.data.message, "error"))
+                    updateMessage(error.response.data.message, "error");
                 } else {
-                    dispatch(setInfoMessage("Something went wrong, try that again", "error"));
+                    updateMessage("Something went wrong, try that again", "error");
                 }
             });
     }

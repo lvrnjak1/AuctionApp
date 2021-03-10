@@ -7,9 +7,9 @@ import { Image, Transformation } from 'cloudinary-react';
 import CustomTable from 'components/table/table';
 import { getAuthorizationConfig, getToken, logoutUser } from 'util/auth/auth';
 import { useDispatch } from 'react-redux';
-import { resetInfoMessage, setInfoMessage } from 'state/actions/infoMessageActions';
 import { resetLoggedIn } from 'state/actions/loggedInActions';
 import { getDifferenceBetweenDates } from 'util/dateTimeService';
+import { updateMessage } from 'util/info_div_util';
 
 function ItemPage() {
 
@@ -65,8 +65,7 @@ function ItemPage() {
         e.preventDefault();
         setBid("");
         if (!getToken()) {
-            dispatch(setInfoMessage("Login before you start bidding!", "info"));
-            setTimeout(() => dispatch(resetInfoMessage()), 3000);
+            updateMessage("Login before you start bidding!", "info");
         } else {
             await placeBid();
         }
@@ -81,22 +80,22 @@ function ItemPage() {
 
     const bidSuccessHandler = async (responseData) => {
         await getBids();
-        dispatch(setInfoMessage("Congrats! You are the highest bidder!", "success"));
+        updateMessage("Congrats! You are the highest bidder!", "success");
     }
 
     const bidErrorHandler = (error) => {
         console.log(error.response);
         if (error.response && error.response.status === 422) {
-            dispatch(setInfoMessage("There are higher bids than yours. You could give a second try!", "info"));
+            updateMessage("There are higher bids than yours. You could give a second try!", "info");
         } else if (error.response && error.response.status === 401) {
-            dispatch(setInfoMessage("Your session has expired, please login again. We will redirect you in 3 seconds", "error"));
+            updateMessage("Your session has expired, please login again. We will redirect you in 3 seconds", "error");
             setTimeout(() => {
                 dispatch(resetLoggedIn());
                 logoutUser();
                 history.push("/login");
             }, 3000);
         } else {
-            dispatch(setInfoMessage("Something went wrong, come back again soon!", "error"));
+            updateMessage("Something went wrong, come back again soon!", "error");
         }
 
     }

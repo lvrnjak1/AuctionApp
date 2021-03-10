@@ -9,8 +9,8 @@ import { faSortAmountUp, faSortAmountDown } from "@fortawesome/free-solid-svg-ic
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
 import { initializeCurrentCategory, resetCurrentCategory, setCurrentCategory } from 'state/actions/currentCategoryActions';
-import { setInfoMessage } from 'state/actions/infoMessageActions';
 import { useHistory } from 'react-router-dom';
+import { updateMessage } from 'util/info_div_util';
 
 function Shop() {
     const [categories, setCategories] = useState([]);
@@ -21,7 +21,7 @@ function Shop() {
     const history = useHistory();
 
     const errorHandler = () => {
-        dispatch(setInfoMessage("Something went wrong, come back soon", "error"));
+        updateMessage("Something went wrong, come back soon", "error");
     }
 
     useEffect(() => {
