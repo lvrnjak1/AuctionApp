@@ -17,7 +17,6 @@ function BreadcrumbBar(props) {
 
     return (
         <div className="breadcrumb-bar">
-
             <div className="current">{props.content && props.content.current}</div>
             <div className="breadcrumb">
                 {getBreadcrumbs()}

@@ -5,9 +5,8 @@ import { Grid, makeStyles } from '@material-ui/core';
 import SearchBar from 'components/header/search_bar/searchBar';
 import BreadcrumbBar from 'components/header/breadcrumb_bar/breadcrumbBar';
 import InfoDiv from 'components/header/info_div/infoDiv';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { resetInfoMessage } from 'state/actions/infoMessageActions';
-import Loader from 'react-loader-spinner';
 import { useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
@@ -19,20 +18,12 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.up('md')]: {
             height: 60,
         }
-    },
-    loader: {
-        width: "100%",
-        height: "100",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center"
     }
 }))
 
 function Layout(props) {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const asyncInProgress = useSelector(state => state.asyncInProgress);
     const { pathname } = useLocation();
 
     useEffect(() => {
