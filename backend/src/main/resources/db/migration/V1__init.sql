@@ -77,6 +77,16 @@ create table product_colors
     constraint product_colors_pkey primary key (product_id, color_id)
 );
 
+create table bids
+(
+    id bigint not null constraint bids_pkey primary key,
+    amount double precision,
+    date_time timestamp with time zone,
+    auction_id bigint constraint fk_b_auction references auctions,
+    bidder_id  bigint constraint fk_b_user references users
+);
+
+
 insert into roles(id, role) values (1, 'ROLE_BUYER');
 insert into roles(id, role) values (2, 'ROLE_SELLER');
 
@@ -86,11 +96,32 @@ insert into users(id, email, name, surname, password)
 values (2, 'miki.maus@gmail.com', 'Miki', 'Maus', '$2a$10$DXLs8e3zTsfPcYWdYUrh9uM3NgC/IchQsTkZJWL25LDOFUpurCniq');
 insert into users(id, email, name, surname, password)
 values (3, 'paja.patak@gmail.com', 'Paja', 'Patak', '$2a$10$DXLs8e3zTsfPcYWdYUrh9uM3NgC/IchQsTkZJWL25LDOFUpurCniq');
+insert into users(id, email, name, surname, password)
+values (4, 'meredith.gray@gmail.com', 'Meredith', 'Gray', '$2a$10$DXLs8e3zTsfPcYWdYUrh9uM3NgC/IchQsTkZJWL25LDOFUpurCniq');
+insert into users(id, email, name, surname, password)
+values (5, 'ellen@gmail.com', 'Ellen', 'E', '$2a$10$DXLs8e3zTsfPcYWdYUrh9uM3NgC/IchQsTkZJWL25LDOFUpurCniq');
+insert into users(id, email, name, surname, password)
+values (6, 'janed@gmail.com', 'Jane', 'Doe', '$2a$10$DXLs8e3zTsfPcYWdYUrh9uM3NgC/IchQsTkZJWL25LDOFUpurCniq');
+insert into users(id, email, name, surname, password)
+values (7, 'maddy99@hotmail.com', 'Maddy', 'Smith', '$2a$10$DXLs8e3zTsfPcYWdYUrh9uM3NgC/IchQsTkZJWL25LDOFUpurCniq');
+insert into users(id, email, name, surname, password)
+values (8, 'sam_smith@yahoo.com', 'Sam', 'Smith', '$2a$10$DXLs8e3zTsfPcYWdYUrh9uM3NgC/IchQsTkZJWL25LDOFUpurCniq');
+insert into users(id, email, name, surname, password)
+values (9, 'santa31@gmail.com', 'Santa', 'Claus', '$2a$10$DXLs8e3zTsfPcYWdYUrh9uM3NgC/IchQsTkZJWL25LDOFUpurCniq');
 
 insert into user_roles (user_id, role_id) values (1,1);
 insert into user_roles (user_id, role_id) values (2,1);
 insert into user_roles (user_id, role_id) values (3,1);
 insert into user_roles (user_id, role_id) values (1,2);
+insert into user_roles (user_id, role_id) values (4,1);
+insert into user_roles (user_id, role_id) values (5,1);
+insert into user_roles (user_id, role_id) values (6,1);
+insert into user_roles (user_id, role_id) values (7,1);
+insert into user_roles (user_id, role_id) values (8,1);
+insert into user_roles (user_id, role_id) values (9,1);
+insert into user_roles (user_id, role_id) values (3,2);
+insert into user_roles (user_id, role_id) values (5,2);
+insert into user_roles (user_id, role_id) values (7,2);
 
 insert into colors (id, color) values (1, 'BLACK');
 insert into colors (id, color) values (2, 'WHITE');
@@ -214,7 +245,7 @@ insert into product_colors(product_id, color_id) values (3, 2);
 insert into product_colors(product_id, color_id) values (3, 4);
 insert into product_colors(product_id, color_id) values (3, 10);
 insert into auctions (id, end_date_time, start_date_time, start_price, product_id, seller_id)
-values (3, '2021-03-20 13:30:00.000000', '2021-02-24 11:30:00.000000', 65.50, 3, 1);
+values (3, '2021-03-20 13:30:00.000000', '2021-02-24 11:30:00.000000', 65.50, 3, 7);
 
 insert into products (id, description, name, size, category_id)
 values (4,
@@ -248,7 +279,7 @@ insert into product_colors(product_id, color_id) values (5, 1);
 insert into product_colors(product_id, color_id) values (5, 2);
 insert into product_colors(product_id, color_id) values (5, 6);
 insert into auctions (id, end_date_time, start_date_time, start_price, product_id, seller_id)
-values (5, '2021-03-29 11:30:00.000000', '2021-02-18 11:30:00.000000', 55, 5, 1);
+values (5, '2021-03-15 17:30:00.000000', '2021-02-18 11:30:00.000000', 55, 5, 3);
 
 insert into products (id, description, name, size, category_id)
 values (6,
@@ -281,7 +312,7 @@ insert into product_colors(product_id, color_id) values (7, 2);
 insert into product_colors(product_id, color_id) values (7, 5);
 insert into product_colors(product_id, color_id) values (7, 10);
 insert into auctions (id, end_date_time, start_date_time, start_price, product_id, seller_id)
-values (7, '2021-03-27 12:30:00.000000', '2021-02-25 13:30:00.000000', 25, 7, 1);
+values (7, '2021-03-27 12:30:00.000000', '2021-02-25 13:30:00.000000', 25, 7, 5);
 
 insert into products (id, description, name, size, category_id)
 values (8,
@@ -294,7 +325,7 @@ insert into images (id, image_url, product_id)
 values (16, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614896321/pexels-pixabay-532803_txfapi.jpg', 8);
 insert into product_colors(product_id, color_id) values (8, 4);
 insert into auctions (id, end_date_time, start_date_time, start_price, product_id, seller_id)
-values (8, '2021-03-22 15:30:00.000000', '2021-02-26 09:30:00.000000', 25, 8, 1);
+values (8, '2021-03-16 10:30:00.000000', '2021-02-26 09:30:00.000000', 25, 8, 3);
 
 insert into images (id, image_url, product_id)
 values (17, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614893227/product1/bs3_ilrzdo.jpg', 1);
@@ -347,3 +378,55 @@ insert into images (id, image_url, product_id)
 values (37, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614894843/hbp3_jdkqrm.png', 8);
 insert into images (id, image_url, product_id)
 values (38, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614894840/hbp4_mk8wgi.webp', 8);
+
+--bids for 1
+insert into bids (id, amount, date_time, auction_id, bidder_id)
+values (1, 155, '2021-02-27 21:24:45.808000', 1, 2);
+insert into bids (id, amount, date_time, auction_id, bidder_id)
+values (2, 157, '2021-02-27 22:55:45.808000', 1, 4);
+insert into bids (id, amount, date_time, auction_id, bidder_id)
+values (3, 165.50, '2021-02-28 10:30:45.808000', 1, 7);
+insert into bids (id, amount, date_time, auction_id, bidder_id)
+values (4, 170, '2021-03-01 15:30:00.808000', 1, 4);
+insert into bids (id, amount, date_time, auction_id, bidder_id)
+values (14, 171, '2021-03-02 21:24:45.808000', 1, 9);
+insert into bids (id, amount, date_time, auction_id, bidder_id)
+values (15, 175, '2021-03-02 22:55:45.808000', 1, 3);
+insert into bids (id, amount, date_time, auction_id, bidder_id)
+values (16, 179, '2021-03-05 10:30:45.808000', 1, 7);
+insert into bids (id, amount, date_time, auction_id, bidder_id)
+values (17, 183, '2021-03-08 15:30:00.808000', 1, 4);
+--bids for 2
+insert into bids (id, amount, date_time, auction_id, bidder_id)
+values (5, 33, '2021-02-05 21:24:45.808000', 2, 6);
+insert into bids (id, amount, date_time, auction_id, bidder_id)
+values (6, 35, '2021-02-10 22:55:45.808000', 2, 3);
+insert into bids (id, amount, date_time, auction_id, bidder_id)
+values (7, 40, '2021-02-11 10:30:45.808000', 2, 8);
+insert into bids (id, amount, date_time, auction_id, bidder_id)
+values (8, 42, '2021-02-25 15:30:00.808000', 2, 5);
+insert into bids (id, amount, date_time, auction_id, bidder_id)
+values (9, 44, '2021-03-03 10:30:45.808000', 2, 8);
+insert into bids (id, amount, date_time, auction_id, bidder_id)
+values (10, 45, '2021-03-04 21:24:45.808000', 2, 6);
+insert into bids (id, amount, date_time, auction_id, bidder_id)
+values (11, 50.25, '2021-03-10 22:55:45.808000', 2, 3);
+--bids for 3
+insert into bids (id, amount, date_time, auction_id, bidder_id)
+values (12, 65, '2021-03-07 21:24:45.808000', 3, 4);
+insert into bids (id, amount, date_time, auction_id, bidder_id)
+values (13, 69, '2021-03-08 22:55:45.808000', 3, 9);
+--bids for 6
+insert into bids (id, amount, date_time, auction_id, bidder_id)
+values (18, 242, '2021-03-01 21:24:45.808000', 6, 4);
+insert into bids (id, amount, date_time, auction_id, bidder_id)
+values (19, 244, '2021-03-03 22:55:45.808000', 6, 9);
+insert into bids (id, amount, date_time, auction_id, bidder_id)
+values (20, 245, '2021-03-08 22:55:45.808000', 6, 4);
+--bids for 7
+insert into bids (id, amount, date_time, auction_id, bidder_id)
+values (21, 26, '2021-02-25 21:24:45.808000', 7, 3);
+insert into bids (id, amount, date_time, auction_id, bidder_id)
+values (22, 30, '2021-03-03 22:55:45.808000', 7, 6);
+insert into bids (id, amount, date_time, auction_id, bidder_id)
+values (23, 35.55, '2021-03-05 22:55:45.808000', 7, 1);

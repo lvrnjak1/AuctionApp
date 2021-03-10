@@ -53,9 +53,6 @@ function Layout(props) {
                     <Grid item><InfoDiv /></Grid>
                 </>
             }
-            {asyncInProgress &&
-                <Loader className={classes.loader} type="ThreeDots" color="#8367d8" height="100" width="100" timeout={5000} />
-            }
             <Grid item>{props.children}</Grid>
             <Grid item><Footer /></Grid>
         </Grid>

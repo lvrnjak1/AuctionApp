@@ -1,13 +1,10 @@
 import React from 'react';
 import { TableContainer, Table, TableBody, TableRow, TableCell, Paper, TableHead } from '@material-ui/core';
 import "components/table/table.scss";
-
-const formatDate = (date) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return date.toLocaleDateString(undefined, options);
-}
+import { formatDate } from 'util/dateTimeService';
 
 function CustomTable(props) {
+    const { items } = props;
     return (
         <TableContainer className="table-container" component={Paper}>
             <Table >
@@ -19,24 +16,29 @@ function CustomTable(props) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {props.items ? props.items.map((row) => (
-                        <TableRow key={row.name}>
+                    {items.length > 0 ? items.map((row) => {
+                        const index = items.indexOf(row);
+                        return <TableRow key={index}>
                             <TableCell className="col col-bidder" component="th" scope="row">
-                                <div className="avatar"></div>
-                                <p> {row.name}</p>
+                                <div className="avatar">
+                                    <img src="/images/profile-pic.png" alt="profile" />
+                                </div>
+                                <p> {`${row.bidder.name} ${row.bidder.surname}`}</p>
                             </TableCell>
                             <TableCell className="col col-date" align="right">
-                                {formatDate(new Date(row.date))}
+                                {formatDate(new Date(row.dateTime))}
                             </TableCell>
                             <TableCell className="col col-bid" align="right">
-                                {`$ ${row.bid.toFixed(2)}`}
+                                {`$ ${row.amount.toFixed(2)}`}
                             </TableCell>
                         </TableRow>
-                    )) : "There are no bids for this product yet. Be the first one!"}
+                    }) : <TableRow>
+                            <TableCell>There are no bids for this product. Be the first one!</TableCell>
+                        </TableRow>}
                 </TableBody>
             </Table>
         </TableContainer>
-    );
+    )
 }
 
 export default CustomTable;

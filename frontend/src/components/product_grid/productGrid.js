@@ -9,10 +9,10 @@ function ProductGrid(props) {
     const history = useHistory();
 
     const handleProductClick = (id, name, categories) => {
-        if (!categories) {
+        if (!props.categories) {
             history.push(`shop/item/${id}`);
         } else {
-            //TO DO FILTER BY CATEGORY ON CLICK
+            history.push("/shop", { categoryId: id, categoryName: name });
         }
     }
 
@@ -46,7 +46,7 @@ function ProductGrid(props) {
 
             cols.push(
                 <div key={j} className="product">
-                    <button className="image-button" onClick={() => handleProductClick(id, name, props.categories)}>
+                    <button className="image-button" onClick={() => handleProductClick(id, name)}>
                         <Image className="product-image" cloudName="lvrnjak" publicId={imageUrl} >
                             <Transformation height="400" crop="scale" />
                         </Image>

@@ -4,12 +4,14 @@ import ba.abh.AuctionApp.exceptions.custom.EmailInUseException;
 import ba.abh.AuctionApp.exceptions.custom.InvalidCredentialsException;
 import ba.abh.AuctionApp.exceptions.custom.InvalidDateException;
 import ba.abh.AuctionApp.exceptions.custom.InvalidPaginationException;
+import ba.abh.AuctionApp.exceptions.custom.LowBidException;
 import ba.abh.AuctionApp.exceptions.custom.ResourceNotFoundException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -48,18 +50,35 @@ public class RestExceptionsHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(LowBidException.class)
+    public ResponseEntity<Object> handleLowBid(final LowBidException ex) {
+        return buildResponseEntity(ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleBindException(final BindException ex,
+                                                         final HttpHeaders headers,
+                                                         final HttpStatus status,
+                                                         final WebRequest request) {
+        return getObjectResponseEntity(ex, HttpStatus.BAD_REQUEST);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex,
                                                                   final HttpHeaders headers,
                                                                   final HttpStatus status,
                                                                   final WebRequest request) {
+        return getObjectResponseEntity(ex, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    private ResponseEntity<Object> getObjectResponseEntity(final BindException ex, final HttpStatus status) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
-        ApiException apiException = new ApiException(HttpStatus.UNPROCESSABLE_ENTITY);
+        ApiException apiException = new ApiException(status);
         apiException.setMessageFromMap(errors);
         return buildResponseEntity(apiException);
     }

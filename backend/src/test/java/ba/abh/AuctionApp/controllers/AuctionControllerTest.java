@@ -255,7 +255,7 @@ class AuctionControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id", is(7)))
                 .andExpect(jsonPath("startPrice", is(25.0)))
-                .andExpect(jsonPath("sellerId", is(1)))
+                .andExpect(jsonPath("sellerId", is(5)))
                 .andExpect(jsonPath("$.product.id", is(7)))
                 .andExpect(jsonPath("$.product.name", is("Wool sweaters")));
     }

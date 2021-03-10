@@ -27,14 +27,14 @@ public class CategoryService {
         Instant now = Clock.systemUTC().instant();
         List<ExtendedCategory> queryResult = categoryRepository.findAllCategoriesWithActiveAuctionCount(now);
         List<CategoryResponse> categories = new ArrayList<>();
-        for (ExtendedCategory ec : queryResult){
+        for (ExtendedCategory ec : queryResult) {
             Category category = ec.getCategory();
             Long productsPerCategory = ec.getCount();
 
-            if(category.getParentCategory() == null){
+            if (category.getParentCategory() == null) {
                 CategoryResponse c = getCategoryResponseFromCategory(category);
                 categories.add(c);
-            }else {
+            } else {
                 final Optional<CategoryResponse> c = categories
                         .stream()
                         .filter(cr -> cr.getId().equals(category.getParentCategory().getId()))
@@ -58,11 +58,11 @@ public class CategoryService {
         return categoryRepository.findAllByParentCategoryIsNotNull(pageable);
     }
 
-    private CategoryResponse getCategoryResponseFromCategory(final Category category, final Long numberOfProducts){
+    private CategoryResponse getCategoryResponseFromCategory(final Category category, final Long numberOfProducts) {
         return new CategoryResponse(category.getId(), category.getName(), category.getImageUrl(), numberOfProducts);
     }
 
-    private CategoryResponse getCategoryResponseFromCategory(final Category category){
+    private CategoryResponse getCategoryResponseFromCategory(final Category category) {
         return new CategoryResponse(category.getId(), category.getName(), category.getImageUrl());
     }
 }

@@ -5,9 +5,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -29,6 +32,9 @@ public class Auction extends BaseEntity {
     private Instant endDateTime;
 
     private Double startPrice;
+
+    @OneToMany(mappedBy = "auction")
+    private List<Bid> bids = new ArrayList<>();
 
     public Auction() {
     }
@@ -57,6 +63,22 @@ public class Auction extends BaseEntity {
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
         this.startPrice = startPrice;
+    }
+
+    public Auction(final Long id,
+                   final Product product,
+                   final User seller,
+                   final Instant startDateTime,
+                   final Instant endDateTime,
+                   final Double startPrice,
+                   final List<Bid> bids) {
+        super(id);
+        this.product = product;
+        this.seller = seller;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        this.startPrice = startPrice;
+        this.bids = bids;
     }
 
     public Product getProduct() {
@@ -99,6 +121,18 @@ public class Auction extends BaseEntity {
         this.startPrice = startPrice;
     }
 
+    public List<Bid> getBids() {
+        return bids;
+    }
+
+    public void setBids(final List<Bid> bids) {
+        this.bids = bids;
+    }
+
+    public void addBid(final Bid bid) {
+        bids.add(bid);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
@@ -109,11 +143,12 @@ public class Auction extends BaseEntity {
                 Objects.equals(seller, auction.seller) &&
                 Objects.equals(startDateTime, auction.startDateTime) &&
                 Objects.equals(endDateTime, auction.endDateTime) &&
-                Objects.equals(startPrice, auction.startPrice);
+                Objects.equals(startPrice, auction.startPrice) &&
+                Objects.equals(bids, auction.bids);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), product, seller, startDateTime, endDateTime, startPrice);
+        return Objects.hash(super.hashCode(), product, seller, startDateTime, endDateTime, startPrice, bids);
     }
 }
