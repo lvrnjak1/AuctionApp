@@ -10,6 +10,7 @@ const postRequest = async (endpoint, body, successHandler, errorHandler, request
         store.dispatch(setAsyncTaskInProgress(false));
         successHandler(response);
     } catch (error) {
+        store.dispatch(setAsyncTaskInProgress(false));
         errorHandler(error);
     }
 }
@@ -21,6 +22,7 @@ const getRequest = async (endpoint, queryParams, successHandler, errorHandler) =
         store.dispatch(setAsyncTaskInProgress(false));
         successHandler(response);
     } catch (error) {
+        store.dispatch(setAsyncTaskInProgress(false));
         errorHandler(error);
     }
 }
@@ -43,6 +45,7 @@ const sendMultipleGetRequests = async (requests) => {
             i++;
         });
     } catch (error) {
+        store.dispatch(setAsyncTaskInProgress(false));
         updateMessage("Something went wrong, come back soon", "error");
     }
 }
