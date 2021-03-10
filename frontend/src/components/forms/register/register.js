@@ -4,7 +4,8 @@ import "components/forms/forms.scss";
 import { REGISTER_ENDPOINT } from 'http/endpoints';
 import { postRequest } from 'http/requests';
 import { useDispatch } from 'react-redux';
-import { setInfoMessage, resetInfoMessage } from 'state/actions/infoMessageActions';
+import { resetInfoMessage } from 'state/actions/infoMessageActions';
+import { updateMessage } from 'util/info_div_util';
 
 function Register() {
     const [name, setName] = useState("");
@@ -36,17 +37,17 @@ function Register() {
         await postRequest(REGISTER_ENDPOINT,
             registerBody,
             () => {
-                dispatch(setInfoMessage(
+                updateMessage(
                     "Registration was successful. Login to start bidding.",
-                    "success"));
+                    "success");
                 setTimeout(() => { history.push("/login", { email }) }, 2000);
             },
             (error) => {
                 resetFormFields();
                 if (error.response) {
-                    dispatch(setInfoMessage(error.response.data.message, "error"))
+                    updateMessage(error.response.data.message, "error");
                 } else {
-                    dispatch(setInfoMessage("Something went wrong, try that again", "error"));
+                    updateMessage("Something went wrong, try that again", "error");
                 }
             });
     }

@@ -10,8 +10,8 @@ import {
     AUCTIONS_ENDPOINT
 } from 'http/endpoints';
 import { useDispatch } from 'react-redux';
-import { setInfoMessage } from 'state/actions/infoMessageActions';
 import { useHistory } from 'react-router-dom';
+import { updateMessage } from 'util/info_div_util';
 
 function Home() {
     const [featuredProduct, setFeaturedProduct] = useState();
@@ -78,7 +78,7 @@ function Home() {
             await getRequest(endpoint,
                 params,
                 (response) => setProducts(response.data.data),
-                () => dispatch(setInfoMessage("Something went wrong, come back soon", "error"))
+                () => updateMessage("Something went wrong, come back soon", "error")
             );
         }
     }
