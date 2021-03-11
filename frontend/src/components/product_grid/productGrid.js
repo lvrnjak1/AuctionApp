@@ -2,6 +2,7 @@ import React from 'react';
 import "components/product_grid/productGrid.scss";
 import { Image, Transformation } from 'cloudinary-react';
 import { useHistory } from 'react-router-dom';
+import { getPublicId } from 'util/images_util';
 
 function ProductGrid(props) {
     const ncols = props.col3 ? 3 : 4;
@@ -29,12 +30,6 @@ function ProductGrid(props) {
         return rows;
     }
 
-    const getPublicId = (url) => {
-        let splitUrl = url.split("upload/");
-        const publicUrlWithExt = splitUrl[splitUrl.length - 1];
-        return publicUrlWithExt.substr(0, publicUrlWithExt.lastIndexOf("."));
-    }
-
     const getCols = (nrow) => {
         let index = nrow * ncols;
         const cols = [];
@@ -54,7 +49,7 @@ function ProductGrid(props) {
                 <div key={j} className="product">
                     <button className="image-button" onClick={() => handleProductClick(id, name)}>
                         <Image className="product-image" cloudName="lvrnjak" publicId={getPublicId(imageUrl)} >
-                            <Transformation height={300} width={300} crop="scale" quality="auto" flags="lossy" />
+                            <Transformation height={300} width={400} crop="scale" quality="auto" flags="lossy" />
                         </Image>
                     </button>
                     <p className="name">{name}</p>
