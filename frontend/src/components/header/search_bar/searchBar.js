@@ -34,9 +34,6 @@ function SearchBar() {
                     <li>
                         <NavLink to="/shop" className="search-bar-link" activeStyle={{ color: "#8367D8", textDecoration: "none" }}>SHOP</NavLink>
                     </li>
-                    {getToken() && <li>
-                        <NavLink to="/account" className="search-bar-link" activeStyle={{ color: "#8367D8", textDecoration: "none" }}>MY ACCOUNT</NavLink>
-                    </li>}
                 </ul>
             </div>
         </div>
