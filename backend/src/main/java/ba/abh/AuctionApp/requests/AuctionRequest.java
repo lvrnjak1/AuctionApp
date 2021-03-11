@@ -1,6 +1,7 @@
 package ba.abh.AuctionApp.requests;
 
 import javax.validation.Valid;
+import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
@@ -14,6 +15,7 @@ public class AuctionRequest {
 
     @NotNull(message = "Start price must be present")
     @DecimalMin(value = "0.00", message = "Start price can't be lower than zero")
+    @DecimalMax(value = "1000000", message = "Maximum start price is 1000000")
     private Double startPrice;
 
     @NotNull(message = "Product details must be present")

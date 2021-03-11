@@ -1,5 +1,6 @@
 package ba.abh.AuctionApp.requests;
 
+import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
@@ -10,6 +11,7 @@ public class BidRequest {
 
     @NotNull(message = "Bid amount must be present")
     @DecimalMin(value = "0.00", message = "Bid amount can't be lower than zero")
+    @DecimalMax(value = "1000000", message = "Maximum bid amount is 1000000")
     private Double amount;
 
     public BidRequest() {
