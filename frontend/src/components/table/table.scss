@@ -23,7 +23,7 @@
   }
 
   .col {
-    font-size: 16px;
+    font-size: 12px;
     color: $black;
     letter-spacing: 0.63px;
 
@@ -60,6 +60,12 @@
 
     p {
       margin: 10px 0 0 20px;
+    }
+  }
+
+  @media screen and (min-width: $medium) {
+    .col {
+      font-size: 16px;
     }
   }
 }
