@@ -146,6 +146,7 @@ function ItemPage() {
                                 step=".01"
                                 value={bid}
                                 min={0}
+                                max={1000000}
                                 onChange={(e) => handleInputChange(e)}
                             />
                             <button className="bid-button" type="submit">{`Place bid >`}</button>
