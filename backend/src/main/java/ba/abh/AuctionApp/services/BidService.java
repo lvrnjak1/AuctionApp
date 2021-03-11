@@ -5,6 +5,7 @@ import ba.abh.AuctionApp.domain.Bid;
 import ba.abh.AuctionApp.domain.User;
 import ba.abh.AuctionApp.exceptions.custom.InvalidDateException;
 import ba.abh.AuctionApp.exceptions.custom.LowBidException;
+import ba.abh.AuctionApp.exceptions.custom.SelfOutbidException;
 import ba.abh.AuctionApp.repositories.BidRepository;
 import ba.abh.AuctionApp.requests.BidRequest;
 import org.springframework.data.domain.Page;
@@ -41,6 +42,11 @@ public class BidService {
         } else if (highestBid.isEmpty() && bidRequest.getAmount() < auction.getStartPrice()) {
             throw new LowBidException(String.format("You must place a bid at least as high as %.2f", auction.getStartPrice()));
         }
+
+        if(highestBid.isPresent() && highestBid.get().getBidder().equals(user)){
+            throw new SelfOutbidException("You are already the highest bidder");
+        }
+
         Bid bid = getBidFromRequest(bidRequest, auction, user);
         auction.addBid(bid);
         bidRepository.save(bid);

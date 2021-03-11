@@ -6,6 +6,7 @@ import ba.abh.AuctionApp.exceptions.custom.InvalidDateException;
 import ba.abh.AuctionApp.exceptions.custom.InvalidPaginationException;
 import ba.abh.AuctionApp.exceptions.custom.LowBidException;
 import ba.abh.AuctionApp.exceptions.custom.ResourceNotFoundException;
+import ba.abh.AuctionApp.exceptions.custom.SelfOutbidException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
@@ -52,7 +53,12 @@ public class RestExceptionsHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(LowBidException.class)
     public ResponseEntity<Object> handleLowBid(final LowBidException ex) {
-        return buildResponseEntity(ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+        return buildResponseEntity(ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY, "LOW_BID");
+    }
+
+    @ExceptionHandler(SelfOutbidException.class)
+    public ResponseEntity<Object> handleSelfOutbid(final SelfOutbidException ex) {
+        return buildResponseEntity(ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY, "SELF_OUTBID");
     }
 
     @Override
@@ -86,6 +92,13 @@ public class RestExceptionsHandler extends ResponseEntityExceptionHandler {
     private ResponseEntity<Object> buildResponseEntity(final String message, final HttpStatus status) {
         ApiException apiException = new ApiException(status);
         apiException.setMessage(message);
+        return buildResponseEntity(apiException);
+    }
+
+    private ResponseEntity<Object> buildResponseEntity(final String message, final HttpStatus status, String type) {
+        ApiException apiException = new ApiException(status);
+        apiException.setMessage(message);
+        apiException.setType(type);
         return buildResponseEntity(apiException);
     }
 
