@@ -32,7 +32,7 @@ public class BidService {
 
     public Bid saveBidForAuction(final Long auctionId, final User user, final BidRequest bidRequest) {
         Auction auction = auctionService.getActiveByIdIfExists(auctionId);
-        if(auction.getSeller().equals(user)){
+        if (auction.getSeller().equals(user)) {
             throw new InvalidBidException("You can't place a bid on a product that you are selling");
         }
 
@@ -48,7 +48,7 @@ public class BidService {
             throw new LowBidException(String.format("You must place a bid at least as high as %.2f", auction.getStartPrice()));
         }
 
-        if(highestBid.isPresent() && highestBid.get().getBidder().equals(user)){
+        if (highestBid.isPresent() && highestBid.get().getBidder().equals(user)) {
             throw new SelfOutbidException("You are already the highest bidder");
         }
 
