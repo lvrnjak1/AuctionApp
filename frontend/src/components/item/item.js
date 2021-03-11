@@ -84,7 +84,6 @@ function ItemPage() {
     }
 
     const bidErrorHandler = (error) => {
-        console.log(error.response);
         if (error.response && error.response.status === 422) {
             updateMessage("There are higher bids than yours. You could give a second try!", "info");
         } else if (error.response && error.response.status === 401) {
