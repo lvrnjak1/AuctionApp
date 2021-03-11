@@ -3,6 +3,7 @@ package ba.abh.AuctionApp.services;
 import ba.abh.AuctionApp.domain.Auction;
 import ba.abh.AuctionApp.domain.Bid;
 import ba.abh.AuctionApp.domain.User;
+import ba.abh.AuctionApp.exceptions.custom.InvalidBidException;
 import ba.abh.AuctionApp.exceptions.custom.InvalidDateException;
 import ba.abh.AuctionApp.exceptions.custom.LowBidException;
 import ba.abh.AuctionApp.exceptions.custom.SelfOutbidException;
@@ -31,6 +32,10 @@ public class BidService {
 
     public Bid saveBidForAuction(final Long auctionId, final User user, final BidRequest bidRequest) {
         Auction auction = auctionService.getActiveByIdIfExists(auctionId);
+        if(auction.getSeller().equals(user)){
+            throw new InvalidBidException("You can't place a bid on a product that you are selling");
+        }
+
         if (bidRequest.getInstantDateTime().isAfter(LocalDateTime.now().toInstant(ZoneOffset.UTC)) ||
                 bidRequest.getInstantDateTime().isBefore(auction.getStartDateTime())) {
             throw new InvalidDateException("Invalid datetime");

@@ -101,7 +101,6 @@
     }
 
     .small {
-      margin: auto;
       .product {
         padding: 0;
         .image-button {
@@ -110,6 +109,14 @@
             width: 250px;
           }
         }
+      }
+
+      :last-child {
+        padding-right: 0;
+      }
+
+      :first-child {
+        padding-left: 0;
       }
     }
   }

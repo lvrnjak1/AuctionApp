@@ -1,6 +1,7 @@
 package ba.abh.AuctionApp.exceptions;
 
 import ba.abh.AuctionApp.exceptions.custom.EmailInUseException;
+import ba.abh.AuctionApp.exceptions.custom.InvalidBidException;
 import ba.abh.AuctionApp.exceptions.custom.InvalidCredentialsException;
 import ba.abh.AuctionApp.exceptions.custom.InvalidDateException;
 import ba.abh.AuctionApp.exceptions.custom.InvalidPaginationException;
@@ -59,6 +60,11 @@ public class RestExceptionsHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(SelfOutbidException.class)
     public ResponseEntity<Object> handleSelfOutbid(final SelfOutbidException ex) {
         return buildResponseEntity(ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY, "SELF_OUTBID");
+    }
+
+    @ExceptionHandler(InvalidBidException.class)
+    public ResponseEntity<Object> handleInvalidBid(final InvalidBidException ex) {
+        return buildResponseEntity(ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY, "OWNER_BIDDER");
     }
 
     @Override

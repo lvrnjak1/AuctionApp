@@ -88,7 +88,7 @@ function ItemPage() {
         if (error.response && error.response.status === 422) {
             const message = error.response.data.type === "LOW_BID" ?
                 "There are higher bids than yours. You could give a second try!" :
-                "You are already the highest bidder!";
+                error.response.data.message;
             updateMessage(message, "info");
         } else if (error.response && error.response.status === 401) {
             updateMessage("Your session has expired, please login again. We will redirect you in 3 seconds", "error");
