@@ -1,6 +1,7 @@
 @import "util/style/constants.scss";
 
 .grid {
+  margin-left: 10px;
   .row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -13,7 +14,7 @@
         height: 150px;
         cursor: pointer;
         .product-image {
-          height: 150px;
+          height: 200px;
           width: 100%;
           padding: 0;
         }

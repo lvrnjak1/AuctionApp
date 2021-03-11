@@ -29,6 +29,12 @@ function ProductGrid(props) {
         return rows;
     }
 
+    const getPublicId = (url) => {
+        let splitUrl = url.split("upload/");
+        const publicUrlWithExt = splitUrl[splitUrl.length - 1];
+        return publicUrlWithExt.substr(0, publicUrlWithExt.lastIndexOf("."));
+    }
+
     const getCols = (nrow) => {
         let index = nrow * ncols;
         const cols = [];
@@ -47,8 +53,8 @@ function ProductGrid(props) {
             cols.push(
                 <div key={j} className="product">
                     <button className="image-button" onClick={() => handleProductClick(id, name)}>
-                        <Image className="product-image" cloudName="lvrnjak" publicId={imageUrl} >
-                            <Transformation height="400" crop="scale" />
+                        <Image className="product-image" cloudName="lvrnjak" publicId={getPublicId(imageUrl)} >
+                            <Transformation height={300} width={300} crop="scale" quality="auto" flags="lossy" />
                         </Image>
                     </button>
                     <p className="name">{name}</p>

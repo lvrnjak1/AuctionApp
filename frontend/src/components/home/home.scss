@@ -9,7 +9,7 @@
   .top {
     background: $lightGray;
     .featured-product {
-      text-align: center;
+      margin-left: 30px;
       .featured-product-name {
         font-size: 46px;
         color: $black;
@@ -22,7 +22,7 @@
         font-size: 24px;
         color: $purple;
         letter-spacing: 0.84px;
-        margin: 0 0 0 0;
+        margin: 0;
       }
 
       .featured-product-desc {
@@ -30,7 +30,7 @@
         color: $black;
         letter-spacing: 0.56px;
         line-height: 22px;
-        margin: 10px;
+        margin-top: 10px;
       }
 
       .bid-now-button {
@@ -38,7 +38,6 @@
         border: 3px solid $purple;
         box-shadow: 3px 3px 0 0 rgba(131, 103, 216, 0.31);
         font-weight: bold;
-        // font-family: "Lato";
         font-size: 18px;
         color: $black;
         letter-spacing: 0.63px;
@@ -86,7 +85,6 @@
   .bottom {
     text-align: center;
     button {
-      font-family: "Lato";
       margin-right: 15px;
       font-size: 28px;
       color: $black;
@@ -157,7 +155,7 @@
     }
   }
 
-  @media screen and (min-width: 1320px) {
+  @media screen and (min-width: 1300px) {
     .top {
       height: 400px;
       display: grid;
@@ -171,7 +169,6 @@
       .featured-product {
         text-align: left;
         padding-right: 20px;
-
         .featured-product-title {
           font-size: 46px;
         }
@@ -205,6 +202,14 @@
 
     .bottom {
       margin: 0 11% 0 11%;
+    }
+  }
+
+  @media screen and (min-width: 1400px) {
+    .top {
+      .featured-product {
+        margin-left: 0;
+      }
     }
   }
 }

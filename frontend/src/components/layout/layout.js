@@ -14,12 +14,9 @@ const useStyles = makeStyles(theme => ({
         width: "100%"
     },
     searchbar: {
-        height: 140,
-        [theme.breakpoints.up('s')]: {
-            height: 60,
-        },
-        [theme.breakpoints.up('md')]: {
-            height: 60,
+        height: 60,
+        [theme.breakpoints.down('sm')]: {
+            height: 100,
         }
     }
 }))
