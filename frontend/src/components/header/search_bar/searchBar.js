@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGavel } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom"
 import "components/header/search_bar/searchBar.scss"
-import { getToken } from 'util/auth/auth';
 import Loader from 'react-loader-spinner';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core';

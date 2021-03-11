@@ -27,7 +27,7 @@ function Shop() {
     });
 
     const errorHandler = () => {
-        updateMessage("Something went wrong, come back soon", "error");
+        updateMessage("Try reloading the page.", "error");
     }
 
     useEffect(() => {

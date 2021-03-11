@@ -47,7 +47,7 @@ function Register() {
                 if (error.response) {
                     updateMessage(error.response.data.message, "error");
                 } else {
-                    updateMessage("Something went wrong, try that again", "error");
+                    updateMessage("Try reloading the page.", "error");
                 }
             });
     }

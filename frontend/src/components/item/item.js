@@ -98,7 +98,7 @@ function ItemPage() {
                 history.push("/login");
             }, 3000);
         } else {
-            updateMessage("Something went wrong, come back again soon!", "error");
+            updateMessage("Try reloading the page.", "error");
         }
 
     }
