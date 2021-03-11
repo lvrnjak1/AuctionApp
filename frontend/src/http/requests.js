@@ -46,7 +46,7 @@ const sendMultipleGetRequests = async (requests) => {
         });
     } catch (error) {
         store.dispatch(setAsyncTaskInProgress(false));
-        updateMessage("Something went wrong, come back soon", "error");
+        updateMessage("Try reloading the page.", "error");
     }
 }
 
