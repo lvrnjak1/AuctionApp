@@ -102,27 +102,18 @@
 
     .small {
       .product {
-        padding: 10px 30px 10px 30px;
+        padding: 0px 30px 10px 30px;
+      }
+
+      :last-child {
+        padding-left: 40px;
+        padding-right: 0;
       }
 
       :first-child {
         padding-left: 0;
         padding-right: 40px;
       }
-      :last-child {
-        padding-left: 40px;
-        padding-right: 0;
-      }
     }
-
-    // .row-3 {
-    //   .product {
-    //     .image-button {
-    //       .product-image {
-    //         height: 300px;
-    //       }
-    //     }
-    //   }
-    // }
   }
 }
