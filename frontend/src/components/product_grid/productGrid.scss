@@ -10,8 +10,8 @@
       margin-bottom: 20px;
       .image-button {
         border: transparent;
-        padding: 0;
-        height: 150px;
+        padding: 2px;
+        height: 200px;
         cursor: pointer;
         .product-image {
           height: 200px;
@@ -47,13 +47,16 @@
     }
   }
 
-  @media screen and (min-width: $medium) {
+  @media screen and (min-width: 500px) {
     .row {
       .product {
         padding: 0 10px 0 10px;
-        .product-image {
-          width: 100%;
-          min-height: 200px;
+        .image-button {
+          padding: 0;
+          .product-image {
+            width: 100%;
+            min-height: 150px;
+          }
         }
 
         .name {
@@ -89,8 +92,10 @@
       display: grid;
 
       .product {
-        .product-image {
-          min-height: 300px;
+        .image-button {
+          .product-image {
+            min-height: 300px;
+          }
         }
       }
     }
@@ -110,12 +115,14 @@
       }
     }
 
-    .row-3 {
-      .product {
-        .product-image {
-          height: 400px;
-        }
-      }
-    }
+    // .row-3 {
+    //   .product {
+    //     .image-button {
+    //       .product-image {
+    //         height: 300px;
+    //       }
+    //     }
+    //   }
+    // }
   }
 }
