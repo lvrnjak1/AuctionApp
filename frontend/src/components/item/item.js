@@ -123,8 +123,12 @@ function ItemPage() {
             <div className="item">
                 <div className="image-gallery">
                     <div className="large-image-container">
-                        <Image className="large-image" cloudName="lvrnjak" publicId={item.product.images[largeImageIndex].imageUrl}>
-                            <Transformation height="500" width="400" crop="fit" />
+                        <Image
+                            className="large-image"
+                            cloudName="lvrnjak"
+                            publicId={getPublicId(item.product.images[largeImageIndex].imageUrl)}
+                        >
+                            <Transformation height={500} width={400} crop="scale" quality="auto" flags="lossy" />
                         </Image>
                     </div>
                     <div className="image-grid">
@@ -132,7 +136,7 @@ function ItemPage() {
                             const index = item.product.images.indexOf(image);
                             return <button key={image.id} className="image-button" onClick={() => setLargeImageIndex(index)}>
                                 <Image className="small-image" cloudName="lvrnjak" publicId={getPublicId(image.imageUrl)} >
-                                    <Transformation height="150" width="150" crop="fit" />
+                                    <Transformation height={150} width={150} crop="scale" quality="auto" flags="lossy" />
                                 </Image>
                             </button>
                         })}
