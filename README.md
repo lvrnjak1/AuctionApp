@@ -1,5 +1,9 @@
 # AuctionApp
 
+Auction app is an online auctioning platform. 
+It is a place for sellers to showcase their products and auction them off to potential buyers
+and a place for buyers to shop online and bid on their desired items.
+
 ### Set up and start instructions
 
 #### Backend application
