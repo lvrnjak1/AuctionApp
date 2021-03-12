@@ -66,7 +66,7 @@ function Home() {
 
         if (e.target.id === "new" && !newArrivalsActive) {
             setNewArrivalsActive(true);
-            params = { limit: 8, sort: "DATE", order: "DESC" }
+            params = { limit: 8, sort: "DATE", order: "ASC" }
         } else if (e.target.id === "lastChance" && newArrivalsActive) {
             setNewArrivalsActive(false);
             params = { limit: 8, minutesLeft: 1440 }
