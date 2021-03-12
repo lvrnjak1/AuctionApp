@@ -20,8 +20,6 @@ function Home() {
     const [products, setProducts] = useState();
     const [newArrivalsActive, setNewArrivalsActive] = useState(true);
     const [categories, setCategories] = useState();
-
-    const dispatch = useDispatch();
     const history = useHistory();
 
     useEffect(() => {
@@ -78,7 +76,7 @@ function Home() {
             await getRequest(endpoint,
                 params,
                 (response) => setProducts(response.data.data),
-                () => updateMessage("Something went wrong, come back soon", "error")
+                () => updateMessage("Try reloading the page.", "error")
             );
         }
     }

@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { resetLoggedIn } from 'state/actions/loggedInActions';
 import { getDifferenceBetweenDates } from 'util/dateTimeService';
 import { updateMessage } from 'util/info_div_util';
+import { getPublicId } from 'util/images_util';
 
 function ItemPage() {
 
@@ -84,9 +85,11 @@ function ItemPage() {
     }
 
     const bidErrorHandler = (error) => {
-        console.log(error.response);
         if (error.response && error.response.status === 422) {
-            updateMessage("There are higher bids than yours. You could give a second try!", "info");
+            const message = error.response.data.type === "LOW_BID" ?
+                "There are higher bids than yours. You could give a second try!" :
+                error.response.data.message;
+            updateMessage(message, "info");
         } else if (error.response && error.response.status === 401) {
             updateMessage("Your session has expired, please login again. We will redirect you in 3 seconds", "error");
             setTimeout(() => {
@@ -95,7 +98,7 @@ function ItemPage() {
                 history.push("/login");
             }, 3000);
         } else {
-            updateMessage("Something went wrong, come back again soon!", "error");
+            updateMessage("Try reloading the page.", "error");
         }
 
     }
@@ -128,7 +131,7 @@ function ItemPage() {
                         {item.product.images.map(image => {
                             const index = item.product.images.indexOf(image);
                             return <button key={image.id} className="image-button" onClick={() => setLargeImageIndex(index)}>
-                                <Image className="small-image" cloudName="lvrnjak" publicId={image.imageUrl} >
+                                <Image className="small-image" cloudName="lvrnjak" publicId={getPublicId(image.imageUrl)} >
                                     <Transformation height="150" width="150" crop="fit" />
                                 </Image>
                             </button>
@@ -147,6 +150,7 @@ function ItemPage() {
                                 step=".01"
                                 value={bid}
                                 min={0}
+                                max={1000000}
                                 onChange={(e) => handleInputChange(e)}
                             />
                             <button className="bid-button" type="submit">{`Place bid >`}</button>

@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,10 +31,11 @@ public class RegisterTests {
                         "    \"password\": \"password\"\n" +
                         "}"))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("name", is("Milo")))
-                .andExpect(jsonPath("surname", is("Milić")))
-                .andExpect(jsonPath("email", is("milo.milic@etf.unsa.ba")))
-                .andExpect(jsonPath("roles", hasSize(1)));
+                .andExpect(jsonPath("$.user.name", is("Milo")))
+                .andExpect(jsonPath("$.user.surname", is("Milić")))
+                .andExpect(jsonPath("$.user.email", is("milo.milic@etf.unsa.ba")))
+                .andExpect(jsonPath("$.user.roles", hasSize(1)))
+                .andExpect(jsonPath("$.token", notNullValue()));
     }
 
     @Test

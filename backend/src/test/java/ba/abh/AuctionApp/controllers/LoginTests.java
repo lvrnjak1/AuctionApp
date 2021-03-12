@@ -39,7 +39,7 @@ public class LoginTests {
                         "}"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("message",
-                        is("User with email lami.vrnjak@gmail.com doesn't exist")));
+                        is("Email lami.vrnjak@gmail.com isn't associated with an account")));
     }
 
     @Test

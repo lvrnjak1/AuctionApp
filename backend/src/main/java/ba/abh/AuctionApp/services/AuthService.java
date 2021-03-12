@@ -61,7 +61,7 @@ public class AuthService implements UserDetailsService {
     public User loadUserByUsername(final String s) throws UsernameNotFoundException {
         return userRepository
                 .findByEmail(s)
-                .orElseThrow(() -> new InvalidCredentialsException(String.format("User with email %s doesn't exist", s)));
+                .orElseThrow(() -> new InvalidCredentialsException(String.format("Email %s isn't associated with an account", s)));
     }
 
     public String authenticate(final String email, final String password) {

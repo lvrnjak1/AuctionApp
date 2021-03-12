@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { getUser, logoutUser } from "util/auth/auth";
 import { useDispatch } from 'react-redux';
 import { resetLoggedIn } from 'state/actions/loggedInActions';
+import Socials from './socials';
 
 const useStyles = makeStyles({
     link: {
@@ -61,20 +62,6 @@ function Navbar() {
 
     return (
         <div className="navbar-black">
-            <div className="navbar-socials">
-                <NavLink to="/home">
-                    <FontAwesomeIcon icon={faFacebook} className={classes.icon} />
-                </NavLink>
-                <NavLink to="/home">
-                    <FontAwesomeIcon icon={faInstagram} className={classes.icon} />
-                </NavLink>
-                <NavLink to="/home">
-                    <FontAwesomeIcon icon={faTwitter} className={classes.icon} />
-                </NavLink>
-                <NavLink to="/home">
-                    <FontAwesomeIcon icon={faGooglePlus} className={classes.icon} />
-                </NavLink>
-            </div>
             {loggedIn ? logout : navBarLinks}
         </div>
     )

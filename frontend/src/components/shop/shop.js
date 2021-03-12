@@ -13,25 +13,29 @@ import { useHistory } from 'react-router-dom';
 import { updateMessage } from 'util/info_div_util';
 
 function Shop() {
+    const dispatch = useDispatch();
+    const history = useHistory();
     const [categories, setCategories] = useState([]);
     const [products, setProducts] = useState([]);
     const [hasNext, setHasNext] = useState(true);
-    const [filterParams, setFilterParams] = useState({ categoryId: null, sort: null, sortOrder: "ASC", page: 1, limit: 3 });
-    const dispatch = useDispatch();
-    const history = useHistory();
+    const [filterParams, setFilterParams] = useState({
+        categoryId: history.location.state ? history.location.state.categoryId : null,
+        sort: null,
+        sortOrder: "ASC",
+        page: 1,
+        limit: 3
+    });
 
     const errorHandler = () => {
-        updateMessage("Something went wrong, come back soon", "error");
+        updateMessage("Try reloading the page.", "error");
     }
 
     useEffect(() => {
         async function fetchCategories() {
             await getRequest(CATEGORIES_ENDPOINT, {}, (response) => setCategories(response.data), errorHandler);
         }
-
         fetchCategories();
         if (history.location.state) {
-            setFilterParams({ ...filterParams, categoryId: history.location.state.categoryId });
             dispatch(setCurrentCategory(history.location.state.categoryName, ""));
         } else {
             dispatch(initializeCurrentCategory());
@@ -59,7 +63,6 @@ function Shop() {
         async function fetchProducts() {
             await getRequest(AUCTIONS_ENDPOINT, filterParams, (response) => handleNewProducts(response.data), errorHandler);
         }
-
         fetchProducts();
     }, [filterParams]);
 

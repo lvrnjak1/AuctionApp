@@ -15,6 +15,7 @@ public class ApiException {
     private LocalDateTime timestamp;
 
     private String message;
+    private String type;
 
     private ApiException() {
         timestamp = LocalDateTime.now();
@@ -63,5 +64,13 @@ public class ApiException {
 
     public void setMessage(final String message) {
         this.message = message;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(final String type) {
+        this.type = type;
     }
 }
