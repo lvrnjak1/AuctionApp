@@ -24,9 +24,10 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@Valid @RequestBody final RegisterRequest registerRequest) {
+    public ResponseEntity<LoginResponse> register(@Valid @RequestBody final RegisterRequest registerRequest) {
         User registeredUser = authService.register(registerRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(registeredUser);
+        String jwtToken = authService.authenticate(registerRequest.getEmail(), registerRequest.getPassword());
+        return ResponseEntity.status(HttpStatus.CREATED).body(new LoginResponse(registeredUser, jwtToken));
     }
 
     @PostMapping("/login")
