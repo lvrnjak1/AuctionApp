@@ -84,11 +84,12 @@ function ItemPage() {
         updateMessage("Congrats! You are the highest bidder!", "success");
     }
 
-    const bidErrorHandler = (error) => {
+    const bidErrorHandler = async (error) => {
         if (error.response && error.response.status === 422) {
             const message = error.response.data.type === "LOW_BID" ?
                 "There are higher bids than yours. You could give a second try!" :
                 error.response.data.message;
+            await getBids();
             updateMessage(message, "info");
         } else if (error.response && error.response.status === 401) {
             updateMessage("Your session has expired, please login again. We will redirect you in 3 seconds", "error");
