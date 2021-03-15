@@ -7,3 +7,5 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+app:
+  jwtSecret: hu\St}{k]:}:R2*V9ax7
