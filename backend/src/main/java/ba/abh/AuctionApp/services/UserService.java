@@ -64,4 +64,11 @@ public class UserService {
         t.getUser().setPassword(newPassword);
         userRepository.save(t.getUser());
     }
+
+    public void checkIfTokenValid(final String token, final TokenType type) {
+        Token t = tokenService.findByToken(token, type);
+        if (t.isInvalidated() || tokenService.isTokenExpired(t)) {
+            throw new ResourceNotFoundException("Invalid token");
+        }
+    }
 }

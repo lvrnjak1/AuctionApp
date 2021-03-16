@@ -19,6 +19,16 @@
       "name": "app.jwtExpirationMs",
       "type": "java.lang.String",
       "description": "Description for app.jwtExpirationMs."
+    },
+    {
+      "name": "app.mail.apiKey",
+      "type": "java.lang.String",
+      "description": "Description for app.mail.apiKey."
+    },
+    {
+      "name": "app.mail.fromMail",
+      "type": "java.lang.String",
+      "description": "Description for app.mail.fromMail."
     }
   ]
 }

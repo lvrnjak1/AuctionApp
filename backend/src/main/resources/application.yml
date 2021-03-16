@@ -6,7 +6,10 @@ spring:
     baseline-version: 0
     baseline-on-migrate: true
   profiles:
-    active: prod
+    active: dev
 app:
   jwtSecret: ${JWT_SECRET}
   jwtExpirationMs: 600000000
+  mail:
+    apiKey: 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 #${MAIL_API_KEY}
+    fromMail: lamija.vrnjak@gmail.com #${FROM_MAIL}
