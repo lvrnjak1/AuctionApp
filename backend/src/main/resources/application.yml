@@ -7,11 +7,10 @@ spring:
     baseline-on-migrate: true
   profiles:
     active: dev
+  sendgrid:
+    api-key: ${MAIL_API_KEY}
+    sender: ${SENDER}
+    reset-url: ${RESET_URL}
 app:
   jwtSecret: ${JWT_SECRET}
   jwtExpirationMs: 600000000
-  mail:
-    apiKey: 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 #${MAIL_API_KEY}
-    sender: lamija.vrnjak@gmail.com #${FROM_MAIL}
-    templateId: d-4690af3c953b43629942fe8c89974abc #${TEMPLATE_ID}
-    resetUrl: https://lvrnjak-auction-app.herokuapp.com/password/reset/ #${RESET_URL}

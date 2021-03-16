@@ -3,7 +3,6 @@ package ba.abh.AuctionApp.domain;
 import ba.abh.AuctionApp.domain.enums.TokenType;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,9 +15,9 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "tokens")
-public class Token extends BaseEntity{
+public class Token extends BaseEntity {
     private static final Long TOKEN_DURATION = 60L;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String token;
 
     @CreationTimestamp
@@ -26,12 +25,11 @@ public class Token extends BaseEntity{
     private Instant issuedAt;
 
     private Long durationMin = TOKEN_DURATION;
-    private boolean invalidated = false;
 
     @Enumerated(value = EnumType.STRING)
     private TokenType type;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -41,13 +39,11 @@ public class Token extends BaseEntity{
     public Token(final String token,
                  final Instant issuedAt,
                  final Long durationMin,
-                 final boolean invalidated,
                  final TokenType type,
                  final User user) {
         this.token = token;
         this.issuedAt = issuedAt;
         this.durationMin = durationMin;
-        this.invalidated = invalidated;
         this.type = type;
         this.user = user;
     }
@@ -84,14 +80,6 @@ public class Token extends BaseEntity{
         this.durationMin = durationMin;
     }
 
-    public boolean isInvalidated() {
-        return invalidated;
-    }
-
-    public void setInvalidated(final boolean invalidated) {
-        this.invalidated = invalidated;
-    }
-
     public TokenType getType() {
         return type;
     }
@@ -114,8 +102,7 @@ public class Token extends BaseEntity{
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Token token1 = (Token) o;
-        return invalidated == token1.invalidated &&
-                Objects.equals(token, token1.token) &&
+        return Objects.equals(token, token1.token) &&
                 Objects.equals(issuedAt, token1.issuedAt) &&
                 Objects.equals(durationMin, token1.durationMin) &&
                 type == token1.type &&
@@ -124,6 +111,6 @@ public class Token extends BaseEntity{
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), token, issuedAt, durationMin, invalidated, type, user);
+        return Objects.hash(super.hashCode(), token, issuedAt, durationMin, type, user);
     }
 }

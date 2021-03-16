@@ -37,7 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/health",
             "/categories/**",
             "/password/forgot",
-            "/password/reset"
+            "/password/reset/**"
     };
 
     private final String[] getUnprotectedEndpoints = {"/auctions/**"};

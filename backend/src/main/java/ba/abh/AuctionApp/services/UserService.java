@@ -4,7 +4,6 @@ import ba.abh.AuctionApp.domain.Token;
 import ba.abh.AuctionApp.domain.User;
 import ba.abh.AuctionApp.domain.enums.TokenType;
 import ba.abh.AuctionApp.exceptions.custom.EmailNotFoundException;
-import ba.abh.AuctionApp.exceptions.custom.InvalidCredentialsException;
 import ba.abh.AuctionApp.exceptions.custom.ResourceNotFoundException;
 import ba.abh.AuctionApp.repositories.UserRepository;
 import ba.abh.AuctionApp.requests.ChangePasswordRequest;
@@ -50,24 +49,20 @@ public class UserService {
     }
 
     public void resetPasswordForUser(final ChangePasswordRequest request, final String token) {
-        if (!request.getNewPassword().equals(request.getConfirmPassword())) {
-            throw new InvalidCredentialsException("Passwords don't match");
-        }
-
         Token t = tokenService.findByToken(token, TokenType.ONE_TIME_PASSWORD);
-        if (t.isInvalidated() || tokenService.isTokenExpired(t)) {
+        if (tokenService.isTokenExpired(t)) {
             throw new ResourceNotFoundException("Invalid token");
         }
 
-        t.setInvalidated(true);
-        String newPassword = passwordEncoder.encode(request.getNewPassword());
+        String newPassword = passwordEncoder.encode(request.getPassword());
         t.getUser().setPassword(newPassword);
         userRepository.save(t.getUser());
+        tokenService.invalidateToken(t);
     }
 
     public void checkIfTokenValid(final String token, final TokenType type) {
         Token t = tokenService.findByToken(token, type);
-        if (t.isInvalidated() || tokenService.isTokenExpired(t)) {
+        if (tokenService.isTokenExpired(t)) {
             throw new ResourceNotFoundException("Invalid token");
         }
     }

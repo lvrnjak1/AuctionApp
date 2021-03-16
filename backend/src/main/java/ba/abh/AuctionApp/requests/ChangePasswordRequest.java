@@ -6,34 +6,20 @@ import javax.validation.constraints.Size;
 public class ChangePasswordRequest {
     @NotBlank(message = "Password must be present")
     @Size(min = 5, message = "Password should contain at least 5 characters")
-    private String newPassword;
-
-    @NotBlank(message = "Confirmation password must be present")
-    @Size(min = 5, message = "Password should contain at least 5 characters")
-    private String confirmPassword;
+    private String password;
 
     public ChangePasswordRequest() {
     }
 
-    public ChangePasswordRequest(final String newPassword,
-                                 final String confirmPassword) {
-        this.newPassword = newPassword;
-        this.confirmPassword = confirmPassword;
+    public ChangePasswordRequest(final String password) {
+        this.password = password;
     }
 
-    public String getNewPassword() {
-        return newPassword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setNewPassword(final String newPassword) {
-        this.newPassword = newPassword;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(final String confirmPassword) {
-        this.confirmPassword = confirmPassword;
+    public void setPassword(final String password) {
+        this.password = password;
     }
 }

@@ -21,24 +21,19 @@
       "description": "Description for app.jwtExpirationMs."
     },
     {
-      "name": "app.mail.apiKey",
+      "name": "spring.sendgrid.sender",
       "type": "java.lang.String",
-      "description": "Description for app.mail.apiKey."
+      "description": "Description for spring.sendgrid.sender."
     },
     {
-      "name": "app.mail.templateId",
+      "name": "spring.sendgrid.template-id",
       "type": "java.lang.String",
-      "description": "Description for app.mail.templateId."
+      "description": "Description for spring.sendgrid.template-id."
     },
     {
-      "name": "app.mail.resetUrl",
+      "name": "spring.sendgrid.reset-url",
       "type": "java.lang.String",
-      "description": "Description for app.mail.resetUrl."
-    },
-    {
-      "name": "app.mail.sender",
-      "type": "java.lang.String",
-      "description": "Description for app.mail.sender."
+      "description": "Description for spring.sendgrid.reset-url."
     }
   ]
 }

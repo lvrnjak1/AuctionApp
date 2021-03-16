@@ -11,7 +11,6 @@ import java.time.Clock;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class TokenService {
@@ -22,12 +21,8 @@ public class TokenService {
     }
 
     public void invalidateTokensForUser(final User user, final TokenType tokenType) {
-        List<Token> tokens = tokenRepository
-                .findAllByUserAndInvalidatedFalseAndType(user, tokenType)
-                .stream()
-                .peek(token -> token.setInvalidated(true))
-                .collect(Collectors.toList());
-        tokenRepository.saveAll(tokens);
+        List<Token> tokens = tokenRepository.findAllByUserAndType(user, tokenType);
+        tokenRepository.deleteAll(tokens);
     }
 
     public Token generateTokenForUser(final User user, final TokenType tokenType) {
@@ -42,7 +37,14 @@ public class TokenService {
         );
     }
 
-    public boolean isTokenExpired(final Token t) {
-        return t.getIssuedAt().plus(t.getDurationMin(), ChronoUnit.MINUTES).isBefore(Clock.systemUTC().instant());
+    public boolean isTokenExpired(final Token token) {
+        return token
+                .getIssuedAt()
+                .plus(token.getDurationMin(), ChronoUnit.MINUTES)
+                .isBefore(Clock.systemUTC().instant());
+    }
+
+    public void invalidateToken(final Token token) {
+        tokenRepository.delete(token);
     }
 }
