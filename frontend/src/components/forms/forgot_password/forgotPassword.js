@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { postRequest } from "http/requests";
-import { FORGOT_ENDPOINT } from '../../../http/endpoints';
+import { FORGOT_ENDPOINT } from 'http/endpoints';
 import { updateMessage } from 'util/info_div_util';
 
 function ForgotPassword() {
@@ -13,8 +13,6 @@ function ForgotPassword() {
         } else {
             updateMessage("Something went wrong, try again later", "error", 5000);
         }
-
-        setEmail("");
     }
 
     const handleSubmit = async (e) => {
@@ -27,10 +25,12 @@ function ForgotPassword() {
                     `Reset link has been sent to ${email}. If you don't see the email, check your spam folder or try again.`,
                     "success",
                     5000
-                ); console.log("Success")
+                );
             },
             (error) => handleError(error)
         );
+
+        setEmail("");
     }
 
     const handleInputChange = (e, setter) => {
