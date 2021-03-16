@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import "components/forms/forms.scss";
 import "components/forms/login/login.scss";
-import { useHistory } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { LOGIN_ENDPOINT } from 'http/endpoints';
 import { postRequest } from 'http/requests';
 import { useDispatch } from 'react-redux';
@@ -87,6 +87,7 @@ function Login() {
                     label="Remember me"
                 />
                 <button type="submit">LOGIN</button>
+                <p><NavLink to="#" className="link">Forgot password?</NavLink></p>
             </div>
         </form>
     );
