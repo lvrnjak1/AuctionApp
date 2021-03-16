@@ -87,7 +87,7 @@ function Login() {
                     label="Remember me"
                 />
                 <button type="submit">LOGIN</button>
-                <p><NavLink to="#" className="link">Forgot password?</NavLink></p>
+                <p><NavLink to="password/forgot" className="link">Forgot password?</NavLink></p>
             </div>
         </form>
     );
