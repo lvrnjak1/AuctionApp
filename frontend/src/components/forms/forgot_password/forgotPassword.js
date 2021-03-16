@@ -3,7 +3,7 @@ import { postRequest } from "http/requests";
 import { FORGOT_ENDPOINT } from '../../../http/endpoints';
 import { updateMessage } from 'util/info_div_util';
 
-function ResetPassword() {
+function ForgotPassword() {
     const [email, setEmail] = useState("");
 
     const handleError = (error) => {
@@ -54,4 +54,4 @@ function ResetPassword() {
     );
 }
 
-export default ResetPassword;
+export default ForgotPassword;

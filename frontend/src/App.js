@@ -16,7 +16,7 @@ import Login from 'components/forms/login/login';
 import Home from 'components/home/home';
 import Shop from 'components/shop/shop';
 import ItemPage from 'components/item/item';
-import ResetPassword from 'components/forms/reset_password/resetPassword';
+import ForgotPassword from 'components/forms/forgot_password/forgotPassword';
 
 
 function App() {
@@ -66,7 +66,7 @@ function App() {
           </Route>
           <Route exact path="/password/forgot">
             <Layout breadcrumbs={{ current: "forgot password" }}>
-              <ResetPassword />
+              <ForgotPassword />
             </Layout>
           </Route>
           <Route path="/404">
