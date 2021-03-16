@@ -26,9 +26,19 @@
       "description": "Description for app.mail.apiKey."
     },
     {
-      "name": "app.mail.fromMail",
+      "name": "app.mail.templateId",
       "type": "java.lang.String",
-      "description": "Description for app.mail.fromMail."
+      "description": "Description for app.mail.templateId."
+    },
+    {
+      "name": "app.mail.resetUrl",
+      "type": "java.lang.String",
+      "description": "Description for app.mail.resetUrl."
+    },
+    {
+      "name": "app.mail.sender",
+      "type": "java.lang.String",
+      "description": "Description for app.mail.sender."
     }
   ]
 }
