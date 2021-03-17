@@ -1,9 +1,9 @@
 package ba.abh.AuctionApp.requests;
 
-import javax.validation.constraints.NotBlank;
+import ba.abh.AuctionApp.utility.email.ValidEmail;
 
 public class ForgotPasswordRequest {
-    @NotBlank(message = "You must include the email field")
+    @ValidEmail(message = "Email must be present and have a valid format")
     private String email;
 
     public ForgotPasswordRequest() {
