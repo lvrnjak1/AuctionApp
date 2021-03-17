@@ -3,6 +3,18 @@ import { setAsyncTaskInProgress } from "state/actions/asyncTaskInProgressActions
 import store from "state/store";
 import { updateMessage } from "util/info_div_util";
 
+const patchRequest = async (endpoint, body, params, successHandler, errorHandler, requestConfig) => {
+    try {
+        store.dispatch(setAsyncTaskInProgress(true));
+        const response = await axios.patch(endpoint, body, { params }, requestConfig);
+        store.dispatch(setAsyncTaskInProgress(false));
+        successHandler(response);
+    } catch (error) {
+        store.dispatch(setAsyncTaskInProgress(false));
+        errorHandler(error);
+    }
+}
+
 const postRequest = async (endpoint, body, successHandler, errorHandler, requestConfig) => {
     try {
         store.dispatch(setAsyncTaskInProgress(true));
@@ -53,5 +65,6 @@ const sendMultipleGetRequests = async (requests) => {
 export {
     postRequest,
     getRequest,
-    sendMultipleGetRequests
+    sendMultipleGetRequests,
+    patchRequest
 }

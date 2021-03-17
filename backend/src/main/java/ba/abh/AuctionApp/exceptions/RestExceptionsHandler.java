@@ -1,6 +1,7 @@
 package ba.abh.AuctionApp.exceptions;
 
 import ba.abh.AuctionApp.exceptions.custom.EmailInUseException;
+import ba.abh.AuctionApp.exceptions.custom.EmailNotFoundException;
 import ba.abh.AuctionApp.exceptions.custom.InvalidBidException;
 import ba.abh.AuctionApp.exceptions.custom.InvalidCredentialsException;
 import ba.abh.AuctionApp.exceptions.custom.InvalidDateException;
@@ -65,6 +66,11 @@ public class RestExceptionsHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(InvalidBidException.class)
     public ResponseEntity<Object> handleInvalidBid(final InvalidBidException ex) {
         return buildResponseEntity(ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY, "OWNER_BIDDER");
+    }
+
+    @ExceptionHandler(EmailNotFoundException.class)
+    public ResponseEntity<Object> handleEmailNotFound(final EmailNotFoundException ex) {
+        return buildResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @Override

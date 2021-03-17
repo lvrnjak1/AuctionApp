@@ -7,6 +7,10 @@ spring:
     baseline-on-migrate: true
   profiles:
     active: prod
+  sendgrid:
+    api-key: ${MAIL_API_KEY}
+    sender: ${SENDER}
+    reset-url: ${RESET_URL}
 app:
   jwtSecret: ${JWT_SECRET}
   jwtExpirationMs: 600000000

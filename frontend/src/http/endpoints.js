@@ -4,3 +4,6 @@ export const FEATURED_PRODUCTS_ENDPOINT = `${process.env.REACT_APP_API_URL}/auct
 export const FEATURED_CATEGORIES_ENDPOINT = `${process.env.REACT_APP_API_URL}/categories/featured`;
 export const CATEGORIES_ENDPOINT = `${process.env.REACT_APP_API_URL}/categories`;
 export const AUCTIONS_ENDPOINT = `${process.env.REACT_APP_API_URL}/auctions`;
+export const FORGOT_ENDPOINT = `${process.env.REACT_APP_API_URL}/password/forgot`;
+export const RESET_PW_ENDPOINT = `${process.env.REACT_APP_API_URL}/password/reset`;
+export const CHECK_OTP_TOKEN_ENDPOINT = `${process.env.REACT_APP_API_URL}/password/reset/checkToken`;

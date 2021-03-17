@@ -1,15 +1,13 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebook, faInstagram, faTwitter, faGooglePlus } from "@fortawesome/free-brands-svg-icons";
 import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
-import { Link, NavLink, useHistory } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import "components/header/navbar/navbar.scss";
 import { useSelector } from "react-redux";
 import { getUser, logoutUser } from "util/auth/auth";
 import { useDispatch } from 'react-redux';
 import { resetLoggedIn } from 'state/actions/loggedInActions';
-import Socials from './socials';
 
 const useStyles = makeStyles({
     link: {

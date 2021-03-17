@@ -9,7 +9,6 @@ import {
     CATEGORIES_ENDPOINT,
     AUCTIONS_ENDPOINT
 } from 'http/endpoints';
-import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { updateMessage } from 'util/info_div_util';
 

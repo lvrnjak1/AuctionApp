@@ -19,6 +19,21 @@
       "name": "app.jwtExpirationMs",
       "type": "java.lang.String",
       "description": "Description for app.jwtExpirationMs."
+    },
+    {
+      "name": "spring.sendgrid.sender",
+      "type": "java.lang.String",
+      "description": "Description for spring.sendgrid.sender."
+    },
+    {
+      "name": "spring.sendgrid.template-id",
+      "type": "java.lang.String",
+      "description": "Description for spring.sendgrid.template-id."
+    },
+    {
+      "name": "spring.sendgrid.reset-url",
+      "type": "java.lang.String",
+      "description": "Description for spring.sendgrid.reset-url."
     }
   ]
 }

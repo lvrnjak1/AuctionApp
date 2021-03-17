@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Email</title>
+</head>
+    <body>
+        <div>
+            <p style="padding: 0;margin: 5px;">
+                You are seeing this email because you requested a password reset over at Auction App.
+                To continue, click the button below.
+                The reset link will be active for an hour.
+                If it expires, you will have to start the process again.
+            </p>
+            <button style="border: transparent;background: #8367d8;padding: 10px;border-radius: 5px;margin: 20px 1px 20px 1px;">
+                <a th:href="${reset_url}" style="text-decoration: none;color: white;">Click here to reset your password</a>
+            </button>
+            <p style="padding: 0;margin: 5px;">Kind regards,</p>
+            <p style="padding: 0;margin: 5px;">Auction App team :)</p>
+        </div>
+    </body>
+</html>
