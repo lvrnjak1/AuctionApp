@@ -2,7 +2,6 @@ package ba.abh.AuctionApp.domain;
 
 import ba.abh.AuctionApp.domain.enums.TokenType;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,8 +22,7 @@ public class Token {
     private static final Long TOKEN_DURATION = 60L;
 
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @GeneratedValue
     private UUID token;
 
     @CreationTimestamp
