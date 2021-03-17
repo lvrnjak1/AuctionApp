@@ -26,7 +26,7 @@ public class TokenService {
     }
 
     public Token generateTokenForUser(final User user, final TokenType tokenType) {
-        Token token = new Token(UUID.randomUUID(), tokenType, user);
+        Token token = new Token(tokenType, user);
         tokenRepository.save(token);
         return token;
     }
