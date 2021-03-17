@@ -8,10 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface TokenRepository extends JpaRepository<Token, Long> {
     List<Token> findAllByUserAndType(final User user, final TokenType tokenType);
 
-    Optional<Token> findByTokenAndType(final String token, final TokenType tokenType);
+    Optional<Token> findByTokenAndType(final UUID token, final TokenType tokenType);
 }

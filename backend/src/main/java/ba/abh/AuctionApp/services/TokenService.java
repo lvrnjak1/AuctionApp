@@ -26,12 +26,12 @@ public class TokenService {
     }
 
     public Token generateTokenForUser(final User user, final TokenType tokenType) {
-        Token token = new Token(UUID.randomUUID().toString(), tokenType, user);
+        Token token = new Token(UUID.randomUUID(), tokenType, user);
         tokenRepository.save(token);
         return token;
     }
 
-    public Token findByToken(final String token, final TokenType tokenType) {
+    public Token findByToken(final UUID token, final TokenType tokenType) {
         return tokenRepository.findByTokenAndType(token, tokenType).orElseThrow(
                 () -> new ResourceNotFoundException("Invalid token")
         );

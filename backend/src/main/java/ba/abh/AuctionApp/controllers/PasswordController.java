@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/password")
@@ -38,13 +39,13 @@ public class PasswordController {
 
     @PatchMapping("/reset")
     public ResponseEntity<?> changePassword(@RequestBody @Valid final ChangePasswordRequest request,
-                                            @RequestParam final String token) {
+                                            @RequestParam final UUID token) {
         userService.resetPasswordForUser(request, token);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/reset/checkToken")
-    public ResponseEntity<?> checkToken(@RequestParam final String token) {
+    public ResponseEntity<?> checkToken(@RequestParam final UUID token) {
         userService.checkIfTokenValid(token, TokenType.ONE_TIME_PASSWORD);
         return ResponseEntity.ok().build();
     }

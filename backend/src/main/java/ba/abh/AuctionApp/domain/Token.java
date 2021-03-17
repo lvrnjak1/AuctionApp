@@ -12,13 +12,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.Instant;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tokens")
 public class Token extends BaseEntity {
     private static final Long TOKEN_DURATION = 60L;
+
     @Column(nullable = false, unique = true)
-    private String token;
+    private UUID token;
 
     @CreationTimestamp
     @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
@@ -36,7 +38,7 @@ public class Token extends BaseEntity {
     public Token() {
     }
 
-    public Token(final String token,
+    public Token(final UUID token,
                  final Instant issuedAt,
                  final Long durationMin,
                  final TokenType type,
@@ -48,7 +50,7 @@ public class Token extends BaseEntity {
         this.user = user;
     }
 
-    public Token(final String token,
+    public Token(final UUID token,
                  final TokenType type,
                  final User user) {
         this.token = token;
@@ -56,11 +58,11 @@ public class Token extends BaseEntity {
         this.user = user;
     }
 
-    public String getToken() {
+    public UUID getToken() {
         return token;
     }
 
-    public void setToken(final String token) {
+    public void setToken(final UUID token) {
         this.token = token;
     }
 

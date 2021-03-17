@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -48,7 +49,7 @@ public class UserService {
         return tokenService.generateTokenForUser(user, TokenType.ONE_TIME_PASSWORD);
     }
 
-    public void resetPasswordForUser(final ChangePasswordRequest request, final String token) {
+    public void resetPasswordForUser(final ChangePasswordRequest request, final UUID token) {
         Token t = tokenService.findByToken(token, TokenType.ONE_TIME_PASSWORD);
         if (tokenService.isTokenExpired(t)) {
             throw new ResourceNotFoundException("Invalid token");
@@ -60,7 +61,7 @@ public class UserService {
         tokenService.invalidateToken(t);
     }
 
-    public void checkIfTokenValid(final String token, final TokenType type) {
+    public void checkIfTokenValid(final UUID token, final TokenType type) {
         Token t = tokenService.findByToken(token, type);
         if (tokenService.isTokenExpired(t)) {
             throw new ResourceNotFoundException("Invalid token");
