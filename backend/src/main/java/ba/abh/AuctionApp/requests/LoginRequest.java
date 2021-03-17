@@ -1,9 +1,11 @@
 package ba.abh.AuctionApp.requests;
 
+import ba.abh.AuctionApp.utility.email.ValidEmail;
+
 import javax.validation.constraints.NotBlank;
 
 public class LoginRequest {
-    @NotBlank(message = "Email must be present")
+    @ValidEmail(message = "Email must be present and have a valid format")
     private String email;
 
     @NotBlank(message = "Password must be present")

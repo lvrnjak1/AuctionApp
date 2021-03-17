@@ -8,6 +8,7 @@ import { resetInfoMessage } from 'state/actions/infoMessageActions';
 import { updateMessage } from 'util/info_div_util';
 import { loginUser } from 'util/auth/auth';
 import { setLoggedIn } from 'state/actions/loggedInActions';
+import { emailRegex } from 'util/emailValidator';
 
 function Register() {
     const [name, setName] = useState("");
@@ -79,6 +80,8 @@ function Register() {
                     required
                     type="email"
                     value={email}
+                    pattern={emailRegex}
+                    title="This email doesn't have a valid email address format"
                     onChange={e => handleInputChange(e, setEmail)} />
 
                 <label>Password</label>

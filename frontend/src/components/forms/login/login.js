@@ -10,6 +10,7 @@ import { setLoggedIn } from 'state/actions/loggedInActions';
 import { loginUser } from 'util/auth/auth';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
 import { updateMessage } from 'util/info_div_util';
+import { emailRegex } from 'util/emailValidator';
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -73,6 +74,8 @@ function Login() {
                     required
                     type="email"
                     value={email}
+                    pattern={emailRegex}
+                    title="This email doesn't have a valid email address format"
                     onChange={e => handleInputChange(e, setEmail)} />
                 <label>Password</label>
 
