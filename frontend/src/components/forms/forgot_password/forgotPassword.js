@@ -48,7 +48,7 @@ function ForgotPassword() {
                     type="email"
                     value={email}
                     onChange={e => handleInputChange(e, setEmail)} />
-                <button type="submit">SUMBIT</button>
+                <button type="submit">SUBMIT</button>
             </div>
         </form>
     );
