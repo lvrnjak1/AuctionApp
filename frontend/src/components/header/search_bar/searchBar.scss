@@ -6,6 +6,37 @@
   height: 80px;
   text-align: center;
 
+  .search-input {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    padding-bottom: 15px;
+    form {
+      input {
+        background: $white;
+        border: 1px solid $lightGray2;
+        box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.08);
+        padding: 4px;
+        &:focus {
+          outline: transparent;
+        }
+      }
+      .search-button {
+        background: transparent;
+        border: transparent;
+        font-size: 22px;
+        cursor: pointer;
+        margin-left: -35px;
+        position: absolute;
+        margin-top: 5px;
+        color: $purple;
+        &:focus {
+          outline: transparent;
+        }
+      }
+    }
+  }
+
   .search-bar-title {
     font-size: 24px;
     letter-spacing: 0.84px;
@@ -53,6 +84,13 @@
   @media screen and (max-width: $small) {
     height: 130px;
     text-align: center;
+    .search-input {
+      form {
+        input {
+          width: 200px;
+        }
+      }
+    }
     .search-bar-links {
       ul {
         text-align: center;
@@ -66,12 +104,22 @@
   }
 
   @media screen and (min-width: $medium) {
-    .search-bar-title {
-      float: left;
+    display: grid;
+    grid-template-columns: 20% 50% 30%;
+    .search-input {
+      form {
+        input {
+          width: 400px;
+          height: 30px;
+        }
+      }
     }
+    // .search-bar-title {
+    //   float: left;
+    // }
 
-    .search-bar-links {
-      float: right;
-    }
+    // .search-bar-links {
+    //   float: right;
+    // }
   }
 }
