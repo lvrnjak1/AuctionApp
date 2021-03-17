@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { postRequest } from "http/requests";
 import { FORGOT_ENDPOINT } from 'http/endpoints';
 import { updateMessage } from 'util/info_div_util';
+import { emailRegex } from 'util/emailValidator';
 
 function ForgotPassword() {
     const [email, setEmail] = useState("");
@@ -47,6 +48,8 @@ function ForgotPassword() {
                     required
                     type="email"
                     value={email}
+                    pattern={emailRegex}
+                    title="This email doesn't have a valid email address format"
                     onChange={e => handleInputChange(e, setEmail)} />
                 <button type="submit">SUBMIT</button>
             </div>

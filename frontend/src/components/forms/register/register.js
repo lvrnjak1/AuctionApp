@@ -81,7 +81,7 @@ function Register() {
                     type="email"
                     value={email}
                     pattern={emailRegex}
-                    title="This email valid email address format"
+                    title="This email doesn't have a valid email address format"
                     onChange={e => handleInputChange(e, setEmail)} />
 
                 <label>Password</label>
