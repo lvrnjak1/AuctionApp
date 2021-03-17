@@ -1,6 +1,7 @@
 package ba.abh.AuctionApp.requests;
 
-import javax.validation.constraints.Email;
+import ba.abh.AuctionApp.utility.email.ValidEmail;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -13,7 +14,7 @@ public class RegisterRequest {
     private String surname;
 
     @NotBlank(message = "Email shouldn't be blank")
-    @Email(message = "Provide a valid email address")
+    @ValidEmail(message = "Provide a valid email address")
     private String email;
 
     @NotNull(message = "Password must be present")
