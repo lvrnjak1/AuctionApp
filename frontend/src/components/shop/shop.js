@@ -8,15 +8,13 @@ import { MenuItem, Select } from '@material-ui/core';
 import { faSortAmountUp, faSortAmountDown } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch, useSelector } from 'react-redux';
-import { initializeCurrentCategory, resetCurrentCategory, setCurrentCategory } from 'state/actions/currentCategoryActions';
-// import { useHistory } from 'react-router-dom';
+import { resetCurrentCategory } from 'state/actions/currentCategoryActions';
 import { updateMessage } from 'util/info_div_util';
 import { resetFilterParams, setCategoryId, setPage, setSort, setSortOrder } from 'state/actions/filterParamsActions';
 import { setCategories } from 'state/actions/categoriesActions';
 
 function Shop() {
     const dispatch = useDispatch();
-    // const history = useHistory();
     const [products, setProducts] = useState([]);
     const [hasNext, setHasNext] = useState(true);
     const categories = useSelector(state => state.categories);
@@ -35,14 +33,6 @@ function Shop() {
             fetchCategories();
         }
 
-        // dispatch(initializeCurrentCategory());
-
-
-        // if (history.location.state) {
-        //     dispatch(setCurrentCategory(history.location.state.categoryName, ""));
-        // } else {
-        //     dispatch(initializeCurrentCategory());
-        // }
         return () => {
             dispatch(resetCurrentCategory(false));
             dispatch(resetFilterParams());
