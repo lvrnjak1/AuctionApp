@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGavel } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useHistory } from "react-router-dom"
@@ -27,6 +27,12 @@ function SearchBar() {
         dispatch(setName(searchCriteria));
         history.push("/shop");
     }
+
+    useEffect(() => {
+        if (history.location.pathname !== "/shop") {
+            setSearchCriteria("");
+        }
+    }, [history.location.pathname]);
 
     return (
         <div className="search-bar">

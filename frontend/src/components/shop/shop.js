@@ -35,16 +35,14 @@ function Shop() {
             fetchCategories();
         }
 
-        // if (!currentCategory) {
-        //     dispatch(initializeCurrentCategory());
-        // }
+        // dispatch(initializeCurrentCategory());
+
 
         // if (history.location.state) {
         //     dispatch(setCurrentCategory(history.location.state.categoryName, ""));
         // } else {
         //     dispatch(initializeCurrentCategory());
         // }
-        // console.log(filterParams);
         return () => {
             dispatch(resetCurrentCategory(false));
             dispatch(resetFilterParams());
