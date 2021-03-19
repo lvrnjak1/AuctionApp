@@ -8,11 +8,6 @@ function BreadcrumbBar(props) {
 
     const getBreadcrumbs = () => {
         if (props.content && props.content.breadcrumbs) return props.content.breadcrumbs.map(bc => <p key={bc}>{bc}</p>);
-        if (currentCategory.doShow) {
-            const breadcrumbs = ["shop/", currentCategory.category];
-            if (currentCategory.subcategory) breadcrumbs.push(currentCategory.subcategory);
-            return breadcrumbs.map(bc => <p key={bc}>{bc}</p>);
-        }
     }
 
     return (
