@@ -122,12 +122,16 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
             predicates.add(criteriaBuilder.equal(sizePath, size));
         }
 
-        Long categoryId = productFilter.getCategoryId();
-        if (categoryId != null) {
-            Path<Category> categoryPath = root.get("product").get("category");
-            Predicate inCategory = criteriaBuilder.equal(categoryPath.get("id"), categoryId);
-            Predicate inSubCategory = criteriaBuilder.equal(categoryPath.get("parentCategory").get("id"), categoryId);
-            predicates.add(criteriaBuilder.or(inCategory, inSubCategory));
+        List<Long> categoryIds = productFilter.getCategoryIds();
+        if (categoryIds != null) {
+            List<Predicate> categoryPredicates = new ArrayList<>();
+            for(Long categoryId : categoryIds){
+                Path<Category> categoryPath = root.get("product").get("category");
+                Predicate inSubCategory = criteriaBuilder.equal(categoryPath.get("id"), categoryId);
+                Predicate inCategory = criteriaBuilder.equal(categoryPath.get("parentCategory").get("id"), categoryId);
+                categoryPredicates.add(criteriaBuilder.or(inCategory, inSubCategory));
+            }
+            predicates.add(criteriaBuilder.or(categoryPredicates.toArray(new Predicate[0])));
         }
     }
 
