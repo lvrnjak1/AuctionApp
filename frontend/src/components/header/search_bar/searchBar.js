@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGavel } from "@fortawesome/free-solid-svg-icons";
-import { NavLink } from "react-router-dom"
+import { NavLink, useHistory } from "react-router-dom"
 import "components/header/search_bar/searchBar.scss"
 import Loader from 'react-loader-spinner';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core';
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { setName } from 'state/actions/filterParamsActions';
 
 const useStyles = makeStyles(theme => ({
     loader: {
@@ -18,9 +19,13 @@ function SearchBar() {
     const asyncInProgress = useSelector(state => state.asyncInProgress);
     const classes = useStyles();
     const [searchCriteria, setSearchCriteria] = useState("");
+    const history = useHistory();
+    const dispatch = useDispatch();
 
-    const handleSearch = () => {
-
+    const handleSearch = (e) => {
+        e.preventDefault();
+        dispatch(setName(searchCriteria));
+        history.push("/shop");
     }
 
     return (

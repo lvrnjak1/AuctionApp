@@ -11,6 +11,8 @@ import {
 } from 'http/endpoints';
 import { useHistory } from 'react-router-dom';
 import { updateMessage } from 'util/info_div_util';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCategories } from 'state/actions/categoriesActions';
 
 function Home() {
     const [featuredProduct, setFeaturedProduct] = useState();
@@ -18,8 +20,9 @@ function Home() {
     const [featuredCategories, setFeaturedCategories] = useState();
     const [products, setProducts] = useState();
     const [newArrivalsActive, setNewArrivalsActive] = useState(true);
-    const [categories, setCategories] = useState();
+    const categories = useSelector(state => state.categories)
     const history = useHistory();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         async function fetchData() {
@@ -27,7 +30,7 @@ function Home() {
 
             requests.push({
                 endpoint: CATEGORIES_ENDPOINT,
-                successHandler: (response) => setCategories(response.data)
+                successHandler: (response) => dispatch(setCategories(response.data)) //setCategories(response.data)
             });
 
             requests.push({

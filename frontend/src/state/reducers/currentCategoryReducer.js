@@ -3,12 +3,12 @@ const defaultState = { category: "All categories", subcategory: "", doShow: fals
 const currentCategoryReducer = (state = defaultState, action) => {
     switch (action.type) {
         case 'INIT_CURRENT_CATEGORY':
-            let s1 = { ...defaultState, doShow: true };
+            let s1 = { ...state, doShow: true };
             return s1;
         case 'SET_CURRENT_CATEGORY':
             return action.payload;
         case 'RESET_CURRENT_CATEGORY':
-            let s2 = { ...defaultState, doShow: action.payload.doShow };
+            let s2 = { ...state, doShow: action.payload.doShow };
             return s2;
         default:
             return state;
