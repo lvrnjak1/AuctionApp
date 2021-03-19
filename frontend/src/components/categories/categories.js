@@ -40,15 +40,17 @@ function Categories(props) {
 
         let id = null;
         if (category && subcategory) {
-            setActiveSubcategory(subcategory.id);
-            dispatch(setCurrentCategory(`${category.name}/`, subcategory.name));
+            // setActiveSubcategory(subcategory.id);
+            // dispatch(setCurrentCategory(`${category.name}/`, subcategory.name));
             id = subcategory.id;
         } else if (category) {
-            dispatch(setCurrentCategory(`${category.name}/`, ""));
+            // dispatch(setCurrentCategory(`${category.name}/`, ""));
             id = category.id;
         } else {
-            dispatch(resetCurrentCategory(true));
+            // dispatch(resetCurrentCategory(true));
         }
+
+        console.log(id);
 
         await props.onFilter(id);
     }
