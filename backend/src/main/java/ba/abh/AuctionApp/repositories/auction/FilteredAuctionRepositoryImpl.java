@@ -76,10 +76,8 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
         }
 
         criteriaQuery.where(predicates.toArray(new Predicate[0]));
+        sort(criteriaQuery, criteriaBuilder, root, filter.getSortSpecification());
 
-        if (filter.getSortSpecification() != null) {
-            sort(criteriaQuery, criteriaBuilder, root, filter.getSortSpecification());
-        }
 
         int page = pageable.getPageNumber();
         int size = pageable.getPageSize();
@@ -146,6 +144,8 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
             } else {
                 criteriaQuery.orderBy(criteriaBuilder.desc(root.get(criteria)));
             }
+        }else{
+            criteriaQuery.orderBy(criteriaBuilder.asc(root.get("product").get("name")));
         }
     }
 }
