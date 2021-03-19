@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import "components/shop/shop.scss";
 import Categories from 'components/categories/categories';
 import ProductGrid from 'components/product_grid/productGrid';
@@ -24,9 +24,18 @@ function Shop() {
         updateMessage("Try reloading the page.", "error");
     }
 
+    const onUnmount = useCallback(() => {
+        dispatch(resetCurrentCategory(false));
+        dispatch(resetFilterParams());
+    }, [dispatch]);
+
+    const setCategoriesCallback = useCallback((data) => {
+        dispatch(setCategories(data))
+    }, [dispatch]);
+
     useEffect(() => {
         async function fetchCategories() {
-            await getRequest(CATEGORIES_ENDPOINT, {}, (response) => dispatch(setCategories(response.data)), errorHandler);
+            await getRequest(CATEGORIES_ENDPOINT, {}, (response) => setCategoriesCallback(response.data), errorHandler);
         }
 
         if (!categories.length) {
@@ -34,10 +43,9 @@ function Shop() {
         }
 
         return () => {
-            dispatch(resetCurrentCategory(false));
-            dispatch(resetFilterParams());
+            onUnmount();
         }
-    }, [categories.length]);
+    }, [categories.length, setCategoriesCallback, onUnmount]);
 
     const handleNewProducts = (responseData) => {
         let oldProducts = products;

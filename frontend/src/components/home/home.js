@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Categories from 'components/categories/categories';
 import "components/home/home.scss"
 import ProductGrid from 'components/product_grid/productGrid';
@@ -24,13 +24,17 @@ function Home() {
     const history = useHistory();
     const dispatch = useDispatch();
 
+    const setCategoriesCallback = useCallback((data) => {
+        dispatch(setCategories(data))
+    }, [dispatch]);
+
     useEffect(() => {
         async function fetchData() {
             const requests = [];
 
             requests.push({
                 endpoint: CATEGORIES_ENDPOINT,
-                successHandler: (response) => dispatch(setCategories(response.data)) //setCategories(response.data)
+                successHandler: (response) => setCategoriesCallback(response.data)
             });
 
             requests.push({
@@ -60,7 +64,7 @@ function Home() {
         }
 
         fetchData();
-    }, [])
+    }, [setCategoriesCallback])
 
     const toggleBottomGrid = async (e) => {
         let endpoint = AUCTIONS_ENDPOINT;
