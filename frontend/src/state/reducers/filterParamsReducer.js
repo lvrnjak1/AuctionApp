@@ -4,6 +4,14 @@ const filterParamsReducer = (state = defaultState, action) => {
     switch (action.type) {
         case 'SET_CATEGORY_ID':
             return { ...state, categoryId: action.payload.categoryId };
+        case 'ADD_CATEGORY_ID':
+            let cat = state.categoryId || [];
+            cat.push(action.payload.categoryId);
+            return { ...state, categoryId: cat };
+        case 'REMOVE_CATEGORY_ID':
+            let cat2 = state.categoryId || [];
+            cat2 = cat2.filter(id => id === action.payload.categoryId);
+            return { ...state, categoryId: cat2 };
         case 'SET_SORT':
             return { ...state, sort: action.payload.sort };
         case 'SET_SORT_ORDER':

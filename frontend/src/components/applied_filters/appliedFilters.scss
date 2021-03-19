@@ -1,0 +1,20 @@
+@import "util/style/constants.scss";
+
+.filter-list {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 1px;
+  margin: 0;
+  border-left: 1px solid $lightGray2;
+  width: 100%;
+  .chip {
+    background: $purple;
+    margin: 4px;
+    color: $white;
+    .MuiChip-deleteIcon {
+      color: $white;
+    }
+  }
+}

@@ -5,6 +5,20 @@ const setCategoryId = (categoryId) => {
     }
 }
 
+const addCategoryId = (categoryId) => {
+    return {
+        type: 'ADD_CATEGORY_ID',
+        payload: { categoryId }
+    }
+}
+
+const removeCategoryId = (categoryId) => {
+    return {
+        type: 'REMOVE_CATEGORY_ID',
+        payload: { categoryId }
+    }
+}
+
 const setSort = (sort) => {
     return {
         type: 'SET_SORT',
@@ -46,4 +60,14 @@ const resetFilterParams = () => {
     }
 }
 
-export { setCategoryId, setSort, setSortOrder, setPage, setLimit, setName, resetFilterParams };
+export {
+    setCategoryId,
+    addCategoryId,
+    removeCategoryId,
+    setSort,
+    setSortOrder,
+    setPage,
+    setLimit,
+    setName,
+    resetFilterParams
+};

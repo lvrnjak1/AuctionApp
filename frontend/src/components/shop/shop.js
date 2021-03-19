@@ -10,8 +10,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetCurrentCategory } from 'state/actions/currentCategoryActions';
 import { updateMessage } from 'util/info_div_util';
-import { resetFilterParams, setCategoryId, setPage, setSort, setSortOrder } from 'state/actions/filterParamsActions';
+import { addCategoryId, resetFilterParams, setPage, setSort, setSortOrder } from 'state/actions/filterParamsActions';
 import { setCategories } from 'state/actions/categoriesActions';
+import AppliedFilters from 'components/applied_filters/appliedFilters';
 
 function Shop() {
     const dispatch = useDispatch();
@@ -50,7 +51,7 @@ function Shop() {
     const handleNewProducts = (responseData) => {
         let oldProducts = products;
         let newProducts;
-
+        console.log(responseData.data);
         if (filterParams.page === 1) {
             newProducts = responseData.data;
         } else {
@@ -64,7 +65,11 @@ function Shop() {
 
     useEffect(() => {
         async function fetchProducts() {
-            await getRequest(AUCTIONS_ENDPOINT, filterParams, (response) => handleNewProducts(response.data), errorHandler);
+            const ids = (filterParams.categoryId && filterParams.categoryId.length > 0) ?
+                filterParams.categoryId.map(id => `${id}`).join(',') :
+                null;
+            const params = { ...filterParams, categoryId: ids }
+            await getRequest(AUCTIONS_ENDPOINT, params, (response) => handleNewProducts(response.data), errorHandler);
         }
         fetchProducts();
     }, [filterParams]);
@@ -74,7 +79,7 @@ function Shop() {
     };
 
     const setCategoryFilter = (categoryId) => {
-        dispatch(setCategoryId(categoryId));
+        dispatch(addCategoryId(categoryId));
     }
 
     const setSortingCriteria = (criteria) => {
@@ -96,30 +101,37 @@ function Shop() {
                 <Categories expandable items={categories} border onFilter={setCategoryFilter} />
             </div>
             <div className="content">
-                <Select
-                    value={filterParams.sort || "DEFAULT"}
-                    onChange={(e) => setSortingCriteria(e.target.value)}
-                    className="sort-select"
-                >
-                    <MenuItem value="DEFAULT">Default Sorting</MenuItem>
-                    <MenuItem value="PRICE">Sort by price</MenuItem>
-                    <MenuItem value="DATE">Sort by newness</MenuItem>
-                </Select>
-                <button
-                    className={`sort-order-button ${filterParams.sortOrder === "ASC" && "active"}`}
-                    disabled={!filterParams.sort}
-                    onClick={() => setSortingOrder("ASC")}
-                >
-                    <FontAwesomeIcon icon={faSortAmountUp} />
-                </button>
-                <button
-                    className={`sort-order-button ${filterParams.sortOrder === "DESC" && "active"}`}
-                    disabled={!filterParams.sort}
-                    value="DESC"
-                    onClick={() => setSortingOrder("DESC")}
-                >
-                    <FontAwesomeIcon icon={faSortAmountDown} />
-                </button>
+                <div className="top">
+                    <div>
+                        <Select
+                            value={filterParams.sort || "DEFAULT"}
+                            onChange={(e) => setSortingCriteria(e.target.value)}
+                            className="sort-select"
+                        >
+                            <MenuItem value="DEFAULT">Default Sorting</MenuItem>
+                            <MenuItem value="PRICE">Sort by price</MenuItem>
+                            <MenuItem value="DATE">Sort by newness</MenuItem>
+                        </Select>
+                        <button
+                            className={`sort-order-button ${filterParams.sortOrder === "ASC" && "active"}`}
+                            disabled={!filterParams.sort}
+                            onClick={() => setSortingOrder("ASC")}
+                        >
+                            <FontAwesomeIcon icon={faSortAmountUp} />
+                        </button>
+                        <button
+                            className={`sort-order-button ${filterParams.sortOrder === "DESC" && "active"}`}
+                            disabled={!filterParams.sort}
+                            value="DESC"
+                            onClick={() => setSortingOrder("DESC")}
+                        >
+                            <FontAwesomeIcon icon={faSortAmountDown} />
+                        </button>
+                    </div>
+                    <div className="filters">
+                        <AppliedFilters />
+                    </div>
+                </div>
                 <div className="center-content">
                     <ProductGrid nrows={Math.ceil(products.length / 3)} items={products} col3 />
                     {hasNext && <button onClick={loadMore}>Explore more</button>}
