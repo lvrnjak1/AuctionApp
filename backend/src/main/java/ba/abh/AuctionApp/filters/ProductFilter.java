@@ -2,18 +2,20 @@ package ba.abh.AuctionApp.filters;
 
 import ba.abh.AuctionApp.domain.enums.Size;
 
+import java.util.List;
+
 public class ProductFilter {
     private String name;
     private Size size;
-    private Long categoryId;
+    private List<Long> categoryIds;
 
     public ProductFilter() {
     }
 
-    public ProductFilter(final String name, final Size size, final Long categoryId) {
+    public ProductFilter(final String name, final Size size, final List<Long> categoryIds) {
         this.name = name;
         this.size = size;
-        this.categoryId = categoryId;
+        this.categoryIds = categoryIds;
     }
 
     public String getName() {
@@ -32,11 +34,11 @@ public class ProductFilter {
         this.size = size;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
+    public List<Long> getCategoryIds() {
+        return categoryIds;
     }
 
-    public void setCategoryId(final Long categoryId) {
-        this.categoryId = categoryId;
+    public void setCategoryIds(final List<Long> categoryIds) {
+        this.categoryIds = categoryIds;
     }
 }
