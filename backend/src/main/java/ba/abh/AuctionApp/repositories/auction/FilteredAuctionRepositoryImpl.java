@@ -76,10 +76,8 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
         }
 
         criteriaQuery.where(predicates.toArray(new Predicate[0]));
+        sort(criteriaQuery, criteriaBuilder, root, filter.getSortSpecification());
 
-        if (filter.getSortSpecification() != null) {
-            sort(criteriaQuery, criteriaBuilder, root, filter.getSortSpecification());
-        }
 
         int page = pageable.getPageNumber();
         int size = pageable.getPageSize();
