@@ -5,6 +5,7 @@ import asyncTaskInProgressReducer from "state/reducers/asyncTaskInProgressReduce
 import currentCategoryReducer from "./currentCategoryReducer";
 import filterParamsReducer from "./filterParamsReducer";
 import categoriesReducer from "./categoriesReducer";
+import searchReducer from "./searchReducer";
 
 const rootReducer = combineReducers({
     infoMessage: infoMessageReducer,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
     asyncInProgress: asyncTaskInProgressReducer,
     currentCategory: currentCategoryReducer,
     filterParams: filterParamsReducer,
-    categories: categoriesReducer
+    categories: categoriesReducer,
+    searchCriteria: searchReducer
 });
 export default rootReducer;

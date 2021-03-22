@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGavel } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useHistory } from "react-router-dom"
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core';
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { setName } from 'state/actions/filterParamsActions';
+import { resetSearch, setSearch } from 'state/actions/searchActions';
 
 const useStyles = makeStyles(theme => ({
     loader: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles(theme => ({
 function SearchBar() {
     const asyncInProgress = useSelector(state => state.asyncInProgress);
     const classes = useStyles();
-    const [searchCriteria, setSearchCriteria] = useState("");
+    const searchCriteria = useSelector(state => state.searchCriteria);
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -30,9 +31,9 @@ function SearchBar() {
 
     useEffect(() => {
         if (history.location.pathname !== "/shop") {
-            setSearchCriteria("");
+            dispatch(resetSearch(""));
         }
-    }, [history.location.pathname]);
+    }, [history.location.pathname, dispatch]);
 
     return (
         <div className="search-bar">
@@ -45,7 +46,7 @@ function SearchBar() {
             </div>
             <div className="search-input">
                 <form onSubmit={handleSearch}>
-                    <input type="text" placeholder="Search..." value={searchCriteria} onChange={(e) => setSearchCriteria(e.target.value)} />
+                    <input type="text" placeholder="Search..." value={searchCriteria} onChange={(e) => dispatch(setSearch(e.target.value))} />
                     <button type="submit" className="search-button">
                         <FontAwesomeIcon icon={faSearch} size="sm" />
                     </button>

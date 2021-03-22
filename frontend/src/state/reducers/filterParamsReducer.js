@@ -1,4 +1,11 @@
-const defaultState = { categoryId: null, sort: null, sortOrder: "ASC", page: 1, limit: 3, name: null };
+const defaultState = {
+    categoryId: null,
+    sort: null,
+    sortOrder: "ASC",
+    page: 1,
+    limit: 3,
+    name: null
+};
 
 const filterParamsReducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -10,8 +17,8 @@ const filterParamsReducer = (state = defaultState, action) => {
             return { ...state, categoryId: cat };
         case 'REMOVE_CATEGORY_ID':
             let cat2 = state.categoryId || [];
-            cat2 = cat2.filter(id => id === action.payload.categoryId);
-            return { ...state, categoryId: cat2 };
+            cat2 = cat2.filter(id => id !== action.payload.categoryId);
+            return { ...state, categoryId: cat2, page: 1 };
         case 'SET_SORT':
             return { ...state, sort: action.payload.sort };
         case 'SET_SORT_ORDER':
