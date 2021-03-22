@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import "components/shop/shop.scss";
 import Categories from 'components/categories/categories';
 import ProductGrid from 'components/product_grid/productGrid';
@@ -7,42 +7,45 @@ import { getRequest } from 'http/requests';
 import { MenuItem, Select } from '@material-ui/core';
 import { faSortAmountUp, faSortAmountDown } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useDispatch } from 'react-redux';
-import { initializeCurrentCategory, resetCurrentCategory, setCurrentCategory } from 'state/actions/currentCategoryActions';
-import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { resetCurrentCategory } from 'state/actions/currentCategoryActions';
 import { updateMessage } from 'util/info_div_util';
+import { resetFilterParams, setCategoryId, setPage, setSort, setSortOrder } from 'state/actions/filterParamsActions';
+import { setCategories } from 'state/actions/categoriesActions';
 
 function Shop() {
     const dispatch = useDispatch();
-    const history = useHistory();
-    const [categories, setCategories] = useState([]);
     const [products, setProducts] = useState([]);
     const [hasNext, setHasNext] = useState(true);
-    const [filterParams, setFilterParams] = useState({
-        categoryId: history.location.state ? history.location.state.categoryId : null,
-        sort: null,
-        sortOrder: "ASC",
-        page: 1,
-        limit: 3
-    });
+    const categories = useSelector(state => state.categories);
+    const filterParams = useSelector(state => state.filterParams);
 
     const errorHandler = () => {
         updateMessage("Try reloading the page.", "error");
     }
 
+    const onUnmount = useCallback(() => {
+        dispatch(resetCurrentCategory(false));
+        dispatch(resetFilterParams());
+    }, [dispatch]);
+
+    const setCategoriesCallback = useCallback((data) => {
+        dispatch(setCategories(data))
+    }, [dispatch]);
+
     useEffect(() => {
         async function fetchCategories() {
-            await getRequest(CATEGORIES_ENDPOINT, {}, (response) => setCategories(response.data), errorHandler);
-        }
-        fetchCategories();
-        if (history.location.state) {
-            dispatch(setCurrentCategory(history.location.state.categoryName, ""));
-        } else {
-            dispatch(initializeCurrentCategory());
+            await getRequest(CATEGORIES_ENDPOINT, {}, (response) => setCategoriesCallback(response.data), errorHandler);
         }
 
-        return () => dispatch(resetCurrentCategory(false));
-    }, []);
+        if (!categories.length) {
+            fetchCategories();
+        }
+
+        return () => {
+            onUnmount();
+        }
+    }, [categories.length, setCategoriesCallback, onUnmount]);
 
     const handleNewProducts = (responseData) => {
         let oldProducts = products;
@@ -67,21 +70,24 @@ function Shop() {
     }, [filterParams]);
 
     const loadMore = () => {
-        setFilterParams({ ...filterParams, page: filterParams.page + 1 });
+        dispatch(setPage(filterParams.page + 1));
     };
 
     const setCategoryFilter = (categoryId) => {
-        setFilterParams({ ...filterParams, categoryId, page: 1 });
+        dispatch(setCategoryId(categoryId));
     }
 
-    const setSortCriteria = (criteria) => {
+    const setSortingCriteria = (criteria) => {
         const sort = criteria !== "DEFAULT" ? criteria : null;
         const sortOrder = criteria !== "DEFAULT" ? filterParams.sortOrder : "ASC";
-        setFilterParams({ ...filterParams, sort, sortOrder, page: 1 });
+        dispatch(setSort(sort));
+        dispatch(setSortOrder(sortOrder));
+        dispatch(setPage(1));
     }
 
-    const setSortOrder = (order) => {
-        setFilterParams({ ...filterParams, sortOrder: order, page: 1 });
+    const setSortingOrder = (order) => {
+        dispatch(setPage(1));
+        dispatch(setSortOrder(order));
     }
 
     return (
@@ -92,7 +98,7 @@ function Shop() {
             <div className="content">
                 <Select
                     value={filterParams.sort || "DEFAULT"}
-                    onChange={(e) => setSortCriteria(e.target.value)}
+                    onChange={(e) => setSortingCriteria(e.target.value)}
                     className="sort-select"
                 >
                     <MenuItem value="DEFAULT">Default Sorting</MenuItem>
@@ -102,7 +108,7 @@ function Shop() {
                 <button
                     className={`sort-order-button ${filterParams.sortOrder === "ASC" && "active"}`}
                     disabled={!filterParams.sort}
-                    onClick={() => setSortOrder("ASC")}
+                    onClick={() => setSortingOrder("ASC")}
                 >
                     <FontAwesomeIcon icon={faSortAmountUp} />
                 </button>
@@ -110,7 +116,7 @@ function Shop() {
                     className={`sort-order-button ${filterParams.sortOrder === "DESC" && "active"}`}
                     disabled={!filterParams.sort}
                     value="DESC"
-                    onClick={() => setSortOrder("DESC")}
+                    onClick={() => setSortingOrder("DESC")}
                 >
                     <FontAwesomeIcon icon={faSortAmountDown} />
                 </button>

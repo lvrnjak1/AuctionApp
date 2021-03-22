@@ -3,6 +3,7 @@ import "components/categories/categories.scss";
 import { resetCurrentCategory, setCurrentCategory } from 'state/actions/currentCategoryActions';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { setCategoryId } from 'state/actions/filterParamsActions';
 
 function Categories(props) {
     const [activeCategory, setActiveCategory] = useState(-1);
@@ -10,23 +11,28 @@ function Categories(props) {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const toggleExpand = async index => {
+    const toggleExpand = async (e, index) => {
         if (activeCategory === index) {
             setActiveCategory(-1);
         } else {
             setActiveCategory(index);
         }
 
-        await handleFilter(props.items[index]);
+        await handleFilter(e, props.items[index]);
     }
 
-    const handleFilter = async (category, subcategory) => {
+    const handleFilter = async (e, category, subcategory) => {
+        e.preventDefault();
         if (!props.expandable) {
             if (category) {
+                dispatch(setCategoryId(category.id));
+                dispatch(setCurrentCategory(category.name, ""));
                 history.push("/shop", { categoryId: category.id, categoryName: category.name });
 
             } else {
                 dispatch(resetCurrentCategory(true));
+                dispatch(setCategoryId(null));
+                dispatch(setCurrentCategory("All categories", ""));
                 history.push("/shop", { categoryId: null, categoryName: "All categories" });
             }
             return;
@@ -56,7 +62,7 @@ function Categories(props) {
                     const index = props.items.indexOf(c)
                     const isActive = index === activeCategory;
                     return <li key={c.id}>
-                        <button onClick={e => toggleExpand(index)}>
+                        <button onClick={e => toggleExpand(e, index)}>
                             <p>{c.name}</p>
                             {props.expandable && <p className="button-icon">{isActive ? "-" : "+"}</p>}
                         </button>
@@ -67,7 +73,7 @@ function Categories(props) {
                                     return <li key={c.subcategories.indexOf(sc)}>
                                         <button
                                             className={`subcategory ${isActiveSub && "active-text"}`}
-                                            onClick={() => handleFilter(c, sc)}
+                                            onClick={(e) => handleFilter(e, c, sc)}
                                         >
                                             {`${sc.name} (${sc.numberOfProducts})`}
                                         </button>
@@ -78,7 +84,7 @@ function Categories(props) {
                         <div className="line"></div>
                     </li>
                 })}
-                <li><button onClick={() => handleFilter(null)}>All Categories</button></li>
+                <li><button onClick={(e) => handleFilter(e)}>All Categories</button></li>
             </ul>
         </div>
     );

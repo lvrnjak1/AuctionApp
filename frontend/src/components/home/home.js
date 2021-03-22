@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Categories from 'components/categories/categories';
 import "components/home/home.scss"
 import ProductGrid from 'components/product_grid/productGrid';
@@ -11,6 +11,8 @@ import {
 } from 'http/endpoints';
 import { useHistory } from 'react-router-dom';
 import { updateMessage } from 'util/info_div_util';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCategories } from 'state/actions/categoriesActions';
 
 function Home() {
     const [featuredProduct, setFeaturedProduct] = useState();
@@ -18,8 +20,13 @@ function Home() {
     const [featuredCategories, setFeaturedCategories] = useState();
     const [products, setProducts] = useState();
     const [newArrivalsActive, setNewArrivalsActive] = useState(true);
-    const [categories, setCategories] = useState();
+    const categories = useSelector(state => state.categories)
     const history = useHistory();
+    const dispatch = useDispatch();
+
+    const setCategoriesCallback = useCallback((data) => {
+        dispatch(setCategories(data))
+    }, [dispatch]);
 
     useEffect(() => {
         async function fetchData() {
@@ -27,7 +34,7 @@ function Home() {
 
             requests.push({
                 endpoint: CATEGORIES_ENDPOINT,
-                successHandler: (response) => setCategories(response.data)
+                successHandler: (response) => setCategoriesCallback(response.data)
             });
 
             requests.push({
@@ -57,7 +64,7 @@ function Home() {
         }
 
         fetchData();
-    }, [])
+    }, [setCategoriesCallback])
 
     const toggleBottomGrid = async (e) => {
         let endpoint = AUCTIONS_ENDPOINT;
