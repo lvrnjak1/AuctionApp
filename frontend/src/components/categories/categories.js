@@ -17,7 +17,9 @@ function Categories(props) {
             setActiveCategory(index);
         }
 
-        await handleFilter(e, props.items[index]);
+        if (!props.expandable) {
+            await handleFilter(e, props.items[index]);
+        }
     }
 
     const handleFilter = async (e, category, subcategory) => {
@@ -59,16 +61,23 @@ function Categories(props) {
                         <div className={`sub-categories ${!isActive && "inactive"}`}>
                             <ul>
                                 {c.subcategories.map(sc => {
-                                    const isActiveSub = sc.id === activeSubcategory;
                                     return <li key={c.subcategories.indexOf(sc)}>
                                         <button
-                                            className={`subcategory ${isActiveSub && "active-text"}`}
+                                            className={`subcategory`}
                                             onClick={(e) => handleFilter(e, c, sc)}
                                         >
                                             {`${sc.name} (${sc.numberOfProducts})`}
                                         </button>
                                     </li>
                                 })}
+                                <li key={c.subcategories.length}>
+                                    <button
+                                        className={`subcategory`}
+                                        onClick={(e) => handleFilter(e, c)}
+                                    >
+                                        {`All (${c.numberOfProducts})`}
+                                    </button>
+                                </li>
                             </ul>
                         </div>
                         <div className="line"></div>
@@ -76,7 +85,7 @@ function Categories(props) {
                 })}
                 <li><button onClick={(e) => handleFilter(e)}>All Categories</button></li>
             </ul>
-        </div>
+        </div >
     );
 }
 
