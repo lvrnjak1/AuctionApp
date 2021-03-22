@@ -13,7 +13,13 @@ const filterParamsReducer = (state = defaultState, action) => {
             return { ...state, categoryId: action.payload.categoryId };
         case 'ADD_CATEGORY_ID':
             let cat = state.categoryId || [];
-            cat.push(action.payload.categoryId);
+            if (!action.payload.categoryId) {
+                cat = null;
+            } else if (cat.find(c => c === action.payload.categoryId)) {
+                cat = cat.filter(id => id !== action.payload.categoryId);
+            } else {
+                cat.push(action.payload.categoryId);
+            }
             return { ...state, categoryId: cat };
         case 'REMOVE_CATEGORY_ID':
             let cat2 = state.categoryId || [];
@@ -28,7 +34,7 @@ const filterParamsReducer = (state = defaultState, action) => {
         case 'SET_LIMIT':
             return { ...state, limit: action.payload.limit };
         case 'SET_NAME':
-            return { ...state, name: action.payload.name };
+            return { ...state, name: action.payload.name, page: 1 };
         case 'RESET':
             return defaultState;
         default:

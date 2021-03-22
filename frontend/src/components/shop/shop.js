@@ -63,7 +63,6 @@ function Shop() {
     }
 
     useEffect(() => {
-        console.log(filterParams);
         async function fetchProducts() {
             const ids = (filterParams.categoryId && filterParams.categoryId.length > 0) ?
                 filterParams.categoryId.map(id => `${id}`).join(',') :
