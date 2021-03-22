@@ -51,7 +51,6 @@ function Shop() {
     const handleNewProducts = (responseData) => {
         let oldProducts = products;
         let newProducts;
-        console.log(responseData.data);
         if (filterParams.page === 1) {
             newProducts = responseData.data;
         } else {
@@ -64,6 +63,7 @@ function Shop() {
     }
 
     useEffect(() => {
+        console.log(filterParams);
         async function fetchProducts() {
             const ids = (filterParams.categoryId && filterParams.categoryId.length > 0) ?
                 filterParams.categoryId.map(id => `${id}`).join(',') :
@@ -80,6 +80,7 @@ function Shop() {
 
     const setCategoryFilter = (categoryId) => {
         dispatch(addCategoryId(categoryId));
+        dispatch(setPage(1));
     }
 
     const setSortingCriteria = (criteria) => {

@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import "components/categories/categories.scss";
-import { resetCurrentCategory, setCurrentCategory } from 'state/actions/currentCategoryActions';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { setCategoryId } from 'state/actions/filterParamsActions';
+import { addCategoryId, setCategoryId } from 'state/actions/filterParamsActions';
 
 function Categories(props) {
     const [activeCategory, setActiveCategory] = useState(-1);
-    const [activeSubcategory, setActiveSubcategory] = useState();
+    const [activeSubcategory] = useState();
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -25,14 +24,10 @@ function Categories(props) {
         e.preventDefault();
         if (!props.expandable) {
             if (category) {
-                dispatch(setCategoryId(category.id));
-                dispatch(setCurrentCategory(category.name, ""));
+                dispatch(addCategoryId(category.id));
                 history.push("/shop", { categoryId: category.id, categoryName: category.name });
-
             } else {
-                dispatch(resetCurrentCategory(true));
                 dispatch(setCategoryId(null));
-                dispatch(setCurrentCategory("All categories", ""));
                 history.push("/shop", { categoryId: null, categoryName: "All categories" });
             }
             return;
@@ -40,17 +35,10 @@ function Categories(props) {
 
         let id = null;
         if (category && subcategory) {
-            // setActiveSubcategory(subcategory.id);
-            // dispatch(setCurrentCategory(`${category.name}/`, subcategory.name));
             id = subcategory.id;
         } else if (category) {
-            // dispatch(setCurrentCategory(`${category.name}/`, ""));
             id = category.id;
-        } else {
-            // dispatch(resetCurrentCategory(true));
         }
-
-        console.log(id);
 
         await props.onFilter(id);
     }
