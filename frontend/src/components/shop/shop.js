@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import "components/shop/shop.scss";
 import Categories from 'components/categories/categories';
 import ProductGrid from 'components/product_grid/productGrid';
 import { AUCTIONS_ENDPOINT, CATEGORIES_ENDPOINT } from 'http/endpoints';
@@ -13,6 +12,8 @@ import { updateMessage } from 'util/info_div_util';
 import { addCategoryId, resetFilterParams, setPage, setSort, setSortOrder } from 'state/actions/filterParamsActions';
 import { setCategories } from 'state/actions/categoriesActions';
 import AppliedFilters from 'components/applied_filters/appliedFilters';
+import PriceFilter from 'components/price_filter/priceFilter';
+import "components/shop/shop.scss";
 
 function Shop() {
     const dispatch = useDispatch();
@@ -99,6 +100,7 @@ function Shop() {
         <div className="shop-page">
             <div className="side-bar">
                 <Categories expandable items={categories} border onFilter={setCategoryFilter} />
+                <PriceFilter />
             </div>
             <div className="content">
                 <div className="top">

@@ -1,0 +1,53 @@
+@import "util/style/constants.scss";
+
+.price-filter {
+  background: $white;
+  border: 1px solid $lightGray2;
+  padding: 2px;
+  box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.11);
+  width: 94%;
+  margin: auto;
+  padding: 5px;
+  margin-top: 20px;
+  .title {
+    font-weight: bold;
+    font-size: 14px;
+    color: $purple;
+    letter-spacing: 0.49px;
+    text-transform: uppercase;
+    margin: 10px 0px 0px 10px;
+  }
+  .slider {
+    width: 90%;
+    margin: 10px 0px 0px 10px;
+  }
+  .filter-text {
+    font-size: 14px;
+    color: $gray;
+    letter-spacing: 0.49px;
+    margin: 10px 0px 0px 10px;
+  }
+  .apply-button {
+    background: $purple;
+    color: $white;
+    border: transparent;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    &:focus {
+      outline: transparent;
+    }
+  }
+  @media screen and (min-width: $medium) {
+    width: 97%;
+    text-align: left;
+    margin-left: 0;
+  }
+
+  @media screen and (min-width: $large) {
+    width: 252px;
+    height: fit-content;
+  }
+}
