@@ -9,7 +9,12 @@
   margin: auto;
   padding: 5px;
   margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
   .title {
+    width: 100%;
     font-weight: bold;
     font-size: 14px;
     color: $purple;
@@ -19,9 +24,12 @@
   }
   .slider {
     width: 90%;
-    margin: 10px 0px 0px 10px;
+    padding: 0;
+    position: relative;
+    top: -10px;
   }
   .filter-text {
+    width: 100%;
     font-size: 14px;
     color: $gray;
     letter-spacing: 0.49px;

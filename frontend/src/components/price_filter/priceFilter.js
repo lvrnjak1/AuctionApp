@@ -3,10 +3,14 @@ import "components/price_filter/priceFilter.scss";
 import { debounce, Slider } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMaxPrice, setMinPrice } from 'state/actions/filterParamsActions';
+import PriceChart from './chart/chart';
 
 function PriceFilter() {
     const [value, setValue] = useState([20, 100]);
     const dispatch = useDispatch();
+    const min = 0;
+    const max = 510;
+    const step = 30;
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -28,6 +32,7 @@ function PriceFilter() {
     return (
         <div className="price-filter">
             <p className="title">Filter by price</p>
+            <PriceChart />
             <Slider
                 className="slider"
                 value={value}
@@ -36,7 +41,10 @@ function PriceFilter() {
                 valueLabelDisplay="auto"
                 aria-labelledby="range-slider"
                 getAriaValueText={valuetext}
-                max={500}
+                max={max}
+                min={min}
+                step={step}
+                marks
             />
             <p className="filter-text">
                 {`${valuetext(value[0])} - ${valuetext(value[1])}`}
