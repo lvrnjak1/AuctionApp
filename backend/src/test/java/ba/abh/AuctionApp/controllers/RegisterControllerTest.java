@@ -1,2 +1,4 @@
-package ba.abh.AuctionApp.controllers;public class RegisterControllerTest {
+package ba.abh.AuctionApp.controllers;
+
+public class RegisterControllerTest {
 }

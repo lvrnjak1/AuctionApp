@@ -7,3 +7,9 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  sendgrid:
+    api-key: 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
+    sender: abh.auctionapp@gmail.com
+    reset-url: https://lvrnjak-auction-app.herokuapp.com/password/reset/
+app:
+  jwtSecret: hu\St}{k]:}:R2*V9ax7
