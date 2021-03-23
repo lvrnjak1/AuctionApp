@@ -1,8 +1,6 @@
 package ba.abh.AuctionApp.controllers;
 
 import ba.abh.AuctionApp.domain.Category;
-import ba.abh.AuctionApp.repositories.ProductRepository;
-import ba.abh.AuctionApp.repositories.auction.AuctionRepository;
 import ba.abh.AuctionApp.repositories.category.CategoryRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,10 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class AuctionControllerTest {
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private ProductRepository productRepository;
-    @Autowired
-    private AuctionRepository auctionRepository;
     @Autowired
     private CategoryRepository categoryRepository;
 
@@ -335,7 +329,7 @@ class AuctionControllerTest {
         JSONObject response = new JSONObject(result.getResponse().getContentAsString());
         JSONArray data = response.getJSONArray("data");
         for(int i = 0; i < data.length(); i++){
-            String catId = String.valueOf(data.getJSONObject(i).getJSONObject("product").get("categoryId"));
+            String catId = String.valueOf(data.getJSONObject(i).getJSONObject("product").getJSONObject("category").get("id"));
             assertTrue(catId.equals("8") || catId.equals("9"));
         }
     }
@@ -348,22 +342,22 @@ class AuctionControllerTest {
         JSONObject response = new JSONObject(result.getResponse().getContentAsString());
         JSONArray data = response.getJSONArray("data");
         for(int i = 0; i < data.length(); i++){
-            Long catId = (Long) data.getJSONObject(i).getJSONObject("product").get("categoryId");
-            Category cat = categoryRepository.findById(catId).orElseThrow();
+            Integer catId = (Integer) data.getJSONObject(i).getJSONObject("product").getJSONObject("category").get("id");
+            Category cat = categoryRepository.findById(Long.valueOf(catId)).orElseThrow();
             assertEquals((long) cat.getParentCategory().getId(), 1L);
         }
     }
 
     @Test
-    public void testMultipleFlters() throws Exception {
+    public void testMultipleFilters() throws Exception {
         MvcResult result = mockMvc
                 .perform(get("/auctions?categoryId=1&priceMax=150"))
                 .andReturn();
         JSONObject response = new JSONObject(result.getResponse().getContentAsString());
         JSONArray data = response.getJSONArray("data");
         for(int i = 0; i < data.length(); i++){
-            Long catId = (Long) data.getJSONObject(i).getJSONObject("product").get("categoryId");
-            Category cat = categoryRepository.findById(catId).orElseThrow();
+            Integer catId = (Integer) data.getJSONObject(i).getJSONObject("product").getJSONObject("category").get("id");
+            Category cat = categoryRepository.findById(Long.valueOf(catId)).orElseThrow();
             String price = String.valueOf(data.getJSONObject(i).get("startPrice"));
             assertEquals((long) cat.getParentCategory().getId(), 1L);
             assertTrue(Double.parseDouble(price) <= 150);
