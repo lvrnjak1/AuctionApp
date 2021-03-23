@@ -54,6 +54,20 @@ const setName = (name) => {
     }
 }
 
+const setMinPrice = (priceMin) => {
+    return {
+        type: 'SET_PRICE_MIN',
+        payload: { priceMin }
+    }
+}
+
+const setMaxPrice = (priceMax) => {
+    return {
+        type: 'SET_PRICE_MAX',
+        payload: { priceMax }
+    }
+}
+
 const resetFilterParams = () => {
     return {
         type: 'RESET'
@@ -69,5 +83,7 @@ export {
     setPage,
     setLimit,
     setName,
+    setMinPrice,
+    setMaxPrice,
     resetFilterParams
 };

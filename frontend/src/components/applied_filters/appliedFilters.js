@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Chip } from '@material-ui/core';
 import "components/applied_filters/appliedFilters.scss";
 import { useDispatch, useSelector } from 'react-redux';
-import { removeCategoryId, setName } from 'state/actions/filterParamsActions';
+import { removeCategoryId, setMaxPrice, setMinPrice, setName } from 'state/actions/filterParamsActions';
 import { resetSearch } from 'state/actions/searchActions';
 
 
@@ -55,6 +55,14 @@ function AppliedFilters() {
 
         if (filterParams.name) {
             newData.push({ filter: nameMapping.name, value: filterParams.name, removeHandler: handleRemoveSearch });
+        }
+
+        if (filterParams.priceMax) {
+            newData.push({ filter: nameMapping.priceMax, value: filterParams.priceMax, removeHandler: () => dispatch(setMaxPrice(null)) });
+        }
+
+        if (filterParams.priceMin) {
+            newData.push({ filter: nameMapping.priceMin, value: filterParams.priceMin, removeHandler: () => dispatch(setMinPrice(null)) });
         }
 
         setChipData(newData);
