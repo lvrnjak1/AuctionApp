@@ -29,7 +29,7 @@ export default class PriceChart extends React.Component {
 
     componentDidMount() {
         const myChartRef = this.chartRef.current.getContext("2d");
-        const myData = scaleData(generateData(0, 500, 30));
+        const myData = scaleData(generateData(this.props.min, this.props.max, this.props.step));
         new Chart(myChartRef, {
             type: 'bar',
             data: {

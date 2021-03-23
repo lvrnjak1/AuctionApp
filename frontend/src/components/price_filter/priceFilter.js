@@ -32,7 +32,7 @@ function PriceFilter() {
     return (
         <div className="price-filter">
             <p className="title">Filter by price</p>
-            <PriceChart />
+            <PriceChart min={min} max={max} step={step} />
             <Slider
                 className="slider"
                 value={value}
