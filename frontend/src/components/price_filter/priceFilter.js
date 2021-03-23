@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "components/price_filter/priceFilter.scss";
 import { Slider } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { setMaxPrice, setMinPrice } from 'state/actions/filterParamsActions';
 
 function PriceFilter() {
-    const [value, setValue] = useState([20, 50]);
+    const filterParams = useSelector(state => state.filterParams)
+    const [value, setValue] = useState([20, 100]);
+    const dispatch = useDispatch();
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -15,6 +19,11 @@ function PriceFilter() {
 
     function average() {
         return (value[0] + value[1]) / 2;
+    }
+
+    const handleApply = (e) => {
+        dispatch(setMinPrice(value[0]));
+        dispatch(setMaxPrice(value[1]));
     }
 
     return (
@@ -35,7 +44,7 @@ function PriceFilter() {
             <p className="filter-text">
                 {`Average price ${valuetext(average())}`}
             </p>
-            <button className="apply-button">Apply</button>
+            <button className="apply-button" onClick={(e) => handleApply(e)}>Apply</button>
         </div>
     );
 }

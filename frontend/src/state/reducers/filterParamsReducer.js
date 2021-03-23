@@ -4,7 +4,9 @@ const defaultState = {
     sortOrder: "ASC",
     page: 1,
     limit: 3,
-    name: null
+    name: null,
+    priceMin: null,
+    priceMax: null
 };
 
 const filterParamsReducer = (state = defaultState, action) => {
@@ -35,6 +37,10 @@ const filterParamsReducer = (state = defaultState, action) => {
             return { ...state, limit: action.payload.limit };
         case 'SET_NAME':
             return { ...state, name: action.payload.name, page: 1 };
+        case 'SET_PRICE_MIN':
+            return { ...state, priceMin: action.payload.priceMin, page: 1 };
+        case 'SET_PRICE_MAX':
+            return { ...state, priceMax: action.payload.priceMax, page: 1 };
         case 'RESET':
             return defaultState;
         default:
