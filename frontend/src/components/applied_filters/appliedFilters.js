@@ -58,11 +58,11 @@ function AppliedFilters() {
         }
 
         if (filterParams.priceMax) {
-            newData.push({ filter: nameMapping.priceMax, value: filterParams.priceMax, removeHandler: () => dispatch(setMaxPrice(null)) });
+            newData.push({ filter: nameMapping.priceMax, value: `$${filterParams.priceMax}`, removeHandler: () => dispatch(setMaxPrice(null)) });
         }
 
         if (filterParams.priceMin) {
-            newData.push({ filter: nameMapping.priceMin, value: filterParams.priceMin, removeHandler: () => dispatch(setMinPrice(null)) });
+            newData.push({ filter: nameMapping.priceMin, value: `$${filterParams.priceMin}`, removeHandler: () => dispatch(setMinPrice(null)) });
         }
 
         setChipData(newData);
