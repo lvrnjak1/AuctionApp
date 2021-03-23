@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import "components/price_filter/priceFilter.scss";
-import { debounce, Slider } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
+import { Slider } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
 import { setMaxPrice, setMinPrice } from 'state/actions/filterParamsActions';
 import PriceChart from './chart/chart';
 
 function PriceFilter() {
-    const [value, setValue] = useState([20, 100]);
-    const dispatch = useDispatch();
     const min = 0;
-    const max = 510;
+    const max = 500;
     const step = 30;
+    const [value, setValue] = useState([min, max]);
+    const dispatch = useDispatch();
 
     const handleChange = (event, newValue) => {
         setValue(newValue);

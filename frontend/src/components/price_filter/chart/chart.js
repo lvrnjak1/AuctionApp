@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Chart from "chart.js";
 import "components/price_filter/chart/chart.scss";
 
@@ -70,7 +70,12 @@ export default class PriceChart extends React.Component {
                             drawBorder: false
                         }
                     }]
-                }
+                },
+                layout: {
+                    padding: {
+                        left: -10
+                    }
+                },
             }
         });
     }
