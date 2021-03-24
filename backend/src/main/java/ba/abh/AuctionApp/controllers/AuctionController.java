@@ -10,6 +10,7 @@ import ba.abh.AuctionApp.pagination.PaginationDetails;
 import ba.abh.AuctionApp.requests.AuctionRequest;
 import ba.abh.AuctionApp.responses.AuctionResponse;
 import ba.abh.AuctionApp.responses.PageableResponse;
+import ba.abh.AuctionApp.responses.PriceChartResponse;
 import ba.abh.AuctionApp.services.AuctionService;
 import ba.abh.AuctionApp.services.UserService;
 import org.springframework.data.domain.Page;
@@ -74,8 +75,8 @@ public class AuctionController {
     @GetMapping("/price-chart")
     public ResponseEntity<?> getPriceChartData(@Valid RequestParams requestParam) {
         AuctionFilter auctionFilter = constructAuctionFilter(requestParam);
-        auctionService.getChartData(auctionFilter);
-        return ResponseEntity.ok().build();
+        PriceChartResponse priceChartResponse = auctionService.getChartData(auctionFilter);
+        return ResponseEntity.ok().body(priceChartResponse);
     }
 
     private PageableResponse buildPageableResponse(final Page<Auction> page) {

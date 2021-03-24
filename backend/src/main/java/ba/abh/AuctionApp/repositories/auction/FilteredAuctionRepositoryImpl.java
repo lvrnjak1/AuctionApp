@@ -25,7 +25,9 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository {
@@ -171,21 +173,52 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
         List<Predicate> predicates = getFilterPredicates(criteriaBuilder, root, filter);
         subquery.select(root).where(predicates.toArray(new Predicate[0]));
 
-        minMaxQuery.multiselect(criteriaBuilder.max(minMaxRoot.get("startPrice")),
-                criteriaBuilder.min(minMaxRoot.get("startPrice")));
+        minMaxQuery.multiselect(criteriaBuilder.min(minMaxRoot.get("startPrice")),
+                criteriaBuilder.max(minMaxRoot.get("startPrice")));
         minMaxQuery.where(criteriaBuilder.in(minMaxRoot).value(subquery));
         TypedQuery<Object[]> typedQuery = entityManager.createQuery(minMaxQuery);
         Object[] resultList = typedQuery.getSingleResult();
 
         Double min = 0d;
         Double max = 0d;
+        double step = 20d;
         if(resultList.length != 0){
             min = (Double) resultList[0];
             max = (Double) resultList[1];
         }
 
-        System.out.println(min);
-        System.out.println(max);
-        return null;
+        CriteriaQuery<Object[]> countQuery = criteriaBuilder.createQuery(Object[].class);
+        Root<Auction> auctionRoot = countQuery.from(Auction.class);
+
+        Subquery<Auction> sA = countQuery.subquery(Auction.class);
+        Root<Auction> rA = sA.from(Auction.class);
+        sA.select(rA).where(predicates.toArray(new Predicate[0]));
+
+        List<String> labels = new ArrayList<>();
+        List<Expression<Integer>> ranges = new ArrayList<>();
+        double price = min;
+        while (price <= max + step){
+            labels.add(price + " - " + (price + step));
+            Predicate ge = criteriaBuilder.greaterThanOrEqualTo(auctionRoot.get("startPrice"), price);
+            Predicate lt = criteriaBuilder.lessThan(auctionRoot.get("startPrice"), (price + step));
+            Predicate between = criteriaBuilder.and(ge, lt);
+            Expression<Integer> sumEx = criteriaBuilder.sum(
+                    criteriaBuilder.<Integer>selectCase().when(between, 1).otherwise(0)
+            );
+            ranges.add(sumEx);
+            price += step;
+        }
+
+        countQuery.multiselect(ranges
+                .stream()
+                .map(range -> range.alias(String.valueOf(Math.random())))
+                .collect(Collectors.toList())
+
+        ).where(criteriaBuilder.in(auctionRoot).value(sA));
+
+        TypedQuery<Object[]> typedCountQuery = entityManager.createQuery(countQuery);
+        Object[] count = typedCountQuery.getSingleResult();
+        List<Long> values = Arrays.stream(count).mapToLong(el -> (long) el).boxed().collect(Collectors.toList());
+        return new PriceChartResponse(labels, values, min, max, step);
     }
 }
