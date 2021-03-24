@@ -49,15 +49,7 @@ public class AuctionController {
 
     @GetMapping
     public ResponseEntity<PageableResponse> getAuctions(@Valid final RequestParams requestParams) {
-        SortSpecification sortSpecification = new SortSpecification(requestParams.getSort(), requestParams.getSortOrder());
-        ProductFilter productFilter = new ProductFilter(requestParams.getName(), requestParams.getSize(), requestParams.getCategoryId());
-        AuctionFilter auctionFilter = new AuctionFilter(requestParams.getSellerId(),
-                productFilter,
-                requestParams.getPriceMin(),
-                requestParams.getPriceMax(),
-                requestParams.getMinutesLeft(),
-                sortSpecification
-        );
+        AuctionFilter auctionFilter = constructAuctionFilter(requestParams);
         Page<Auction> auctionPage = auctionService.getFilteredAuctions(requestParams.getPage() - 1,
                 requestParams.getLimit(),
                 auctionFilter
@@ -79,6 +71,13 @@ public class AuctionController {
         return ResponseEntity.ok(new AuctionResponse(auction));
     }
 
+    @GetMapping("/price-chart")
+    public ResponseEntity<?> getPriceChartData(@Valid RequestParams requestParam) {
+        AuctionFilter auctionFilter = constructAuctionFilter(requestParam);
+        auctionService.getChartData(auctionFilter);
+        return ResponseEntity.ok().build();
+    }
+
     private PageableResponse buildPageableResponse(final Page<Auction> page) {
         PaginationDetails details = new PaginationDetails(page);
         List<? extends PageableEntity> data = page
@@ -87,5 +86,18 @@ public class AuctionController {
                 .map(AuctionResponse::new)
                 .collect(Collectors.toList());
         return new PageableResponse(details, (List<PageableEntity>) data);
+    }
+
+    private AuctionFilter constructAuctionFilter(final RequestParams requestParams) {
+        SortSpecification sortSpecification = new SortSpecification(requestParams.getSort(), requestParams.getSortOrder());
+        ProductFilter productFilter = new ProductFilter(requestParams.getName(), requestParams.getSize(), requestParams.getCategoryId());
+
+        return new AuctionFilter(requestParams.getSellerId(),
+                productFilter,
+                requestParams.getPriceMin(),
+                requestParams.getPriceMax(),
+                requestParams.getMinutesLeft(),
+                sortSpecification
+        );
     }
 }
