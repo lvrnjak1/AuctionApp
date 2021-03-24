@@ -2,15 +2,6 @@ import React from 'react';
 import Chart from "chart.js";
 import "components/price_filter/chart/chart.scss";
 
-const generateData = (start, end, step) => {
-    const labels = [];
-    const data = [];
-    for (let i = start; i < end; i += step) {
-        labels.push(i);
-        data.push(Math.random() * 100);
-    }
-    return { labels, data };
-};
 
 const scaleData = (DS) => {
     const min = Math.min(DS.data);
@@ -27,9 +18,9 @@ const scaleData = (DS) => {
 export default class PriceChart extends React.Component {
     chartRef = React.createRef();
 
-    componentDidMount() {
+    componentDidUpdate() {
         const myChartRef = this.chartRef.current.getContext("2d");
-        const myData = scaleData(generateData(this.props.min, this.props.max, this.props.step));
+        const myData = scaleData({ data: this.props.data, labels: this.props.labels });
         new Chart(myChartRef, {
             type: 'bar',
             data: {
@@ -47,6 +38,7 @@ export default class PriceChart extends React.Component {
                 ]
             },
             options: {
+                animation: { duration: 0 },
                 legend: { display: false },
                 responsive: true,
                 maintainAspectRatio: false,
