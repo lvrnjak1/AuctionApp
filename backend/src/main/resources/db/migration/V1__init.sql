@@ -225,7 +225,7 @@ insert into product_colors(product_id, color_id) values (2, 8);
 insert into product_colors(product_id, color_id) values (2, 9);
 insert into product_colors(product_id, color_id) values (2, 10);
 insert into auctions (id, end_date_time, start_date_time, start_price, product_id, seller_id)
-values (2, '2021-04-22 11:15:00.000000', '2021-03-02 11:30:00.000000', 30, 2, 1);
+values (2, '2021-04-10 11:15:00.000000', '2021-03-02 11:30:00.000000', 30, 2, 1);
 
 insert into products (id, description, name, size, category_id)
 values (3,
@@ -245,7 +245,7 @@ insert into product_colors(product_id, color_id) values (3, 2);
 insert into product_colors(product_id, color_id) values (3, 4);
 insert into product_colors(product_id, color_id) values (3, 10);
 insert into auctions (id, end_date_time, start_date_time, start_price, product_id, seller_id)
-values (3, '2021-04-20 13:30:00.000000', '2021-02-24 11:30:00.000000', 65.50, 3, 7);
+values (3, '2021-04-20 13:30:00.000000', '2021-02-20 11:30:00.000000', 65.50, 3, 7);
 
 insert into products (id, description, name, size, category_id)
 values (4,
@@ -279,7 +279,7 @@ insert into product_colors(product_id, color_id) values (5, 1);
 insert into product_colors(product_id, color_id) values (5, 2);
 insert into product_colors(product_id, color_id) values (5, 6);
 insert into auctions (id, end_date_time, start_date_time, start_price, product_id, seller_id)
-values (5, '2021-04-15 17:30:00.000000', '2021-02-18 11:30:00.000000', 55, 5, 3);
+values (5, '2021-04-15 17:30:00.000000', '2021-02-27 11:30:00.000000', 55, 5, 3);
 
 insert into products (id, description, name, size, category_id)
 values (6,
