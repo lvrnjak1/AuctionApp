@@ -239,7 +239,7 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
         Object[] count = typedCountQuery.getSingleResult();
 
         List<Long> values = new ArrayList<>();
-        if(count != null && count[0] != null && count[1] != null) {
+        if (count != null && count[0] != null && count[1] != null) {
             values = Arrays.stream(count).mapToLong(el -> (long) el).boxed().collect(Collectors.toList());
         }
         return new PriceChartResponse(labels, values, min, max + step, step);
