@@ -159,18 +159,13 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
         }
     }
 
-    @Override
-    public PriceChartResponse getPriceChartData(final AuctionFilter filter) {
-        filter.setPriceMin(null);
-        filter.setPriceMax(null);
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-
+    private List<Double> getMinMax(final CriteriaBuilder criteriaBuilder, final AuctionFilter auctionFilter) {
         CriteriaQuery<Object[]> minMaxQuery = criteriaBuilder.createQuery(Object[].class);
         Root<Auction> minMaxRoot = minMaxQuery.from(Auction.class);
+        List<Predicate> predicates = getFilterPredicates(criteriaBuilder, minMaxRoot, auctionFilter);
 
         Subquery<Auction> subquery = minMaxQuery.subquery(Auction.class);
         Root<Auction> root = subquery.from(Auction.class);
-        List<Predicate> predicates = getFilterPredicates(criteriaBuilder, root, filter);
         subquery.select(root).where(predicates.toArray(new Predicate[0]));
 
         minMaxQuery.multiselect(criteriaBuilder.min(minMaxRoot.get("startPrice")),
@@ -179,23 +174,23 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
         TypedQuery<Object[]> typedQuery = entityManager.createQuery(minMaxQuery);
         Object[] resultList = typedQuery.getSingleResult();
 
-        double min = 0d;
-        double max = 0d;
-        double step = 20d;
-
+        List<Double> result = new ArrayList<>();
+        result.add(0d);
+        result.add(0d);
         if (resultList.length != 0 && resultList[0] != null && resultList[1] != null) {
-            min = (double) resultList[0];
-            max = (double) resultList[1];
+            result.set(0, (double) resultList[0]);
+            result.set(1, (double) resultList[1]);
         }
 
-        CriteriaQuery<Object[]> countQuery = criteriaBuilder.createQuery(Object[].class);
-        Root<Auction> auctionRoot = countQuery.from(Auction.class);
+        return result;
+    }
 
-        Subquery<Auction> sA = countQuery.subquery(Auction.class);
-        Root<Auction> rA = sA.from(Auction.class);
-        sA.select(rA).where(predicates.toArray(new Predicate[0]));
-
-        List<String> labels = new ArrayList<>();
+    private List<Expression<Integer>> getRanges(final CriteriaBuilder criteriaBuilder,
+                                                final Root<Auction> auctionRoot,
+                                                final double min,
+                                                final double max,
+                                                final double step,
+                                                final List<String> labels) {
         List<Expression<Integer>> ranges = new ArrayList<>();
         double price = min;
         while (price <= max + step) {
@@ -210,6 +205,29 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
             price += step;
         }
 
+        return ranges;
+    }
+
+    @Override
+    public PriceChartResponse getPriceChartData(final AuctionFilter filter) {
+        filter.setPriceMin(null);
+        filter.setPriceMax(null);
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        List<Double> minMax = getMinMax(criteriaBuilder, filter);
+        double min = minMax.get(0);
+        double max = minMax.get(1);
+        double step = 20d;
+
+        CriteriaQuery<Object[]> countQuery = criteriaBuilder.createQuery(Object[].class);
+        Root<Auction> auctionRoot = countQuery.from(Auction.class);
+        List<Predicate> predicates = getFilterPredicates(criteriaBuilder, auctionRoot, filter);
+        Subquery<Auction> sA = countQuery.subquery(Auction.class);
+        Root<Auction> rA = sA.from(Auction.class);
+        sA.select(rA).where(predicates.toArray(new Predicate[0]));
+
+        List<String> labels = new ArrayList<>();
+        List<Expression<Integer>> ranges = getRanges(criteriaBuilder, auctionRoot, min, max, step, labels);
+
         countQuery.multiselect(ranges
                 .stream()
                 .map(range -> range.alias(String.valueOf(Math.random())))
@@ -219,6 +237,7 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
 
         TypedQuery<Object[]> typedCountQuery = entityManager.createQuery(countQuery);
         Object[] count = typedCountQuery.getSingleResult();
+
         List<Long> values = new ArrayList<>();
         if(count != null && count[0] != null && count[1] != null) {
             values = Arrays.stream(count).mapToLong(el -> (long) el).boxed().collect(Collectors.toList());
