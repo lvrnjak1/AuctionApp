@@ -108,9 +108,10 @@ function Shop() {
                             onChange={(e) => setSortingCriteria(e.target.value)}
                             className="sort-select"
                         >
-                            <MenuItem value="DEFAULT">Default Sorting</MenuItem>
+                            <MenuItem value="DEFAULT">Default Sorting - Alphabetical</MenuItem>
                             <MenuItem value="PRICE">Sort by price</MenuItem>
-                            <MenuItem value="DATE">Sort by newness</MenuItem>
+                            <MenuItem value="DATE">Sort by date added</MenuItem>
+                            <MenuItem value="TIME_LEFT">Sort by time left</MenuItem>
                         </Select>
                         <button
                             className={`sort-order-button ${filterParams.sortOrder === "ASC" && "active"} shop-page-button`}
