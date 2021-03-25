@@ -1,85 +1,44 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Chart from "chart.js";
 import "components/price_filter/chart/chart.scss";
+import { scaleData, getChartConfig } from './chartUtils';
 
 
-const scaleData = (DS) => {
-    const min = Math.min(DS.data);
-    const max = Math.max(DS.data);
-    const targetMin = 0;
-    const targetMax = 100;
-    DS.data.map(el => {
-        return ((el - min) / (max - min)) * (targetMax - targetMin) + targetMin;
-    });
+function PriceChart(props) {
+    const chartContainer = useRef(null);
+    const [chartInstance, setChartInstance] = useState(null);
 
-    return DS;
+    useEffect(() => {
+        if (chartContainer && chartContainer.current) {
+            const myData = scaleData({ data: props.data, labels: props.labels });
+            const newChartInstance = new Chart(chartContainer.current, getChartConfig(myData));
+            setChartInstance(newChartInstance);
+        }
+    }, [chartContainer]);
+
+    const updateDataset = (datasetIndex, newData) => {
+        if (chartInstance) {
+            chartInstance.data.datasets[datasetIndex].data = newData;
+            chartInstance.update();
+        }
+    };
+
+    useEffect(() => {
+        if (chartContainer && chartContainer.current) {
+            const myData = scaleData({ data: props.data, labels: props.labels });
+            updateDataset(0, myData.data);
+        }
+    }, [props.data]);
+
+    return (
+        <div className="chart-container">
+            <canvas
+                id="myChart"
+                ref={chartContainer}
+            />
+        </div>
+    )
 }
 
-export default class PriceChart extends React.Component {
-    chartRef = React.createRef();
 
-    componentDidUpdate() {
-        const myChartRef = this.chartRef.current.getContext("2d");
-        const myData = scaleData({ data: this.props.data, labels: this.props.labels });
-        new Chart(myChartRef, {
-            type: 'bar',
-            data: {
-                labels: myData.labels,
-                datasets: [
-                    {
-                        barPercentage: 1,
-                        categoryPercentage: 1,
-                        backgroundColor: "#E4E5EC",
-                        minBarLength: 2,
-                        hoverBorderColor: "#E4E5EC",
-                        hoverBackgroundColor: "#E4E5EC",
-                        data: myData.data
-                    }
-                ]
-            },
-            options: {
-                animation: { duration: 0 },
-                legend: { display: false },
-                responsive: true,
-                maintainAspectRatio: false,
-                tooltips: {
-                    enabled: false
-                },
-                scales: {
-                    xAxes: [{
-                        ticks: {
-                            display: false
-                        },
-                        gridLines: {
-                            display: false,
-                            drawBorder: false
-                        }
-                    }],
-                    yAxes: [{
-                        ticks: { display: false },
-                        gridLines: {
-                            display: false,
-                            drawBorder: false
-                        }
-                    }]
-                },
-                layout: {
-                    padding: {
-                        left: -10
-                    }
-                },
-            }
-        });
-    }
-
-    render() {
-        return (
-            <div className="chart-container">
-                <canvas
-                    id="myChart"
-                    ref={this.chartRef}
-                />
-            </div>
-        )
-    }
-}
+export default PriceChart;
