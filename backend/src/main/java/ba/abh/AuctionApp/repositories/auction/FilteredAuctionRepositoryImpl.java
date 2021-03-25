@@ -182,6 +182,7 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
         Double min = 0d;
         Double max = 0d;
         double step = 20d;
+
         if(resultList.length != 0){
             min = (Double) resultList[0];
             max = (Double) resultList[1];

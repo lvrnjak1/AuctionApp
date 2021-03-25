@@ -73,7 +73,7 @@ public class AuctionController {
     }
 
     @GetMapping("/price-chart")
-    public ResponseEntity<?> getPriceChartData(@Valid RequestParams requestParam) {
+    public ResponseEntity<?> getPriceChartData(@Valid final RequestParams requestParam) {
         AuctionFilter auctionFilter = constructAuctionFilter(requestParam);
         PriceChartResponse priceChartResponse = auctionService.getChartData(auctionFilter);
         return ResponseEntity.ok().body(priceChartResponse);
