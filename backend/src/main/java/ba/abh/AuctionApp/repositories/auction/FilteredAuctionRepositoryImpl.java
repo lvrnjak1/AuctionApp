@@ -133,7 +133,7 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
         List<Long> categoryIds = productFilter.getCategoryIds();
         if (categoryIds != null) {
             List<Predicate> categoryPredicates = new ArrayList<>();
-            for(Long categoryId : categoryIds){
+            for (Long categoryId : categoryIds) {
                 Path<Category> categoryPath = root.get("product").get("category");
                 Predicate inSubCategory = criteriaBuilder.equal(categoryPath.get("id"), categoryId);
                 Predicate inCategory = criteriaBuilder.equal(categoryPath.get("parentCategory").get("id"), categoryId);
@@ -179,13 +179,13 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
         TypedQuery<Object[]> typedQuery = entityManager.createQuery(minMaxQuery);
         Object[] resultList = typedQuery.getSingleResult();
 
-        Double min = 0d;
-        Double max = 0d;
+        double min = 0d;
+        double max = 0d;
         double step = 20d;
 
-        if(resultList.length != 0){
-            min = (Double) resultList[0];
-            max = (Double) resultList[1];
+        if (resultList.length != 0 && resultList[0] != null && resultList[1] != null) {
+            min = (double) resultList[0];
+            max = (double) resultList[1];
         }
 
         CriteriaQuery<Object[]> countQuery = criteriaBuilder.createQuery(Object[].class);
@@ -198,7 +198,7 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
         List<String> labels = new ArrayList<>();
         List<Expression<Integer>> ranges = new ArrayList<>();
         double price = min;
-        while (price <= max + step){
+        while (price <= max + step) {
             labels.add(price + " - " + (price + step));
             Predicate ge = criteriaBuilder.greaterThanOrEqualTo(auctionRoot.get("startPrice"), price);
             Predicate lt = criteriaBuilder.lessThan(auctionRoot.get("startPrice"), (price + step));
@@ -219,7 +219,10 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
 
         TypedQuery<Object[]> typedCountQuery = entityManager.createQuery(countQuery);
         Object[] count = typedCountQuery.getSingleResult();
-        List<Long> values = Arrays.stream(count).mapToLong(el -> (long) el).boxed().collect(Collectors.toList());
-        return new PriceChartResponse(labels, values, min, max+step, step);
+        List<Long> values = new ArrayList<>();
+        if(count != null && count[0] != null && count[1] != null) {
+            values = Arrays.stream(count).mapToLong(el -> (long) el).boxed().collect(Collectors.toList());
+        }
+        return new PriceChartResponse(labels, values, min, max + step, step);
     }
 }
