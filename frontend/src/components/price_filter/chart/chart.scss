@@ -1,0 +1,11 @@
+@import "util/style/constants.scss";
+
+.chart-container {
+  width: 90%;
+  height: 100px;
+  margin: auto;
+  margin-top: 10px;
+  @media screen and (min-width: $medium) {
+    width: 90%;
+  }
+}

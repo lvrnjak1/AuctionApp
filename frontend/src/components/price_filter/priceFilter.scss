@@ -9,23 +9,30 @@
   margin: auto;
   padding: 5px;
   margin-top: 20px;
+  text-align: center;
   .title {
+    width: 100%;
     font-weight: bold;
     font-size: 14px;
     color: $purple;
     letter-spacing: 0.49px;
     text-transform: uppercase;
     margin: 10px 0px 0px 10px;
+    text-align: left;
   }
   .slider {
     width: 90%;
-    margin: 10px 0px 0px 10px;
+    margin-left: 5px;
+    position: relative;
+    top: -25px;
   }
   .filter-text {
+    width: 100%;
     font-size: 14px;
     color: $gray;
     letter-spacing: 0.49px;
     margin: 10px 0px 10px 10px;
+    text-align: left;
   }
   .apply-button {
     background: $purple;
@@ -43,11 +50,38 @@
   @media screen and (min-width: $medium) {
     width: 97%;
     text-align: left;
-    margin-left: 0;
+    margin-left: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    .title {
+      padding-left: 40px;
+    }
+    .filter-text {
+      padding-left: 40px;
+    }
+    .slider {
+      width: 90%;
+      padding: 0;
+      position: relative;
+      top: -10px;
+    }
   }
 
   @media screen and (min-width: $large) {
     width: 245px;
     height: fit-content;
+    margin-left: 0;
+    .title {
+      padding-left: 0px;
+    }
+    .filter-text {
+      padding-left: 0px;
+    }
+    .slider {
+      width: 90%;
+      margin-right: 5px;
+    }
   }
 }
