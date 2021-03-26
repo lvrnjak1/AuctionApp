@@ -1,123 +1,106 @@
 @import "util/style/constants.scss";
 
 .grid {
-  margin-left: 10px;
-  .row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-
-    .product {
-      margin-bottom: 20px;
-      .image-button {
-        border: transparent;
-        padding: 2px;
-        height: 200px;
-        cursor: pointer;
-        .product-image {
-          height: 200px;
-          width: 100%;
-          padding: 0;
-        }
-
-        &:focus {
-          outline: transparent;
-        }
-
-        &:hover {
-          .product-image {
-            filter: brightness(50%);
-          }
-        }
-      }
-
-      .name {
-        font-weight: bold;
-        font-size: 24px;
-        color: $black;
-        letter-spacing: 0.84px;
-        margin: 10px 0 10px 0;
-      }
-
-      .price {
-        font-size: 16px;
-        color: $black;
-        letter-spacing: 0.56px;
-        margin: 0;
-      }
-    }
+  display: grid;
+  margin-bottom: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  .product {
+    height: 250px;
+    border: 1px solid black;
   }
 
-  @media screen and (min-width: 500px) {
-    .row {
-      .product {
-        padding: 0 10px 0 10px;
-        .image-button {
-          padding: 0;
-          .product-image {
-            width: 100%;
-            min-height: 150px;
-          }
-        }
-
-        .name {
-          text-align: left;
-        }
-
-        .price {
-          padding: 0;
-          text-align: left;
-        }
-      }
-
-      :first-child {
-        padding-left: 0;
-      }
-
-      :last-child {
-        padding-right: 0;
-      }
-    }
-
-    .row-3 {
-      grid-template-columns: 1fr 1fr 1fr;
-    }
-
-    .row-4 {
-      grid-template-columns: 1fr 1fr 1fr 1fr;
+  @media screen and (min-width: $medium) {
+    grid-template-columns: repeat(3, 1fr);
+    .product {
+      height: 300px;
     }
   }
 
   @media screen and (min-width: $large) {
-    .row {
-      display: grid;
-
-      .product {
-        .image-button {
-          .product-image {
-            min-height: 300px;
-          }
-        }
-      }
-    }
-
-    .small {
-      .product {
-        padding: 0;
-        .image-button {
-          .product-image {
-            height: 200px;
-            width: 250px;
-          }
-        }
-      }
-
-      :last-child {
-        padding-right: 0;
-      }
-
-      :first-child {
-        padding-left: 0;
-      }
+    .product {
+      height: 350px;
     }
   }
 }
+
+// .grid {
+//   margin-left: 10px;
+//   .row {
+//     display: grid;
+//     grid-template-columns: 1fr 1fr;
+//   }
+
+//   @media screen and (min-width: 500px) {
+//     .row {
+//       .product {
+//         padding: 0 10px 0 10px;
+//         .image-button {
+//           padding: 0;
+//           .product-image {
+//             width: 100%;
+//             min-height: 150px;
+//           }
+//         }
+
+//         .name {
+//           text-align: left;
+//         }
+
+//         .price {
+//           padding: 0;
+//           text-align: left;
+//         }
+//       }
+
+//       :first-child {
+//         padding-left: 0;
+//       }
+
+//       :last-child {
+//         padding-right: 0;
+//       }
+//     }
+
+//     .row-3 {
+//       grid-template-columns: 1fr 1fr 1fr;
+//     }
+
+//     .row-4 {
+//       grid-template-columns: 1fr 1fr 1fr 1fr;
+//     }
+//   }
+
+//   @media screen and (min-width: $large) {
+//     .row {
+//       display: grid;
+
+//       // .product {
+//       //   .image-button {
+//       //     .product-image {
+//       //       min-height: 300px;
+//       //     }
+//       //   }
+//       // }
+//     }
+
+//     .small {
+//       // .product {
+//       //   padding: 0;
+//       //   .image-button {
+//       //     .product-image {
+//       //       height: 200px;
+//       //       width: 250px;
+//       //     }
+//       //   }
+//       // }
+
+//       :last-child {
+//         padding-right: 0;
+//       }
+
+//       :first-child {
+//         padding-left: 0;
+//       }
+//     }
+//   }
+// }

@@ -147,7 +147,7 @@ function Shop() {
                     </div>
                 </div>
                 <div className="center-content">
-                    <ProductGrid nrows={Math.ceil(products.length / 3)} items={products} col3 grid />
+                    <ProductGrid nrows={Math.ceil(products.length / 3)} items={products} col3 grid={grid} />
                     {hasNext && <button onClick={loadMore}>Explore more</button>}
                 </div>
             </div>
