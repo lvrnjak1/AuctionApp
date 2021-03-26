@@ -51,6 +51,27 @@
     .active {
       color: $purple;
     }
+
+    .top {
+      .list-grid {
+        text-align: right;
+      }
+      .list-grid-button {
+        padding: 10px 10px;
+        font-size: 16px;
+        margin-inline-start: 10px;
+        background: transparent;
+        color: $black;
+        span {
+          margin-left: 5px;
+        }
+
+        &:focus {
+          background: $purple;
+          color: $white;
+        }
+      }
+    }
   }
 }
 
@@ -76,6 +97,11 @@
 
       button {
         font-size: 18px;
+      }
+
+      .top {
+        display: grid;
+        grid-template-columns: 80% 20%;
       }
     }
   }
