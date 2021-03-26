@@ -18,14 +18,17 @@ function Product(props) {
 
     return (
         props.product &&
-        <div className={`${props.grid ? "product" : "product-list"}`}>
+        <div className={`${props.grid ? "product-grid" : "product-list"}`}>
             <button className="image-button" onClick={() => handleProductClick(props.product.id, props.product.name)}>
                 <Image className="product-image" cloudName="lvrnjak" publicId={getPublicId(props.product.imageUrl)} >
                     <Transformation height={300} width={400} crop="scale" quality="auto" flags="lossy" />
                 </Image>
             </button>
-            <p className="name">{props.product.name}</p>
-            {props.product.price && <p className="price">{`Start from - $${props.product.price}`}</p>}
+            <div className="about">
+                <p className="name">{props.product.name}</p>
+                {!props.grid && <p className="description">{props.product.description}</p>}
+                {props.product.price && <p className="price">{`Start from - $${props.product.price}`}</p>}
+            </div>
         </div>
     );
 }

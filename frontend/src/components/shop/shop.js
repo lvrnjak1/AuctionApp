@@ -113,14 +113,14 @@ function Shop() {
                             <MenuItem value="DATE">Sort by newness</MenuItem>
                         </Select>
                         <button
-                            className={`sort-order-button ${filterParams.sortOrder === "ASC" && "active"}`}
+                            className={`sort-order-button ${filterParams.sortOrder === "ASC" && "active"} shop-page-button`}
                             disabled={!filterParams.sort}
                             onClick={() => setSortingOrder("ASC")}
                         >
                             <FontAwesomeIcon icon={faSortAmountUp} />
                         </button>
                         <button
-                            className={`sort-order-button ${filterParams.sortOrder === "DESC" && "active"}`}
+                            className={`sort-order-button ${filterParams.sortOrder === "DESC" && "active"} shop-page-button`}
                             disabled={!filterParams.sort}
                             value="DESC"
                             onClick={() => setSortingOrder("DESC")}
@@ -130,7 +130,7 @@ function Shop() {
                     </div>
                     <div className="list-grid">
                         <button
-                            className={`list-grid-button ${grid && "active"}`}
+                            className={`list-grid-button ${grid && "active"} shop-page-button`}
                             autoFocus
                             onClick={() => handleViewChange("grid")}
                         >
@@ -138,7 +138,7 @@ function Shop() {
                             <span>Grid</span>
                         </button>
                         <button
-                            className={`list-grid-button ${!grid && "active"}`}
+                            className={`list-grid-button ${!grid && "active"} shop-page-button`}
                             onClick={() => handleViewChange("list")}
                         >
                             <FontAwesomeIcon icon={faThList} />
@@ -148,7 +148,7 @@ function Shop() {
                 </div>
                 <div className="center-content">
                     <ProductGrid nrows={Math.ceil(products.length / 3)} items={products} col3 grid={grid} />
-                    {hasNext && <button onClick={loadMore}>Explore more</button>}
+                    {hasNext && <button className="shop-page-button" onClick={loadMore}>Explore more</button>}
                 </div>
             </div>
         </div>

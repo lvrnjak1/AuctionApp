@@ -3,7 +3,6 @@ import "components/product_grid/productGrid.scss";
 import Product from 'components/product/product';
 
 function ProductGrid(props) {
-    const ncols = props.col3 ? 3 : 4;
     const nItems = props.items.length;
 
     const getProduct = (index) => {
@@ -21,56 +20,51 @@ function ProductGrid(props) {
         return { name, imageUrl, price, id, description };
     }
 
-    const getRows = () => {
-        const rows = [];
-        for (let i = 0; i < /*props.nrows*/3; i++) {
-            rows.push(
-                <div key={i} /*className={`row ${props.col3 ? "row-3" : "row-4"} ${props.small ? "small" : ""}`}*/>
-                    {getCols(i)}
-                </div>
-            );
-        }
+    // const getRows = () => {
+    //     const rows = [];
+    //     for (let i = 0; i < props.nrows; i++) {
+    //         rows.push(
+    //             <div key={i} /*className={`row ${props.col3 ? "row-3" : "row-4"} ${props.small ? "small" : ""}`}*/>
+    //                 {getCols(i)}
+    //             </div>
+    //         );
+    //     }
 
-        return rows;
-    }
+    //     return rows;
+    // }
 
-    const getCols = (nrow) => {
-        let index = nrow * ncols;
-        const cols = [];
-        for (let j = 0; j < /*ncols && index < nItems*/ 3; j++) {
-            cols.push(
-                // <Product key={j} product={getProduct(index)} grid={props.grid} />
-                <div className="product" key={j}></div>
-            );
-            index++;
-        }
+    // const getCols = (nrow) => {
+    //     let index = nrow * ncols;
+    //     const cols = [];
+    //     for (let j = 0; j < ncols && index < nItems; j++) {
+    //         cols.push(
+    //             <Product key={j} product={getProduct(index)} grid={props.grid} />
+    //         );
+    //         index++;
+    //     }
 
-        return cols;
-    }
+    //     return cols;
+    // }
 
-    const getList = () => {
-        let list = [];
+    const getItems = () => {
+        let items = [];
         for (let i = 0; i < nItems; i++) {
-            list.push(
+            items.push(
                 <Product key={i} product={getProduct(i)} grid={props.grid} />
             )
         }
 
-        return list;
+        return items;
     }
 
     const getContent = () => {
         if (nItems === 0) return "Nothing to show";
 
-        if (props.grid) {
-            return getRows();
-        } else {
-            return getList();
-        }
+        return getItems();
     }
 
     return (
-        <div className="grid">
+        <div className={`${props.grid ? "grid" : "list"}`}>
             {getContent()}
         </div>
     );
