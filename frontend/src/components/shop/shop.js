@@ -17,6 +17,7 @@ function Shop() {
     const dispatch = useDispatch();
     const [products, setProducts] = useState([]);
     const [hasNext, setHasNext] = useState(true);
+    const [grid, setGrid] = useState(true);
     const categories = useSelector(state => state.categories);
     const filterParams = useSelector(state => state.filterParams);
 
@@ -90,6 +91,10 @@ function Shop() {
         dispatch(setSortOrder(order));
     }
 
+    const handleViewChange = (view) => {
+        setGrid(view === "grid" ? true : false);
+    }
+
     return (
         <div className="shop-page">
             <div className="side-bar">
@@ -124,18 +129,25 @@ function Shop() {
                         </button>
                     </div>
                     <div className="list-grid">
-                        <button className="list-grid-button">
+                        <button
+                            className={`list-grid-button ${grid && "active"}`}
+                            autoFocus
+                            onClick={() => handleViewChange("grid")}
+                        >
                             <FontAwesomeIcon icon={faTh} />
                             <span>Grid</span>
                         </button>
-                        <button className="list-grid-button">
+                        <button
+                            className={`list-grid-button ${!grid && "active"}`}
+                            onClick={() => handleViewChange("list")}
+                        >
                             <FontAwesomeIcon icon={faThList} />
                             <span>List</span>
                         </button>
                     </div>
                 </div>
                 <div className="center-content">
-                    <ProductGrid nrows={Math.ceil(products.length / 3)} items={products} col3 />
+                    <ProductGrid nrows={Math.ceil(products.length / 3)} items={products} col3 grid />
                     {hasNext && <button onClick={loadMore}>Explore more</button>}
                 </div>
             </div>
