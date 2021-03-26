@@ -7,12 +7,9 @@
 
   @media screen and (min-width: $medium) {
     grid-template-columns: repeat(3, 1fr);
-  }
 
-  @media screen and (min-width: $large) {
+    &.col-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 }
-
-// .list {
-
-// }

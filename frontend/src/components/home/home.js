@@ -111,13 +111,13 @@ function Home() {
             <div className="featured-collections">
                 <p className="title">Featured Categories</p>
                 <div className="title-line"></div>
-                {featuredCategories && <ProductGrid nrows={1} items={featuredCategories} col3 categories />}
+                {featuredCategories && <ProductGrid nrows={1} items={featuredCategories} col3 categories grid />}
             </div>
 
             <div className="featured-products">
                 <p className="title">Featured Products</p>
                 <div className="title-line"></div>
-                {featuredProducts && <ProductGrid nrows={1} items={featuredProducts} />}
+                {featuredProducts && <ProductGrid items={featuredProducts} grid small />}
             </div>
 
             <div className="bottom">
@@ -125,7 +125,7 @@ function Home() {
                     <button id="new" onClick={toggleBottomGrid} autoFocus>New Arrivals</button>
                     <button id="lastChance" onClick={toggleBottomGrid}>Last Chance</button>
                 </div>
-                {products && <ProductGrid nrows={2} small items={products} />}
+                {products && <ProductGrid items={products} grid small />}
             </div>
         </div>
     );

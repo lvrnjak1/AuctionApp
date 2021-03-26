@@ -107,29 +107,46 @@
   }
 
   .price {
-    font-size: 24px;
+    font-size: 22px;
     color: $purple;
     letter-spacing: 0.84px;
   }
 
   @media screen and (min-width: $medium) {
     height: 300px;
-    grid-template-columns: 30% 70%;
+    grid-template-columns: 40% 60%;
 
-    .image-button {
-      .product-image {
-        height: 290px;
-        width: 210px;
-      }
-    }
-  }
-
-  @media screen and (min-width: $large) {
-    grid-template-columns: 30% 70%;
     .image-button {
       .product-image {
         height: 290px;
         width: 250px;
+      }
+    }
+
+    .price {
+      font-size: 24px;
+    }
+  }
+
+  @media screen and (min-width: 1460px) {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    .image-button {
+      width: max-content;
+      .product-image {
+        height: 290px;
+        width: 280px;
+      }
+    }
+  }
+}
+
+.small {
+  @media screen and (min-width: 1460px) {
+    .image-button {
+      width: 200px;
+      .product-image {
+        height: 290px;
+        width: 280px;
       }
     }
   }

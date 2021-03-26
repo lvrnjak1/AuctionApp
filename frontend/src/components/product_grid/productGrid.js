@@ -20,37 +20,11 @@ function ProductGrid(props) {
         return { name, imageUrl, price, id, description };
     }
 
-    // const getRows = () => {
-    //     const rows = [];
-    //     for (let i = 0; i < props.nrows; i++) {
-    //         rows.push(
-    //             <div key={i} /*className={`row ${props.col3 ? "row-3" : "row-4"} ${props.small ? "small" : ""}`}*/>
-    //                 {getCols(i)}
-    //             </div>
-    //         );
-    //     }
-
-    //     return rows;
-    // }
-
-    // const getCols = (nrow) => {
-    //     let index = nrow * ncols;
-    //     const cols = [];
-    //     for (let j = 0; j < ncols && index < nItems; j++) {
-    //         cols.push(
-    //             <Product key={j} product={getProduct(index)} grid={props.grid} />
-    //         );
-    //         index++;
-    //     }
-
-    //     return cols;
-    // }
-
     const getItems = () => {
         let items = [];
         for (let i = 0; i < nItems; i++) {
             items.push(
-                <Product key={i} product={getProduct(i)} grid={props.grid} />
+                <Product key={i} product={getProduct(i)} grid={props.grid} small={props.ncols === 4 || props.small} />
             )
         }
 
@@ -64,7 +38,7 @@ function ProductGrid(props) {
     }
 
     return (
-        <div className={`${props.grid ? "grid" : "list"}`}>
+        <div className={`${props.grid ? "grid" : "list"} ${props.small && "col-4"}`}>
             {getContent()}
         </div>
     );
