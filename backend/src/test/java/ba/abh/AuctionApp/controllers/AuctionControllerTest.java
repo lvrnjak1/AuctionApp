@@ -14,6 +14,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -300,6 +301,28 @@ class AuctionControllerTest {
 
         List<Long> sortedTimeLeft = new ArrayList<>(timeLeft);
         sortedTimeLeft.sort(null);
+        assertEquals(sortedTimeLeft, timeLeft);
+    }
+
+    @Test
+    public void testSortByTimeLeftDesc() throws Exception {
+        MvcResult result = mockMvc.perform(get("/auctions?sort=TIME_LEFT&sortOrder=DESC"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        JSONObject response = new JSONObject(result.getResponse().getContentAsString());
+        JSONArray data = response.getJSONArray("data");
+        List<Long> timeLeft = new ArrayList<>();
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.UK);
+        for(int i = 0; i < data.length(); i++) {
+            String dateTimeField = String.valueOf(data.getJSONObject(i).get("endDateTime"));
+            LocalDateTime endDateTime = LocalDateTime.parse(dateTimeField, inputFormatter);
+            timeLeft.add(Duration.between(LocalDateTime.now(), endDateTime).getSeconds());
+        }
+
+        List<Long> sortedTimeLeft = new ArrayList<>(timeLeft);
+        sortedTimeLeft.sort(null);
+        Collections.reverse(sortedTimeLeft);
         assertEquals(sortedTimeLeft, timeLeft);
     }
 }
