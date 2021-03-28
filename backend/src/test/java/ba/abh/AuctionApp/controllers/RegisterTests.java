@@ -102,7 +102,7 @@ public class RegisterTests {
                         "    \"password\": \"password\"\n" +
                         "}"))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(jsonPath("message", is("Email shouldn't be blank")));
+                .andExpect(jsonPath("message", is("Provide a valid email address")));
     }
 
     @Test
@@ -116,7 +116,7 @@ public class RegisterTests {
                         "    \"password\": \"password\"\n" +
                         "}"))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(jsonPath("message", is("Email shouldn't be blank")));
+                .andExpect(jsonPath("message", is("Provide a valid email address")));
     }
 
     @Test

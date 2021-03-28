@@ -62,7 +62,7 @@ public class LoginTests {
                         "    \"password\": \"password123\"\n" +
                         "}"))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(jsonPath("message", is("Email must be present")));
+                .andExpect(jsonPath("message", is("Email must be present and have a valid format")));
     }
 
     @Test

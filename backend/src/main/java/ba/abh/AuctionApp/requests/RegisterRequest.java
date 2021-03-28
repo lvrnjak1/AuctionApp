@@ -13,7 +13,6 @@ public class RegisterRequest {
     @NotBlank(message = "Surname shouldn't be blank")
     private String surname;
 
-    @NotBlank(message = "Email shouldn't be blank")
     @ValidEmail(message = "Provide a valid email address")
     private String email;
 
