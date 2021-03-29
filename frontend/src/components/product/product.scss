@@ -85,7 +85,7 @@
   .about {
     text-align: left;
     display: grid;
-    grid-template-rows: 20% 60% 20%;
+    grid-template-rows: 20% 40% 20% 20%;
     margin: 10px 0px;
   }
 
@@ -110,6 +110,27 @@
     font-size: 22px;
     color: $purple;
     letter-spacing: 0.84px;
+  }
+
+  .button-group {
+    display: flex;
+    align-items: center;
+    .bid-button {
+      cursor: pointer;
+      height: 36px;
+      width: 100px;
+      background: $white;
+      border: 3px solid $lightGray3;
+      font-size: 15px;
+      color: $black;
+      letter-spacing: 0.52px;
+      line-height: 22px;
+    }
+
+    .button-icon {
+      margin-left: 5px;
+      color: $lightGray2;
+    }
   }
 
   @media screen and (min-width: $medium) {

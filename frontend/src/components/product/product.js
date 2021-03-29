@@ -4,6 +4,8 @@ import { useHistory } from 'react-router-dom';
 import { getPublicId } from 'util/images_util';
 import Transformation from 'cloudinary-react/lib/components/Transformation';
 import Image from 'cloudinary-react/lib/components/Image';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGavel } from "@fortawesome/free-solid-svg-icons"
 
 function Product(props) {
     const history = useHistory();
@@ -28,6 +30,10 @@ function Product(props) {
                 <p className="name">{props.product.name}</p>
                 {!props.grid && <p className="description">{props.product.description}</p>}
                 {props.product.price && <p className="price">{`Start from - $${props.product.price}`}</p>}
+                {!props.grid && <div className="button-group">
+                    <button className="bid-button">Bid <FontAwesomeIcon icon={faGavel} className="button-icon" /></button>
+                </div>
+                }
             </div>
         </div>
     );

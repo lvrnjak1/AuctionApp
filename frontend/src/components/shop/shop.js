@@ -115,21 +115,19 @@ function Shop() {
                             onChange={(e) => setSortingCriteria(e.target.value)}
                             className="sort-select"
                         >
-                            <MenuItem value="DEFAULT">Default Sorting - Alphabetical</MenuItem>
+                            <MenuItem value="DEFAULT">Sort alphabetically</MenuItem>
                             <MenuItem value="PRICE">Sort by price</MenuItem>
                             <MenuItem value="DATE">Sort by date added</MenuItem>
                             <MenuItem value="TIME_LEFT">Sort by time left</MenuItem>
                         </Select>
                         <button
                             className={`sort-order-button ${filterParams.sortOrder === "ASC" && "active"} shop-page-button`}
-                            disabled={!filterParams.sort}
                             onClick={() => setSortingOrder("ASC")}
                         >
                             <FontAwesomeIcon icon={faSortAmountUp} />
                         </button>
                         <button
                             className={`sort-order-button ${filterParams.sortOrder === "DESC" && "active"} shop-page-button`}
-                            disabled={!filterParams.sort}
                             value="DESC"
                             onClick={() => setSortingOrder("DESC")}
                         >
@@ -153,9 +151,9 @@ function Shop() {
                             <span>List</span>
                         </button>
                     </div>
-                    <div className="filters">
-                        <AppliedFilters />
-                    </div>
+                </div>
+                <div className="filters">
+                    <AppliedFilters />
                 </div>
                 <div className="center-content">
                     <ProductGrid nrows={Math.ceil(products.length / 3)} items={products} col3 grid={grid} />

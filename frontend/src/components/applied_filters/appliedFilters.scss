@@ -2,17 +2,17 @@
 
 .filter-list {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   flex-wrap: wrap;
   list-style: none;
-  padding: 1px;
   margin: 0;
-  border-left: 1px solid $lightGray2;
   width: 100%;
+  margin: 5px 0px 10px 0px;
+  padding: 0;
   .chip {
     background: $purple;
-    margin: 4px;
     color: $white;
+    margin-right: 4px;
     .MuiChip-deleteIcon {
       color: $white;
     }
