@@ -1,15 +1,27 @@
 package ba.abh.AuctionApp.controllers;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -269,5 +281,48 @@ class AuctionControllerTest {
                 .andExpect(jsonPath("sellerId", is(1)))
                 .andExpect(jsonPath("$.product.id", is(1)))
                 .andExpect(jsonPath("$.product.name", is("Black sandals")));
+    }
+
+    @Test
+    public void testSortByTimeLeft() throws Exception {
+        MvcResult result = mockMvc.perform(get("/auctions?sort=TIME_LEFT"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        JSONObject response = new JSONObject(result.getResponse().getContentAsString());
+        JSONArray data = response.getJSONArray("data");
+        List<Long> timeLeft = new ArrayList<>();
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.UK);
+        for(int i = 0; i < data.length(); i++) {
+            String dateTimeField = String.valueOf(data.getJSONObject(i).get("endDateTime"));
+            LocalDateTime endDateTime = LocalDateTime.parse(dateTimeField, inputFormatter);
+            timeLeft.add(Duration.between(LocalDateTime.now(), endDateTime).getSeconds());
+        }
+
+        List<Long> sortedTimeLeft = new ArrayList<>(timeLeft);
+        sortedTimeLeft.sort(null);
+        assertEquals(sortedTimeLeft, timeLeft);
+    }
+
+    @Test
+    public void testSortByTimeLeftDesc() throws Exception {
+        MvcResult result = mockMvc.perform(get("/auctions?sort=TIME_LEFT&sortOrder=DESC"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        JSONObject response = new JSONObject(result.getResponse().getContentAsString());
+        JSONArray data = response.getJSONArray("data");
+        List<Long> timeLeft = new ArrayList<>();
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.UK);
+        for(int i = 0; i < data.length(); i++) {
+            String dateTimeField = String.valueOf(data.getJSONObject(i).get("endDateTime"));
+            LocalDateTime endDateTime = LocalDateTime.parse(dateTimeField, inputFormatter);
+            timeLeft.add(Duration.between(LocalDateTime.now(), endDateTime).getSeconds());
+        }
+
+        List<Long> sortedTimeLeft = new ArrayList<>(timeLeft);
+        sortedTimeLeft.sort(null);
+        Collections.reverse(sortedTimeLeft);
+        assertEquals(sortedTimeLeft, timeLeft);
     }
 }

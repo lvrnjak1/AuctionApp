@@ -142,6 +142,8 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
             } else {
                 criteriaQuery.orderBy(criteriaBuilder.desc(root.get(criteria)));
             }
+        }else {
+            criteriaQuery.orderBy(criteriaBuilder.asc(root.get("product").get("name")));
         }
     }
 }

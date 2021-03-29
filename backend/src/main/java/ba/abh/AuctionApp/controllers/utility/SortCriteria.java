@@ -1,7 +1,7 @@
 package ba.abh.AuctionApp.controllers.utility;
 
 public enum SortCriteria {
-    DATE("startDateTime"), PRICE("startPrice");
+    DATE("startDateTime"), PRICE("startPrice"), TIME_LEFT("endDateTime");
 
     private final String field;
 
