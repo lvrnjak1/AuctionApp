@@ -37,7 +37,7 @@ function PriceFilter() {
             );
         }
         fetchChartData();
-    }, [filterParams])
+    }, [filterParams, value.length])
 
     const handleChange = (event, newValue) => {
         setValue(newValue);

@@ -6,7 +6,6 @@ import { addCategoryId, setCategoryId } from 'state/actions/filterParamsActions'
 
 function Categories(props) {
     const [activeCategory, setActiveCategory] = useState(-1);
-    const [activeSubcategory] = useState();
     const dispatch = useDispatch();
     const history = useHistory();
 

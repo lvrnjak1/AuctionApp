@@ -72,7 +72,7 @@
   display: grid;
   grid-template-columns: 50% 50%;
   margin-bottom: 10px;
-  border: 1px solid $lightGray2;
+  // border: 1px solid $lightGray2;
 
   .image-button {
     text-align: left;
@@ -85,7 +85,7 @@
   .about {
     text-align: left;
     display: grid;
-    grid-template-rows: 20% 40% 20% 20%;
+    grid-template-rows: 20% 30% 20% 20% 10%;
     margin: 10px 0px;
   }
 
@@ -150,12 +150,12 @@
   }
 
   @media screen and (min-width: 1460px) {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: 240px 1fr;
     .image-button {
       width: max-content;
       .product-image {
-        height: 290px;
-        width: 280px;
+        height: 280px;
+        width: 212px;
       }
     }
   }
@@ -166,8 +166,8 @@
     .image-button {
       width: 200px;
       .product-image {
-        height: 290px;
-        width: 280px;
+        height: 280px;
+        width: 212px;
       }
     }
   }

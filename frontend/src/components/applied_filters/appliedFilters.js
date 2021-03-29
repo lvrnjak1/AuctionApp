@@ -66,7 +66,15 @@ function AppliedFilters() {
         }
 
         setChipData(newData);
-    }, [filterParams, nameMapping.categoryId, nameMapping.name, handleRemoveCategory, handleRemoveSearch, getCategoryName]);
+    }, [filterParams,
+        nameMapping.categoryId,
+        nameMapping.name,
+        nameMapping.priceMax,
+        nameMapping.priceMin,
+        dispatch,
+        handleRemoveCategory,
+        handleRemoveSearch,
+        getCategoryName]);
 
     return (
         <ul className="filter-list">

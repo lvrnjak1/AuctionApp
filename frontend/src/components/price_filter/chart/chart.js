@@ -14,7 +14,7 @@ function PriceChart(props) {
             const newChartInstance = new Chart(chartContainer.current, getChartConfig(myData));
             setChartInstance(newChartInstance);
         }
-    }, [chartContainer]);
+    }, [chartContainer, props.data, props.labels]);
 
     const updateDataset = (datasetIndex, newData) => {
         if (chartInstance) {
@@ -22,13 +22,6 @@ function PriceChart(props) {
             chartInstance.update();
         }
     };
-
-    useEffect(() => {
-        if (chartContainer && chartContainer.current) {
-            const myData = scaleData({ data: props.data, labels: props.labels });
-            updateDataset(0, myData.data);
-        }
-    }, [props.data]);
 
     return (
         <div className="chart-container">
