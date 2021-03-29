@@ -1,0 +1,153 @@
+@import "util/style/constants.scss";
+
+.image-button {
+  border: transparent;
+  background: transparent;
+  cursor: pointer;
+
+  &:focus {
+    outline: transparent;
+  }
+
+  &:hover {
+    .product-image {
+      filter: brightness(50%);
+    }
+  }
+}
+
+.product-grid {
+  height: 300px;
+  padding: 10px;
+  margin-bottom: 10px;
+
+  .image-button {
+    padding: 0;
+    .product-image {
+      height: 200px;
+      width: 100%;
+    }
+  }
+
+  .name {
+    font-weight: bold;
+    font-size: 24px;
+    color: $black;
+    letter-spacing: 0.84px;
+    margin: 10px 0 10px 0;
+    text-align: left;
+  }
+
+  .price {
+    font-size: 16px;
+    color: $black;
+    letter-spacing: 0.56px;
+    margin: 0;
+    text-align: left;
+  }
+
+  @media screen and (min-width: $medium) {
+    height: 320px;
+    .image-button {
+      .product-image {
+        height: 220px;
+        width: 100%;
+      }
+    }
+  }
+
+  @media screen and (min-width: 1400px) {
+    height: 400px;
+    .image-button {
+      .product-image {
+        height: 300px;
+        width: 100%;
+      }
+    }
+  }
+}
+
+.product-list {
+  height: 250px;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  margin-bottom: 10px;
+  border: 1px solid $lightGray2;
+
+  .image-button {
+    text-align: left;
+    .product-image {
+      height: 240px;
+      width: 200px;
+    }
+  }
+
+  .about {
+    text-align: left;
+    display: grid;
+    grid-template-rows: 20% 60% 20%;
+    margin: 10px 0px;
+  }
+
+  .name {
+    font-weight: bold;
+    font-size: 24px;
+    color: $black;
+    letter-spacing: 0.84px;
+    margin: 0;
+    text-align: left;
+  }
+
+  .description {
+    font-size: 16px;
+    color: $gray;
+    letter-spacing: 0.56px;
+    line-height: 21px;
+    margin: 0;
+  }
+
+  .price {
+    font-size: 22px;
+    color: $purple;
+    letter-spacing: 0.84px;
+  }
+
+  @media screen and (min-width: $medium) {
+    height: 300px;
+    grid-template-columns: 40% 60%;
+
+    .image-button {
+      .product-image {
+        height: 290px;
+        width: 250px;
+      }
+    }
+
+    .price {
+      font-size: 24px;
+    }
+  }
+
+  @media screen and (min-width: 1460px) {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    .image-button {
+      width: max-content;
+      .product-image {
+        height: 290px;
+        width: 280px;
+      }
+    }
+  }
+}
+
+.small {
+  @media screen and (min-width: 1460px) {
+    .image-button {
+      width: 200px;
+      .product-image {
+        height: 290px;
+        width: 280px;
+      }
+    }
+  }
+}

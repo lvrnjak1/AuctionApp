@@ -6,7 +6,7 @@
 
   .content {
     text-align: center;
-    button {
+    .shop-page-button {
       background: $purple;
       font-weight: bold;
       font-size: 18px;
@@ -50,6 +50,30 @@
 
     .active {
       color: $purple;
+    }
+
+    .top {
+      display: grid;
+      grid-template-columns: 50% 50%;
+      text-align: left;
+      .list-grid {
+        text-align: right;
+      }
+      .list-grid-button {
+        padding: 10px 10px;
+        font-size: 16px;
+        margin-inline-start: 10px;
+        background: transparent;
+        color: $black;
+        span {
+          margin-left: 5px;
+        }
+
+        &.active {
+          background: $purple;
+          color: $white;
+        }
+      }
     }
   }
 }
