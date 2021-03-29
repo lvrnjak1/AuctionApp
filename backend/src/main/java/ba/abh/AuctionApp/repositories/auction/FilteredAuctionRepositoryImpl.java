@@ -147,15 +147,15 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
                       final CriteriaBuilder criteriaBuilder,
                       final Root<Auction> root,
                       final SortSpecification sortSpecification) {
+        Path<String> criteria = root.get("product").get("name");
         if (sortSpecification.getSortCriteria() != null) {
-            String criteria = sortSpecification.getSortCriteria().getField();
-            if (sortSpecification.getSortOrder().equals(SortOrder.ASC)) {
-                criteriaQuery.orderBy(criteriaBuilder.asc(root.get(criteria)));
-            } else {
-                criteriaQuery.orderBy(criteriaBuilder.desc(root.get(criteria)));
-            }
-        }else {
-            criteriaQuery.orderBy(criteriaBuilder.asc(root.get("product").get("name")));
+            criteria = root.get(sortSpecification.getSortCriteria().getField());
+        }
+
+        if (sortSpecification.getSortOrder().equals(SortOrder.ASC)) {
+            criteriaQuery.orderBy(criteriaBuilder.asc(criteria));
+        } else {
+            criteriaQuery.orderBy(criteriaBuilder.desc(criteria));
         }
     }
 
