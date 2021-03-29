@@ -32,13 +32,13 @@ function ProductGrid(props) {
     }
 
     const getContent = () => {
-        if (nItems === 0) return "Nothing to show";
+        if (nItems === 0) return <p className="no-content">Nothing to show</p>;
 
         return getItems();
     }
 
     return (
-        <div className={`${props.grid ? "grid" : "list"} ${props.small && "col-4"}`}>
+        <div className={`${props.grid ? "grid" : "list"} ${props.small ? "col-4" : ""}`}>
             {getContent()}
         </div>
     );
