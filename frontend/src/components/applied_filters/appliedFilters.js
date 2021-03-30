@@ -21,7 +21,7 @@ function AppliedFilters() {
     };
 
     const handleRemoveCategory = useCallback((chip) => {
-        dispatch(removeCategoryId(chip.key));
+        dispatch(removeCategoryId(chip.id));
     }, [dispatch]);
 
     const handleRemoveSearch = useCallback(() => {
@@ -48,7 +48,8 @@ function AppliedFilters() {
         if (filterParams.categoryId) {
             filterParams.categoryId.forEach(cat => {
                 newData.push({
-                    key: cat.id,
+                    key: getRandomKey(),
+                    id: cat,
                     filter: nameMapping.categoryId,
                     value: getCategoryName(cat),
                     removeHandler: handleRemoveCategory
