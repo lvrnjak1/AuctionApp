@@ -56,7 +56,7 @@
     letter-spacing: 0.49px;
   }
 
-  @media screen and (min-width: 1000px) {
+  @media screen and (min-width: $large) {
     display: block;
     box-sizing: border-box;
     width: 100%;
