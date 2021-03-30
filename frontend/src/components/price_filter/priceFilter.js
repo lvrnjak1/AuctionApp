@@ -13,7 +13,7 @@ function PriceFilter() {
     const [max, setMax] = useState(0);
     const [step, setStep] = useState(20);
     const [sliderValue, setSliderValue] = useState([0, 0]);
-    const [chart, setChart] = useState({});
+    const [chart, setChart] = useState({ data: [], labels: [] });
     const dispatch = useDispatch();
     const filterParams = useSelector(state => state.filterParams)
     const filterChanged = useSelector(state => state.filterChanged)
@@ -33,12 +33,8 @@ function PriceFilter() {
         }
         if (filterChanged) {
             fetchChartData();
-        } else {
-            if (filterParams.priceMin === null) {
-                setSliderValue(s => [min, s[1]])
-            }
         }
-    }, [filterParams, filterChanged]);
+    }, [filterParams, filterChanged, min, max]);
 
     const handleChange = (event, newValue) => {
         setSliderValue(newValue);
@@ -58,10 +54,10 @@ function PriceFilter() {
     }
 
     return (
-        // data.length > 0 &&
+        chart !== {} &&
         <div className="price-filter">
             <p className="title">Filter by price</p>
-            {/* <PriceChart min={min} max={max} step={step} labels={labels} data={data} /> */}
+            <PriceChart chart={chart} />
             <Slider
                 className="slider"
                 value={sliderValue}
@@ -73,7 +69,7 @@ function PriceFilter() {
                 max={max}
                 min={min}
                 step={step}
-                disabled={sliderValue[0] === sliderValue[1]}
+                disabled={min === max}
             />
             <p className="filter-text">
                 {`${valuetext(sliderValue[0])} - ${valuetext(sliderValue[1])}`}

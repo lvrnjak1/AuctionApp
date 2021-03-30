@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { removeCategoryId, setMaxPrice, setMinPrice, setName } from 'state/actions/filterParamsActions';
 import { resetSearch } from 'state/actions/searchActions';
 
+function getRandomKey() {
+    return Math.random() * 1000;
+}
 
 function AppliedFilters() {
     const filterParams = useSelector(state => state.filterParams);
@@ -45,7 +48,7 @@ function AppliedFilters() {
         if (filterParams.categoryId) {
             filterParams.categoryId.forEach(cat => {
                 newData.push({
-                    key: cat,
+                    key: cat.id,
                     filter: nameMapping.categoryId,
                     value: getCategoryName(cat),
                     removeHandler: handleRemoveCategory
@@ -54,15 +57,15 @@ function AppliedFilters() {
         }
 
         if (filterParams.name) {
-            newData.push({ filter: nameMapping.name, value: filterParams.name, removeHandler: handleRemoveSearch });
+            newData.push({ key: getRandomKey(), filter: nameMapping.name, value: filterParams.name, removeHandler: handleRemoveSearch });
         }
 
         if (filterParams.priceMax) {
-            newData.push({ filter: nameMapping.priceMax, value: `$${filterParams.priceMax}`, removeHandler: () => dispatch(setMaxPrice(null)) });
+            newData.push({ key: getRandomKey(), filter: nameMapping.priceMax, value: `$${filterParams.priceMax}`, removeHandler: () => dispatch(setMaxPrice(null)) });
         }
 
         if (filterParams.priceMin) {
-            newData.push({ filter: nameMapping.priceMin, value: `$${filterParams.priceMin}`, removeHandler: () => dispatch(setMinPrice(null)) });
+            newData.push({ key: getRandomKey(), filter: nameMapping.priceMin, value: `$${filterParams.priceMin}`, removeHandler: () => dispatch(setMinPrice(null)) });
         }
 
         setChipData(newData);
@@ -80,7 +83,7 @@ function AppliedFilters() {
         <ul className="filter-list">
             {chipData.map(data => {
                 return (
-                    <li key={data.key || data.value}>
+                    <li key={data.key}>
                         <Chip
                             label={`${data.filter}: ${data.value}`}
                             onDelete={() => handleDelete(data)}
