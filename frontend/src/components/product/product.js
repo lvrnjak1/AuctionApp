@@ -31,7 +31,9 @@ function Product(props) {
                 {!props.grid && <p className="description">{props.product.description}</p>}
                 {props.product.price && <p className="price">{`Start from - $${props.product.price}`}</p>}
                 {!props.grid && <div className="button-group">
-                    <button className="bid-button">Bid <FontAwesomeIcon icon={faGavel} className="button-icon" /></button>
+                    <button className="bid-button" onClick={() => handleProductClick(props.product.id, props.product.name)}>
+                        Bid <FontAwesomeIcon icon={faGavel} className="button-icon" />
+                    </button>
                 </div>
                 }
             </div>
