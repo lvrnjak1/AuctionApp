@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -185,15 +186,16 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
         return result;
     }
 
-    private List<Expression<Integer>> getRanges(final CriteriaBuilder criteriaBuilder,
-                                                final Root<Auction> auctionRoot,
-                                                final double min,
-                                                final double max,
-                                                final double step,
-                                                final List<String> labels) {
-        List<Expression<Integer>> ranges = new ArrayList<>();
+    private Double getRanges(final CriteriaBuilder criteriaBuilder,
+                             final Root<Auction> auctionRoot,
+                             final double min,
+                             final double max,
+                             final double step,
+                             final List<String> labels,
+                             final List<Expression<Integer>> ranges) {
         double price = min;
-        while (price <= max + step) {
+
+        while (price < max) {
             labels.add(price + " - " + (price + step));
             Predicate ge = criteriaBuilder.greaterThanOrEqualTo(auctionRoot.get("startPrice"), price);
             Predicate lt = criteriaBuilder.lessThan(auctionRoot.get("startPrice"), (price + step));
@@ -205,8 +207,29 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
             price += step;
         }
 
-        return ranges;
+        if (price < max) {
+            labels.add(price + " - " + (price + step));
+            Predicate ge = criteriaBuilder.greaterThanOrEqualTo(auctionRoot.get("startPrice"), price);
+            Predicate le = criteriaBuilder.lessThanOrEqualTo(auctionRoot.get("startPrice"), (price + step));
+            Predicate between = criteriaBuilder.and(ge, le);
+            Expression<Integer> sumEx = criteriaBuilder.sum(
+                    criteriaBuilder.<Integer>selectCase().when(between, 1).otherwise(0)
+            );
+            ranges.add(sumEx);
+        }
+
+        if (min == max) {
+            labels.add(min + " - " + max);
+            Predicate eq = criteriaBuilder.equal(auctionRoot.get("startPrice"), min);
+            Expression<Integer> sumEx = criteriaBuilder.sum(
+                    criteriaBuilder.<Integer>selectCase().when(eq, 1).otherwise(0)
+            );
+            ranges.add(sumEx);
+        }
+
+        return price;
     }
+
 
     @Override
     public PriceChartResponse getPriceChartData(final AuctionFilter filter) {
@@ -218,7 +241,8 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
         double max = minMax.get(1);
         double step = 20d;
 
-        CriteriaQuery<Object[]> countQuery = criteriaBuilder.createQuery(Object[].class);
+
+        CriteriaQuery<Tuple> countQuery = criteriaBuilder.createTupleQuery();
         Root<Auction> auctionRoot = countQuery.from(Auction.class);
         List<Predicate> predicates = getFilterPredicates(criteriaBuilder, auctionRoot, filter);
         Subquery<Auction> sA = countQuery.subquery(Auction.class);
@@ -226,22 +250,21 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
         sA.select(rA).where(predicates.toArray(new Predicate[0]));
 
         List<String> labels = new ArrayList<>();
-        List<Expression<Integer>> ranges = getRanges(criteriaBuilder, auctionRoot, min, max, step, labels);
+        List<Expression<Integer>> ranges = new ArrayList<>();
+        Double computedMax = getRanges(criteriaBuilder, auctionRoot, min, max, step, labels, ranges);
 
         countQuery.multiselect(ranges
                 .stream()
                 .map(range -> range.alias(String.valueOf(Math.random())))
                 .collect(Collectors.toList())
-
         ).where(criteriaBuilder.in(auctionRoot).value(sA));
 
-        TypedQuery<Object[]> typedCountQuery = entityManager.createQuery(countQuery);
-        Object[] count = typedCountQuery.getSingleResult();
+        Tuple result = entityManager.createQuery(countQuery).getSingleResult();
 
-        List<Long> values = new ArrayList<>();
-        if (count != null && count[0] != null && count[1] != null) {
-            values = Arrays.stream(count).mapToLong(el -> (long) el).boxed().collect(Collectors.toList());
-        }
-        return new PriceChartResponse(labels, values, min, max + step, step);
+        List<Long> values = Arrays
+                .stream(result.toArray()).mapToLong(el -> el != null ? (long) el : 0L)
+                .boxed()
+                .collect(Collectors.toList());
+        return new PriceChartResponse(labels, values, min, computedMax, step);
     }
 }
