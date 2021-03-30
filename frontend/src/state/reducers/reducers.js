@@ -6,6 +6,7 @@ import currentCategoryReducer from "./currentCategoryReducer";
 import filterParamsReducer from "./filterParamsReducer";
 import categoriesReducer from "./categoriesReducer";
 import searchReducer from "./searchReducer";
+import filterChangeReducer from "./filterChangeReducer";
 
 const rootReducer = combineReducers({
     infoMessage: infoMessageReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
     currentCategory: currentCategoryReducer,
     filterParams: filterParamsReducer,
     categories: categoriesReducer,
-    searchCriteria: searchReducer
+    searchCriteria: searchReducer,
+    filterChanged: filterChangeReducer
 });
 export default rootReducer;

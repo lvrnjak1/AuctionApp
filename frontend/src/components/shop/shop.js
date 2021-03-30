@@ -14,6 +14,7 @@ import { setCategories } from 'state/actions/categoriesActions';
 import AppliedFilters from 'components/applied_filters/appliedFilters';
 import PriceFilter from 'components/price_filter/priceFilter';
 import "components/shop/shop.scss";
+import { getFormattedParams } from 'util/filterParams';
 
 function Shop() {
     const dispatch = useDispatch();
@@ -66,10 +67,7 @@ function Shop() {
 
     useEffect(() => {
         async function fetchProducts() {
-            const ids = (filterParams.categoryId && filterParams.categoryId.length > 0) ?
-                filterParams.categoryId.map(id => `${id}`).join(',') :
-                null;
-            const params = { ...filterParams, categoryId: ids }
+            const params = getFormattedParams(filterParams);
             await getRequest(AUCTIONS_ENDPOINT, params, (response) => handleNewProducts(response.data), errorHandler);
         }
         fetchProducts();

@@ -25,7 +25,6 @@ function Home() {
     const dispatch = useDispatch();
 
     const setCategoriesCallback = useCallback((data) => {
-        console.log(data);
         dispatch(setCategories(data))
     }, [dispatch]);
 

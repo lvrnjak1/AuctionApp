@@ -6,41 +6,42 @@ import { setMaxPrice, setMinPrice } from 'state/actions/filterParamsActions';
 import PriceChart from './chart/chart';
 import { getRequest } from 'http/requests';
 import { PRICE_CHART_ENDPOINT } from "http/endpoints";
+import { getFormattedParams } from 'util/filterParams';
 
 function PriceFilter() {
     const [min, setMin] = useState(0);
-    const [max, setMax] = useState(500);
+    const [max, setMax] = useState(0);
     const [step, setStep] = useState(20);
-    const [value, setValue] = useState([]);
-    const [labels, setLabels] = useState([]);
-    const [data, setData] = useState([]);
+    const [sliderValue, setSliderValue] = useState([0, 0]);
+    const [chart, setChart] = useState({});
     const dispatch = useDispatch();
     const filterParams = useSelector(state => state.filterParams)
+    const filterChanged = useSelector(state => state.filterChanged)
 
     useEffect(() => {
         async function fetchChartData() {
-            const ids = (filterParams.categoryId && filterParams.categoryId.length > 0) ?
-                filterParams.categoryId.map(id => `${id}`).join(',') :
-                null;
-            const params = { ...filterParams, categoryId: ids }
-            await getRequest(PRICE_CHART_ENDPOINT,
-                params,
-                (response) => {
-                    setMin(response.data.min);
-                    setMax(response.data.max);
-                    setStep(response.data.step);
-                    if (value.length === 0) setValue([response.data.min, response.data.max]);
-                    setLabels(response.data.labels);
-                    setData(response.data.data);
-                },
-                (error) => console.log(error.response)
-            );
+            const params = getFormattedParams(filterParams);
+            await getRequest(PRICE_CHART_ENDPOINT, params, (response) => {
+                setChart(response.data);
+                setMin(response.data.min);
+                setMax(response.data.max);
+                setStep(response.data.step);
+                setSliderValue([response.data.min, response.data.max]);
+                setMinPrice(response.data.min);
+                setMaxPrice(response.data.max);
+            })
         }
-        fetchChartData();
-    }, [filterParams, value.length])
+        if (filterChanged) {
+            fetchChartData();
+        } else {
+            if (filterParams.priceMin === null) {
+                setSliderValue(s => [min, s[1]])
+            }
+        }
+    }, [filterParams, filterChanged]);
 
     const handleChange = (event, newValue) => {
-        setValue(newValue);
+        setSliderValue(newValue);
     };
 
     const handleChangeCommited = (event, commited) => {
@@ -53,17 +54,17 @@ function PriceFilter() {
     }
 
     function average() {
-        return (value[0] + value[1]) / 2;
+        return (sliderValue[0] + sliderValue[1]) / 2;
     }
 
     return (
-        data.length > 0 &&
+        // data.length > 0 &&
         <div className="price-filter">
             <p className="title">Filter by price</p>
-            <PriceChart min={min} max={max} step={step} labels={labels} data={data} />
+            {/* <PriceChart min={min} max={max} step={step} labels={labels} data={data} /> */}
             <Slider
                 className="slider"
-                value={value}
+                value={sliderValue}
                 onChange={handleChange}
                 onChangeCommitted={handleChangeCommited}
                 valueLabelDisplay="auto"
@@ -71,10 +72,11 @@ function PriceFilter() {
                 getAriaValueText={valuetext}
                 max={max}
                 min={min}
-                step={5}
+                step={step}
+                disabled={sliderValue[0] === sliderValue[1]}
             />
             <p className="filter-text">
-                {`${valuetext(value[0])} - ${valuetext(value[1])}`}
+                {`${valuetext(sliderValue[0])} - ${valuetext(sliderValue[1])}`}
             </p>
             <p className="filter-text">
                 {`Average price ${valuetext(average())}`}

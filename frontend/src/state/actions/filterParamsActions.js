@@ -1,4 +1,8 @@
+import { setFilterChanged } from "state/actions/filterChangeActions";
+import store from "state/store";
+
 const setCategoryId = (categoryId) => {
+    store.dispatch(setFilterChanged(true));
     return {
         type: 'SET_CATEGORY_ID',
         payload: { categoryId }
@@ -6,6 +10,7 @@ const setCategoryId = (categoryId) => {
 }
 
 const addCategoryId = (categoryId) => {
+    store.dispatch(setFilterChanged(true));
     return {
         type: 'ADD_CATEGORY_ID',
         payload: { categoryId }
@@ -13,6 +18,7 @@ const addCategoryId = (categoryId) => {
 }
 
 const removeCategoryId = (categoryId) => {
+    store.dispatch(setFilterChanged(true));
     return {
         type: 'REMOVE_CATEGORY_ID',
         payload: { categoryId }
@@ -48,6 +54,7 @@ const setLimit = (limit) => {
 }
 
 const setName = (name) => {
+    store.dispatch(setFilterChanged(true));
     return {
         type: 'SET_NAME',
         payload: { name }
@@ -55,6 +62,7 @@ const setName = (name) => {
 }
 
 const setMinPrice = (priceMin) => {
+    store.dispatch(setFilterChanged(false));
     return {
         type: 'SET_PRICE_MIN',
         payload: { priceMin }
@@ -62,6 +70,7 @@ const setMinPrice = (priceMin) => {
 }
 
 const setMaxPrice = (priceMax) => {
+    store.dispatch(setFilterChanged(false));
     return {
         type: 'SET_PRICE_MAX',
         payload: { priceMax }
@@ -69,6 +78,7 @@ const setMaxPrice = (priceMax) => {
 }
 
 const resetFilterParams = () => {
+    store.dispatch(setFilterChanged(true));
     return {
         type: 'RESET'
     }
