@@ -55,7 +55,8 @@ const getChartConfig = (myData) => {
             },
             layout: {
                 padding: {
-                    left: -10
+                    left: -10,
+                    bottom: -10
                 }
             },
         }

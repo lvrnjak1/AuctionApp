@@ -57,26 +57,30 @@ function PriceFilter() {
         chart !== {} &&
         <div className="price-filter">
             <p className="title">Filter by price</p>
-            <PriceChart chart={chart} />
-            <Slider
-                className="slider"
-                value={sliderValue}
-                onChange={handleChange}
-                onChangeCommitted={handleChangeCommited}
-                valueLabelDisplay="auto"
-                aria-labelledby="range-slider"
-                getAriaValueText={valuetext}
-                max={max}
-                min={min}
-                step={step}
-                disabled={min === max}
-            />
-            <p className="filter-text">
-                {`${valuetext(sliderValue[0])} - ${valuetext(sliderValue[1])}`}
-            </p>
-            <p className="filter-text">
-                {`Average price ${valuetext(average())}`}
-            </p>
+            <div className="main">
+                <PriceChart chart={chart} />
+                <Slider
+                    className="slider"
+                    value={sliderValue}
+                    onChange={handleChange}
+                    onChangeCommitted={handleChangeCommited}
+                    valueLabelDisplay="auto"
+                    aria-labelledby="range-slider"
+                    getAriaValueText={valuetext}
+                    max={max}
+                    min={min}
+                    step={step}
+                    disabled={min === max}
+                />
+            </div>
+            <div className="filter-text">
+                <p>
+                    {`${valuetext(sliderValue[0])} - ${valuetext(sliderValue[1])}`}
+                </p>
+                <p>
+                    {`Average price ${valuetext(average())}`}
+                </p>
+            </div>
         </div>
     );
 }
