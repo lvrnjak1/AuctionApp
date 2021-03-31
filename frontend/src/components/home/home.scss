@@ -160,14 +160,16 @@
     .top {
       height: 400px;
       display: grid;
-      grid-template-columns: 30% 30% 40%;
+      grid-template-columns: 5% 30% 30% 30% 5%;
 
       .categories {
+        grid-column: 2 / 3;
         margin-left: 35%;
         margin-right: 50px;
       }
 
       .featured-product {
+        grid-column: 3 / 4;
         text-align: left;
         padding-right: 20px;
         .featured-product-title {
@@ -185,6 +187,7 @@
       }
 
       .featured-product-image {
+        grid-column: 4 / 5;
         img {
           margin: 10px 0 0 20px;
           height: 300px;
@@ -193,16 +196,20 @@
       }
     }
 
+    .title {
+      margin-left: 10px;
+    }
+
     .featured-collections {
-      margin: 0 11% 30px 11%;
+      margin: 0 15% 30px 15%;
     }
 
     .featured-products {
-      margin: 0 11% 30px 11%;
+      margin: 0 15% 30px 15%;
     }
 
     .bottom {
-      margin: 0 11% 0 11%;
+      margin: 0 15% 0 15%;
     }
   }
 
