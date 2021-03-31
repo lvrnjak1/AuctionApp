@@ -13,7 +13,6 @@ function PriceFilter() {
     const [min, setMin] = useState(0);
     const [max, setMax] = useState(0);
     const [step, setStep] = useState(20);
-    // const [sliderValue, setSliderValue] = useState([0, 0]);
     const [chart, setChart] = useState({ data: [], labels: [] });
     const dispatch = useDispatch();
     const filterParams = useSelector(state => state.filterParams);
@@ -29,9 +28,6 @@ function PriceFilter() {
                 setMax(response.data.max);
                 setStep(response.data.step);
                 dispatch(setSlider([response.data.min, response.data.max], response.data.min, response.data.max));
-                // setSliderValue([response.data.min, response.data.max]);
-                // setMinPrice(response.data.min);
-                // setMaxPrice(response.data.max);
             })
         }
         if (filterChanged) {
@@ -40,7 +36,6 @@ function PriceFilter() {
     }, [filterParams, filterChanged, min, max, dispatch]);
 
     const handleChange = (event, newValue) => {
-        // setSliderValue(newValue);
         dispatch(setSliderValue(newValue));
     };
 
