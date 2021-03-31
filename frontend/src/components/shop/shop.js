@@ -15,14 +15,15 @@ import AppliedFilters from 'components/applied_filters/appliedFilters';
 import PriceFilter from 'components/price_filter/priceFilter';
 import "components/shop/shop.scss";
 import { getFormattedParams } from 'util/filterParams';
+import { setGrid, setList } from 'state/actions/displayPreferenceActions';
 
 function Shop() {
     const dispatch = useDispatch();
     const [products, setProducts] = useState([]);
     const [hasNext, setHasNext] = useState(true);
-    const [grid, setGrid] = useState(true);
     const categories = useSelector(state => state.categories);
     const filterParams = useSelector(state => state.filterParams);
+    const grid = useSelector(state => state.grid)
 
     const errorHandler = () => {
         updateMessage("Try reloading the page.", "error");
@@ -96,7 +97,7 @@ function Shop() {
     }
 
     const handleViewChange = (view) => {
-        setGrid(view === "grid" ? true : false);
+        view === "grid" ? dispatch(setGrid()) : dispatch(setList());
     }
 
     return (

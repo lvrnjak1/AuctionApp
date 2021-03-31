@@ -7,6 +7,7 @@ import filterParamsReducer from "./filterParamsReducer";
 import categoriesReducer from "./categoriesReducer";
 import searchReducer from "./searchReducer";
 import filterChangeReducer from "./filterChangeReducer";
+import displayPreferenceReducer from "./displayPreferenceReducer";
 
 const rootReducer = combineReducers({
     infoMessage: infoMessageReducer,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
     filterParams: filterParamsReducer,
     categories: categoriesReducer,
     searchCriteria: searchReducer,
-    filterChanged: filterChangeReducer
+    filterChanged: filterChangeReducer,
+    grid: displayPreferenceReducer,
 });
 export default rootReducer;
