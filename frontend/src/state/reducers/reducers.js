@@ -8,6 +8,7 @@ import categoriesReducer from "./categoriesReducer";
 import searchReducer from "./searchReducer";
 import filterChangeReducer from "./filterChangeReducer";
 import displayPreferenceReducer from "./displayPreferenceReducer";
+import sliderReducer from "./sliderReducer";
 
 const rootReducer = combineReducers({
     infoMessage: infoMessageReducer,
@@ -19,5 +20,6 @@ const rootReducer = combineReducers({
     searchCriteria: searchReducer,
     filterChanged: filterChangeReducer,
     grid: displayPreferenceReducer,
+    slider: sliderReducer
 });
 export default rootReducer;

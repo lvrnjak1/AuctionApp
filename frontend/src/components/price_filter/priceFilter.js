@@ -7,16 +7,18 @@ import PriceChart from './chart/chart';
 import { getRequest } from 'http/requests';
 import { PRICE_CHART_ENDPOINT } from "http/endpoints";
 import { getFormattedParams } from 'util/filterParams';
+import { setSliderValue, setSlider } from 'state/actions/sliderActions';
 
 function PriceFilter() {
     const [min, setMin] = useState(0);
     const [max, setMax] = useState(0);
     const [step, setStep] = useState(20);
-    const [sliderValue, setSliderValue] = useState([0, 0]);
+    // const [sliderValue, setSliderValue] = useState([0, 0]);
     const [chart, setChart] = useState({ data: [], labels: [] });
     const dispatch = useDispatch();
-    const filterParams = useSelector(state => state.filterParams)
-    const filterChanged = useSelector(state => state.filterChanged)
+    const filterParams = useSelector(state => state.filterParams);
+    const filterChanged = useSelector(state => state.filterChanged);
+    const slider = useSelector(state => state.slider)
 
     useEffect(() => {
         async function fetchChartData() {
@@ -26,18 +28,20 @@ function PriceFilter() {
                 setMin(response.data.min);
                 setMax(response.data.max);
                 setStep(response.data.step);
-                setSliderValue([response.data.min, response.data.max]);
-                setMinPrice(response.data.min);
-                setMaxPrice(response.data.max);
+                dispatch(setSlider([response.data.min, response.data.max], response.data.min, response.data.max));
+                // setSliderValue([response.data.min, response.data.max]);
+                // setMinPrice(response.data.min);
+                // setMaxPrice(response.data.max);
             })
         }
         if (filterChanged) {
             fetchChartData();
         }
-    }, [filterParams, filterChanged, min, max]);
+    }, [filterParams, filterChanged, min, max, dispatch]);
 
     const handleChange = (event, newValue) => {
-        setSliderValue(newValue);
+        // setSliderValue(newValue);
+        dispatch(setSliderValue(newValue));
     };
 
     const handleChangeCommited = (event, commited) => {
@@ -50,7 +54,7 @@ function PriceFilter() {
     }
 
     function average() {
-        return (sliderValue[0] + sliderValue[1]) / 2;
+        return (slider.value[0] + slider.value[1]) / 2;
     }
 
     return (
@@ -61,21 +65,21 @@ function PriceFilter() {
                 <PriceChart chart={chart} />
                 <Slider
                     className="slider"
-                    value={sliderValue}
+                    value={slider.value}
                     onChange={handleChange}
                     onChangeCommitted={handleChangeCommited}
                     valueLabelDisplay="auto"
                     aria-labelledby="range-slider"
                     getAriaValueText={valuetext}
-                    max={max}
-                    min={min}
+                    max={slider.max}
+                    min={slider.min}
                     step={step}
                     disabled={min === max}
                 />
             </div>
             <div className="filter-text">
                 <p>
-                    {`${valuetext(sliderValue[0])} - ${valuetext(sliderValue[1])}`}
+                    {`${valuetext(slider.value[0])} - ${valuetext(slider.value[1])}`}
                 </p>
                 <p>
                     {`Average price ${valuetext(average())}`}

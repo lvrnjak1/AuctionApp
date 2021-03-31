@@ -4,6 +4,7 @@ import "components/applied_filters/appliedFilters.scss";
 import { useDispatch, useSelector } from 'react-redux';
 import { removeCategoryId, setMaxPrice, setMinPrice, setName } from 'state/actions/filterParamsActions';
 import { resetSearch } from 'state/actions/searchActions';
+import { resetMin, resetMax } from 'state/actions/sliderActions';
 
 function getRandomKey() {
     return Math.random() * 1000;
@@ -27,6 +28,17 @@ function AppliedFilters() {
     const handleRemoveSearch = useCallback(() => {
         dispatch(resetSearch(""));
         dispatch(setName(""));
+    }, [dispatch]);
+
+    const handleRemovePrice = useCallback((min) => {
+        if (min) {
+            dispatch(setMinPrice(null));
+            dispatch(resetMin());
+        } else {
+            dispatch(setMaxPrice(null));
+            dispatch(resetMax());
+        }
+
     }, [dispatch]);
 
     const getCategoryName = useCallback((id) => {
@@ -62,11 +74,11 @@ function AppliedFilters() {
         }
 
         if (filterParams.priceMax) {
-            newData.push({ key: getRandomKey(), filter: nameMapping.priceMax, value: `$${filterParams.priceMax}`, removeHandler: () => dispatch(setMaxPrice(null)) });
+            newData.push({ key: getRandomKey(), filter: nameMapping.priceMax, value: `$${filterParams.priceMax}`, removeHandler: () => handleRemovePrice(false) });
         }
 
         if (filterParams.priceMin) {
-            newData.push({ key: getRandomKey(), filter: nameMapping.priceMin, value: `$${filterParams.priceMin}`, removeHandler: () => dispatch(setMinPrice(null)) });
+            newData.push({ key: getRandomKey(), filter: nameMapping.priceMin, value: `$${filterParams.priceMin}`, removeHandler: () => handleRemovePrice(true) });
         }
 
         setChipData(newData);
@@ -78,6 +90,7 @@ function AppliedFilters() {
         dispatch,
         handleRemoveCategory,
         handleRemoveSearch,
+        handleRemovePrice,
         getCategoryName]);
 
     return (
