@@ -27,7 +27,28 @@ function PriceFilter() {
                 setMin(response.data.min);
                 setMax(response.data.max);
                 setStep(response.data.step);
-                dispatch(setSlider([response.data.min, response.data.max], response.data.min, response.data.max));
+
+                if (filterParams.priceMax !== null &&
+                    (filterParams.priceMax > response.data.max ||
+                        filterParams.priceMax < response.data.min)) {
+                    dispatch(setMaxPrice(response.data.max));
+                }
+                if (filterParams.priceMin !== null &&
+                    (filterParams.priceMin < response.data.min ||
+                        filterParams.priceMin > response.data.max)) {
+                    dispatch(setMinPrice(response.data.min));
+                }
+
+                let newMin = response.data.min;
+                let newMax = response.data.max;
+                if (filterParams.priceMin !== null) {
+                    newMin = filterParams.priceMin;
+                }
+                if (filterParams.priceMax !== null) {
+                    newMax = filterParams.priceMax;
+                }
+
+                dispatch(setSlider([newMin, newMax], response.data.min, response.data.max));
             })
         }
         if (filterChanged) {
