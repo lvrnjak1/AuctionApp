@@ -12,6 +12,7 @@ import ba.abh.AuctionApp.filters.AuctionFilter;
 import ba.abh.AuctionApp.repositories.ColorRepository;
 import ba.abh.AuctionApp.repositories.auction.AuctionRepository;
 import ba.abh.AuctionApp.requests.AuctionRequest;
+import ba.abh.AuctionApp.responses.PriceChartResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -94,5 +95,9 @@ public class AuctionService {
     public Auction getActiveByIdIfExists(final Long id) {
         return auctionRepository.findActiveById(id, Clock.systemUTC().instant())
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Auction with id %d doesn't exist", id)));
+    }
+
+    public PriceChartResponse getChartData(final AuctionFilter auctionFilter) {
+        return auctionRepository.getPriceChartData(auctionFilter);
     }
 }

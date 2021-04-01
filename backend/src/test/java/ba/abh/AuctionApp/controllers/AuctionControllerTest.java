@@ -1,5 +1,7 @@
 package ba.abh.AuctionApp.controllers;
 
+import ba.abh.AuctionApp.domain.Category;
+import ba.abh.AuctionApp.repositories.category.CategoryRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -9,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -17,11 +18,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -33,6 +34,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class AuctionControllerTest {
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Test
     public void testCreateAuctionSuccess() throws Exception {
@@ -314,7 +317,7 @@ class AuctionControllerTest {
         JSONArray data = response.getJSONArray("data");
         List<Long> timeLeft = new ArrayList<>();
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.UK);
-        for(int i = 0; i < data.length(); i++) {
+        for (int i = 0; i < data.length(); i++) {
             String dateTimeField = String.valueOf(data.getJSONObject(i).get("endDateTime"));
             LocalDateTime endDateTime = LocalDateTime.parse(dateTimeField, inputFormatter);
             timeLeft.add(Duration.between(LocalDateTime.now(), endDateTime).getSeconds());
@@ -324,5 +327,89 @@ class AuctionControllerTest {
         sortedTimeLeft.sort(null);
         Collections.reverse(sortedTimeLeft);
         assertEquals(sortedTimeLeft, timeLeft);
+    }
+
+    @Test
+    public void testSeachAuctions1() throws Exception {
+        mockMvc.perform(get("/auctions?name=black"))
+                .andExpect(jsonPath("$.pagination.pageSize", is(1)))
+                .andExpect(jsonPath("$.data[0].product.name", is("Black sandals")));
+    }
+
+    @Test
+    public void testSearchAuctions2() throws Exception {
+        mockMvc.perform(get("/auctions?name=ShirT"))
+                .andExpect(jsonPath("$.pagination.pageSize", is(1)));
+    }
+
+    @Test
+    public void testSearchAuctions3() throws Exception {
+        mockMvc.perform(get("/auctions?name=notfound"))
+                .andExpect(jsonPath("$.pagination.pageSize", is(0)));
+    }
+
+    @Test
+    public void testFilterAuctions2() throws Exception {
+        MvcResult result = mockMvc.perform(get("/auctions?priceMin=100")).andReturn();
+        JSONObject response = new JSONObject(result.getResponse().getContentAsString());
+        JSONArray data = response.getJSONArray("data");
+        for(int i = 0; i < data.length(); i++){
+            String price = String.valueOf(data.getJSONObject(i).get("startPrice"));
+            assertTrue( Double.parseDouble(price) >= 100);
+        }
+    }
+
+    @Test
+    public void testFilterAuctions3() throws Exception {
+        MvcResult result = mockMvc.perform(get("/auctions?priceMax=100")).andReturn();
+        JSONObject response = new JSONObject(result.getResponse().getContentAsString());
+        JSONArray data = response.getJSONArray("data");
+        for(int i = 0; i < data.length(); i++){
+            String price = String.valueOf(data.getJSONObject(i).get("startPrice"));
+            assertTrue( Double.parseDouble(price) <= 100);
+        }
+    }
+
+    @Test
+    public void testFilterByMultipleCategories() throws Exception {
+        MvcResult result = mockMvc
+                .perform(get("/auctions?categoryId=8&categoryId=9"))
+                .andReturn();
+        JSONObject response = new JSONObject(result.getResponse().getContentAsString());
+        JSONArray data = response.getJSONArray("data");
+        for(int i = 0; i < data.length(); i++){
+            String catId = String.valueOf(data.getJSONObject(i).getJSONObject("product").getJSONObject("category").get("id"));
+            assertTrue(catId.equals("8") || catId.equals("9"));
+        }
+    }
+
+    @Test
+    public void testFilterByParentCategory() throws Exception {
+        MvcResult result = mockMvc
+                .perform(get("/auctions?categoryId=1"))
+                .andReturn();
+        JSONObject response = new JSONObject(result.getResponse().getContentAsString());
+        JSONArray data = response.getJSONArray("data");
+        for(int i = 0; i < data.length(); i++){
+            Integer catId = (Integer) data.getJSONObject(i).getJSONObject("product").getJSONObject("category").get("id");
+            Category cat = categoryRepository.findById(Long.valueOf(catId)).orElseThrow();
+            assertEquals((long) cat.getParentCategory().getId(), 1L);
+        }
+    }
+
+    @Test
+    public void testMultipleFilters() throws Exception {
+        MvcResult result = mockMvc
+                .perform(get("/auctions?categoryId=1&priceMax=150"))
+                .andReturn();
+        JSONObject response = new JSONObject(result.getResponse().getContentAsString());
+        JSONArray data = response.getJSONArray("data");
+        for(int i = 0; i < data.length(); i++){
+            Integer catId = (Integer) data.getJSONObject(i).getJSONObject("product").getJSONObject("category").get("id");
+            Category cat = categoryRepository.findById(Long.valueOf(catId)).orElseThrow();
+            String price = String.valueOf(data.getJSONObject(i).get("startPrice"));
+            assertEquals((long) cat.getParentCategory().getId(), 1L);
+            assertTrue(Double.parseDouble(price) <= 150);
+        }
     }
 }

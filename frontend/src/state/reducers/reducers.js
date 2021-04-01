@@ -5,6 +5,10 @@ import asyncTaskInProgressReducer from "state/reducers/asyncTaskInProgressReduce
 import currentCategoryReducer from "./currentCategoryReducer";
 import filterParamsReducer from "./filterParamsReducer";
 import categoriesReducer from "./categoriesReducer";
+import searchReducer from "./searchReducer";
+import filterChangeReducer from "./filterChangeReducer";
+import displayPreferenceReducer from "./displayPreferenceReducer";
+import sliderReducer from "./sliderReducer";
 
 const rootReducer = combineReducers({
     infoMessage: infoMessageReducer,
@@ -12,6 +16,10 @@ const rootReducer = combineReducers({
     asyncInProgress: asyncTaskInProgressReducer,
     currentCategory: currentCategoryReducer,
     filterParams: filterParamsReducer,
-    categories: categoriesReducer
+    categories: categoriesReducer,
+    searchCriteria: searchReducer,
+    filterChanged: filterChangeReducer,
+    grid: displayPreferenceReducer,
+    slider: sliderReducer
 });
 export default rootReducer;

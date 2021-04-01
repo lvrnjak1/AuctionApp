@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import "components/shop/shop.scss";
 import Categories from 'components/categories/categories';
 import ProductGrid from 'components/product_grid/productGrid';
 import { AUCTIONS_ENDPOINT, CATEGORIES_ENDPOINT } from 'http/endpoints';
@@ -10,16 +9,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetCurrentCategory } from 'state/actions/currentCategoryActions';
 import { updateMessage } from 'util/info_div_util';
-import { resetFilterParams, setCategoryId, setPage, setSort, setSortOrder } from 'state/actions/filterParamsActions';
+import { addCategoryId, resetFilterParams, setPage, setSort, setSortOrder } from 'state/actions/filterParamsActions';
 import { setCategories } from 'state/actions/categoriesActions';
+import AppliedFilters from 'components/applied_filters/appliedFilters';
+import PriceFilter from 'components/price_filter/priceFilter';
+import "components/shop/shop.scss";
+import { getFormattedParams } from 'util/filterParams';
+import { setGrid, setList } from 'state/actions/displayPreferenceActions';
 
 function Shop() {
     const dispatch = useDispatch();
     const [products, setProducts] = useState([]);
     const [hasNext, setHasNext] = useState(true);
-    const [grid, setGrid] = useState(true);
     const categories = useSelector(state => state.categories);
     const filterParams = useSelector(state => state.filterParams);
+    const grid = useSelector(state => state.grid)
 
     const errorHandler = () => {
         updateMessage("Try reloading the page.", "error");
@@ -51,7 +55,6 @@ function Shop() {
     const handleNewProducts = (responseData) => {
         let oldProducts = products;
         let newProducts;
-
         if (filterParams.page === 1) {
             newProducts = responseData.data;
         } else {
@@ -65,7 +68,8 @@ function Shop() {
 
     useEffect(() => {
         async function fetchProducts() {
-            await getRequest(AUCTIONS_ENDPOINT, filterParams, (response) => handleNewProducts(response.data), errorHandler);
+            const params = getFormattedParams(filterParams);
+            await getRequest(AUCTIONS_ENDPOINT, params, (response) => handleNewProducts(response.data), errorHandler);
         }
         fetchProducts();
     }, [filterParams]);
@@ -75,7 +79,8 @@ function Shop() {
     };
 
     const setCategoryFilter = (categoryId) => {
-        dispatch(setCategoryId(categoryId));
+        dispatch(addCategoryId(categoryId));
+        dispatch(setPage(1));
     }
 
     const setSortingCriteria = (criteria) => {
@@ -92,13 +97,14 @@ function Shop() {
     }
 
     const handleViewChange = (view) => {
-        setGrid(view === "grid" ? true : false);
+        view === "grid" ? dispatch(setGrid()) : dispatch(setList());
     }
 
     return (
         <div className="shop-page">
             <div className="side-bar">
                 <Categories expandable items={categories} border onFilter={setCategoryFilter} />
+                <PriceFilter />
             </div>
             <div className="content">
                 <div className="top">
@@ -108,21 +114,19 @@ function Shop() {
                             onChange={(e) => setSortingCriteria(e.target.value)}
                             className="sort-select"
                         >
-                            <MenuItem value="DEFAULT">Default Sorting - Alphabetical</MenuItem>
+                            <MenuItem value="DEFAULT">Sort alphabetically</MenuItem>
                             <MenuItem value="PRICE">Sort by price</MenuItem>
                             <MenuItem value="DATE">Sort by date added</MenuItem>
                             <MenuItem value="TIME_LEFT">Sort by time left</MenuItem>
                         </Select>
                         <button
                             className={`sort-order-button ${filterParams.sortOrder === "ASC" && "active"} shop-page-button`}
-                            disabled={!filterParams.sort}
                             onClick={() => setSortingOrder("ASC")}
                         >
                             <FontAwesomeIcon icon={faSortAmountUp} />
                         </button>
                         <button
                             className={`sort-order-button ${filterParams.sortOrder === "DESC" && "active"} shop-page-button`}
-                            disabled={!filterParams.sort}
                             value="DESC"
                             onClick={() => setSortingOrder("DESC")}
                         >
@@ -146,6 +150,9 @@ function Shop() {
                             <span>List</span>
                         </button>
                     </div>
+                </div>
+                <div className="filters">
+                    <AppliedFilters />
                 </div>
                 <div className="center-content">
                     <ProductGrid nrows={Math.ceil(products.length / 3)} items={products} col3 grid={grid} />

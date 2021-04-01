@@ -7,6 +7,7 @@ import ba.abh.AuctionApp.domain.enums.Size;
 import ba.abh.AuctionApp.filters.AuctionFilter;
 import ba.abh.AuctionApp.filters.ProductFilter;
 import ba.abh.AuctionApp.filters.SortSpecification;
+import ba.abh.AuctionApp.responses.PriceChartResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -21,9 +23,12 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository {
@@ -37,6 +42,25 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
         CriteriaQuery<Auction> criteriaQuery = criteriaBuilder.createQuery(Auction.class);
 
         Root<Auction> root = criteriaQuery.from(Auction.class);
+        List<Predicate> predicates = getFilterPredicates(criteriaBuilder, root, filter);
+        criteriaQuery.where(predicates.toArray(new Predicate[0]));
+        sort(criteriaQuery, criteriaBuilder, root, filter.getSortSpecification());
+
+        int page = pageable.getPageNumber();
+        int size = pageable.getPageSize();
+        TypedQuery<Auction> typedQuery = entityManager.createQuery(criteriaQuery);
+        typedQuery.setFirstResult(page * size);
+        typedQuery.setMaxResults(size);
+
+        List<Auction> resultList = typedQuery.getResultList();
+        Long total = getTotal(criteriaBuilder, predicates);
+
+        return new PageImpl<>(resultList, pageable, total);
+    }
+
+    private List<Predicate> getFilterPredicates(final CriteriaBuilder criteriaBuilder,
+                                                final Root<Auction> root,
+                                                final AuctionFilter filter) {
         List<Predicate> predicates = new ArrayList<>();
 
         if (filter.getSellerId() != null) {
@@ -75,22 +99,7 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
             processProductFilter(filter.getProductFilter(), predicates, criteriaBuilder, root);
         }
 
-        criteriaQuery.where(predicates.toArray(new Predicate[0]));
-
-        if (filter.getSortSpecification() != null) {
-            sort(criteriaQuery, criteriaBuilder, root, filter.getSortSpecification());
-        }
-
-        int page = pageable.getPageNumber();
-        int size = pageable.getPageSize();
-        TypedQuery<Auction> typedQuery = entityManager.createQuery(criteriaQuery);
-        typedQuery.setFirstResult(page * size);
-        typedQuery.setMaxResults(size);
-
-        List<Auction> resultList = typedQuery.getResultList();
-        Long total = getTotal(criteriaBuilder, predicates);
-
-        return new PageImpl<>(resultList, pageable, total);
+        return predicates;
     }
 
     private Long getTotal(final CriteriaBuilder criteriaBuilder, final List<Predicate> predicates) {
@@ -122,12 +131,16 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
             predicates.add(criteriaBuilder.equal(sizePath, size));
         }
 
-        Long categoryId = productFilter.getCategoryId();
-        if (categoryId != null) {
-            Path<Category> categoryPath = root.get("product").get("category");
-            Predicate inCategory = criteriaBuilder.equal(categoryPath.get("id"), categoryId);
-            Predicate inSubCategory = criteriaBuilder.equal(categoryPath.get("parentCategory").get("id"), categoryId);
-            predicates.add(criteriaBuilder.or(inCategory, inSubCategory));
+        List<Long> categoryIds = productFilter.getCategoryIds();
+        if (categoryIds != null) {
+            List<Predicate> categoryPredicates = new ArrayList<>();
+            for (Long categoryId : categoryIds) {
+                Path<Category> categoryPath = root.get("product").get("category");
+                Predicate inSubCategory = criteriaBuilder.equal(categoryPath.get("id"), categoryId);
+                Predicate inCategory = criteriaBuilder.equal(categoryPath.get("parentCategory").get("id"), categoryId);
+                categoryPredicates.add(criteriaBuilder.or(inCategory, inSubCategory));
+            }
+            predicates.add(criteriaBuilder.or(categoryPredicates.toArray(new Predicate[0])));
         }
     }
 
@@ -135,15 +148,123 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
                       final CriteriaBuilder criteriaBuilder,
                       final Root<Auction> root,
                       final SortSpecification sortSpecification) {
+        Path<String> criteria = root.get("product").get("name");
         if (sortSpecification.getSortCriteria() != null) {
-            String criteria = sortSpecification.getSortCriteria().getField();
-            if (sortSpecification.getSortOrder().equals(SortOrder.ASC)) {
-                criteriaQuery.orderBy(criteriaBuilder.asc(root.get(criteria)));
-            } else {
-                criteriaQuery.orderBy(criteriaBuilder.desc(root.get(criteria)));
-            }
-        }else {
-            criteriaQuery.orderBy(criteriaBuilder.asc(root.get("product").get("name")));
+            criteria = root.get(sortSpecification.getSortCriteria().getField());
         }
+
+        if (sortSpecification.getSortOrder().equals(SortOrder.ASC)) {
+            criteriaQuery.orderBy(criteriaBuilder.asc(criteria));
+        } else {
+            criteriaQuery.orderBy(criteriaBuilder.desc(criteria));
+        }
+    }
+
+    private List<Double> getMinMax(final CriteriaBuilder criteriaBuilder, final AuctionFilter auctionFilter) {
+        CriteriaQuery<Object[]> minMaxQuery = criteriaBuilder.createQuery(Object[].class);
+        Root<Auction> minMaxRoot = minMaxQuery.from(Auction.class);
+        List<Predicate> predicates = getFilterPredicates(criteriaBuilder, minMaxRoot, auctionFilter);
+
+        Subquery<Auction> subquery = minMaxQuery.subquery(Auction.class);
+        Root<Auction> root = subquery.from(Auction.class);
+        subquery.select(root).where(predicates.toArray(new Predicate[0]));
+
+        minMaxQuery.multiselect(criteriaBuilder.min(minMaxRoot.get("startPrice")),
+                criteriaBuilder.max(minMaxRoot.get("startPrice")));
+        minMaxQuery.where(criteriaBuilder.in(minMaxRoot).value(subquery));
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(minMaxQuery);
+        Object[] resultList = typedQuery.getSingleResult();
+
+        List<Double> result = new ArrayList<>();
+        result.add(0d);
+        result.add(0d);
+        if (resultList.length != 0 && resultList[0] != null && resultList[1] != null) {
+            result.set(0, (double) resultList[0]);
+            result.set(1, (double) resultList[1]);
+        }
+
+        return result;
+    }
+
+    private Double getRanges(final CriteriaBuilder criteriaBuilder,
+                             final Root<Auction> auctionRoot,
+                             final double min,
+                             final double max,
+                             final double step,
+                             final List<String> labels,
+                             final List<Expression<Integer>> ranges) {
+        double price = min;
+
+        while (price < max) {
+            labels.add(price + " - " + (price + step));
+            Predicate ge = criteriaBuilder.greaterThanOrEqualTo(auctionRoot.get("startPrice"), price);
+            Predicate lt = criteriaBuilder.lessThan(auctionRoot.get("startPrice"), (price + step));
+            Predicate between = criteriaBuilder.and(ge, lt);
+            Expression<Integer> sumEx = criteriaBuilder.sum(
+                    criteriaBuilder.<Integer>selectCase().when(between, 1).otherwise(0)
+            );
+            ranges.add(sumEx);
+            price += step;
+        }
+
+        if (price < max) {
+            labels.add(price + " - " + (price + step));
+            Predicate ge = criteriaBuilder.greaterThanOrEqualTo(auctionRoot.get("startPrice"), price);
+            Predicate le = criteriaBuilder.lessThanOrEqualTo(auctionRoot.get("startPrice"), (price + step));
+            Predicate between = criteriaBuilder.and(ge, le);
+            Expression<Integer> sumEx = criteriaBuilder.sum(
+                    criteriaBuilder.<Integer>selectCase().when(between, 1).otherwise(0)
+            );
+            ranges.add(sumEx);
+        }
+
+        if (min == max) {
+            labels.add(min + " - " + max);
+            Predicate eq = criteriaBuilder.equal(auctionRoot.get("startPrice"), min);
+            Expression<Integer> sumEx = criteriaBuilder.sum(
+                    criteriaBuilder.<Integer>selectCase().when(eq, 1).otherwise(0)
+            );
+            ranges.add(sumEx);
+        }
+
+        return price;
+    }
+
+
+    @Override
+    public PriceChartResponse getPriceChartData(final AuctionFilter filter) {
+        filter.setPriceMin(null);
+        filter.setPriceMax(null);
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        List<Double> minMax = getMinMax(criteriaBuilder, filter);
+        double min = minMax.get(0);
+        double max = minMax.get(1);
+        double step = 20d;
+
+
+        CriteriaQuery<Tuple> countQuery = criteriaBuilder.createTupleQuery();
+        Root<Auction> auctionRoot = countQuery.from(Auction.class);
+        List<Predicate> predicates = getFilterPredicates(criteriaBuilder, auctionRoot, filter);
+        Subquery<Auction> sA = countQuery.subquery(Auction.class);
+        Root<Auction> rA = sA.from(Auction.class);
+        sA.select(rA).where(predicates.toArray(new Predicate[0]));
+
+        List<String> labels = new ArrayList<>();
+        List<Expression<Integer>> ranges = new ArrayList<>();
+        Double computedMax = getRanges(criteriaBuilder, auctionRoot, min, max, step, labels, ranges);
+
+        countQuery.multiselect(ranges
+                .stream()
+                .map(range -> range.alias(String.valueOf(Math.random())))
+                .collect(Collectors.toList())
+        ).where(criteriaBuilder.in(auctionRoot).value(sA));
+
+        Tuple result = entityManager.createQuery(countQuery).getSingleResult();
+
+        List<Long> values = Arrays
+                .stream(result.toArray()).mapToLong(el -> el != null ? (long) el : 0L)
+                .boxed()
+                .collect(Collectors.toList());
+        return new PriceChartResponse(labels, values, min, computedMax, step);
     }
 }

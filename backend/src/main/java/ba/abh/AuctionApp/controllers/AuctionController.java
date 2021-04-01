@@ -10,6 +10,7 @@ import ba.abh.AuctionApp.pagination.PaginationDetails;
 import ba.abh.AuctionApp.requests.AuctionRequest;
 import ba.abh.AuctionApp.responses.AuctionResponse;
 import ba.abh.AuctionApp.responses.PageableResponse;
+import ba.abh.AuctionApp.responses.PriceChartResponse;
 import ba.abh.AuctionApp.services.AuctionService;
 import ba.abh.AuctionApp.services.UserService;
 import org.springframework.data.domain.Page;
@@ -49,15 +50,7 @@ public class AuctionController {
 
     @GetMapping
     public ResponseEntity<PageableResponse> getAuctions(@Valid final RequestParams requestParams) {
-        SortSpecification sortSpecification = new SortSpecification(requestParams.getSort(), requestParams.getSortOrder());
-        ProductFilter productFilter = new ProductFilter(requestParams.getName(), requestParams.getSize(), requestParams.getCategoryId());
-        AuctionFilter auctionFilter = new AuctionFilter(requestParams.getSellerId(),
-                productFilter,
-                requestParams.getPriceMin(),
-                requestParams.getPriceMax(),
-                requestParams.getMinutesLeft(),
-                sortSpecification
-        );
+        AuctionFilter auctionFilter = constructAuctionFilter(requestParams);
         Page<Auction> auctionPage = auctionService.getFilteredAuctions(requestParams.getPage() - 1,
                 requestParams.getLimit(),
                 auctionFilter
@@ -79,6 +72,13 @@ public class AuctionController {
         return ResponseEntity.ok(new AuctionResponse(auction));
     }
 
+    @GetMapping("/price-chart")
+    public ResponseEntity<?> getPriceChartData(@Valid final RequestParams requestParam) {
+        AuctionFilter auctionFilter = constructAuctionFilter(requestParam);
+        PriceChartResponse priceChartResponse = auctionService.getChartData(auctionFilter);
+        return ResponseEntity.ok().body(priceChartResponse);
+    }
+
     private PageableResponse buildPageableResponse(final Page<Auction> page) {
         PaginationDetails details = new PaginationDetails(page);
         List<? extends PageableEntity> data = page
@@ -87,5 +87,18 @@ public class AuctionController {
                 .map(AuctionResponse::new)
                 .collect(Collectors.toList());
         return new PageableResponse(details, (List<PageableEntity>) data);
+    }
+
+    private AuctionFilter constructAuctionFilter(final RequestParams requestParams) {
+        SortSpecification sortSpecification = new SortSpecification(requestParams.getSort(), requestParams.getSortOrder());
+        ProductFilter productFilter = new ProductFilter(requestParams.getName(), requestParams.getSize(), requestParams.getCategoryId());
+
+        return new AuctionFilter(requestParams.getSellerId(),
+                productFilter,
+                requestParams.getPriceMin(),
+                requestParams.getPriceMax(),
+                requestParams.getMinutesLeft(),
+                sortSpecification
+        );
     }
 }

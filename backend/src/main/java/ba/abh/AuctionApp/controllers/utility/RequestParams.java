@@ -4,6 +4,7 @@ import ba.abh.AuctionApp.domain.enums.Size;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.util.List;
 
 public class RequestParams {
     private static final int MIN_PAGE = 1;
@@ -22,7 +23,7 @@ public class RequestParams {
     private Double priceMin;
     private Double priceMax;
     private Size size;
-    private Long categoryId;
+    private List<Long> categoryId;
     private String name;
     private Long minutesLeft;
     private SortCriteria sort;
@@ -37,7 +38,7 @@ public class RequestParams {
                          final Double priceMin,
                          final Double priceMax,
                          final Size size,
-                         final Long categoryId,
+                         final List<Long> categoryId,
                          final String name,
                          final Long minutesLeft,
                          final SortCriteria sort,
@@ -124,11 +125,11 @@ public class RequestParams {
         this.size = size;
     }
 
-    public Long getCategoryId() {
+    public List<Long> getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(final Long categoryId) {
+    public void setCategoryId(final List<Long> categoryId) {
         this.categoryId = categoryId;
     }
 
@@ -163,18 +164,4 @@ public class RequestParams {
     public void setSortOrder(final SortOrder sortOrder) {
         this.sortOrder = sortOrder;
     }
-//
-//    private static void checkPagination(final int page, final int limit) {
-//        if (page < 1) {
-//            throw new InvalidPaginationException("Page index should start at 1");
-//        }
-//
-//        if(limit < 1) {
-//            throw new InvalidPaginationException("Page size (limit) should be at least 1");
-//        }
-//
-//        if(limit > 500){
-//            throw new InvalidPaginationException("Page size (limit) should be less than 500");
-//        }
-//    }
 }
