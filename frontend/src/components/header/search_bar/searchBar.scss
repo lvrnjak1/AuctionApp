@@ -1,15 +1,41 @@
 @import "util/style/constants.scss";
 
 .search-bar {
+<<<<<<< HEAD
   padding-left: 11.1%;
   padding-right: 11.1%;
   height: fit-content;
   text-align: center;
   padding-bottom: 10px;
+=======
+  display: grid;
+  grid-template-columns: 40% 60%;
+  grid-template-rows: 1fr 1fr;
+  gap: 0px 1em;
+  .search-bar-title {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 24px;
+    letter-spacing: 0.84px;
+    font-weight: lighter;
+
+    .search-bar-title-icon {
+      margin-bottom: 2px;
+      color: $lightPurple;
+    }
+
+    p {
+      display: inline;
+      color: $purple;
+    }
+  }
+
+>>>>>>> Restyle search bar
   .search-input {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     form {
       position: relative;
       input {
@@ -22,15 +48,22 @@
         }
       }
       .search-button {
+        margin-left: -35px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
         background: transparent;
         border: transparent;
         font-size: 18px;
         cursor: pointer;
+<<<<<<< HEAD
         margin-left: -35px;
         position: absolute;
         top: 0;
         bottom: 0;
         right: 0;
+=======
+>>>>>>> Restyle search bar
         color: $purple;
         &:focus {
           outline: transparent;
@@ -39,28 +72,9 @@
     }
   }
 
-  .search-bar-title {
-    font-size: 24px;
-    letter-spacing: 0.84px;
-    font-weight: lighter;
-    margin-top: 20px;
-    text-align: center;
-
-    .search-bar-title-icon {
-      margin-bottom: 2px;
-      color: $lightPurple;
-    }
-
-    p {
-      display: inline;
-      margin-left: 10px;
-      color: $purple;
-    }
-  }
-
   .search-bar-links {
+    grid-column: 1 / -1;
     text-decoration: none;
-    margin-top: 10px;
     text-align: center;
 
     ul {
@@ -95,6 +109,7 @@
     }
   }
 
+<<<<<<< HEAD
   @media screen and (min-width: 600px) {
     display: grid;
     grid-template-columns: 30% 40% 30%;
@@ -109,20 +124,47 @@
         }
         .search-button {
           font-size: 22px;
+=======
+  @media screen and (min-width: $medium) {
+    grid-template-columns: 5% 25% 25% 40% 5%;
+    grid-template-rows: 1fr;
+    gap: 0;
+    .search-bar-title {
+      grid-column: 2 / 3;
+      justify-content: flex-start;
+    }
+    .search-input {
+      grid-column: 3 / 4;
+      justify-content: center;
+      form {
+        input {
+          padding: 10px 10px;
+        }
+        .search-button {
+          font-size: 1.2rem;
+>>>>>>> Restyle search bar
         }
       }
     }
     .search-bar-links {
+<<<<<<< HEAD
       grid-column: 3 / 4;
       display: flex;
       justify-content: flex-end;
       ul {
         text-align: right;
       }
+=======
+      grid-column: 4 / 5;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+>>>>>>> Restyle search bar
     }
   }
 
   @media screen and (min-width: $large) {
+<<<<<<< HEAD
     grid-template-columns: 30% 40% 30%;
     padding-left: 11.1%;
     padding-right: 11.1%;
@@ -135,15 +177,17 @@
         }
         .search-button {
           font-size: 22px;
+=======
+    grid-template-columns: 11% 25% 25% 29% 11%;
+    .search-input {
+      form {
+        input {
+          padding: 1em 10em 1em 0.5em;
         }
-      }
-    }
-    .search-bar-title {
-      text-align: left;
-    }
-    .search-bar-links {
-      ul {
-        padding: 0;
+        .search-button {
+          font-size: 1.2rem;
+>>>>>>> Restyle search bar
+        }
       }
     }
   }
