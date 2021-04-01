@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGavel } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useHistory, useLocation } from "react-router-dom"
@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core';
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { setName } from 'state/actions/filterParamsActions';
 import { resetSearch, setSearch } from 'state/actions/searchActions';
+import Dropdown from 'components/dropdown/dropdown';
 
 const useStyles = makeStyles(theme => ({
     loader: {
@@ -23,6 +24,7 @@ function SearchBar() {
     const history = useHistory();
     const dispatch = useDispatch();
     const { pathname } = useLocation();
+    const [openDropdown, setOpenDropdown] = useState(false);
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -66,12 +68,18 @@ function SearchBar() {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink
-                            to="/account"
-                            className="search-bar-link"
-                            activeStyle={{ color: "#8367D8", textDecoration: "none" }}>
-                            MY ACCOUNT
+                        <div
+                            className="dropdown-container"
+                            onMouseOver={() => setOpenDropdown(true)}
+                            onMouseLeave={() => setOpenDropdown(false)}>
+                            <NavLink
+                                to="/account"
+                                className="search-bar-link"
+                                activeStyle={{ color: "#8367D8", textDecoration: "none" }}>
+                                MY ACCOUNT
                         </NavLink>
+                            {openDropdown && <Dropdown />}
+                        </div>
                     </li>
                 </ul>
             </div>

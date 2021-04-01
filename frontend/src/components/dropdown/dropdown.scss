@@ -1,1 +1,27 @@
 @import "util/style/constants.scss";
+
+.dropdown {
+  display: inline;
+  position: absolute;
+  top: 1.5em;
+  left: 0;
+  right: 0;
+  background: $white;
+  border: 1px solid $lightGray2;
+  text-align: center;
+  min-width: max-content;
+  padding: 0.25em 1em 0 1em;
+
+  .dropdown-link {
+    text-decoration: none;
+    font-size: 16px;
+    color: $gray;
+    letter-spacing: 0.56px;
+    display: block;
+    padding-bottom: 0.5em;
+    &:hover,
+    &:focus {
+      color: $lightGray2;
+    }
+  }
+}
