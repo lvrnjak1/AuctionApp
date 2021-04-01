@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGavel } from "@fortawesome/free-solid-svg-icons";
-import { NavLink, useHistory } from "react-router-dom"
+import { NavLink, useHistory, useLocation } from "react-router-dom"
 import "components/header/search_bar/searchBar.scss"
 import Loader from 'react-loader-spinner';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,6 +22,7 @@ function SearchBar() {
     const searchCriteria = useSelector(state => state.searchCriteria);
     const history = useHistory();
     const dispatch = useDispatch();
+    const { pathname } = useLocation();
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -48,10 +49,29 @@ function SearchBar() {
             <div className="search-bar-links">
                 <ul>
                     <li>
-                        <NavLink to="/home" className="search-bar-link" activeStyle={{ color: "#8367D8", textDecoration: "none" }}>HOME</NavLink>
+                        <NavLink
+                            to="/home"
+                            isActive={() => ['/home', '/'].includes(pathname)}
+                            className="search-bar-link"
+                            activeStyle={{ color: "#8367D8", textDecoration: "none" }}>
+                            HOME
+                        </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/shop" className="search-bar-link" activeStyle={{ color: "#8367D8", textDecoration: "none" }}>SHOP</NavLink>
+                        <NavLink
+                            to="/shop"
+                            className="search-bar-link"
+                            activeStyle={{ color: "#8367D8", textDecoration: "none" }}>
+                            SHOP
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink
+                            to="/account"
+                            className="search-bar-link"
+                            activeStyle={{ color: "#8367D8", textDecoration: "none" }}>
+                            MY ACCOUNT
+                        </NavLink>
                     </li>
                 </ul>
             </div>
