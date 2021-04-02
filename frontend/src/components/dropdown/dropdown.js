@@ -2,19 +2,22 @@ import React from 'react';
 import "components/dropdown/dropdown.scss";
 import { NavLink } from 'react-router-dom';
 
-function Dropdown() {
+function Dropdown(props) {
     const content = [
-        { to: "/account/profile", text: "Profile" },
-        { to: "/account/seller", text: "Become Seller" },
-        { to: "/account/bids", text: "Your bids" },
-        { to: "/account/settings", text: "Settings" }
+        { to: "/account/profile", text: "Profile", index: 0 },
+        { to: "/account/seller", text: "Become Seller", index: 1 },
+        { to: "/account/bids", text: "Your bids", index: 2 },
+        { to: "/account/settings", text: "Settings", index: 3 }
     ]
     return (
-        <div className="dropdown">
+        <div className="dropdown" onMouseLeave={props.onLeave}>
             {content.map(link => {
                 return <NavLink
                     key={link.text}
-                    to={link.to}
+                    to={{
+                        pathname: link.to,
+                        state: { index: link.index }
+                    }}
                     className="dropdown-link"
                     activeStyle={{ color: "#8367D8", textDecoration: "none" }}>
                     {link.text}

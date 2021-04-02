@@ -75,7 +75,7 @@ function App() {
               <ResetPassword />
             </Layout>
           </Route>
-          <Route exact path="/account">
+          <Route exact path={["/account/profile", "/account/bids", "/account/seller", "/account/settings"]}>
             <Layout breadcrumbs={{ current: "my account" }}>
               <MyAccount />
             </Layout>
