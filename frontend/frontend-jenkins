@@ -1,0 +1,38 @@
+pipeline {
+  environment {
+    tag = "frontend"
+    imageName = "usr998/auction:$tag"
+    reg = 'Dockerhub'
+    image = ''
+  }
+  
+  agent { label 'Jenkins_Slave' }
+  
+  stages {
+
+    stage("Build frontend image") {
+      steps {
+        script {
+          image = docker.build(imageName, "./frontend")
+        }
+      }
+    }
+
+    stage("Push image to Dockerhub") {
+      steps {
+        script {
+          docker.withRegistry('', reg) {
+            image.push('$tag')
+          }
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      sh "yes | docker image prune"
+      cleanWs()
+    }
+  }
+}

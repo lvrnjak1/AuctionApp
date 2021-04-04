@@ -1,0 +1,17 @@
+pipeline {
+  agent { label 'Jenkins_Slave' }
+  
+  stages {
+    stage("Run smoke tests") {
+      steps {
+        echo "not implemented yet"
+      }
+    }
+  }
+
+  post {
+    always {
+      cleanWs()
+    }
+  }
+}

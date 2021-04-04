@@ -1,0 +1,43 @@
+pipeline {
+  environment {
+    tag = "backend"
+    imageName = "usr998/auction:$tag"
+    reg = 'Dockerhub'
+    image = ''
+  }
+  
+  agent { label 'Jenkins_Slave' }
+  
+  stages {
+    stage("Maven build") {
+      steps {
+        sh "cd ./backend && mvn clean install -DskipTests"
+      }
+    }
+
+    stage("Build backend image") {
+      steps {
+        script {
+          image = docker.build(imageName, "./backend")
+        }
+      }
+    }
+
+    stage("Push image to Dockerhub") {
+      steps {
+        script {
+          docker.withRegistry('', reg) {
+            image.push('$tag')
+          }
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      sh "yes | docker image prune"
+      cleanWs()
+    }
+  }
+}
