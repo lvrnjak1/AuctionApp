@@ -70,6 +70,8 @@ function Profile() {
                             required
                             type="text"
                             value={name}
+                            pattern="^[a-zA-Z]{2,30}$"
+                            title="First name should have between 2 and 30 letters"
                             onChange={e => handleInputChange(e, setName)} />
 
                         <label>Last name</label>
@@ -78,6 +80,8 @@ function Profile() {
                             required
                             type="text"
                             value={surname}
+                            pattern="^[a-zA-Z]{2,30}$"
+                            title="Last name should have between 2 and 30 letters"
                             onChange={e => handleInputChange(e, setSurname)} />
 
                         <label>I am</label>
@@ -149,6 +153,8 @@ function Profile() {
                                 type="text"
                                 placeholder="e.g. Adam Smith"
                                 value={cardInfo.nameOnCard}
+                                pattern="^[a-z]+(?: [a-z]+)+$"
+                                title="Name on card should have at least two words"
                                 onChange={e => setCardInfo({ ...cardInfo, nameOnCard: e.target.value })} />
                         </div>
                         <div className="input-label-group">
@@ -179,10 +185,20 @@ function Profile() {
                     </div>
                 </div>
             </div>
-            <div className="form optional-form">
+            {/* <div className="form optional-form">
                 <p className="form-title">Optional</p>
-                <div className="form-content"></div>
-            </div>
+                <div className="form-content">
+                    <p>Address</p>
+                    <label>Street</label>
+                    <input
+                        className="input"
+                        required
+                        type="text"
+                        placeholder="e.g. 1234"
+                        value={cardInfo.cvc}
+                        onChange={e => setCardInfo({ ...cardInfo, cvc: e.target.value })} />
+                </div>
+            </div> */}
             <button className="btn" type="submit">{"Save info"}</button>
         </form>
     );

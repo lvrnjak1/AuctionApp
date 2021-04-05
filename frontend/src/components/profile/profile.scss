@@ -95,7 +95,7 @@ form {
         background: $lightWhite;
         border: 1px solid $lightGray2;
         display: inline;
-        padding: 5px 0;
+        padding: 10px 5px;
       }
     }
   }
@@ -132,8 +132,7 @@ form {
 
       .input,
       .PhoneInputInput {
-        padding: 10px 0;
-        margin-bottom: 30px;
+        padding: 10px 5px;
       }
 
       .form-title {
