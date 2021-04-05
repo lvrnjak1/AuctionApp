@@ -45,17 +45,18 @@ function MyAccount() {
     const location = useLocation();
     const history = useHistory();
 
-    useEffect(() => {
-        if (location.state && location.state.index) setValue(location.state.index);
-    }, [location.state])
-
-
     const tabs = [
-        { label: "Profile", path: "/account/profile", icon: faUser, index: 0, content: <div>one</div> },
-        { label: "Seller", path: "/account/seller", icon: faThList, index: 1, content: <div>two</div> },
-        { label: "Bidds", path: "/account/bids", icon: faGavel, index: 2, content: <div>three</div> },
-        { label: "Settings", path: "/account/settings", icon: faCog, index: 3, content: <div>four</div> },
+        { label: "Profile", path: "/account/profile", icon: faUser, index: 0, content: "" },
+        { label: "Seller", path: "/account/seller", icon: faThList, index: 1, content: "" },
+        { label: "Bidds", path: "/account/bids", icon: faGavel, index: 2, content: "" },
+        { label: "Settings", path: "/account/settings", icon: faCog, index: 3, content: "" },
     ]
+
+    useEffect(() => {
+        const currentTab = tabs.find(tab => tab.path === location.pathname);
+        setValue(currentTab.index);
+    }, [location.pathname])
+
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -67,7 +68,7 @@ function MyAccount() {
             <Tabs className="tabs" indicatorColor="primary" value={value} onChange={handleChange}>
                 {tabs.map(tab => {
                     return <Tab
-                        kay={tab.index}
+                        key={tab.index}
                         className="tab"
                         label={tab.label}
                         icon={<FontAwesomeIcon className="tab-icon" icon={tab.icon} />}
@@ -79,7 +80,7 @@ function MyAccount() {
             </Tabs>
             <div className="content">
                 {tabs.map(tab => {
-                    return <TabPanel kay={tab.index} value={value} index={tab.index}>
+                    return <TabPanel key={tab.index} value={value} index={tab.index}>
                         {tab.content}
                     </TabPanel>
                 })}

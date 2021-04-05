@@ -49,7 +49,7 @@ function PriceFilter() {
                 }
 
                 dispatch(setSlider([newMin, newMax], response.data.min, response.data.max));
-            })
+            }, () => { })
         }
         if (filterChanged) {
             fetchChartData();
