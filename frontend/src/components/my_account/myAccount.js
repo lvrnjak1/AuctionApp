@@ -46,8 +46,7 @@ function MyAccount() {
     const history = useHistory();
 
     useEffect(() => {
-        console.log(location);
-        // if (location.state.index) setValue(location.state.index);
+        if (location.state && location.state.index) setValue(location.state.index);
     }, [location.state])
 
 
