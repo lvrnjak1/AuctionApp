@@ -18,9 +18,29 @@ form {
     float: right;
   }
 
+  .input {
+    display: block;
+    width: 100%;
+    padding: 10px 5px;
+    background: $lightWhite;
+    border: 1px solid $lightGray2;
+    margin-bottom: 10px;
+  }
+
+  .select {
+    width: 30%;
+  }
+
+  .small-select {
+    display: inline;
+    width: 30%;
+    margin-right: 20px;
+  }
+
   .form {
     background: $white;
     border: 1px solid $lightGray2;
+    margin-bottom: 30px;
   }
 
   .form-title {
@@ -45,6 +65,12 @@ form {
     margin-bottom: 20px;
   }
 
+  label {
+    display: block;
+    letter-spacing: 0.63px;
+    margin-bottom: 2px;
+  }
+
   .profile-form {
     width: 100%;
 
@@ -62,21 +88,6 @@ form {
       }
     }
 
-    label {
-      display: block;
-      letter-spacing: 0.63px;
-      margin-bottom: 2px;
-    }
-
-    .input {
-      display: block;
-      width: 100%;
-      padding: 5px 0;
-      background: $lightWhite;
-      border: 1px solid $lightGray2;
-      margin-bottom: 10px;
-    }
-
     .phone-input {
       margin-bottom: 10px;
       width: 100%;
@@ -86,6 +97,29 @@ form {
         display: inline;
         padding: 5px 0;
       }
+    }
+  }
+
+  .card-info-form {
+    .credit-card-logo {
+      width: 50px;
+      height: 30px;
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+
+    .credit-cards {
+      font-size: 16px;
+      color: $gray;
+      margin-left: 30px;
+      p {
+        margin: 0 0 10px 0;
+      }
+    }
+
+    .form-content {
+      width: max-content;
+      margin: auto;
     }
   }
 
@@ -105,6 +139,36 @@ form {
       .form-title {
         padding-top: 10px;
         padding-bottom: 10px;
+      }
+
+      .select {
+        width: 30%;
+      }
+
+      .small-select {
+        width: 15%;
+        margin-right: 15px;
+      }
+
+      .flex-form-group {
+        display: flex;
+        width: 500px;
+        .input {
+          padding: 10px;
+          max-width: inherit;
+        }
+
+        .input-label-group {
+          width: 50%;
+        }
+
+        .pickers {
+          width: 50%;
+        }
+        .small-select {
+          max-width: initial;
+          width: calc(50% - 20px);
+        }
       }
     }
     .profile-form {
