@@ -6,18 +6,21 @@ function Seller(props) {
     const [productName, setProductName] = useState("");
     const [category, setCategory] = useState("");
     const [subcategory, setSubcategory] = useState("");
+    const [productDescription, setProductDescription] = useState("");
     return (
         <form className="seller">
             <div className="form not-seller">
                 <p className="form-title">SELL</p>
                 <div className="form-content">
-                    <img className="shopping-bag-icon" src={process.env.PUBLIC_URL + '/images/shopping-bag.png'} alt="shopping bag logo" />
-                    <p>You do not have any items scheduled for sale</p>
+                    <div>
+                        <img className="shopping-bag-icon" src={process.env.PUBLIC_URL + '/images/shopping-bag.png'} alt="shopping bag logo" />
+                        <p>You do not have any items scheduled for sale</p>
+                    </div>
                     <button className="btn center-btn" type="submit">{"Start selling >"}</button>
                 </div>
             </div>
             <div className="form">
-                <p className="form-title">DETAILED INFORMATION ABOUT PRODUCT</p>
+                <p className="form-title">INFORMATION ABOUT PRODUCT</p>
                 <div className="form-content">
                     <div className="input-label-group">
                         <label>What do you sell?</label>
@@ -43,6 +46,15 @@ function Seller(props) {
                                 <option value="F">Female</option>
                             </select>
                         </div>
+                    </div>
+                    <div className="input-label-group">
+                        <label>Description</label>
+                        <textarea
+                            maxLength="700"
+                            className="textarea"
+                            value={productDescription}
+                            onChange={e => setProductDescription(e.target.value)} />
+                        <p className="textarea-info">100 words (700 characters)</p>
                     </div>
                 </div>
             </div>
