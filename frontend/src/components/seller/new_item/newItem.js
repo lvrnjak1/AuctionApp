@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Step, StepLabel, Stepper } from '@material-ui/core';
 import StepOne from './step1';
 import "components/seller/new_item/newItem.scss";
+import StepTwo from './step2';
 
 function getSteps() {
-    return [<StepOne />, <div />, <div />]
+    return [<StepOne />, <StepTwo />]
 }
 
 function NewItem(props) {
@@ -28,17 +29,17 @@ function NewItem(props) {
     return (
         <div>
             <Stepper activeStep={activeStep} >
-                {steps.map(step => {
-                    return <Step><StepLabel></StepLabel></Step>
+                {steps.map((step, index) => {
+                    return <Step key={index}><StepLabel></StepLabel></Step>
                 })}
             </Stepper>
-            <div className="form">
+            <form className="form">
                 {steps[activeStep]}
-                <button className="btn" onClick={handleNext}>
+                <button type="submit" className="btn" onClick={handleNext}>
                     {activeStep < steps.length - 1 ? "Next" : "Submit"}
                 </button>
-                <button className="btn btn-back" onClick={handleBack} disabled={activeStep === 0}>Back</button>
-            </div>
+                <button type="submit" className="btn btn-back" onClick={handleBack} disabled={activeStep === 0}>Back</button>
+            </form>
         </div>
     );
 }

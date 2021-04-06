@@ -1,5 +1,50 @@
+@import "util/style/constants.scss";
+
 .form {
   .btn-back {
     float: left;
+  }
+
+  .dates-info {
+    font-size: 16px;
+    color: $gray;
+    letter-spacing: 0.56px;
+    line-height: 30px;
+    width: 80%;
+    margin: 0;
+  }
+
+  .step-two {
+    .flex-form-group {
+      .input-label-group {
+        display: block;
+      }
+
+      .input-label-group:last-child {
+        position: relative;
+        margin-left: 5%;
+        input {
+          position: absolute;
+          right: 0;
+        }
+      }
+    }
+
+    .input-wrapper {
+      display: flex;
+      width: 100%;
+      align-items: flex-end;
+      justify-content: center;
+      margin-bottom: 10px;
+      .input-decor {
+        width: 10%;
+        background: $lightGray;
+        text-align: center;
+        border-right: 0;
+      }
+      input {
+        margin: 0;
+      }
+    }
   }
 }
