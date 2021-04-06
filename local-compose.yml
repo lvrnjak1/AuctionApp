@@ -1,0 +1,50 @@
+version: '2'
+
+services:
+  db:
+    image: 'postgres:latest'
+    container_name: psql-ms
+    ports:
+      - "5432:5432"
+    networks:
+        - auctions
+    environment:
+      - POSTGRES_USER=demo
+      - POSTGRES_PASSWORD=demo
+
+  backend:
+    image: 'backend:latest'
+    container_name: backend-c
+    build:
+      context: ./backend
+    ports:
+      - "8901:8080"
+    networks:
+      - auctions
+    environment:
+      - JDBC_DATABASE_URL=jdbc:postgresql://psql-ms:5432/demo
+      - JDBC_DATABASE_USERNAME=demo
+      - JDBC_DATABASE_PASSWORD=demo
+      - MAIL_API_KEY=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
+      - SENDER=abh.auctionapp@gmail.com
+      - RESET_URL=http://ec2-52-59-214-233.eu-central-1.compute.amazonaws.com:8901/password/reset
+      - JWT_SECRET=hu\St}{k]:}:R2*V9ax7
+
+  react:
+    image: 'react:latest'
+    container_name: react-c
+    build:
+      context: ./frontend
+    ports:
+      - "9000:3000"
+    networks:
+      - auctions
+    environment:
+      - REACT_APP_API_URL=http://ec2-52-59-214-233.eu-central-1.compute.amazonaws.com:8901
+      - PORT=3000
+
+     
+networks:
+    auctions:
+        driver: bridge
+
