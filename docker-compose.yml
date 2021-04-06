@@ -13,10 +13,8 @@ services:
       - POSTGRES_PASSWORD=demo
 
   backend:
-    image: 'backend:latest'
+    image: 'usr998/auction:backend'
     container_name: backend-c
-    build:
-      context: ./backend
     ports:
       - "8901:8080"
     networks:
@@ -31,10 +29,8 @@ services:
       - JWT_SECRET=hu\St}{k]:}:R2*V9ax7
 
   react:
-    image: 'react:latest'
+    image: 'usr998/auction:frontend'
     container_name: react-c
-    build:
-      context: ./frontend
     ports:
       - "9000:3000"
     networks:
@@ -43,8 +39,9 @@ services:
       - REACT_APP_API_URL=http://ec2-52-59-214-233.eu-central-1.compute.amazonaws.com:8901
       - PORT=3000
 
-     
+
 networks:
     auctions:
         driver: bridge
+
 
