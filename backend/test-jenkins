@@ -34,6 +34,7 @@ pipeline {
         sh "cd ./backend && mvn test"
       }
     }
+  }
 
   post {
     always {
@@ -42,7 +43,7 @@ pipeline {
     }
   }
 }
-}
+
 
 
 
