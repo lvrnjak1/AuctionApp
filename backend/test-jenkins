@@ -36,7 +36,7 @@ pipeline {
 
   post {
     always {
-	  sh "docker stop psql-ms-test || true"
+      sh "docker stop psql-ms-test || true"
       cleanWs()
     }
   }
