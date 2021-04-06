@@ -1,0 +1,30 @@
+pipeline {
+  agent any
+  
+  stages {
+    stage("Prepare Postgres container") {
+      steps {
+        sh "docker run --rm --name psql-ms-test -e POSTGRES_USER=demo -e POSTGRES_PASSWORD=demo -dp 5432:5432 postgres"
+      }
+    }
+
+    stage("Run tests") {
+      steps {
+        sh "cd ./backend && mvn test"
+      }
+    }
+
+    stage("Remove Postgres container") {
+      steps {
+        sh "docker stop psql-ms-test"
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      cleanWs()
+    }
+  }
+}
