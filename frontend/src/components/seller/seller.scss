@@ -1,0 +1,61 @@
+@import "util/style/constants.scss";
+
+.seller {
+  .form-title {
+    text-align: center;
+  }
+
+  .form-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    .input-label-group {
+      width: 80%;
+      label {
+        margin-bottom: 10px;
+      }
+      input {
+        width: 100%;
+        display: inline-block;
+        box-sizing: border-box;
+      }
+    }
+
+    .flex-form-group {
+      width: 80%;
+      justify-content: space-evenly;
+      .input-label-group:last-child {
+        display: flex;
+        justify-content: flex-end;
+      }
+      select {
+        box-sizing: border-box;
+        width: 95%;
+      }
+    }
+  }
+
+  .not-seller {
+    .form-content {
+      .shopping-bag-icon {
+        width: 20%;
+        margin-top: 20px;
+      }
+
+      .btn {
+        text-transform: uppercase;
+        float: none;
+      }
+    }
+  }
+  @media screen and(min-width: $medium) {
+    width: 70%;
+    margin: auto;
+  }
+  @media screen and(min-width: $large) {
+    width: 50%;
+    margin: auto;
+  }
+}

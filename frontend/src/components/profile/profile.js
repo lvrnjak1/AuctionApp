@@ -54,7 +54,7 @@ function Profile() {
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className="form profile-form ">
+            <div className="form profile-form">
                 <p className="form-title">General</p>
                 <div className="form-content">
                     <div className="profile-photo">

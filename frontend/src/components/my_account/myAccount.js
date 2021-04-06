@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { makeStyles } from '@material-ui/styles';
 import { useHistory, useLocation } from 'react-router-dom';
 import Profile from 'components/profile/profile';
+import Seller from 'components/seller/seller';
 
 const useStyles = makeStyles({
     iconLabelWrapper: {
@@ -48,7 +49,7 @@ function MyAccount() {
 
     const tabs = [
         { label: "Profile", path: "/account/profile", icon: faUser, index: 0, content: <Profile /> },
-        { label: "Seller", path: "/account/seller", icon: faThList, index: 1, content: "" },
+        { label: "Seller", path: "/account/seller", icon: faThList, index: 1, content: <Seller /> },
         { label: "Bidds", path: "/account/bids", icon: faGavel, index: 2, content: "" },
         { label: "Settings", path: "/account/settings", icon: faCog, index: 3, content: "" },
     ]
