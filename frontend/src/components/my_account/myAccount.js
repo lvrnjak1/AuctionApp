@@ -8,6 +8,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import Profile from 'components/profile/profile';
 import Seller from 'components/seller/seller';
 import Settings from 'components/settings/settings';
+import { getToken } from 'util/auth/auth';
 
 const useStyles = makeStyles({
     iconLabelWrapper: {
@@ -47,6 +48,12 @@ function MyAccount() {
     const classes = useStyles();
     const location = useLocation();
     const history = useHistory();
+
+    useEffect(() => {
+        if (!getToken()) {
+            history.push("/404");
+        }
+    }, []);
 
     const tabs = [
         { label: "Profile", path: "/account/profile", icon: faUser, index: 0, content: <Profile /> },

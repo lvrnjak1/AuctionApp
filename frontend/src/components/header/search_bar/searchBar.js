@@ -10,6 +10,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { setName } from 'state/actions/filterParamsActions';
 import { resetSearch, setSearch } from 'state/actions/searchActions';
 import Dropdown from 'components/dropdown/dropdown';
+import { getToken } from 'util/auth/auth';
 
 const useStyles = makeStyles(theme => ({
     loader: {
@@ -68,7 +69,7 @@ function SearchBar() {
                         </NavLink>
                     </li>
                     <li>
-                        <div
+                        {getToken() && <div
                             className="dropdown-container"
                             onMouseOver={() => setOpenDropdown(true)}
                         >
@@ -79,7 +80,7 @@ function SearchBar() {
                                 MY ACCOUNT
                             </NavLink>
                             {openDropdown && <Dropdown onLeave={() => setOpenDropdown(false)} />}
-                        </div>
+                        </div>}
                     </li>
                 </ul>
             </div>
