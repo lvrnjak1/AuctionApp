@@ -17,6 +17,12 @@ form {
     padding: 0.5em 2em;
     margin-top: 10px;
     float: right;
+    &:focus {
+      outline: transparent;
+    }
+    &:disabled {
+      border-color: $gray;
+    }
   }
 
   .input {
