@@ -18,7 +18,7 @@ services:
     build:
       context: ./backend
     ports:
-      - "8080:8080"
+      - "8901:8080"
     networks:
       - auctions
     environment:
@@ -27,7 +27,7 @@ services:
       - JDBC_DATABASE_PASSWORD=demo
       - MAIL_API_KEY=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
       - SENDER=abh.auctionapp@gmail.com
-      - RESET_URL=http://ec2-52-59-214-233.eu-central-1.compute.amazonaws.com:8080/password/reset
+      - RESET_URL=http://ec2-52-59-214-233.eu-central-1.compute.amazonaws.com:8901/password/reset
       - JWT_SECRET=hu\St}{k]:}:R2*V9ax7
 
   react:
@@ -40,7 +40,7 @@ services:
     networks:
       - auctions
     environment:
-      - REACT_APP_API_URL=http://ec2-52-59-214-233.eu-central-1.compute.amazonaws.com:8080
+      - REACT_APP_API_URL=http://ec2-52-59-214-233.eu-central-1.compute.amazonaws.com:8901
       - PORT=3000
 
      

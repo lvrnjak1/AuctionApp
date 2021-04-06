@@ -1,6 +1,6 @@
 pipeline {
 
-  agent { label 'Jenkins_Slave' }
+  agent any
 
   stages {
     stage("Terminate old containers") {
@@ -8,12 +8,18 @@ pipeline {
         sh 'docker-compose down || true'
       }
     }
-    
-    
-    stage("Prepare frontend and build backend") {
+
+    stage("Test application") {
       steps {
-        build job: 'frontend'
-        build job: 'backend'
+        build job: 'auction-test'
+      }
+    }
+
+
+    stage("Build frontend and backend") {
+      steps {
+        build job: 'auction-frontend'
+        build job: 'auction-backend'
       }
     }
 
@@ -22,8 +28,6 @@ pipeline {
         sh 'docker-compose up -d'
       }
     }
-    # Run smoke tests after deployment stage
-    # build job: 'smoke'
   }
 
   post {
