@@ -1,7 +1,27 @@
 pipeline {
   agent any
   
+  environment {
+      - JDBC_DATABASE_URL="jdbc:postgresql://localhost:5432/demo"
+      - JDBC_DATABASE_USERNAME="demo"
+      - JDBC_DATABASE_PASSWORD="demo"
+      - MAIL_API_KEY="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"
+      - SENDER="abh.auctionapp@gmail.com"
+      - RESET_URL="http://ec2-52-59-214-233.eu-central-1.compute.amazonaws.com:8901/password/reset"
+      - JWT_SECRET="hu\St}{k]:}:R2*V9ax7"
+	  - REACT_APP_API_URL="http://ec2-52-59-214-233.eu-central-1.compute.amazonaws.com:8901"
+      - PORT=3000
+  }
+  
   stages {
+    stage("Setup environment variables") {
+      steps {
+        sh "export JDBC_DATABASE_PASSWORD=${JDBC_DATABASE_PASSWORD} && export JDBC_DATABASE_USERNAME=${JDBC_DATABASE_USERNAME}"
+		sh "export MAIL_API_KEY=${MAIL_API_KEY} && export SENDER=${SENDER} && export RESET_URL=${RESET_URL}"
+		sh "export JWT_SECRET=${JWT_SECRET} && export REACT_APP_API_URL=${REACT_APP_API_URL} && export PORT=${PORT}"
+      }
+    }
+	
     stage("Prepare Postgres container") {
       steps {
         sh "docker run --rm --name psql-ms-test -e POSTGRES_USER=demo -e POSTGRES_PASSWORD=demo -dp 5432:5432 postgres"
