@@ -6,7 +6,7 @@ pipeline {
     image = ''
   }
   
-  agent { label 'Jenkins_Slave' }
+  agent any
   
   stages {
     stage("Maven build") {

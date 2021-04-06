@@ -34,15 +34,9 @@ pipeline {
       }
     }
 
-    stage("Remove Postgres container") {
-      steps {
-        sh "docker stop psql-ms-test"
-        }
-      }
-    }
-
   post {
     always {
+	  sh "docker stop psql-ms-test || true"
       cleanWs()
     }
   }
