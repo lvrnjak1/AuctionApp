@@ -1,5 +1,6 @@
 package ba.abh.AuctionApp.domain;
 
+import ba.abh.AuctionApp.domain.enums.Gender;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -7,11 +8,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
@@ -33,6 +37,12 @@ public class User extends BaseEntity implements UserDetails {
 
     @JsonIgnore
     private String password;
+
+    @Enumerated(value = EnumType.STRING)
+    private Gender gender;
+
+    private Instant dateOfBirth;
+    private String phoneNumber;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
@@ -99,6 +109,30 @@ public class User extends BaseEntity implements UserDetails {
         roles.add(role);
     }
 
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(final Gender gender) {
+        this.gender = gender;
+    }
+
+    public Instant getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(final Instant dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(final String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
@@ -109,12 +143,15 @@ public class User extends BaseEntity implements UserDetails {
                 Objects.equals(surname, user.surname) &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(password, user.password) &&
+                gender == user.gender &&
+                Objects.equals(dateOfBirth, user.dateOfBirth) &&
+                Objects.equals(phoneNumber, user.phoneNumber) &&
                 Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, surname, email, password, roles);
+        return Objects.hash(super.hashCode(), name, surname, email, password, gender, dateOfBirth, phoneNumber, roles);
     }
 
     @JsonIgnore
