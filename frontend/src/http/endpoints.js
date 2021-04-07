@@ -8,3 +8,4 @@ export const FORGOT_ENDPOINT = `${process.env.REACT_APP_API_URL}/password/forgot
 export const RESET_PW_ENDPOINT = `${process.env.REACT_APP_API_URL}/password/reset`;
 export const CHECK_OTP_TOKEN_ENDPOINT = `${process.env.REACT_APP_API_URL}/password/reset/checkToken`;
 export const PRICE_CHART_ENDPOINT = `${process.env.REACT_APP_API_URL}/auctions/price-chart`;
+export const USER_PROFILE_ENDPOINT = `${process.env.REACT_APP_API_URL}/users/profile`;

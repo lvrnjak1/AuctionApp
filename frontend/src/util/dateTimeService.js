@@ -26,7 +26,22 @@ const formatDate = (date) => {
     return date.toLocaleDateString(undefined, options);
 }
 
+const dateToYMD = (date) => {
+    var d = date.getDate();
+    var m = date.getMonth() + 1;
+    var y = date.getFullYear();
+    return '' + y + '-' + (m <= 9 ? '0' + m : m) + '-' + (d <= 9 ? '0' + d : d);
+}
+
+function getMaxBirthdate() {
+    let date = new Date();
+    date.setFullYear(date.getFullYear() - 18);
+    return dateToYMD(date);
+}
+
 export {
     getDifferenceBetweenDates,
-    formatDate
+    formatDate,
+    dateToYMD,
+    getMaxBirthdate
 }
