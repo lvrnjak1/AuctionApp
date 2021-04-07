@@ -2,15 +2,24 @@ package ba.abh.AuctionApp.services;
 
 import ba.abh.AuctionApp.domain.Token;
 import ba.abh.AuctionApp.domain.User;
+import ba.abh.AuctionApp.domain.enums.Gender;
 import ba.abh.AuctionApp.domain.enums.TokenType;
+import ba.abh.AuctionApp.exceptions.custom.EmailInUseException;
 import ba.abh.AuctionApp.exceptions.custom.EmailNotFoundException;
+import ba.abh.AuctionApp.exceptions.custom.InvalidDateException;
 import ba.abh.AuctionApp.exceptions.custom.ResourceNotFoundException;
 import ba.abh.AuctionApp.repositories.UserRepository;
 import ba.abh.AuctionApp.requests.ChangePasswordRequest;
+import ba.abh.AuctionApp.requests.UserPatchRequest;
+import ba.abh.AuctionApp.utility.JsonNullableUtils;
+import ba.abh.AuctionApp.utility.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 @Service
@@ -66,5 +75,48 @@ public class UserService {
         if (tokenService.isTokenExpired(t)) {
             throw new ResourceNotFoundException("Invalid token");
         }
+    }
+
+    public User patchUser(final User user, final UserPatchRequest patchRequest) {
+        if (patchRequest.getEmail().isPresent()) {
+            userRepository.findByEmail(patchRequest.getEmail().get()).ifPresent(u -> {
+                if (!u.getId().equals(user.getId())) {
+                    throw new EmailInUseException("This email is already associated with an account");
+                }
+            });
+            user.setEmail(patchRequest.getEmail().get());
+        }
+
+        if (patchRequest.getName().isPresent()) {
+            user.setName(StringUtils.capitalize(patchRequest.getName().get()));
+        }
+
+        if (patchRequest.getSurname().isPresent()) {
+            user.setSurname(StringUtils.capitalize(patchRequest.getSurname().get()));
+        }
+
+        JsonNullableUtils.changeIfPresent(patchRequest.getProfilePhotoUrl(), user::setProfilePhotoUrl);
+        JsonNullableUtils.changeIfPresent(patchRequest.getPhoneNumber(), user::setPhoneNumber);
+
+        if(patchRequest.getGender().isPresent()) {
+            if(patchRequest.getGender().get() == null){
+                user.setGender(null);
+            }else{
+                user.setGender(Gender.valueOf(patchRequest.getGender().get().toUpperCase()));
+            }
+        }
+
+        if (patchRequest.getDateOfBirth().isPresent()) {
+            Instant minimumAge = Instant.now(Clock.systemUTC()).minus(18, ChronoUnit.YEARS);
+            Instant dateOfBirth = Instant.ofEpochMilli(patchRequest.getDateOfBirth().get());
+            if(dateOfBirth.isBefore(minimumAge)){
+                user.setDateOfBirth(dateOfBirth);
+            }else{
+                throw new InvalidDateException("You must be at least 18 years old!");
+            }
+        }
+
+        userRepository.save(user);
+        return user;
     }
 }

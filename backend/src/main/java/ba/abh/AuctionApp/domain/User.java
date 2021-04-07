@@ -43,6 +43,7 @@ public class User extends BaseEntity implements UserDetails {
 
     private Instant dateOfBirth;
     private String phoneNumber;
+    private String profilePhotoUrl;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
@@ -133,6 +134,14 @@ public class User extends BaseEntity implements UserDetails {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getProfilePhotoUrl() {
+        return profilePhotoUrl;
+    }
+
+    public void setProfilePhotoUrl(final String profilePhotoUrl) {
+        this.profilePhotoUrl = profilePhotoUrl;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
@@ -146,12 +155,23 @@ public class User extends BaseEntity implements UserDetails {
                 gender == user.gender &&
                 Objects.equals(dateOfBirth, user.dateOfBirth) &&
                 Objects.equals(phoneNumber, user.phoneNumber) &&
+                Objects.equals(profilePhotoUrl, user.profilePhotoUrl) &&
                 Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, surname, email, password, gender, dateOfBirth, phoneNumber, roles);
+        return Objects.hash(super.hashCode(),
+                name,
+                surname,
+                email,
+                password,
+                gender,
+                dateOfBirth,
+                profilePhotoUrl,
+                phoneNumber,
+                roles
+        );
     }
 
     @JsonIgnore
