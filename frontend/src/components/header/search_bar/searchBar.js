@@ -69,7 +69,7 @@ function SearchBar() {
                         </NavLink>
                     </li>
                     <li>
-                        {getToken() && <div
+                        <div
                             className="dropdown-container"
                             onMouseOver={() => setOpenDropdown(true)}
                         >
@@ -80,7 +80,7 @@ function SearchBar() {
                                 MY ACCOUNT
                             </NavLink>
                             {openDropdown && <Dropdown onLeave={() => setOpenDropdown(false)} />}
-                        </div>}
+                        </div>
                     </li>
                 </ul>
             </div>

@@ -1,0 +1,87 @@
+@import "util/style/constants.scss";
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: auto;
+  margin-top: 10px;
+  border: 1px solid $lightGray2;
+  font-size: 14px;
+  color: $black;
+
+  .headers {
+    background-color: $lightGray;
+    letter-spacing: 0.63px;
+  }
+
+  .header,
+  .data-cell {
+    padding: 10px 5px;
+    font-weight: normal;
+    text-align: left;
+    width: fit-content;
+    max-width: 100px;
+    word-wrap: break-word;
+  }
+
+  .header {
+    padding: 10px 5px;
+  }
+
+  .image {
+    width: 40px;
+    height: 40px;
+    max-width: 100%;
+    max-height: 100%;
+    background-color: $gray;
+    margin: auto;
+  }
+
+  .bold-text {
+    font-weight: bold;
+  }
+
+  .blue-text {
+    color: $blue;
+  }
+
+  .p-reset {
+    margin: 0;
+  }
+
+  .center-align {
+    text-align: center;
+  }
+
+  .table-button {
+    background: $white;
+    border: 3px solid $offWhite;
+    box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.05);
+    padding: 0.25em 0.5em;
+    font-size: 12px;
+    display: block;
+    margin: auto;
+    color: $black;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  @media screen and (min-width: $medium) {
+    font-size: 16px;
+    .header,
+    .data-cell {
+      padding: 10px;
+      max-width: 70px;
+    }
+
+    .image {
+      width: 60px;
+      height: 60px;
+    }
+
+    .table-button {
+      padding: 0.5em 1.5em;
+      font-size: 14px;
+    }
+  }
+}

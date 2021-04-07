@@ -9,6 +9,7 @@ import Profile from 'components/profile/profile';
 import Seller from 'components/seller/seller';
 import Settings from 'components/settings/settings';
 import { getToken } from 'util/auth/auth';
+import Bids from 'components/bids/bids';
 
 const useStyles = makeStyles({
     iconLabelWrapper: {
@@ -49,16 +50,16 @@ function MyAccount() {
     const location = useLocation();
     const history = useHistory();
 
-    useEffect(() => {
-        if (!getToken()) {
-            history.push("/404");
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (!getToken()) {
+    //         history.push("/404");
+    //     }
+    // }, []);
 
     const tabs = [
         { label: "Profile", path: "/account/profile", icon: faUser, index: 0, content: <Profile /> },
         { label: "Seller", path: "/account/seller", icon: faThList, index: 1, content: <Seller /> },
-        { label: "Bidds", path: "/account/bids", icon: faGavel, index: 2, content: "" },
+        { label: "Bids", path: "/account/bids", icon: faGavel, index: 2, content: <Bids /> },
         { label: "Settings", path: "/account/settings", icon: faCog, index: 3, content: <Settings /> },
     ]
 
