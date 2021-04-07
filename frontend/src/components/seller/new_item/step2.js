@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import ImageUploader from "components/seller/image_uploader/imageUploader";
-
 
 function StepTwo(props) {
     const [startPrice, setStartPrice] = useState(0);

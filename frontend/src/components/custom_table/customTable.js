@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import "components/custom_table/customTable.scss";
 
 function CustomTable(props) {

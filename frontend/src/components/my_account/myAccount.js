@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import "components/my_account/myAccount.scss";
 import { Box, Tabs, Typography, Tab } from '@material-ui/core';
 import { faUser, faThList, faGavel, faCog } from "@fortawesome/free-solid-svg-icons"
@@ -56,17 +56,19 @@ function MyAccount() {
     //     }
     // }, []);
 
-    const tabs = [
-        { label: "Profile", path: "/account/profile", icon: faUser, index: 0, content: <Profile /> },
-        { label: "Seller", path: "/account/seller", icon: faThList, index: 1, content: <Seller /> },
-        { label: "Bids", path: "/account/bids", icon: faGavel, index: 2, content: <Bids /> },
-        { label: "Settings", path: "/account/settings", icon: faCog, index: 3, content: <Settings /> },
-    ]
+    const tabs = useMemo(() => {
+        return [
+            { label: "Profile", path: "/account/profile", icon: faUser, index: 0, content: <Profile /> },
+            { label: "Seller", path: "/account/seller", icon: faThList, index: 1, content: <Seller /> },
+            { label: "Bids", path: "/account/bids", icon: faGavel, index: 2, content: <Bids /> },
+            { label: "Settings", path: "/account/settings", icon: faCog, index: 3, content: <Settings /> },
+        ]
+    }, []);
 
     useEffect(() => {
         const currentTab = tabs.find(tab => tab.path === location.pathname);
         setValue(currentTab.index);
-    }, [location.pathname])
+    }, [location.pathname, tabs])
 
 
     const handleChange = (event, newValue) => {

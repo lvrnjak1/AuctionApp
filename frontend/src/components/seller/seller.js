@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import "components/profile/profile.scss";
 import "components/seller/seller.scss";
 import NewItem from './new_item/newItem';
