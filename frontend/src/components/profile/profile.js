@@ -6,8 +6,8 @@ import "components/profile/profile.scss";
 import { emailRegex } from 'util/emailValidator';
 import { FormControlLabel, Radio, RadioGroup } from '@material-ui/core';
 import ExpirationDatePicker from "components/profile/expirationDatePicker";
-import { getRequest, patchRequest } from 'http/requests';
-import { USER_PROFILE_ENDPOINT } from 'http/endpoints';
+import { getRequest, patchRequest, uploadFormData } from 'http/requests';
+import { UPLOAD_IMAGE_ENDPOINT, USER_PROFILE_ENDPOINT } from 'http/endpoints';
 import { getAuthorizationConfig } from 'util/auth/auth';
 import Image from 'cloudinary-react/lib/components/Image';
 import Transformation from 'cloudinary-react/lib/components/Transformation';
@@ -63,28 +63,28 @@ function Profile() {
 
     const buildPatchBody = () => {
         const body = {}
-        if (name != currentUserData.name) body["name"] = name;
-        if (surname != currentUserData.surname) body["surname"] = surname;
-        if (gender != currentUserData.gender) body["gender"] = gender != "" ? gender : null;
-        if (email != currentUserData.email) body["email"] = email;
-        if (dateOfBirth != currentUserData.dateOfBirth) body["dateOfBirth"] = dateOfBirth.getTime();
-        if (phoneNumber != currentUserData.phoneNumber) body["phoneNumber"] = phoneNumber;
-        if (photo != currentUserData.photo) body["photo"] = photo;
+        if (name !== currentUserData.name) body["name"] = name;
+        if (surname !== currentUserData.surname) body["surname"] = surname;
+        if (gender !== currentUserData.gender) body["gender"] = gender !== "" ? gender : null;
+        if (email !== currentUserData.email) body["email"] = email;
+        if (dateOfBirth !== currentUserData.dateOfBirth) body["dateOfBirth"] = dateOfBirth.getTime();
+        if (phoneNumber !== currentUserData.phoneNumber) body["phoneNumber"] = phoneNumber;
+        if (photo !== currentUserData.photo) body["profilePhotoUrl"] = photo;
         return body;
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(name);
-        console.log(surname);
-        console.log(email);
-        console.log(gender);
-        console.log(dateOfBirth);
-        console.log(phoneNumber);
-        console.log(cardInfo);
-        console.log(photo);
+        // console.log(name);
+        // console.log(surname);
+        // console.log(email);
+        // console.log(gender);
+        // console.log(dateOfBirth);
+        // console.log(phoneNumber);
+        // console.log(cardInfo);
+        // console.log(photo);
         const patchBody = buildPatchBody();
-        window.scrollTo(0, 0);
+        // window.scrollTo(0, 0);
         await patchRequest(USER_PROFILE_ENDPOINT, patchBody, {},
             (response) => setUserData(response.data),
             (error) => {
@@ -106,6 +106,18 @@ function Profile() {
         setCardInfo({ ...cardInfo, expirationDate: { ...cardInfo.expirationDate, year: year } });
     }
 
+    const handleImageUpload = async () => {
+        const { files } = document.querySelector('input[type="file"]')
+        const formData = new FormData();
+        formData.append('file', files[0]);
+        formData.append('upload_preset', 'upload_preset');
+        await uploadFormData(UPLOAD_IMAGE_ENDPOINT,
+            formData,
+            (response) => { setPhoto(response.data.secure_url) },
+            () => updateMessage("Something went wrong, try to upload your image again", "error")
+        )
+    }
+
     return (
         <form onSubmit={handleSubmit}>
             <div className="form profile-form">
@@ -113,13 +125,22 @@ function Profile() {
                 <div className="form-content">
                     <div className="profile-photo">
                         <div className="image">
-                            <Image className="img" cloudName="lvrnjak" publicId={getPublicId(photo)} >
-                                <Transformation height={280} width={200} crop="scale" quality="auto" flags="lossy" />
-                            </Image>
+                            {photo !== null && <Image className="img" cloudName="lvrnjak" publicId={getPublicId(photo)} >
+                                <Transformation height={280} width={200} crop="pad" quality="auto" flags="lossy" />
+                            </Image>}
                         </div>
-                        <button className="btn file-btn">
-                            Change photo
+                        <div className="file-button-group">
+                            {/* <input type="file" /> */}
+                            <button className="btn file-btn" onClick={handleImageUpload}>
+                                Change photo
                         </button>
+                            <button className="btn file-btn" onClick={() => setPhoto(currentUserData.profilePhotoUrl)}>
+                                Reset to previous
+                        </button>
+                            <button className="btn file-btn" onClick={() => setPhoto(null)}>
+                                Remove profile photo
+                        </button>
+                        </div>
                     </div>
                     <div className="account-details">
                         <label>First name<span className="req">*</span></label>

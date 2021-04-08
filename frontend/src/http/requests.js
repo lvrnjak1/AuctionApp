@@ -62,9 +62,19 @@ const sendMultipleGetRequests = async (requests) => {
     }
 }
 
+const uploadFormData = async (endpoint, data, successHandler, errorHandler) => {
+    try {
+        const response = await axios.post(endpoint, data, { headers: { "Content-Type": "multipart/form-data" } });
+        successHandler(response);
+    } catch (error) {
+        errorHandler(error);
+    }
+}
+
 export {
     postRequest,
     getRequest,
     sendMultipleGetRequests,
-    patchRequest
+    patchRequest,
+    uploadFormData
 }
