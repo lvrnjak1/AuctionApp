@@ -35,6 +35,8 @@ form {
   display: block;
   max-width: 200px;
   width: 100%;
+  text-align: center;
+  box-sizing: border-box;
   float: right;
   &:focus {
     outline: transparent;
@@ -80,6 +82,7 @@ form {
 
 .form-content {
   padding: 20px;
+  height: max-content;
 }
 
 .file-btn {
@@ -111,7 +114,9 @@ label {
     background: $lightGray3;
     overflow: hidden;
     border: 1px solid $lightGray2;
+    margin-bottom: 10px;
     .img {
+      width: 200px;
       max-width: 100%;
     }
   }
@@ -125,6 +130,15 @@ label {
       display: inline;
       padding: 10px 5px;
     }
+  }
+
+  .input-file {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
   }
 }
 
@@ -153,6 +167,10 @@ label {
 
 @media screen and (min-width: $medium) {
   .form {
+    .profile-photo {
+      display: initial;
+    }
+
     .input,
     .phone-input {
       width: 80%;
@@ -203,16 +221,6 @@ label {
       display: grid;
       grid-template-columns: max-content 1fr;
       gap: 30px;
-
-      .profile-photo {
-        grid-template-columns: 1fr;
-        .file-button-group {
-          grid-column: 1 / -1;
-          .btn {
-            float: none;
-          }
-        }
-      }
 
       .account-details {
         grid-column: 2 / 3;

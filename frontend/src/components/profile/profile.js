@@ -4,7 +4,7 @@ import 'react-phone-number-input/style.css'
 import "components/forms/forms.scss";
 import "components/profile/profile.scss";
 import { emailRegex } from 'util/emailValidator';
-import { FormControlLabel, Radio, RadioGroup } from '@material-ui/core';
+import { FormControlLabel, Input, Radio, RadioGroup } from '@material-ui/core';
 import ExpirationDatePicker from "components/profile/expirationDatePicker";
 import { getRequest, patchRequest, uploadFormData } from 'http/requests';
 import { UPLOAD_IMAGE_ENDPOINT, USER_PROFILE_ENDPOINT } from 'http/endpoints';
@@ -38,9 +38,9 @@ function Profile() {
         setName(userData.name);
         setSurname(userData.surname);
         setEmail(userData.email);
-        if (userData.profilePhotoUrl != null) setPhoto(userData.profilePhotoUrl);
-        if (userData.gender != null) setGender(userData.gender)
-        if (userData.dateOfBirth != null) setDateOfBirth(new Date(userData.dateOfBirth));
+        setPhoto(userData.profilePhotoUrl);
+        if (userData.gender !== null) setGender(userData.gender)
+        if (userData.dateOfBirth !== null) setDateOfBirth(new Date(userData.dateOfBirth));
         setPhoneNumber(userData.phoneNumber);
     }, []);
 
@@ -49,7 +49,7 @@ function Profile() {
             await getRequest(USER_PROFILE_ENDPOINT,
                 {},
                 (response) => { setUserData(response.data) },
-                (error) => { },
+                () => { updateMessage("Something went wrong, try reloading the page", 3000) },
                 getAuthorizationConfig()
             );
         }
@@ -75,16 +75,7 @@ function Profile() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // console.log(name);
-        // console.log(surname);
-        // console.log(email);
-        // console.log(gender);
-        // console.log(dateOfBirth);
-        // console.log(phoneNumber);
-        // console.log(cardInfo);
-        // console.log(photo);
         const patchBody = buildPatchBody();
-        // window.scrollTo(0, 0);
         await patchRequest(USER_PROFILE_ENDPOINT, patchBody, {},
             (response) => setUserData(response.data),
             (error) => {
@@ -125,21 +116,22 @@ function Profile() {
                 <div className="form-content">
                     <div className="profile-photo">
                         <div className="image">
-                            {photo !== null && <Image className="img" cloudName="lvrnjak" publicId={getPublicId(photo)} >
+                            {photo !== null ? <Image className="img" cloudName="lvrnjak" publicId={getPublicId(photo)} >
                                 <Transformation height={280} width={200} crop="pad" quality="auto" flags="lossy" />
-                            </Image>}
+                            </Image> : <img
+                                    src={process.env.PUBLIC_URL + '/images/image-placeholder.png'}
+                                    alt="profile"
+                                    className="img"
+                                />
+                            }
                         </div>
                         <div className="file-button-group">
-                            {/* <input type="file" /> */}
-                            <button className="btn file-btn" onClick={handleImageUpload}>
-                                Change photo
-                        </button>
-                            <button className="btn file-btn" onClick={() => setPhoto(currentUserData.profilePhotoUrl)}>
-                                Reset to previous
-                        </button>
-                            <button className="btn file-btn" onClick={() => setPhoto(null)}>
+                            <input type="file" name="file" id="file" className="input-file" onChange={handleImageUpload} />
+                            <label htmlFor="file" className="btn file-btn">Choose a photo</label>
+                            {photo != null && <button className="btn file-btn" onClick={() => setPhoto(null)}>
                                 Remove profile photo
-                        </button>
+                            </button>
+                            }
                         </div>
                     </div>
                     <div className="account-details">
@@ -264,7 +256,7 @@ function Profile() {
                 </div>
             </div>
             <button className="btn" type="submit">{"Save info"}</button>
-        </form>
+        </form >
     );
 }
 
