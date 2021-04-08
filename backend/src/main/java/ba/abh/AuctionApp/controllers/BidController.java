@@ -5,8 +5,12 @@ import ba.abh.AuctionApp.domain.Bid;
 import ba.abh.AuctionApp.domain.User;
 import ba.abh.AuctionApp.pagination.PageableEntity;
 import ba.abh.AuctionApp.pagination.PaginationDetails;
+import ba.abh.AuctionApp.repositories.bid.BidProjection;
 import ba.abh.AuctionApp.requests.BidRequest;
+import ba.abh.AuctionApp.responses.AuctionResponse;
+import ba.abh.AuctionApp.responses.BidMetadata;
 import ba.abh.AuctionApp.responses.BidResponse;
+import ba.abh.AuctionApp.responses.DetailedAuctionResponse;
 import ba.abh.AuctionApp.responses.PageableResponse;
 import ba.abh.AuctionApp.services.BidService;
 import ba.abh.AuctionApp.services.UserService;
@@ -54,12 +58,36 @@ public class BidController {
         return ResponseEntity.ok(buildPageableResponse(bidPage));
     }
 
+    @GetMapping("/bids/detailed")
+    public ResponseEntity<PageableResponse> getDetailedBidsForAuction(final Principal principal,
+                                                                      @Valid final RequestParams requestParams) {
+        Page<BidProjection> bids = bidService.getBidsForBidder(principal.getName(),
+                requestParams.getPage() - 1,
+                requestParams.getLimit()
+        );
+        return ResponseEntity.ok().body(buildDetailedBidsResponse(bids));
+    }
+
     private PageableResponse buildPageableResponse(final Page<Bid> page) {
         PaginationDetails details = new PaginationDetails(page);
         List<? extends PageableEntity> data = page
                 .getContent()
                 .stream()
                 .map(BidResponse::new)
+                .collect(Collectors.toList());
+        return new PageableResponse(details, (List<PageableEntity>) data);
+    }
+
+    private PageableResponse buildDetailedBidsResponse(final Page<BidProjection> bidsPage) {
+        PaginationDetails details = new PaginationDetails(bidsPage);
+        List<? extends PageableEntity> data = bidsPage
+                .getContent()
+                .stream()
+                .map(bidProjection -> {
+                    AuctionResponse auctionResponse = new AuctionResponse(bidProjection.getAuction());
+                    BidMetadata bidMetadata = new BidMetadata(bidProjection);
+                    return new DetailedAuctionResponse(auctionResponse, bidMetadata);
+                })
                 .collect(Collectors.toList());
         return new PageableResponse(details, (List<PageableEntity>) data);
     }

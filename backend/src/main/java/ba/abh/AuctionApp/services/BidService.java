@@ -7,7 +7,8 @@ import ba.abh.AuctionApp.exceptions.custom.InvalidBidException;
 import ba.abh.AuctionApp.exceptions.custom.InvalidDateException;
 import ba.abh.AuctionApp.exceptions.custom.LowBidException;
 import ba.abh.AuctionApp.exceptions.custom.SelfOutbidException;
-import ba.abh.AuctionApp.repositories.BidRepository;
+import ba.abh.AuctionApp.repositories.bid.BidProjection;
+import ba.abh.AuctionApp.repositories.bid.BidRepository;
 import ba.abh.AuctionApp.requests.BidRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,11 +24,14 @@ import java.util.Optional;
 public class BidService {
     private final BidRepository bidRepository;
     private final AuctionService auctionService;
+    private final UserService userService;
 
     public BidService(final BidRepository bidRepository,
-                      final AuctionService auctionService) {
+                      final AuctionService auctionService,
+                      final UserService userService) {
         this.bidRepository = bidRepository;
         this.auctionService = auctionService;
+        this.userService = userService;
     }
 
     public Bid saveBidForAuction(final Long auctionId, final User user, final BidRequest bidRequest) {
@@ -70,5 +74,11 @@ public class BidService {
         Auction auction = auctionService.getActiveByIdIfExists(auctionId);
         Pageable pageable = PageRequest.of(page, limit, Sort.by("amount").descending());
         return bidRepository.findAllByAuction(auction, pageable);
+    }
+
+    public Page<BidProjection> getBidsForBidder(final String email, final int page, final int limit) {
+        userService.getUserByEmail(email);
+        Pageable pageable = PageRequest.of(page, limit);
+        return bidRepository.getDetailedAuctionsByBidderEmail(email, pageable);
     }
 }
