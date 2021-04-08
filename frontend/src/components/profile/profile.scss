@@ -6,21 +6,6 @@ form {
   color: $black;
 }
 
-.form {
-  .profile-photo {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
-
-    .file-button-group {
-      .btn {
-        margin: auto;
-        margin-bottom: 10px;
-      }
-    }
-  }
-}
-
 .btn {
   cursor: pointer;
   background: $white;
@@ -43,6 +28,22 @@ form {
   }
   &:disabled {
     border-color: $gray;
+  }
+}
+
+.form {
+  .profile-photo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+
+    .file-button-group {
+      .btn {
+        margin: auto;
+        margin-bottom: 10px;
+        float: left;
+      }
+    }
   }
 }
 

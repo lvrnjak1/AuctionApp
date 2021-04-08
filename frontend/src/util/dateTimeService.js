@@ -21,6 +21,13 @@ const getDifferenceBetweenDates = (date1, date2) => {
     return { dif, unit };
 }
 
+const getTimeLeft = (endDateTime) => {
+    const now = new Date();
+    const end = new Date(endDateTime);
+    const { dif, unit } = getDifferenceBetweenDates(now, end);
+    return `${dif.toFixed(0)} ${unit}`;
+}
+
 const formatDate = (date) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return date.toLocaleDateString(undefined, options);
@@ -41,6 +48,7 @@ function getMaxBirthdate() {
 
 export {
     getDifferenceBetweenDates,
+    getTimeLeft,
     formatDate,
     dateToYMD,
     getMaxBirthdate
