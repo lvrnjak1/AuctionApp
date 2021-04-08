@@ -1,5 +1,6 @@
 package ba.abh.AuctionApp.services;
 
+import ba.abh.AuctionApp.domain.CardDetails;
 import ba.abh.AuctionApp.domain.Token;
 import ba.abh.AuctionApp.domain.User;
 import ba.abh.AuctionApp.domain.enums.Gender;
@@ -8,7 +9,9 @@ import ba.abh.AuctionApp.exceptions.custom.EmailInUseException;
 import ba.abh.AuctionApp.exceptions.custom.EmailNotFoundException;
 import ba.abh.AuctionApp.exceptions.custom.InvalidDateException;
 import ba.abh.AuctionApp.exceptions.custom.ResourceNotFoundException;
+import ba.abh.AuctionApp.repositories.CardDetailsRepository;
 import ba.abh.AuctionApp.repositories.UserRepository;
+import ba.abh.AuctionApp.requests.CardDetailsRequest;
 import ba.abh.AuctionApp.requests.ChangePasswordRequest;
 import ba.abh.AuctionApp.requests.UserPatchRequest;
 import ba.abh.AuctionApp.utility.JsonNullableUtils;
@@ -27,13 +30,16 @@ public class UserService {
     private final UserRepository userRepository;
     private final TokenService tokenService;
     private final PasswordEncoder passwordEncoder;
+    private final CardDetailsRepository cardDetailsRepository;
 
     public UserService(final UserRepository userRepository,
                        final TokenService tokenService,
-                       final PasswordEncoder passwordEncoder) {
+                       final PasswordEncoder passwordEncoder,
+                       final CardDetailsRepository cardDetailsRepository) {
         this.userRepository = userRepository;
         this.tokenService = tokenService;
         this.passwordEncoder = passwordEncoder;
+        this.cardDetailsRepository = cardDetailsRepository;
     }
 
     public User getUserByEmail(final String email) {
@@ -98,10 +104,10 @@ public class UserService {
         JsonNullableUtils.changeIfPresent(patchRequest.getProfilePhotoUrl(), user::setProfilePhotoUrl);
         JsonNullableUtils.changeIfPresent(patchRequest.getPhoneNumber(), user::setPhoneNumber);
 
-        if(patchRequest.getGender().isPresent()) {
-            if(patchRequest.getGender().get() == null){
+        if (patchRequest.getGender().isPresent()) {
+            if (patchRequest.getGender().get() == null) {
                 user.setGender(null);
-            }else{
+            } else {
                 user.setGender(Gender.valueOf(patchRequest.getGender().get().toUpperCase()));
             }
         }
@@ -109,14 +115,37 @@ public class UserService {
         if (patchRequest.getDateOfBirth().isPresent()) {
             Instant minimumAge = Instant.now(Clock.systemUTC()).minus(18 * 365, ChronoUnit.DAYS);
             Instant dateOfBirth = Instant.ofEpochMilli(patchRequest.getDateOfBirth().get());
-            if(dateOfBirth.isBefore(minimumAge)){
+            if (dateOfBirth.isBefore(minimumAge)) {
                 user.setDateOfBirth(dateOfBirth);
-            }else{
+            } else {
                 throw new InvalidDateException("You must be at least 18 years old!");
             }
         }
 
+        if (patchRequest.getCardDetails().isPresent()) {
+            patchCardDetails(user, patchRequest.getCardDetails().get());
+        }
+
         userRepository.save(user);
         return user;
+    }
+
+    private void patchCardDetails(final User user, final CardDetailsRequest cardDetailsRequest) {
+        if (user.getCardDetails() == null) {
+            CardDetails cardDetails = new CardDetails();
+            cardDetails.setNameOnCard(cardDetailsRequest.getNameOnCard());
+            cardDetails.setCardNumber(cardDetailsRequest.getCardNumber());
+            cardDetails.setExpirationMonth(cardDetailsRequest.getExpirationMonth());
+            cardDetails.setExpirationYear(cardDetailsRequest.getExpirationYear());
+            cardDetails.setCvc(cardDetailsRequest.getCvc());
+            cardDetailsRepository.save(cardDetails);
+            user.setCardDetails(cardDetails);
+        } else {
+            user.getCardDetails().setNameOnCard(cardDetailsRequest.getNameOnCard());
+            user.getCardDetails().setCardNumber(cardDetailsRequest.getCardNumber());
+            user.getCardDetails().setExpirationMonth(cardDetailsRequest.getExpirationMonth());
+            user.getCardDetails().setExpirationYear(cardDetailsRequest.getExpirationYear());
+            user.getCardDetails().setCvc(cardDetailsRequest.getCvc());
+        }
     }
 }

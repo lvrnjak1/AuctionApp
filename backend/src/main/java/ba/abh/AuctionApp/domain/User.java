@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,6 +15,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.Instant;
 import java.util.Collection;
@@ -51,6 +53,10 @@ public class User extends BaseEntity implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "card_details_id", referencedColumnName = "id")
+    private CardDetails cardDetails;
 
     public User() {
     }
@@ -142,6 +148,14 @@ public class User extends BaseEntity implements UserDetails {
         this.profilePhotoUrl = profilePhotoUrl;
     }
 
+    public CardDetails getCardDetails() {
+        return cardDetails;
+    }
+
+    public void setCardDetails(final CardDetails cardDetails) {
+        this.cardDetails = cardDetails;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
@@ -156,7 +170,8 @@ public class User extends BaseEntity implements UserDetails {
                 Objects.equals(dateOfBirth, user.dateOfBirth) &&
                 Objects.equals(phoneNumber, user.phoneNumber) &&
                 Objects.equals(profilePhotoUrl, user.profilePhotoUrl) &&
-                Objects.equals(roles, user.roles);
+                Objects.equals(roles, user.roles) &&
+                Objects.equals(cardDetails, user.cardDetails);
     }
 
     @Override
@@ -164,13 +179,7 @@ public class User extends BaseEntity implements UserDetails {
         return Objects.hash(super.hashCode(),
                 name,
                 surname,
-                email,
-                password,
-                gender,
-                dateOfBirth,
-                profilePhotoUrl,
-                phoneNumber,
-                roles
+                email
         );
     }
 

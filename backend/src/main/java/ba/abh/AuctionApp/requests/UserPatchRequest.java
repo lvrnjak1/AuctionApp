@@ -4,6 +4,7 @@ import ba.abh.AuctionApp.utility.email.ValidEmail;
 import ba.abh.AuctionApp.utility.url.ValidUrl;
 import org.openapitools.jackson.nullable.JsonNullable;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -30,6 +31,9 @@ public class UserPatchRequest {
 
     @ValidUrl
     private JsonNullable<String> profilePhotoUrl = JsonNullable.undefined();
+
+    @Valid
+    private JsonNullable<CardDetailsRequest> cardDetails = JsonNullable.undefined();
 
     public UserPatchRequest() {
     }
@@ -88,5 +92,13 @@ public class UserPatchRequest {
 
     public void setProfilePhotoUrl(final JsonNullable<String> profilePhotoUrl) {
         this.profilePhotoUrl = profilePhotoUrl;
+    }
+
+    public JsonNullable<CardDetailsRequest> getCardDetails() {
+        return cardDetails;
+    }
+
+    public void setCardDetails(final JsonNullable<CardDetailsRequest> cardDetails) {
+        this.cardDetails = cardDetails;
     }
 }
