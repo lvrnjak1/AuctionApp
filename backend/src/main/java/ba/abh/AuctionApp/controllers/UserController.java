@@ -5,6 +5,7 @@ import ba.abh.AuctionApp.requests.UserPatchRequest;
 import ba.abh.AuctionApp.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,12 +23,18 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PatchMapping
+    @PatchMapping("/profile")
     @Secured("ROLE_BUYER")
     public ResponseEntity<User> patchMyProfile(final Principal principal,
                                                @RequestBody @Valid UserPatchRequest patchRequest) {
         User user = userService.getUserByEmail(principal.getName());
         User patched = userService.patchUser(user, patchRequest);
         return ResponseEntity.ok(patched);
+    }
+
+    @GetMapping("/profile")
+    @Secured("ROLE_BUYER")
+    public ResponseEntity<User> getMyProfile(final Principal principal) {
+        return ResponseEntity.ok(userService.getUserByEmail(principal.getName()));
     }
 }

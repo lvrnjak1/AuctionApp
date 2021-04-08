@@ -107,7 +107,7 @@ public class UserService {
         }
 
         if (patchRequest.getDateOfBirth().isPresent()) {
-            Instant minimumAge = Instant.now(Clock.systemUTC()).minus(18, ChronoUnit.YEARS);
+            Instant minimumAge = Instant.now(Clock.systemUTC()).minus(18 * 365, ChronoUnit.DAYS);
             Instant dateOfBirth = Instant.ofEpochMilli(patchRequest.getDateOfBirth().get());
             if(dateOfBirth.isBefore(minimumAge)){
                 user.setDateOfBirth(dateOfBirth);
