@@ -189,24 +189,6 @@ function Profile() {
             <div className="form card-info-form">
                 <p className="form-title">Card information</p>
                 <div className="form-content">
-                    <RadioGroup>
-                        <FormControlLabel
-                            control={<Radio
-                                checked={cardInfo.payPal}
-                                onChange={handleCheckBoxChange}
-                                name="paypal" />
-                            }
-                            label="Pay Pal"
-                        />
-                        <FormControlLabel
-                            control={<Radio
-                                checked={!cardInfo.payPal}
-                                onChange={handleCheckBoxChange}
-                                name="creditcard" />
-                            }
-                            label="Credit card"
-                        />
-                    </RadioGroup>
                     <div className="credit-cards">
                         <p>We accept the following credit cards:</p>
                         <img src={process.env.PUBLIC_URL + '/images/visa.jpg'} alt="visa logo" className="credit-card-logo" />
