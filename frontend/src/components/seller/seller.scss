@@ -1,5 +1,9 @@
 @import "util/style/constants.scss";
 
+.tabs-container {
+  margin-top: 30px;
+}
+
 .seller {
   .form-title {
     text-align: center;
@@ -68,6 +72,7 @@
       }
     }
   }
+
   @media screen and(min-width: $medium) {
     width: 70%;
     margin: auto;

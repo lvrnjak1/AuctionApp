@@ -74,7 +74,7 @@ function SearchBar() {
                             onMouseOver={() => setOpenDropdown(true)}
                         >
                             <NavLink
-                                to="/account/profile"
+                                to="/profile"
                                 className="search-bar-link"
                                 activeStyle={{ color: "#8367D8", textDecoration: "none" }}>
                                 MY ACCOUNT

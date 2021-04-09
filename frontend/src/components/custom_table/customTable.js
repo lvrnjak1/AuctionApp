@@ -4,7 +4,7 @@ import "components/custom_table/customTable.scss";
 function CustomTable(props) {
 
     return (
-        <table className="table">
+        props.data.length > 0 ? <table className="table">
             <thead>
                 <tr className="headers">
                     {props.headings.map((th, index) => {
@@ -21,7 +21,7 @@ function CustomTable(props) {
                     </tr>
                 })}
             </tbody>
-        </table>
+        </table> : <p className="no-items">Nothing to show now!</p>
     );
 }
 

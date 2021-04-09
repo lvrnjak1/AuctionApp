@@ -1,52 +1,49 @@
 import React, { useEffect, useMemo } from 'react';
 import "components/my_account/myAccount.scss";
-import { Box, Tabs, Typography, Tab } from '@material-ui/core';
-import { faUser, faThList, faGavel, faCog } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { makeStyles } from '@material-ui/styles';
+import { faUser, faThList, faGavel, faCog } from "@fortawesome/free-solid-svg-icons";
 import { useHistory, useLocation } from 'react-router-dom';
 import Profile from 'components/profile/profile';
 import Seller from 'components/seller/seller';
 import Settings from 'components/settings/settings';
-import { getToken } from 'util/auth/auth';
 import Bids from 'components/bids/bids';
+import CustomTabs from 'components/tabs/tabs';
 
-const useStyles = makeStyles({
-    iconLabelWrapper: {
-        flexDirection: "row"
-    }
-});
+// const useStyles = makeStyles({
+//     iconLabelWrapper: {
+//         flexDirection: "row"
+//     }
+// });
 
-function TabPanel(props) {
-    const { children, value, index, ...other } = props;
+// function TabPanel(props) {
+//     const { children, value, index, ...other } = props;
 
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box p={3}>
-                    <Typography component="span">{children}</Typography>
-                </Box>
-            )}
-        </div>
-    );
-}
+//     return (
+//         <div
+//             role="tabpanel"
+//             hidden={value !== index}
+//             id={`simple-tabpanel-${index}`}
+//             aria-labelledby={`simple-tab-${index}`}
+//             {...other}
+//         >
+//             {value === index && (
+//                 <Box p={3}>
+//                     <Typography component="span">{children}</Typography>
+//                 </Box>
+//             )}
+//         </div>
+//     );
+// }
 
-function a11yProps(index) {
-    return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
-    };
-}
+// function a11yProps(index) {
+//     return {
+//         id: `simple-tab-${index}`,
+//         'aria-controls': `simple-tabpanel-${index}`,
+//     };
+// }
 
 function MyAccount() {
     const [value, setValue] = React.useState(0);
-    const classes = useStyles();
+    // const classes = useStyles();
     const location = useLocation();
     const history = useHistory();
 
@@ -78,7 +75,8 @@ function MyAccount() {
 
     return (
         <div className="account-page">
-            <Tabs className="tabs" indicatorColor="primary" value={value} onChange={handleChange}>
+            <CustomTabs tabs={tabs} value={value} handleChange={handleChange} withIcon={true} />
+            {/* <Tabs className="tabs" indicatorColor="primary" value={value} onChange={handleChange}>
                 {tabs.map(tab => {
                     return <Tab
                         key={tab.index}
@@ -97,7 +95,7 @@ function MyAccount() {
                         {tab.content}
                     </TabPanel>
                 })}
-            </div>
+            </div> */}
         </div>
     );
 }

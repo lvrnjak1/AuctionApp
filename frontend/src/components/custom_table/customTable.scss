@@ -1,10 +1,15 @@
 @import "util/style/constants.scss";
 
+.no-items {
+  font-size: 18px;
+  color: $gray;
+  text-align: center;
+}
+
 .table {
   border-collapse: collapse;
   width: 100%;
   margin: auto;
-  margin-top: 10px;
   border: 1px solid $lightGray2;
   font-size: 14px;
   color: $black;
@@ -33,7 +38,6 @@
     height: 70px;
     max-height: 100%;
     background-color: $gray;
-    margin: auto;
     display: block;
   }
 
@@ -90,6 +94,12 @@
     .table-button {
       padding: 0.5em 1.5em;
       font-size: 14px;
+    }
+  }
+
+  @media screen and (min-width: $large) {
+    .left-margin {
+      margin-left: 20px;
     }
   }
 }

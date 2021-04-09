@@ -4,7 +4,6 @@ import 'react-phone-number-input/style.css'
 import "components/forms/forms.scss";
 import "components/profile/profile.scss";
 import { emailRegex } from 'util/emailValidator';
-import { FormControlLabel, Input, Radio, RadioGroup } from '@material-ui/core';
 import ExpirationDatePicker from "components/profile/expirationDatePicker";
 import { getRequest, patchRequest, uploadFormData } from 'http/requests';
 import { UPLOAD_IMAGE_ENDPOINT, USER_PROFILE_ENDPOINT } from 'http/endpoints';
@@ -50,7 +49,7 @@ function Profile() {
             await getRequest(USER_PROFILE_ENDPOINT,
                 {},
                 (response) => { if (isSubscribed) setUserData(response.data) },
-                () => { if (isSubscribed) updateMessage("Something went wrong, try reloading the page", 3000) },
+                () => { if (isSubscribed) updateMessage("Something went wrong, try reloading the page", "error", 3000) },
                 getAuthorizationConfig()
             );
         }
@@ -86,10 +85,6 @@ function Profile() {
                 setUserData(currentUserData);
             },
             getAuthorizationConfig())
-    }
-
-    const handleCheckBoxChange = () => {
-        setCardInfo({ ...cardInfo, payPal: !cardInfo.payPal });
     }
 
     const handleMonthSelect = (month) => {

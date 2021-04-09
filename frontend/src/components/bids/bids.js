@@ -88,7 +88,7 @@ function Bids() {
         }
 
         getData();
-    }, [page, limit, setData])
+    }, [page, limit, handleResponse])
 
     return (
         data !== null && <CustomTable headings={headings} data={getTableRows()} pagination={pagination} />

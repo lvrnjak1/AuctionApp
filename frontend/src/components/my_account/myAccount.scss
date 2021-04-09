@@ -30,6 +30,11 @@
     padding: 0;
   }
 
+  .MuiTabs-root {
+    align-items: flex-end;
+    max-height: 45px;
+  }
+
   .MuiTabs-indicator {
     display: none;
   }
