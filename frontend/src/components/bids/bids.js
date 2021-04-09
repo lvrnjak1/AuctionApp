@@ -8,6 +8,7 @@ import { getTimeLeft } from 'util/dateTimeService';
 import { getPublicId } from 'util/images_util';
 import Image from 'cloudinary-react/lib/components/Image';
 import Transformation from 'cloudinary-react/lib/components/Transformation';
+import { useHistory } from 'react-router-dom';
 
 const dummyData = {
     headings: [
@@ -73,6 +74,7 @@ function Bids() {
     const [pagination, setPagination] = useState(null);
     const [data, setData] = useState(null);
     const headings = getHeadings();
+    const history = useHistory();
 
     const handleResponse = useCallback((responseData) => {
         setPagination(responseData.pagination);
@@ -97,6 +99,10 @@ function Bids() {
         </Image>
     }
 
+    const handleOnViewClick = (el) => {
+        history.push(`shop/item/${el.auction.id}`);
+    }
+
     const getTableRows = () => {
         let rows = [];
         data.forEach(el => {
@@ -110,7 +116,7 @@ function Bids() {
             <p className={`bold-text p-reset center-align ${isMyHighestBid(el) ? "green-text" : "blue-text"}`}>
                 {`$${el.bidMetadata.highestBid.toFixed(2)}`}
             </p>,
-            <button className="table-button">View</button>
+            <button className="table-button" onClick={() => handleOnViewClick(el)}>View</button>
             ]);
         });
 

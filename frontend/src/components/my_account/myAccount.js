@@ -58,10 +58,10 @@ function MyAccount() {
 
     const tabs = useMemo(() => {
         return [
-            { label: "Profile", path: "/account/profile", icon: faUser, index: 0, content: <Profile /> },
-            { label: "Seller", path: "/account/seller", icon: faThList, index: 1, content: <Seller /> },
-            { label: "Bids", path: "/account/bids", icon: faGavel, index: 2, content: <Bids /> },
-            { label: "Settings", path: "/account/settings", icon: faCog, index: 3, content: <Settings /> },
+            { label: "Profile", path: "/profile", icon: faUser, index: 0, content: <Profile /> },
+            { label: "Seller", path: "/seller", icon: faThList, index: 1, content: <Seller /> },
+            { label: "Bids", path: "/bids", icon: faGavel, index: 2, content: <Bids /> },
+            { label: "Settings", path: "/settings", icon: faCog, index: 3, content: <Settings /> },
         ]
     }, []);
 
