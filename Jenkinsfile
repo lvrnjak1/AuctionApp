@@ -1,6 +1,11 @@
 pipeline {
 
   agent any
+  
+    environment {
+    branch = "${BRANCH}"
+  }
+
 
   stages {
     stage("Terminate old containers") {
@@ -11,15 +16,15 @@ pipeline {
 
     stage("Test application") {
       steps {
-        build job: 'auction-test'
+        build job: 'auction-test', parameters: [string(name: 'BRANCH', value: branch)]
       }
     }
 
 
     stage("Build frontend and backend") {
       steps {
-        build job: 'auction-frontend'
-        build job: 'auction-backend'
+        build job: 'auction-frontend', parameters: [string(name: 'BRANCH', value: branch)]
+        build job: 'auction-backend', parameters: [string(name: 'BRANCH', value: branch)]
       }
     }
 
