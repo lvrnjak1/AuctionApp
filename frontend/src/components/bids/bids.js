@@ -9,6 +9,7 @@ import { getPublicId } from 'util/images_util';
 import Image from 'cloudinary-react/lib/components/Image';
 import Transformation from 'cloudinary-react/lib/components/Transformation';
 import { useHistory } from 'react-router-dom';
+import "components/bids/bids.scss";
 
 const getHeadings = () => {
     return [
@@ -91,7 +92,9 @@ function Bids() {
     }, [page, limit, handleResponse])
 
     return (
-        data !== null && <CustomTable headings={headings} data={getTableRows()} pagination={pagination} />
+        data !== null && <div className="custom-table-container" >
+            <CustomTable headings={headings} data={getTableRows()} pagination={pagination} />
+        </div>
     );
 }
 

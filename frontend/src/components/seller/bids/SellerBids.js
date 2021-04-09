@@ -6,7 +6,7 @@ import { updateMessage } from 'util/info_div_util';
 import { getAuthorizationConfig } from 'util/auth/auth';
 import CustomTable from 'components/custom_table/customTable';
 
-function Active({ setIsSeller, status, handleOnViewClick }) {
+function SellerBids({ setIsSeller, status, handleOnViewClick }) {
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(4);
     const [pagination, setPagination] = useState(null);
@@ -49,4 +49,4 @@ function Active({ setIsSeller, status, handleOnViewClick }) {
     );
 }
 
-export default Active;
+export default SellerBids;

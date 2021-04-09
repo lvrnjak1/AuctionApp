@@ -3,7 +3,7 @@ import "components/profile/profile.scss";
 import "components/seller/seller.scss";
 import { useHistory } from 'react-router-dom';
 import CustomTabs from 'components/tabs/tabs';
-import Active from './bids/active';
+import Active from './bids/SellerBids';
 
 function Seller(props) {
     const history = useHistory();
