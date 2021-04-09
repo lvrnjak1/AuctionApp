@@ -5,10 +5,10 @@ import { getRequest, postRequest } from 'http/requests';
 import { AUCTIONS_ENDPOINT } from 'http/endpoints';
 import { Image, Transformation } from 'cloudinary-react';
 import CustomTable from 'components/table/table';
-import { getAuthorizationConfig, getToken, logoutUser } from 'util/auth/auth';
+import { getAuthorizationConfig, getToken, getUser, logoutUser } from 'util/auth/auth';
 import { useDispatch } from 'react-redux';
 import { resetLoggedIn } from 'state/actions/loggedInActions';
-import { getDifferenceBetweenDates } from 'util/dateTimeService';
+import { formatDate, getDifferenceBetweenDates } from 'util/dateTimeService';
 import { updateMessage } from 'util/info_div_util';
 import { getPublicId } from 'util/images_util';
 
@@ -39,7 +39,12 @@ function ItemPage() {
             const endpoint = `${AUCTIONS_ENDPOINT}/${id}`;
             await getRequest(endpoint,
                 {},
-                (res) => setItem(res.data),
+                (res) => {
+                    if (isScheduled(res.data.startDateTime) && !isSeller(res.data.sellerId)) {
+                        history.push("/404")
+                    }
+                    setItem(res.data)
+                },
                 (err) => history.push("/404")
             );
 
@@ -119,6 +124,28 @@ function ItemPage() {
         }
     }
 
+    const isClosed = () => {
+        const now = new Date();
+        const end = new Date(item.endDateTime);
+        return end - now < 0;
+    }
+
+    const isScheduled = (date) => {
+        const now = new Date();
+        const start = new Date(date || item.startDateTime);
+        return now - start < 0;
+    }
+
+    const isSeller = (sellerId) => {
+        return getUser().id === (sellerId || item.sellerId);
+    }
+
+    const getInactiveMessage = () => {
+        if (isClosed()) return `Auction closed on ${formatDate(new Date(item.endDateTime))}.`;
+        if (isScheduled()) return `Auction starts on ${formatDate(new Date(item.startDateTime))}.`;
+        if (isSeller()) return `You are selling this item.`;
+    }
+
     return (
         item ? <div className="item-page">
             <div className="item">
@@ -147,29 +174,33 @@ function ItemPage() {
                     <p className="name">{item.product.name}</p>
                     <p className="price">{`Start from - $${item.startPrice.toFixed(2)}`}</p>
                     <div className="bid-info">
-                        <form onSubmit={handlePlaceBid}>
-                            <input
-                                className="bid-input"
-                                required
-                                type="number"
-                                step=".01"
-                                value={bid}
-                                min={0}
-                                max={1000000}
-                                onChange={(e) => handleInputChange(e)}
-                            />
-                            <button className="bid-button" type="submit">{`Place bid >`}</button>
-                        </form>
-                        <p className="input-label">
-                            {getLowestPossibleBidFormated()}
-                        </p>
-                        <ul className="bid-info-text">
+                        {!isClosed() && !isScheduled() && !isSeller() ? <>
+                            <form onSubmit={handlePlaceBid}>
+                                <input
+                                    className="bid-input"
+                                    required
+                                    type="number"
+                                    step=".01"
+                                    value={bid}
+                                    min={0}
+                                    max={1000000}
+                                    onChange={(e) => handleInputChange(e)}
+                                />
+                                <button className="bid-button" type="submit">{`Place bid >`}</button>
+                            </form>
+                            <p className="input-label">
+                                {getLowestPossibleBidFormated()}
+                            </p>
+                        </> : <p>{getInactiveMessage()}</p>
+                        }
+                        {!isScheduled() && <ul className="bid-info-text">
                             <li>{`Highest bid:`}
                                 <p className="highest-bid"> {`${bids.length > 0 ? `$${bids[0].amount.toFixed(2)}` : ""}`}</p>
                             </li>
                             <li>{`No bids: ${paginationMetaData ? paginationMetaData.available : "0"}`}</li>
-                            <li>{`Time left: ${getTimeLeft()}`}</li>
+                            {!isClosed() && <li>{`Time left: ${getTimeLeft()}`}</li>}
                         </ul>
+                        }
                     </div>
                     <div className="details">
                         <p className="details-title">Details</p>
