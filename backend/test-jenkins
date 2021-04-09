@@ -3,7 +3,7 @@ pipeline {
   agent any
 
   environment {
-      JDBC_DATABASE_URL = credentials('JDBC_DATABASE_URL')
+      JDBC_DATABASE_URL = credentials('DB_TEST')
       JDBC_DATABASE_USERNAME = credentials('JDBC_DATABASE_USERNAME')
       JDBC_DATABASE_PASSWORD = credentials('JDBC_DATABASE_PASSWORD')
       MAIL_API_KEY = credentials('MAIL_API_KEY')
@@ -25,7 +25,7 @@ pipeline {
 
     stage("Prepare Postgres container") {
       steps {
-        sh "docker run --rm --name psql-ms-test -e POSTGRES_USER=${JDBC_DATABASE_USERNAME} -e POSTGRES_PASSWORD=${JDBC_DATABASE_PASSWORD} -dp 5432:5432 postgres"
+        sh "docker run --rm --name psql-ms-test -e POSTGRES_USER=${JDBC_DATABASE_USERNAME} -e POSTGRES_PASSWORD=${JDBC_DATABASE_PASSWORD} -dp 5433:5432 postgres"
       }
     }
 
@@ -43,8 +43,4 @@ pipeline {
     }
   }
 }
-
-
-
-
 
