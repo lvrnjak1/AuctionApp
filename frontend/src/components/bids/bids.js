@@ -13,7 +13,7 @@ import "components/bids/bids.scss";
 
 const getHeadings = () => {
     return [
-        <p className="p-reset center-align">Item</p>,
+        <p className="p-reset left-margin">Item</p>,
         <p className="p-reset">Name</p>,
         <p className="p-reset">Time Left</p>,
         <p className="p-reset center-align">Your Price</p>,
@@ -45,11 +45,11 @@ function Bids() {
             return <img
                 src={process.env.PUBLIC_URL + '/images/image-placeholder.png'}
                 alt="product"
-                className="image"
+                className="image left-margin"
             />
         }
         const imageUrl = el.auction.product.images[0].imageUrl;
-        return <Image className="image" cloudName="lvrnjak" publicId={getPublicId(imageUrl)} >
+        return <Image className="image left-margin" cloudName="lvrnjak" publicId={getPublicId(imageUrl)} >
             <Transformation height={80} width={80} crop="fill" quality="auto" />
         </Image>
     }
@@ -61,9 +61,16 @@ function Bids() {
     const getTableRows = () => {
         let rows = [];
         data.forEach(el => {
+            const endDate = new Date(el.auction.endDateTime);
+            let time;
+            if (endDate - new Date() < 0) {
+                time = "Closed";
+            } else {
+                time = getTimeLeft(el.auction.endDateTime);
+            }
             rows.push([getImage(el),
             <p className="bold-text p-reset">{el.auction.product.name}</p>,
-            <p className="p-reset">{getTimeLeft(el.auction.endDateTime)}</p>,
+            <p className="p-reset">{time}</p>,
             <p className={`p-reset center-align ${isMyHighestBid(el) ? "green-text bold-text" : ""}`}>
                 {`$${el.bidMetadata.yourPrice.toFixed(2)}`}
             </p>,

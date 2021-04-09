@@ -16,7 +16,10 @@ function CustomTable(props) {
                 {props.data.map((row, index) => {
                     return <tr key={index} className="data-row">
                         {row.map((td, dIndex) => {
-                            return <td key={dIndex} className="data-cell">{td}</td>
+                            return <td key={dIndex}
+                                className={`data-cell ${dIndex === 1 || dIndex === 6 ? "large-cell" : ""}`}>
+                                {td}
+                            </td>
                         })}
                     </tr>
                 })}

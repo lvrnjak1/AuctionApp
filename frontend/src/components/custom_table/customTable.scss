@@ -24,9 +24,12 @@
     padding: 10px 5px;
     font-weight: normal;
     text-align: left;
-    width: fit-content;
-    max-width: 100px;
+    width: 10%;
     word-wrap: break-word;
+  }
+
+  .large-cell {
+    width: 20%;
   }
 
   .header {
