@@ -45,16 +45,19 @@ function Profile() {
     }, []);
 
     useEffect(() => {
+        let isSubscribed = true;
         async function getUserProfile() {
             await getRequest(USER_PROFILE_ENDPOINT,
                 {},
-                (response) => { setUserData(response.data) },
-                () => { updateMessage("Something went wrong, try reloading the page", 3000) },
+                (response) => { if (isSubscribed) setUserData(response.data) },
+                () => { if (isSubscribed) updateMessage("Something went wrong, try reloading the page", 3000) },
                 getAuthorizationConfig()
             );
         }
 
         getUserProfile();
+
+        return () => (isSubscribed = false)
     }, [setUserData])
 
     const handleInputChange = (e, setter) => {

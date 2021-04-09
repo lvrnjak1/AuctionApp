@@ -36,6 +36,7 @@ form {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
+    gap: 10px;
 
     .file-button-group {
       .btn {
@@ -166,7 +167,7 @@ label {
   }
 }
 
-@media screen and (min-width: $medium) {
+@media screen and (min-width: $large) {
   .form {
     .profile-photo {
       display: initial;
@@ -220,7 +221,7 @@ label {
   .profile-form {
     .form-content {
       display: grid;
-      grid-template-columns: max-content 1fr;
+      grid-template-columns: min-content 70%;
       gap: 30px;
 
       .account-details {

@@ -11,3 +11,4 @@ export const PRICE_CHART_ENDPOINT = `${process.env.REACT_APP_API_URL}/auctions/p
 export const USER_PROFILE_ENDPOINT = `${process.env.REACT_APP_API_URL}/users/profile`;
 export const UPLOAD_IMAGE_ENDPOINT = `https://api.Cloudinary.com/v1_1/lvrnjak/image/upload`;
 export const DETAILED_BIDS_ENDPOINT = `${process.env.REACT_APP_API_URL}/bids/detailed`;
+export const SELLER_BIDS_ENDPOINT = `${process.env.REACT_APP_API_URL}/seller/bids`;
