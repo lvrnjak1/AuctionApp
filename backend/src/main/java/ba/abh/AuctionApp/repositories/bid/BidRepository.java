@@ -39,7 +39,8 @@ public interface BidRepository extends JpaRepository<Bid, Long> {
             "where a = b2.auction and a = b1.auction and  a.seller.email = ?1 " +
             "and b1.amount = (select max(b3.amount) from Bid b3 where b3.auction = a and a.seller.email = ?1) " +
             "and a.startDateTime <= ?2 and a.endDateTime >= ?2 " +
-            "group by a, a.startPrice")
+            "group by a, a.startPrice " +
+            "order by a.endDateTime asc")
     Page<BidProjection> getActiveAuctionsBySellerEmail(final String email, final Instant today, final Pageable pageable);
 
     @Query(value = "select a as auction, count(b2.id) as numberOfBids, " +
@@ -48,15 +49,15 @@ public interface BidRepository extends JpaRepository<Bid, Long> {
             "where a = b2.auction and a = b1.auction and  a.seller.email = ?1 " +
             "and b1.amount = (select max(b3.amount) from Bid b3 where b3.auction = a and a.seller.email = ?1) " +
             "and a.endDateTime < ?2 " +
-            "group by a, a.startPrice")
+            "group by a, a.startPrice " +
+            "order by a.endDateTime desc")
     Page<BidProjection> getClosedAuctionsBySellerEmail(final String email, final Instant today, final Pageable pageable);
 
-    @Query(value = "select a as auction, count(b2.id) as numberOfBids, " +
-            "a.startPrice as yourPrice, max(b2.amount) as highestBid " +
-            "from Auction a, Bid  b1, Bid b2 " +
-            "where a = b2.auction and a = b1.auction and  a.seller.email = ?1 " +
-            "and b1.amount = (select max(b3.amount) from Bid b3 where b3.auction = a and a.seller.email = ?1) " +
-            "and a.startDateTime > ?2 " +
-            "group by a, a.startPrice")
+    @Query(value = "select a as auction, 0 as numberOfBids, " +
+            "a.startPrice as yourPrice, a.startPrice as highestBid " +
+            "from Auction a " +
+            "where a.seller.email = ?1 and a.startDateTime > ?2 " +
+            "group by a, a.startPrice " +
+            "order by a.startDateTime asc")
     Page<BidProjection> getScheduledAuctionsBySellerEmail(final String email, final Instant today, final Pageable pageable);
 }

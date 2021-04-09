@@ -75,7 +75,7 @@ public class BidService {
     }
 
     public Page<Bid> findBidsForAuction(final Long auctionId, final int page, final int limit) {
-        Auction auction = auctionService.getActiveByIdIfExists(auctionId);
+        Auction auction = auctionService.getAuctionById(auctionId);
         Pageable pageable = PageRequest.of(page, limit, Sort.by("amount").descending());
         return bidRepository.findAllByAuction(auction, pageable);
     }

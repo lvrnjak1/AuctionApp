@@ -74,7 +74,7 @@ public class AuctionController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AuctionResponse> getAuctionById(@PathVariable final Long id) {
-        Auction auction = auctionService.getActiveByIdIfExists(id);
+        Auction auction = auctionService.getAuctionById(id);
         return ResponseEntity.ok(new AuctionResponse(auction));
     }
 

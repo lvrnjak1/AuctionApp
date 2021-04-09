@@ -110,4 +110,9 @@ public class AuctionService {
         var dictionary = dictionaryRepository.getDictionaryEntries();
         return SuggestionService.suggest(search, dictionary);
     }
+
+    public Auction getAuctionById(final Long id) {
+        return auctionRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Auction with id %d doesn't exist", id)));
+    }
 }
