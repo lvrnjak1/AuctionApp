@@ -16,6 +16,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.time.Clock;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Optional;
@@ -24,14 +28,14 @@ import java.util.Optional;
 public class BidService {
     private final BidRepository bidRepository;
     private final AuctionService auctionService;
-    private final UserService userService;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public BidService(final BidRepository bidRepository,
-                      final AuctionService auctionService,
-                      final UserService userService) {
+                      final AuctionService auctionService) {
         this.bidRepository = bidRepository;
         this.auctionService = auctionService;
-        this.userService = userService;
     }
 
     public Bid saveBidForAuction(final Long auctionId, final User user, final BidRequest bidRequest) {
@@ -77,8 +81,29 @@ public class BidService {
     }
 
     public Page<BidProjection> getBidsForBidder(final String email, final int page, final int limit) {
-        userService.getUserByEmail(email);
         Pageable pageable = PageRequest.of(page, limit);
         return bidRepository.getDetailedAuctionsByBidderEmail(email, pageable);
+    }
+
+    public Page<BidProjection> getBidsForSeller(final String email, final String status, final int page, final int limit) {
+        Pageable pageable = PageRequest.of(page, limit);
+        Instant today = Instant.now(Clock.systemUTC());
+        Page<BidProjection> result;
+        switch (status) {
+            case "active":
+                result = bidRepository.getActiveAuctionsBySellerEmail(email, today, pageable);
+                break;
+            case "closed":
+                result = bidRepository.getClosedAuctionsBySellerEmail(email, today, pageable);
+                break;
+            case "scheduled":
+                result = bidRepository.getScheduledAuctionsBySellerEmail(email, today, pageable);
+                break;
+            default:
+                result = bidRepository.getAuctionsBySellerEmail(email, pageable);
+                break;
+        }
+
+        return result;
     }
 }
