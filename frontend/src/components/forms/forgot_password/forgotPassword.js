@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { postRequest } from "http/requests";
 import { FORGOT_ENDPOINT } from 'http/endpoints';
 import { updateMessage } from 'util/info_div_util';
-import { emailRegex } from 'util/emailValidator';
+import { emailRegex } from 'util/validators';
 
 function ForgotPassword() {
     const [email, setEmail] = useState("");

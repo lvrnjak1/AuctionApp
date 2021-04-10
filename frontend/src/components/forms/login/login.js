@@ -10,7 +10,7 @@ import { setLoggedIn } from 'state/actions/loggedInActions';
 import { loginUser } from 'util/auth/auth';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
 import { updateMessage } from 'util/info_div_util';
-import { emailRegex } from 'util/emailValidator';
+import { emailRegex } from 'util/validators';
 
 function Login() {
     const [email, setEmail] = useState("");

@@ -3,10 +3,10 @@ import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css'
 import "components/forms/forms.scss";
 import "components/profile/profile.scss";
-import { emailRegex } from 'util/emailValidator';
+import { emailRegex, creditCardRegex, cvcRegex } from 'util/validators';
 import ExpirationDatePicker from "components/profile/expirationDatePicker";
 import { getRequest, patchRequest, uploadFormData } from 'http/requests';
-import { UPLOAD_IMAGE_ENDPOINT, USER_PROFILE_ENDPOINT } from 'http/endpoints';
+import { UPLOAD_IMAGE_ENDPOINT, USER_PROFILE_ENDPOINT, USER_CARD_INFO_ENDPOINT } from 'http/endpoints';
 import { getAuthorizationConfig } from 'util/auth/auth';
 import Image from 'cloudinary-react/lib/components/Image';
 import Transformation from 'cloudinary-react/lib/components/Transformation';
@@ -25,12 +25,25 @@ function Profile() {
     const [currentUserData, setCurrentUserData] = useState();
 
     const [cardInfo, setCardInfo] = useState({
-        payPal: false,
         nameOnCard: "",
-        cardNubmer: "",
-        expirationDate: null,
+        cardNumber: "",
+        expirationMonth: "",
+        expirationYear: "",
         cvc: ""
     });
+
+    const isCardDetailsFilled = () => {
+        return Object.values(cardInfo).some(val => val !== "");
+    }
+
+    const isCardInfoChanged = () => {
+        if (currentUserData.cardDetails === null && isCardDetailsFilled()) return true;
+        else if (currentUserData.cardDetails !== null) {
+            return !Object.keys(cardInfo).every(key => {
+                return cardInfo[key].toString() === currentUserData.cardDetails[key].toString();
+            });
+        }
+    }
 
     const setUserData = useCallback((userData) => {
         setCurrentUserData(userData);
@@ -42,6 +55,16 @@ function Profile() {
         if (userData.dateOfBirth !== null) setDateOfBirth(new Date(userData.dateOfBirth));
         setPhoneNumber(userData.phoneNumber);
     }, []);
+
+    const setCardData = useCallback(({ nameOnCard, cardNumber, cvc, expirationMonth, expirationYear }) => {
+        setCardInfo({
+            nameOnCard,
+            cardNumber,
+            cvc: cvc.toString(),
+            expirationMonth: expirationMonth.toString(),
+            expirationYear: expirationYear.toString()
+        });
+    })
 
     useEffect(() => {
         let isSubscribed = true;
@@ -75,24 +98,53 @@ function Profile() {
         return body;
     }
 
+    const buildCardPatchBody = () => {
+        const { nameOnCard, cardNumber, cvc, expirationYear, expirationMonth } = cardInfo;
+        return {
+            nameOnCard,
+            cardNumber,
+            cvc: parseInt(cvc),
+            expirationMonth: parseInt(expirationMonth),
+            expirationYear: parseInt(expirationYear)
+        }
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         const patchBody = buildPatchBody();
         await patchRequest(USER_PROFILE_ENDPOINT, patchBody, {},
-            (response) => setUserData(response.data),
+            (response) => {
+                setUserData(response.data);
+                updateMessage("Profile information is sucessfully updated", "success");
+            },
             (error) => {
                 updateMessage(error.response.data.message, "error");
                 setUserData(currentUserData);
             },
-            getAuthorizationConfig())
+            getAuthorizationConfig());
+
+        const cardInfoChanged = isCardInfoChanged();
+        if (!cardInfoChanged) return;
+        const cardPatchBody = buildCardPatchBody();
+        await patchRequest(USER_CARD_INFO_ENDPOINT, cardPatchBody, {},
+            (response) => {
+                setCardData(response.data.cardDetails);
+                updateMessage("Profile information is sucessfully updated", "success");
+            },
+            (error) => {
+                updateMessage(error.response.data.message, "error");
+                setCardData(currentUserData.cardDetails);
+            },
+            getAuthorizationConfig());
     }
 
     const handleMonthSelect = (month) => {
-        setCardInfo({ ...cardInfo, expirationDate: { ...cardInfo.expirationDate, month: month } });
+        setCardInfo({ ...cardInfo, expirationMonth: month.toString() });
     }
 
     const handleYearSelect = (year) => {
-        setCardInfo({ ...cardInfo, expirationDate: { ...cardInfo.expirationDate, year: year } });
+        setCardInfo({ ...cardInfo, expirationYear: year.toString() });
     }
 
     const handleImageUpload = async () => {
@@ -199,37 +251,41 @@ function Profile() {
                             <label>Name On Card</label>
                             <input
                                 className="input"
-                                // required
+                                required={isCardDetailsFilled()}
                                 type="text"
                                 placeholder="e.g. Adam Smith"
                                 value={cardInfo.nameOnCard}
-                                pattern="^[a-z]+(?: [a-z]+)+$"
-                                title="Name on card should have at least two words"
+                                pattern="([a-zA-Z]+\s?\b){2,}"
                                 onChange={e => setCardInfo({ ...cardInfo, nameOnCard: e.target.value })} />
                         </div>
                         <div className="input-label-group">
                             <label>Card Number</label>
                             <input
                                 className="input"
-                                // required
+                                required={isCardDetailsFilled()}
                                 type="text"
                                 placeholder="e.g. 4242 4242 4242 4242"
-                                value={cardInfo.cardNubmer}
-                                onChange={e => setCardInfo({ ...cardInfo, cardNubmer: e.target.value })} />
+                                value={cardInfo.cardNumber}
+                                pattern={creditCardRegex}
+                                onChange={e => setCardInfo({ ...cardInfo, cardNumber: e.target.value })} />
                         </div>
                     </div>
                     <div className="flex-form-group">
                         <ExpirationDatePicker
+                            required={isCardDetailsFilled()}
+                            month={cardInfo.expirationMonth}
+                            year={cardInfo.expirationYear}
                             handleMonthSelect={handleMonthSelect}
                             handleYearSelect={handleYearSelect} />
                         <div className="input-label-group">
                             <label>CVC/CW</label>
                             <input
                                 className="input"
-                                // required
+                                required={isCardDetailsFilled()}
                                 type="text"
                                 placeholder="e.g. 1234"
                                 value={cardInfo.cvc}
+                                pattern={cvcRegex}
                                 onChange={e => setCardInfo({ ...cardInfo, cvc: e.target.value })} />
                         </div>
                     </div>

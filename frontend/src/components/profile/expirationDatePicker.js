@@ -33,14 +33,22 @@ function ExpirationDatePicker(props) {
     return (
         <div className="pickers">
             <label>Expiration date</label>
-            <select className="input small-select" defaultValue={undefined} onChange={e => props.handleMonthSelect(e.target.value)}>
-                <option value={undefined}>Month</option>
+            <select
+                required={props.required}
+                className="input small-select"
+                value={props.month}
+                onChange={e => props.handleMonthSelect(e.target.value)}>
+                <option value="">Month</option>
                 {months.map(month => {
                     return <option value={month.key} key={month.key}>{month.name}</option>
                 })}
             </select>
-            <select className="input small-select" defaultValue={undefined} onChange={e => props.handleYearSelect(e.target.value)}>
-                <option value={undefined}>Year</option>
+            <select
+                required={props.required}
+                className="input small-select"
+                value={props.year}
+                onChange={e => props.handleYearSelect(e.target.value)}>
+                <option value="">Year</option>
                 {years.map(year => {
                     return <option value={year} key={year}>{year}</option>
                 })}
