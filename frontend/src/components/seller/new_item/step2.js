@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { dateToYMD } from 'util/dateTimeService';
+import { dateToYMD, getTomorrow } from 'util/dateTimeService';
 import { updateMessage } from 'util/info_div_util';
 
 function StepTwo(props) {
@@ -34,6 +34,7 @@ function StepTwo(props) {
                             value={props.startPrice}
                             min={0}
                             max={1000000}
+                            step={0.01}
                             onChange={e => props.setStartPrice(e.target.value)} />
                     </div>
                 </div>
@@ -45,7 +46,7 @@ function StepTwo(props) {
                             type="date"
                             required
                             value={startDateTime}
-                            min={dateToYMD(new Date())}
+                            min={dateToYMD(getTomorrow())}
                             onChange={e => props.setStartDateTime(e.target.value)} />
                     </div>
                     <div className="input-label-group">
@@ -55,7 +56,7 @@ function StepTwo(props) {
                             type="date"
                             required
                             value={endDateTime}
-                            min={dateToYMD(new Date())}
+                            min={dateToYMD(getTomorrow())}
                             onChange={e => props.setEndDateTime(e.target.value)} />
                     </div>
                 </div>

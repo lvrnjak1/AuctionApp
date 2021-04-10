@@ -4,6 +4,8 @@ import "components/seller/seller.scss";
 import { useHistory } from 'react-router-dom';
 import CustomTabs from 'components/tabs/tabs';
 import Active from './bids/SellerBids';
+import { faPlus } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function Seller(props) {
     const history = useHistory();
@@ -62,6 +64,9 @@ function Seller(props) {
         </form> :
             <div className="tabs-container">
                 <CustomTabs tabs={tabs} value={value} handleChange={handleChange} withIcon={false} />
+                <button className="add-item-button" onClick={handleStartSelling}>
+                    <FontAwesomeIcon icon={faPlus} /> Add item
+                </button>
             </div>
     );
 }

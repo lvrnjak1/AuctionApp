@@ -25,7 +25,7 @@ function StepOne(props) {
                         value={props.productName}
                         onChange={e => props.setProductName(e.target.value)} />
                 </div>
-                <div className="flex-form-group">
+                {categories.length > 0 && <div className="flex-form-group">
                     <div className="input-label-group">
                         <select
                             required
@@ -33,8 +33,9 @@ function StepOne(props) {
                             value={categories[selectedCategoryIndex].id}
                             onChange={e => {
                                 props.setCategory(e.target.value);
-                                setSelectedCategoryIndex(findIndex(categories, e.target.value));
-                                setSelectedSubcategoryIndex(findIndex(categories[e.target.value].subcategories, 0));
+                                const index = findIndex(categories, e.target.value);
+                                setSelectedCategoryIndex(index);
+                                setSelectedSubcategoryIndex(0);
                             }}>
                             {categories.map(cat => {
                                 return <option key={cat.id} value={cat.id}>{cat.name}</option>
@@ -48,7 +49,8 @@ function StepOne(props) {
                             value={categories[selectedCategoryIndex].subcategories[selectedSubcategoryIndex].id}
                             onChange={e => {
                                 props.setSubcategory(e.target.value);
-                                setSelectedSubcategoryIndex(findIndex(categories[selectedCategoryIndex].subcategories, e.target.value));
+                                const index = findIndex(categories[selectedCategoryIndex].subcategories, e.target.value);
+                                setSelectedSubcategoryIndex(index);
                             }}>
                             {/* {categories[selectedCategoryIndex].subcategories.length == 0 ?
                                 <option value="" disabled>Subcategory</option> : ""} */}
@@ -57,7 +59,7 @@ function StepOne(props) {
                             })}
                         </select>
                     </div>
-                </div>
+                </div>}
                 <div className="input-label-group">
                     <label>Description</label>
                     <textarea

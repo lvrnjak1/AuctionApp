@@ -4,6 +4,22 @@
   margin-top: 20px;
 }
 
+.add-item-button {
+  cursor: pointer;
+  color: $white;
+  background: $purple;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 10px 5px;
+  border: 3px solid $purple;
+  box-shadow: 3px 3px 0 0 rgba(131, 103, 216, 0.31);
+  margin-top: 20px;
+  &:focus {
+    outline: transparent;
+  }
+}
+
 .seller {
   .form-title {
     text-align: center;

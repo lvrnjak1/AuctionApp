@@ -9,6 +9,7 @@ import { AUCTIONS_ENDPOINT } from 'http/endpoints';
 import { updateMessage } from 'util/info_div_util';
 import { getAuthorizationConfig } from 'util/auth/auth';
 import { useHistory } from 'react-router-dom';
+import { getTomorrow } from 'util/dateTimeService';
 
 function NewItem() {
     const [activeStep, setActiveStep] = useState(0);
@@ -17,8 +18,8 @@ function NewItem() {
     const [subcategory, setSubcategory] = useState("");
     const [productDescription, setProductDescription] = useState("");
     const [startPrice, setStartPrice] = useState(0);
-    const [startDateTime, setStartDateTime] = useState(new Date());
-    const [endDateTime, setEndDateTime] = useState(new Date());
+    const [startDateTime, setStartDateTime] = useState(getTomorrow());
+    const [endDateTime, setEndDateTime] = useState(getTomorrow());
     const history = useHistory();
 
     const getSteps = () => {

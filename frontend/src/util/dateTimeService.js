@@ -40,10 +40,16 @@ const dateToYMD = (date) => {
     return '' + y + '-' + (m <= 9 ? '0' + m : m) + '-' + (d <= 9 ? '0' + d : d);
 }
 
-function getMaxBirthdate() {
+const getMaxBirthdate = () => {
     let date = new Date();
     date.setFullYear(date.getFullYear() - 18);
     return dateToYMD(date);
+}
+
+const getTomorrow = () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow;
 }
 
 export {
@@ -51,5 +57,6 @@ export {
     getTimeLeft,
     formatDate,
     dateToYMD,
-    getMaxBirthdate
+    getMaxBirthdate,
+    getTomorrow
 }
