@@ -38,6 +38,10 @@ function Seller(props) {
         setValue(newValue);
     };
 
+    const handleStartSelling = () => {
+        history.push("/new-item");
+    }
+
     return (
         isSeller === false ? <form className="seller">
             <div className="form not-seller">
@@ -47,10 +51,14 @@ function Seller(props) {
                         <img className="shopping-bag-icon" src={process.env.PUBLIC_URL + '/images/shopping-bag.png'} alt="shopping bag logo" />
                         <p>You do not have any items scheduled for sale</p>
                     </div>
-                    <button className="btn center-btn" type="submit">{"Start selling >"}</button>
+                    <button
+                        className="btn center-btn"
+                        type="submit"
+                        onClick={handleStartSelling}>
+                        {"Start selling >"}
+                    </button>
                 </div>
             </div>
-            {/* <NewItem /> */}
         </form> :
             <div className="tabs-container">
                 <CustomTabs tabs={tabs} value={value} handleChange={handleChange} withIcon={false} />

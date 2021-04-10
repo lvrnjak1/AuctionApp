@@ -1,12 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { dateToYMD } from 'util/dateTimeService';
+import { updateMessage } from 'util/info_div_util';
 
 function StepTwo(props) {
-    const [startPrice, setStartPrice] = useState(0);
     const [startDateTime, setStartDateTime] = useState(new Date());
     const [endDateTime, setEndDateTime] = useState(new Date());
 
+    useEffect(() => {
+        setStartDateTime(props.startDateTime);
+        setEndDateTime(props.endDateTime);
+    }, [props.startDateTime, props.endDateTime]);
+
+    const handleOnSubmit = (e) => {
+        e.preventDefault();
+        if (new Date(startDateTime) - new Date(endDateTime) >= 0) {
+            updateMessage("Invalid start and end date time.", "error");
+        } else {
+            props.handleNext(e);
+        }
+    }
     return (
-        <>
+        <form className="form" onSubmit={e => handleOnSubmit(e)}>
             <p className="form-title">SET PRICES</p>
             <div className="form-content step-two">
                 <div className="input-label-group">
@@ -17,10 +31,10 @@ function StepTwo(props) {
                             className="input"
                             required
                             type="number"
-                            value={startPrice}
+                            value={props.startPrice}
                             min={0}
                             max={1000000}
-                            onChange={e => setStartPrice(e.target.value)} />
+                            onChange={e => props.setStartPrice(e.target.value)} />
                     </div>
                 </div>
                 <div className="flex-form-group">
@@ -29,21 +43,34 @@ function StepTwo(props) {
                         <input
                             className="input"
                             type="date"
+                            required
                             value={startDateTime}
-                            onChange={e => setStartDateTime(e.target.value)} />
+                            min={dateToYMD(new Date())}
+                            onChange={e => props.setStartDateTime(e.target.value)} />
                     </div>
                     <div className="input-label-group">
                         <label>End date</label>
                         <input
                             className="input"
                             type="date"
+                            required
                             value={endDateTime}
-                            onChange={e => setEndDateTime(e.target.value)} />
+                            min={dateToYMD(new Date())}
+                            onChange={e => props.setEndDateTime(e.target.value)} />
                     </div>
                 </div>
                 <p className="dates-info">The auction will be automatically closed when the end time comes. The highest bid will win the auction.</p>
             </div>
-        </>
+            <button type="submit" className="btn">
+                {props.activeStep < props.maxSteps - 1 ? "Next" : "Submit"}
+            </button>
+            <button
+                className="btn btn-back"
+                onClick={props.handleBack}
+                disabled={props.activeStep === 0}>
+                Back
+            </button>
+        </form>
     );
 }
 

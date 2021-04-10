@@ -7,6 +7,7 @@ import Seller from 'components/seller/seller';
 import Settings from 'components/settings/settings';
 import Bids from 'components/bids/bids';
 import CustomTabs from 'components/tabs/tabs';
+import { getToken } from 'util/auth/auth';
 
 // const useStyles = makeStyles({
 //     iconLabelWrapper: {
@@ -47,11 +48,11 @@ function MyAccount() {
     const location = useLocation();
     const history = useHistory();
 
-    // useEffect(() => {
-    //     if (!getToken()) {
-    //         history.push("/404");
-    //     }
-    // }, []);
+    useEffect(() => {
+        if (!getToken()) {
+            history.push("/404");
+        }
+    }, []);
 
     const tabs = useMemo(() => {
         return [
@@ -76,26 +77,6 @@ function MyAccount() {
     return (
         <div className="account-page">
             <CustomTabs tabs={tabs} value={value} handleChange={handleChange} withIcon={true} />
-            {/* <Tabs className="tabs" indicatorColor="primary" value={value} onChange={handleChange}>
-                {tabs.map(tab => {
-                    return <Tab
-                        key={tab.index}
-                        className="tab"
-                        label={tab.label}
-                        icon={<FontAwesomeIcon className="tab-icon" icon={tab.icon} />}
-                        classes={{
-                            wrapper: classes.iconLabelWrapper
-                        }}
-                        {...a11yProps(tab.index)} />
-                })}
-            </Tabs>
-            <div className="content">
-                {tabs.map(tab => {
-                    return <TabPanel key={tab.index} value={value} index={tab.index}>
-                        {tab.content}
-                    </TabPanel>
-                })}
-            </div> */}
         </div>
     );
 }

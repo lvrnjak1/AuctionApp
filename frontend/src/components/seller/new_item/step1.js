@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import ImageUploader from "components/seller/image_uploader/imageUploader";
+import { useSelector } from 'react-redux';
 
 
 function StepOne(props) {
-    const [productName, setProductName] = useState("");
-    const [category, setCategory] = useState("");
-    const [subcategory, setSubcategory] = useState("");
-    const [productDescription, setProductDescription] = useState("");
+    const categories = useSelector(state => state.categories);
+    const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
+    const [selectedSubcategoryIndex, setSelectedSubcategoryIndex] = useState(0);
+
+    const findIndex = (collection, id) => {
+        return collection.findIndex(cat => parseInt(cat.id) === parseInt(id));
+    }
+
     return (
-        <>
+        <form className="form" onSubmit={props.handleNext}>
             <p className="form-title">INFORMATION ABOUT PRODUCT</p>
             <div className="form-content">
                 <div className="input-label-group">
@@ -17,22 +22,39 @@ function StepOne(props) {
                         className="input"
                         required
                         type="text"
-                        value={productName}
-                        onChange={e => setProductName(e.target.value)} />
+                        value={props.productName}
+                        onChange={e => props.setProductName(e.target.value)} />
                 </div>
                 <div className="flex-form-group">
                     <div className="input-label-group">
-                        <select className="input" value={category} onChange={e => setCategory(e.target.value)}>
-                            <option value="" disabled>Category</option>
-                            <option value="M">Male</option>
-                            <option value="F">Female</option>
+                        <select
+                            required
+                            className="input"
+                            value={categories[selectedCategoryIndex].id}
+                            onChange={e => {
+                                props.setCategory(e.target.value);
+                                setSelectedCategoryIndex(findIndex(categories, e.target.value));
+                                setSelectedSubcategoryIndex(findIndex(categories[e.target.value].subcategories, 0));
+                            }}>
+                            {categories.map(cat => {
+                                return <option key={cat.id} value={cat.id}>{cat.name}</option>
+                            })}
                         </select>
                     </div>
                     <div className="input-label-group">
-                        <select className="input" value={subcategory} onChange={e => setSubcategory(e.target.value)}>
-                            <option value="" disabled>Subcategory</option>
-                            <option value="M">Male</option>
-                            <option value="F">Female</option>
+                        <select
+                            required
+                            className="input"
+                            value={categories[selectedCategoryIndex].subcategories[selectedSubcategoryIndex].id}
+                            onChange={e => {
+                                props.setSubcategory(e.target.value);
+                                setSelectedSubcategoryIndex(findIndex(categories[selectedCategoryIndex].subcategories, e.target.value));
+                            }}>
+                            {/* {categories[selectedCategoryIndex].subcategories.length == 0 ?
+                                <option value="" disabled>Subcategory</option> : ""} */}
+                            {categories[selectedCategoryIndex].subcategories.map(sc => {
+                                return <option key={sc.id} value={sc.id}>{sc.name}</option>
+                            })}
                         </select>
                     </div>
                 </div>
@@ -41,15 +63,24 @@ function StepOne(props) {
                     <textarea
                         maxLength="700"
                         className="textarea"
-                        value={productDescription}
-                        onChange={e => setProductDescription(e.target.value)} />
+                        value={props.productDescription}
+                        onChange={e => props.setProductDescription(e.target.value)} />
                     <p className="textarea-info">100 words (700 characters)</p>
                 </div>
                 <div className="input-label-group image-upload-container">
                     <ImageUploader />
                 </div>
             </div>
-        </>
+            <button type="submit" className="btn">
+                {props.activeStep < props.maxSteps - 1 ? "Next" : "Submit"}
+            </button>
+            <button
+                className="btn btn-back"
+                onClick={props.handleBack}
+                disabled={props.activeStep === 0}>
+                Back
+            </button>
+        </form>
     );
 }
 

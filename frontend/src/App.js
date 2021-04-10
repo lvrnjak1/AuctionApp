@@ -19,6 +19,7 @@ import ItemPage from 'components/item/item';
 import ForgotPassword from 'components/forms/forgot_password/forgotPassword';
 import ResetPassword from 'components/forms/reset_password/resetPassword';
 import MyAccount from 'components/my_account/myAccount';
+import NewItem from 'components/seller/new_item/newItem';
 
 function App() {
   return (
@@ -73,6 +74,11 @@ function App() {
           <Route exact path="/password/reset/:token">
             <Layout breadcrumbs={{ current: "reset password" }}>
               <ResetPassword />
+            </Layout>
+          </Route>
+          <Route exact path="/new-item">
+            <Layout breadcrumbs={{ current: "become seller" }}>
+              <NewItem />
             </Layout>
           </Route>
           <Route exact path={["/profile", "/bids", "/seller", "/settings"]}>

@@ -1,5 +1,22 @@
 @import "util/style/constants.scss";
 
+.stepper {
+  width: 50%;
+  margin: auto;
+}
+
+.new-item {
+  padding: 10px;
+
+  @media screen and (min-width: $medium) {
+    width: 60%;
+  }
+
+  @media screen and (min-width: $large) {
+    width: 40%;
+  }
+}
+
 .form {
   .btn-back {
     float: left;

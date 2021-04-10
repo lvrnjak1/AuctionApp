@@ -73,13 +73,15 @@ function SearchBar() {
                             className="dropdown-container"
                             onMouseOver={() => setOpenDropdown(true)}
                         >
-                            <NavLink
-                                to="/profile"
-                                className="search-bar-link"
-                                activeStyle={{ color: "#8367D8", textDecoration: "none" }}>
-                                MY ACCOUNT
-                            </NavLink>
-                            {openDropdown && <Dropdown onLeave={() => setOpenDropdown(false)} />}
+                            {getToken() && <>
+                                <NavLink
+                                    to="/profile"
+                                    className="search-bar-link"
+                                    activeStyle={{ color: "#8367D8", textDecoration: "none" }}>
+                                    MY ACCOUNT
+                                </NavLink>
+                                {openDropdown && <Dropdown onLeave={() => setOpenDropdown(false)} />}
+                            </>}
                         </div>
                     </li>
                 </ul>
