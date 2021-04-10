@@ -2,6 +2,7 @@ package ba.abh.AuctionApp.controllers;
 
 import ba.abh.AuctionApp.controllers.utility.RequestParams;
 import ba.abh.AuctionApp.domain.Auction;
+import ba.abh.AuctionApp.domain.User;
 import ba.abh.AuctionApp.filters.AuctionFilter;
 import ba.abh.AuctionApp.filters.ProductFilter;
 import ba.abh.AuctionApp.filters.SortSpecification;
@@ -17,7 +18,6 @@ import ba.abh.AuctionApp.services.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,10 +42,11 @@ public class AuctionController {
     }
 
     @PostMapping
-    @Secured("ROLE_SELLER")
     public ResponseEntity<AuctionResponse> createAuction(@Valid @RequestBody final AuctionRequest auctionRequest,
                                                          final Principal principal) {
-        Auction auction = auctionService.createAuction(auctionRequest, userService.getUserFromPrincipal(principal));
+        User user = userService.getUserFromPrincipal(principal);
+        Auction auction = auctionService.createAuction(auctionRequest, user);
+        userService.addRole(user, "ROLE_SELLER");
         return ResponseEntity.status(HttpStatus.CREATED).body(new AuctionResponse(auction));
     }
 

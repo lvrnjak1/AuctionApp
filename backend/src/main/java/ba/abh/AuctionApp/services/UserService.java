@@ -4,6 +4,7 @@ import ba.abh.AuctionApp.domain.CardDetails;
 import ba.abh.AuctionApp.domain.Token;
 import ba.abh.AuctionApp.domain.User;
 import ba.abh.AuctionApp.domain.enums.Gender;
+import ba.abh.AuctionApp.domain.enums.RoleName;
 import ba.abh.AuctionApp.domain.enums.TokenType;
 import ba.abh.AuctionApp.exceptions.custom.EmailInUseException;
 import ba.abh.AuctionApp.exceptions.custom.EmailNotFoundException;
@@ -32,15 +33,18 @@ public class UserService {
     private final TokenService tokenService;
     private final PasswordEncoder passwordEncoder;
     private final CardDetailsRepository cardDetailsRepository;
+    private final RoleService roleService;
 
     public UserService(final UserRepository userRepository,
                        final TokenService tokenService,
                        final PasswordEncoder passwordEncoder,
-                       final CardDetailsRepository cardDetailsRepository) {
+                       final CardDetailsRepository cardDetailsRepository,
+                       final RoleService roleService) {
         this.userRepository = userRepository;
         this.tokenService = tokenService;
         this.passwordEncoder = passwordEncoder;
         this.cardDetailsRepository = cardDetailsRepository;
+        this.roleService = roleService;
     }
 
     public User getUserByEmail(final String email) {
@@ -156,5 +160,10 @@ public class UserService {
         }
 
         return userRepository.save(user);
+    }
+
+    public void addRole(final User user, final String roleName) {
+        user.addRole(roleService.findByRoleName(RoleName.valueOf(roleName)));
+        userRepository.save(user);
     }
 }

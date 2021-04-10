@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Clock;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -60,7 +61,10 @@ public class AuctionService {
 
     private Auction getAuctionFromAuctionRequest(final AuctionRequest auctionRequest, final User seller) {
         Size size = auctionRequest.getProduct().getSize();
-        Set<Color> colors = colorRepository.getColorByIdIn(auctionRequest.getProduct().getColors());
+        Set<Color> colors = new HashSet<>();
+        if(auctionRequest.getProduct().getColors() != null){
+            colors = colorRepository.getColorByIdIn(auctionRequest.getProduct().getColors());
+        }
         Category category = categoryService.findById(auctionRequest.getProduct().getCategoryId());
 
         Product product = new Product(auctionRequest.getProduct().getName(),
