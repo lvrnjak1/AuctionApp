@@ -1,15 +1,33 @@
 import React, { useState } from 'react';
 import ImageUploader from "components/seller/image_uploader/imageUploader";
 import { useSelector } from 'react-redux';
+import { UPLOAD_IMAGE_ENDPOINT } from 'http/endpoints';
+import { updateMessage } from 'util/info_div_util';
+import { uploadFormData } from 'http/requests';
 
 
 function StepOne(props) {
     const categories = useSelector(state => state.categories);
     const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
     const [selectedSubcategoryIndex, setSelectedSubcategoryIndex] = useState(0);
+    const [images, setImages] = useState([]);
 
     const findIndex = (collection, id) => {
         return collection.findIndex(cat => parseInt(cat.id) === parseInt(id));
+    }
+
+    const handleUpload = async (image) => {
+        const formData = new FormData();
+        formData.append("file", image);
+        formData.append('upload_preset', 'upload_preset');
+        await uploadFormData(UPLOAD_IMAGE_ENDPOINT,
+            formData,
+            (response) => {
+                let newImages = images.concat(response.data.secure_url);
+                setImages(newImages);
+            },
+            () => updateMessage("Something went wrong, try to upload your image again", "error")
+        );
     }
 
     return (
@@ -70,7 +88,7 @@ function StepOne(props) {
                     <p className="textarea-info">100 words (700 characters)</p>
                 </div>
                 <div className="input-label-group image-upload-container">
-                    <ImageUploader />
+                    <ImageUploader handleUpload={handleUpload} />
                 </div>
             </div>
             <button type="submit" className="btn">

@@ -9,6 +9,7 @@ function ImageUploader(props) {
     const onChange = (imageList, addUpdateIndex) => {
         console.log(imageList, addUpdateIndex);
         setImages(imageList);
+        // props.handleUpload()
     };
 
     return (
