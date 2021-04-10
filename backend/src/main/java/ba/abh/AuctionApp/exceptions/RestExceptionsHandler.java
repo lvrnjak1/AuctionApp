@@ -4,6 +4,7 @@ import ba.abh.AuctionApp.exceptions.custom.EmailInUseException;
 import ba.abh.AuctionApp.exceptions.custom.EmailNotFoundException;
 import ba.abh.AuctionApp.exceptions.custom.InvalidBidException;
 import ba.abh.AuctionApp.exceptions.custom.InvalidCredentialsException;
+import ba.abh.AuctionApp.exceptions.custom.InvalidCreditCardInfoException;
 import ba.abh.AuctionApp.exceptions.custom.InvalidDateException;
 import ba.abh.AuctionApp.exceptions.custom.InvalidPaginationException;
 import ba.abh.AuctionApp.exceptions.custom.LowBidException;
@@ -71,6 +72,11 @@ public class RestExceptionsHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(EmailNotFoundException.class)
     public ResponseEntity<Object> handleEmailNotFound(final EmailNotFoundException ex) {
         return buildResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidCreditCardInfoException.class)
+    public ResponseEntity<Object> handleInvalidCreditCardInfo(final InvalidCreditCardInfoException ex) {
+        return buildResponseEntity(ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @Override

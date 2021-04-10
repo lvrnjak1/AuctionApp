@@ -7,6 +7,7 @@ import ba.abh.AuctionApp.domain.enums.Gender;
 import ba.abh.AuctionApp.domain.enums.TokenType;
 import ba.abh.AuctionApp.exceptions.custom.EmailInUseException;
 import ba.abh.AuctionApp.exceptions.custom.EmailNotFoundException;
+import ba.abh.AuctionApp.exceptions.custom.InvalidCreditCardInfoException;
 import ba.abh.AuctionApp.exceptions.custom.InvalidDateException;
 import ba.abh.AuctionApp.exceptions.custom.ResourceNotFoundException;
 import ba.abh.AuctionApp.repositories.CardDetailsRepository;
@@ -122,15 +123,21 @@ public class UserService {
             }
         }
 
-        if (patchRequest.getCardDetails().isPresent()) {
-            patchCardDetails(user, patchRequest.getCardDetails().get());
-        }
-
         userRepository.save(user);
         return user;
     }
 
-    private void patchCardDetails(final User user, final CardDetailsRequest cardDetailsRequest) {
+    public User patchCardDetails(final User user, final CardDetailsRequest cardDetailsRequest) {
+        cardDetailsRepository
+                .findByCardNumber(cardDetailsRequest.getCardNumber())
+                .ifPresent(cardDetails -> {
+                            if (user.getCardDetails() == null ||
+                                    !user.getCardDetails().getCardNumber().equals(cardDetails.getCardNumber())) {
+                                throw new InvalidCreditCardInfoException("Invalid credit card number");
+                            }
+                        }
+                );
+
         if (user.getCardDetails() == null) {
             CardDetails cardDetails = new CardDetails();
             cardDetails.setNameOnCard(cardDetailsRequest.getNameOnCard());
@@ -147,5 +154,7 @@ public class UserService {
             user.getCardDetails().setExpirationYear(cardDetailsRequest.getExpirationYear());
             user.getCardDetails().setCvc(cardDetailsRequest.getCvc());
         }
+
+        return userRepository.save(user);
     }
 }

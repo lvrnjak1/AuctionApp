@@ -1,6 +1,7 @@
 package ba.abh.AuctionApp.controllers;
 
 import ba.abh.AuctionApp.domain.User;
+import ba.abh.AuctionApp.requests.CardDetailsRequest;
 import ba.abh.AuctionApp.requests.UserPatchRequest;
 import ba.abh.AuctionApp.services.UserService;
 import org.springframework.http.ResponseEntity;
@@ -36,5 +37,13 @@ public class UserController {
     @Secured("ROLE_BUYER")
     public ResponseEntity<User> getMyProfile(final Principal principal) {
         return ResponseEntity.ok(userService.getUserByEmail(principal.getName()));
+    }
+
+    @PatchMapping("/card")
+    @Secured("ROLE_BUYER")
+    public ResponseEntity<User> addCardDetails(final Principal principal, @Valid @RequestBody CardDetailsRequest request) {
+        User user = userService.getUserByEmail(principal.getName());
+        User patched = userService.patchCardDetails(user, request);
+        return ResponseEntity.ok(patched);
     }
 }
