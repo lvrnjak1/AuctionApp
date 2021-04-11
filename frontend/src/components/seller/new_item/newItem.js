@@ -20,6 +20,7 @@ function NewItem() {
     const [startPrice, setStartPrice] = useState(0);
     const [startDateTime, setStartDateTime] = useState(getTomorrow());
     const [endDateTime, setEndDateTime] = useState(getTomorrow());
+    const [images, setImages] = useState([]);
     const history = useHistory();
 
     const getSteps = () => {
@@ -28,6 +29,7 @@ function NewItem() {
             category={category} setCategory={setCategory}
             subcategory={subcategory} setSubcategory={setSubcategory}
             productDescription={productDescription} setProductDescription={setProductDescription}
+            images={images} setImages={setImages}
             handleNext={handleNext} handleBack={handleBack} activeStep={activeStep} maxSteps={2}
         />,
         <StepTwo
@@ -39,25 +41,27 @@ function NewItem() {
     }
 
     const handleSubmit = async () => {
-        const body = {
-            startDateTime: new Date(startDateTime).getTime(),
-            endDateTime: new Date(endDateTime).getTime(),
-            startPrice,
-            product: {
-                name: productName,
-                description: productDescription === "" ? null : productDescription,
-                categoryId: subcategory !== "" ? subcategory : category
-            }
-        }
-        await postRequest(AUCTIONS_ENDPOINT, body,
-            () => {
-                updateMessage("Item sucessfully added", "success");
-                history.push("/seller");
-            },
-            () => {
-                updateMessage("Something went wrong, try again", "error");
-            },
-            getAuthorizationConfig())
+        console.log(images);
+
+        // const body = {
+        //     startDateTime: new Date(startDateTime).getTime(),
+        //     endDateTime: new Date(endDateTime).getTime(),
+        //     startPrice,
+        //     product: {
+        //         name: productName,
+        //         description: productDescription === "" ? null : productDescription,
+        //         categoryId: subcategory !== "" ? subcategory : category
+        //     }
+        // }
+        // await postRequest(AUCTIONS_ENDPOINT, body,
+        //     () => {
+        //         updateMessage("Item sucessfully added", "success");
+        //         history.push("/seller");
+        //     },
+        //     () => {
+        //         updateMessage("Something went wrong, try again", "error");
+        //     },
+        //     getAuthorizationConfig())
     }
 
     const handleNext = (e) => {

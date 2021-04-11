@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ImageUploading from 'react-images-uploading';
 import "components/seller/image_uploader/imageUploader.scss";
 
@@ -6,10 +6,15 @@ function ImageUploader(props) {
     const [images, setImages] = React.useState([]);
     const maxNumber = 10;
 
+    useEffect(() => {
+        setImages(props.images);
+    }, [props.images])
+
     const onChange = (imageList, addUpdateIndex) => {
         console.log(imageList, addUpdateIndex);
         setImages(imageList);
-        // props.handleUpload()
+        props.setImages(imageList);
+        props.handleUpload(imageList);
     };
 
     return (
