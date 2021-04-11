@@ -55,3 +55,6 @@ where id = 8;
 update users
 set profile_photo_url = 'https://res.cloudinary.com/lvrnjak/image/upload/v1617811578/pexels-bruno-salvadori-2269872_v1xczt.jpg'
 where id = 9;
+
+insert into categories (id, name, parent_category_id, image_url)
+values (30, 'Paintings', 5, 'https://res.cloudinary.com/lvrnjak/image/upload/v1614254789/categories/category-default.jpg');
