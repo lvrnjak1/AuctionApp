@@ -38,7 +38,7 @@ function Settings() {
                 <div className="form-content">
                     <p>This information can be edited on your profile.</p>
                     <p>Email<span className="purple-text">{email}</span></p>
-                    <p>Phone<span className="purple-text">{phoneNumber}</span></p>
+                    <p>Phone<span className="purple-text">{phoneNumber || "none"}</span></p>
                 </div>
             </div>
 
