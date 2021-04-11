@@ -5,6 +5,7 @@ import ba.abh.AuctionApp.domain.Auction;
 import ba.abh.AuctionApp.domain.Category;
 import ba.abh.AuctionApp.domain.Color;
 import ba.abh.AuctionApp.domain.Product;
+import ba.abh.AuctionApp.domain.ProductImage;
 import ba.abh.AuctionApp.domain.User;
 import ba.abh.AuctionApp.domain.enums.Size;
 import ba.abh.AuctionApp.exceptions.custom.InvalidDateException;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Clock;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -55,7 +57,7 @@ public class AuctionService {
         Auction auction = getAuctionFromAuctionRequest(auctionRequest, seller);
         Product product = productService.save(auction.getProduct());
         auctionRepository.save(auction);
-        saveImagesForProduct(auctionRequest.getProduct().getImages(), product.getId());
+        saveImagesForProduct(auctionRequest.getProduct().getImages(), product);
         return auction;
     }
 
@@ -82,9 +84,12 @@ public class AuctionService {
         );
     }
 
-    private void saveImagesForProduct(final List<String> imageUrls, Long productId) {
-        if (imageUrls != null) {
-            imageUrls.forEach(imageUrl -> productService.saveImageForProduct(productId, imageUrl));
+    private void saveImagesForProduct(final List<String> imageUrls, Product product) {
+        if (imageUrls != null && imageUrls.size() > 0) {
+            List<ProductImage> productImages = new ArrayList<>();
+            product.setImages(productImages);
+            imageUrls.forEach(image -> productImages.add(new ProductImage(image, product)));
+            productService.saveImages(productImages);
         }
     }
 
