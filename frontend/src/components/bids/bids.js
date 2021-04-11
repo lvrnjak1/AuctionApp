@@ -25,7 +25,7 @@ const getHeadings = () => {
 
 function Bids() {
     const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(4);
+    const [limit, setLimit] = useState(10);
     const [pagination, setPagination] = useState(null);
     const [data, setData] = useState(null);
     const headings = getHeadings();
@@ -100,7 +100,16 @@ function Bids() {
 
     return (
         data !== null && <div className="custom-table-container" >
-            <CustomTable headings={headings} data={getTableRows()} pagination={pagination} />
+            <CustomTable
+                headings={headings}
+                data={getTableRows()}
+                pagination={pagination}
+                onChangePage={() => setPage(page + 1)}
+                onChangeRowsPerPage={(event) => {
+                    setLimit(parseInt(event.target.value));
+                    setPage(1)
+                }}
+                rowsPerPage={limit} />
         </div>
     );
 }
