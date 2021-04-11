@@ -2,6 +2,7 @@ import axios from "axios";
 import { setAsyncTaskInProgress } from "state/actions/asyncTaskInProgressActions";
 import store from "state/store";
 import { updateMessage } from "util/info_div_util";
+import { UPLOAD_IMAGE_ENDPOINT } from "./endpoints";
 
 const patchRequest = async (endpoint, body, params, successHandler, errorHandler, requestConfig) => {
     try {
@@ -71,10 +72,33 @@ const uploadFormData = async (endpoint, data, successHandler, errorHandler) => {
     }
 }
 
+const uploadMultipleImages = async (images, successHandler) => {
+    store.dispatch(setAsyncTaskInProgress(true));
+    const reqs = []
+    images.forEach(image => {
+        const formData = new FormData();
+        formData.append("file", image.data_url);
+        formData.append('upload_preset', 'upload_preset');
+        reqs.push(
+            axios.post(UPLOAD_IMAGE_ENDPOINT, formData, { headers: { "Content-Type": "multipart/form-data" } })
+        );
+    });
+
+    try {
+        const responses = await axios.all(reqs);
+        store.dispatch(setAsyncTaskInProgress(false));
+        successHandler(responses);
+    } catch (error) {
+        store.dispatch(setAsyncTaskInProgress(false));
+        updateMessage("Images failed to upload, try uploading again", "error");
+    }
+}
+
 export {
     postRequest,
     getRequest,
     sendMultipleGetRequests,
     patchRequest,
-    uploadFormData
+    uploadFormData,
+    uploadMultipleImages
 }

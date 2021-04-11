@@ -11,10 +11,8 @@ function ImageUploader(props) {
     }, [props.images])
 
     const onChange = (imageList, addUpdateIndex) => {
-        console.log(imageList, addUpdateIndex);
         setImages(imageList);
         props.setImages(imageList);
-        props.handleUpload(imageList);
     };
 
     return (
@@ -38,6 +36,7 @@ function ImageUploader(props) {
                     <>
                         <div {...dragProps} className="upload__image-wrapper upload-wrapper">
                             <button
+                                type="button"
                                 className="upload-button"
                                 onClick={onImageUpload}
                                 {...dragProps}
@@ -48,7 +47,7 @@ function ImageUploader(props) {
                             {images.map((image, index) => {
                                 return <div key={index} className="uploaded-photo">
                                     <p>{image.file.name}</p>
-                                    <button onClick={() => onImageRemove(index)}>Remove</button>
+                                    <button type="button" onClick={() => onImageRemove(index)}>Remove</button>
                                 </div>
                             })}
                         </div>}

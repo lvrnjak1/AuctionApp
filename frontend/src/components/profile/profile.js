@@ -64,7 +64,7 @@ function Profile() {
             expirationMonth: expirationMonth.toString(),
             expirationYear: expirationYear.toString()
         });
-    })
+    }, []);
 
     useEffect(() => {
         let isSubscribed = true;

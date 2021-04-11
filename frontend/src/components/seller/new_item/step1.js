@@ -1,10 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ImageUploader from "components/seller/image_uploader/imageUploader";
 import { useSelector } from 'react-redux';
-import { UPLOAD_IMAGE_ENDPOINT } from 'http/endpoints';
-import { updateMessage } from 'util/info_div_util';
-import { uploadFormData } from 'http/requests';
-
 
 function StepOne(props) {
     const categories = useSelector(state => state.categories);
@@ -14,6 +10,10 @@ function StepOne(props) {
     const findIndex = (collection, id) => {
         return collection.findIndex(cat => parseInt(cat.id) === parseInt(id));
     }
+
+    useEffect(() => {
+        props.setSubcategory(categories[selectedCategoryIndex].subcategories[selectedSubcategoryIndex].id);
+    }, [props, props.setSubcategory, selectedCategoryIndex, selectedSubcategoryIndex, categories])
 
     return (
         <form className="form" onSubmit={props.handleNext}>

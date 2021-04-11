@@ -52,7 +52,7 @@ function MyAccount() {
         if (!getToken()) {
             history.push("/404");
         }
-    }, []);
+    }, [history]);
 
     const tabs = useMemo(() => {
         return [

@@ -17,6 +17,19 @@
   }
 }
 
+.info-message {
+  color: $purple;
+  margin-left: 10px;
+}
+
+.loader {
+  clear: both;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 30px;
+}
+
 .form {
   .btn-back {
     float: left;

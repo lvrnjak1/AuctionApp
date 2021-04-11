@@ -4,12 +4,13 @@ import StepOne from './step1';
 import StepTwo from './step2';
 import "components/seller/seller.scss";
 import "components/seller/new_item/newItem.scss";
-import { postRequest } from 'http/requests';
+import { postRequest, uploadMultipleImages } from 'http/requests';
 import { AUCTIONS_ENDPOINT } from 'http/endpoints';
 import { updateMessage } from 'util/info_div_util';
 import { getAuthorizationConfig } from 'util/auth/auth';
 import { useHistory } from 'react-router-dom';
 import { getTomorrow } from 'util/dateTimeService';
+import Loader from 'react-loader-spinner';
 
 function NewItem() {
     const [activeStep, setActiveStep] = useState(0);
@@ -22,6 +23,7 @@ function NewItem() {
     const [endDateTime, setEndDateTime] = useState(getTomorrow());
     const [images, setImages] = useState([]);
     const history = useHistory();
+    const [uploading, setUploading] = useState(false);
 
     const getSteps = () => {
         return [<StepOne
@@ -41,30 +43,41 @@ function NewItem() {
     }
 
     const handleSubmit = async () => {
-        console.log(images);
+        if (images.length < 3) {
+            updateMessage("Upload at least 3 images of your product", "error");
+            return;
+        }
+        setUploading(true);
+        await uploadMultipleImages(images, async (responses) => {
+            console.log(responses);
 
-        // const body = {
-        //     startDateTime: new Date(startDateTime).getTime(),
-        //     endDateTime: new Date(endDateTime).getTime(),
-        //     startPrice,
-        //     product: {
-        //         name: productName,
-        //         description: productDescription === "" ? null : productDescription,
-        //         categoryId: subcategory !== "" ? subcategory : category
-        //     }
-        // }
-        // await postRequest(AUCTIONS_ENDPOINT, body,
-        //     () => {
-        //         updateMessage("Item sucessfully added", "success");
-        //         history.push("/seller");
-        //     },
-        //     () => {
-        //         updateMessage("Something went wrong, try again", "error");
-        //     },
-        //     getAuthorizationConfig())
+            const body = {
+                startDateTime: new Date(startDateTime).getTime(),
+                endDateTime: new Date(endDateTime).getTime(),
+                startPrice,
+                product: {
+                    name: productName,
+                    description: productDescription === "" ? null : productDescription,
+                    categoryId: subcategory !== "" ? subcategory : category,
+                    images: responses.map(response => response.data.secure_url)
+                },
+            }
+            await postRequest(AUCTIONS_ENDPOINT, body,
+                () => {
+                    updateMessage("Item sucessfully added", "success");
+                    setUploading(false);
+                    history.push("/seller");
+                },
+                () => {
+                    updateMessage("Something went wrong, try again", "error");
+                    setUploading(false);
+                },
+                getAuthorizationConfig())
+        });
     }
 
     const handleNext = (e) => {
+        console.log(e);
         e.preventDefault();
         if (activeStep === getSteps().length - 1) {
             handleSubmit();
@@ -85,7 +98,13 @@ function NewItem() {
                     return <Step key={index}><StepLabel /></Step>
                 })}
             </Stepper>
-            {getSteps()[activeStep]}
+            <div>
+                {getSteps()[activeStep]}
+            </div>
+            {uploading ? <div className="loader">
+                <Loader type="TailSpin" color="#8367d8" height="20" width="20" />
+                <p className="info-message">Please wait while we upload your item. This may take a couple of minutes.</p>
+            </div> : ""}
         </div>
     );
 }

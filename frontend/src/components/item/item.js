@@ -23,6 +23,22 @@ function ItemPage() {
     const [paginationMetaData, setPaginationMetaData] = useState();
     const dispatch = useDispatch();
 
+    const isClosed = () => {
+        const now = new Date();
+        const end = new Date(item.endDateTime);
+        return end - now < 0;
+    }
+
+    const isScheduled = (date) => {
+        const now = new Date();
+        const start = new Date(date);
+        return now - start < 0;
+    };
+
+    const isSeller = (sellerId) => {
+        return getUser().id === (sellerId);
+    };
+
     const getBids = async () => {
         const bidsEndpoint = `${AUCTIONS_ENDPOINT}/${id}/bids`;
         await getRequest(bidsEndpoint,
@@ -124,26 +140,10 @@ function ItemPage() {
         }
     }
 
-    const isClosed = () => {
-        const now = new Date();
-        const end = new Date(item.endDateTime);
-        return end - now < 0;
-    }
-
-    const isScheduled = (date) => {
-        const now = new Date();
-        const start = new Date(date || item.startDateTime);
-        return now - start < 0;
-    }
-
-    const isSeller = (sellerId) => {
-        return getUser().id === (sellerId || item.sellerId);
-    }
-
     const getInactiveMessage = () => {
         if (isClosed()) return `Auction closed on ${formatDate(new Date(item.endDateTime))}.`;
-        if (isScheduled()) return `Auction starts on ${formatDate(new Date(item.startDateTime))}.`;
-        if (isSeller()) return `You are selling this item.`;
+        if (isScheduled(item.startDateTime)) return `Auction starts on ${formatDate(new Date(item.startDateTime))}.`;
+        if (isSeller(item.sellerId)) return `You are selling this item.`;
     }
 
     return (
@@ -174,7 +174,7 @@ function ItemPage() {
                     <p className="name">{item.product.name}</p>
                     <p className="price">{`Start from - $${item.startPrice.toFixed(2)}`}</p>
                     <div className="bid-info">
-                        {!isClosed() && !isScheduled() && !isSeller() ? <>
+                        {!isClosed() && !isScheduled(item.startDateTime) && !isSeller(item.sellerId) ? <>
                             <form onSubmit={handlePlaceBid}>
                                 <input
                                     className="bid-input"
@@ -193,7 +193,7 @@ function ItemPage() {
                             </p>
                         </> : <p>{getInactiveMessage()}</p>
                         }
-                        {!isScheduled() && <ul className="bid-info-text">
+                        {!isScheduled(item.startDateTime) && <ul className="bid-info-text">
                             <li>{`Highest bid:`}
                                 <p className="highest-bid"> {`${bids.length > 0 ? `$${bids[0].amount.toFixed(2)}` : ""}`}</p>
                             </li>
