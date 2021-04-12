@@ -54,6 +54,9 @@
   overflow-y: scroll;
   .uploaded-photo {
     position: relative;
+    &:hover {
+      background: $lightGray3;
+    }
     p {
       margin: 0;
       font-size: 14px;
@@ -72,6 +75,7 @@
       top: 0;
       right: 0;
       padding-right: 10px;
+      color: $purple;
       &:focus {
         outline: transparent;
       }
