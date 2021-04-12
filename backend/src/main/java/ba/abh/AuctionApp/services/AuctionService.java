@@ -100,4 +100,8 @@ public class AuctionService {
     public PriceChartResponse getChartData(final AuctionFilter auctionFilter) {
         return auctionRepository.getPriceChartData(auctionFilter);
     }
+
+    public List<String> suggest(final String search) {
+
+    }
 }

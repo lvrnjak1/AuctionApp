@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -100,5 +101,10 @@ public class AuctionController {
                 requestParams.getMinutesLeft(),
                 sortSpecification
         );
+    }
+
+    @GetMapping("/did-you-mean")
+    public ResponseEntity<String> didYouMean(@RequestParam String search) {
+        return ResponseEntity.ok(auctionService.suggest(search));
     }
 }
