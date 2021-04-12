@@ -48,13 +48,17 @@
   box-sizing: border-box;
   padding: 0 10px;
   border: 1px solid $lightGray2;
+  overflow-x: hidden;
+  word-break: break-all;
+  max-height: 200px;
+  overflow-y: scroll;
   .uploaded-photo {
     position: relative;
     p {
       margin: 0;
       font-size: 14px;
       max-width: 80%;
-      display: inline;
+      display: block;
       overflow: hidden;
     }
     button {

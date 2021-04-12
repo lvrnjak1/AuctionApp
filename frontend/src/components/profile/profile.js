@@ -13,6 +13,7 @@ import Transformation from 'cloudinary-react/lib/components/Transformation';
 import { getPublicId } from 'util/images_util';
 import { dateToYMD, getMaxBirthdate } from 'util/dateTimeService';
 import { updateMessage } from 'util/info_div_util';
+import Loader from 'react-loader-spinner';
 
 function Profile() {
     const [name, setName] = useState("");
@@ -23,6 +24,7 @@ function Profile() {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [photo, setPhoto] = useState("");
     const [currentUserData, setCurrentUserData] = useState();
+    const [uploading, setUploading] = useState(false);
 
     const [cardInfo, setCardInfo] = useState({
         nameOnCard: "",
@@ -148,19 +150,24 @@ function Profile() {
     }
 
     const handleImageUpload = async () => {
+        setUploading(true);
         const { files } = document.querySelector('input[type="file"]')
         const formData = new FormData();
         formData.append('file', files[0]);
         formData.append('upload_preset', 'upload_preset');
         await uploadFormData(UPLOAD_IMAGE_ENDPOINT,
             formData,
-            (response) => { setPhoto(response.data.secure_url) },
-            () => updateMessage("Something went wrong, try to upload your image again", "error")
+            (response) => { setPhoto(response.data.secure_url); setUploading(false); },
+            () => { updateMessage("Something went wrong, try to upload your image again", "error"); setUploading(false) }
         )
     }
 
     return (
         <form onSubmit={handleSubmit}>
+            {uploading ? <div className="loader">
+                <Loader type="TailSpin" color="#8367d8" height="20" width="20" />
+                <p className="info-message">Please wait while we update your profile.</p>
+            </div> : ""}
             <div className="form profile-form">
                 <p className="form-title">General</p>
                 <div className="form-content">
