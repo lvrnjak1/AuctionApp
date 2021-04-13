@@ -9,6 +9,7 @@ import ba.abh.AuctionApp.pagination.PageableEntity;
 import ba.abh.AuctionApp.pagination.PaginationDetails;
 import ba.abh.AuctionApp.requests.AuctionRequest;
 import ba.abh.AuctionApp.responses.AuctionResponse;
+import ba.abh.AuctionApp.responses.AuctionSearchResponse;
 import ba.abh.AuctionApp.responses.PageableResponse;
 import ba.abh.AuctionApp.responses.PriceChartResponse;
 import ba.abh.AuctionApp.responses.SuggestionResponse;
@@ -51,13 +52,18 @@ public class AuctionController {
     }
 
     @GetMapping
-    public ResponseEntity<PageableResponse> getAuctions(@Valid final RequestParams requestParams) {
+    public ResponseEntity<AuctionSearchResponse> getAuctions(@Valid final RequestParams requestParams) {
         AuctionFilter auctionFilter = constructAuctionFilter(requestParams);
         Page<Auction> auctionPage = auctionService.getFilteredAuctions(requestParams.getPage() - 1,
                 requestParams.getLimit(),
                 auctionFilter
         );
-        PageableResponse response = buildPageableResponse(auctionPage);
+
+        String suggestion = null;
+        if(auctionPage.getContent().size() == 0 && requestParams.getName() != null) {
+            suggestion = auctionService.suggest(requestParams.getName());
+        }
+        AuctionSearchResponse response = buildPageableResponse(auctionPage, suggestion);
         return ResponseEntity.ok(response);
     }
 
@@ -89,6 +95,16 @@ public class AuctionController {
                 .map(AuctionResponse::new)
                 .collect(Collectors.toList());
         return new PageableResponse(details, (List<PageableEntity>) data);
+    }
+
+    private AuctionSearchResponse buildPageableResponse(final Page<Auction> page, String suggestion) {
+        PaginationDetails details = new PaginationDetails(page);
+        List<? extends PageableEntity> data = page
+                .getContent()
+                .stream()
+                .map(AuctionResponse::new)
+                .collect(Collectors.toList());
+        return new AuctionSearchResponse(new PageableResponse(details, (List<PageableEntity>) data), suggestion);
     }
 
     private AuctionFilter constructAuctionFilter(final RequestParams requestParams) {

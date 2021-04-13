@@ -36,11 +36,12 @@ public class SuggestionService {
     }
 
     private static int getThreshold(String word, int delta) {
-        if (word.length() <= delta) {
-            return word.length() - delta + 1;
+        if(word.length() > delta) {
+            int threshold = word.length() / 3;
+            return Math.max(delta, threshold);
         }
 
-        return delta;
+        return word.length() - delta + 1;
     }
 
     public static String  suggest(String search, List<DictionaryEntry> words) {
