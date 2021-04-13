@@ -23,7 +23,7 @@ function Product(props) {
         <div className={`${props.grid ? "product-grid" : "product-list"} ${props.small && "small"}`}>
             <button className="image-button" onClick={() => handleProductClick(props.product.id, props.product.name)}>
                 <Image className="product-image" cloudName="lvrnjak" publicId={getPublicId(props.product.imageUrl)} >
-                    <Transformation height={300} width={400} crop="scale" quality="auto" flags="lossy" />
+                    <Transformation height={250} width={200} crop="fill" quality="auto" flags="lossy" />
                 </Image>
             </button>
             <div className="about">

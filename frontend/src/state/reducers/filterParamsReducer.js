@@ -3,7 +3,7 @@ const defaultState = {
     sort: null,
     sortOrder: "ASC",
     page: 1,
-    limit: 3,
+    limit: 4,
     name: null,
     priceMin: null,
     priceMax: null
