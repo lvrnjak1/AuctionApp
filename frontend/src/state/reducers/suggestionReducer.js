@@ -1,4 +1,4 @@
-const suggestionReducer = (state = "Shoes", action) => {
+const suggestionReducer = (state = null, action) => {
     switch (action.type) {
         case 'SET_SUGGESTION':
             return action.payload.suggestion;
