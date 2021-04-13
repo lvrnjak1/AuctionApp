@@ -69,7 +69,7 @@ function Shop() {
     useEffect(() => {
         async function fetchProducts() {
             const params = getFormattedParams(filterParams);
-            await getRequest(AUCTIONS_ENDPOINT, params, (response) => handleNewProducts(response.data), errorHandler);
+            await getRequest(AUCTIONS_ENDPOINT, params, (response) => handleNewProducts(response.data.auction), errorHandler);
         }
         fetchProducts();
     }, [filterParams]);

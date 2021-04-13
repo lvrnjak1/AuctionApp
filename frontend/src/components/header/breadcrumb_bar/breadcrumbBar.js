@@ -9,6 +9,7 @@ function BreadcrumbBar(props) {
 
     return (
         <div className="breadcrumb-bar">
+            <div className="did-you-mean">Did you mean? <a className="suggestion">Shoes</a></div>
             <div className="current">{props.content && props.content.current}</div>
             <div className="breadcrumb">
                 {getBreadcrumbs()}

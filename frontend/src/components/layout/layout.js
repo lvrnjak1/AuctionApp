@@ -14,13 +14,14 @@ const useStyles = makeStyles(theme => ({
         width: "100%"
     },
     searchbar: {
-        height: 60,
-        [theme.breakpoints.down('sm')]: {
-            height: 120,
-        },
-        [theme.breakpoints.up('sm')]: {
-            height: 60,
-        },
+        justifyContent: "center",
+        alignItems: "center"
+        // [theme.breakpoints.down('sm')]: {
+        //     height: 120,
+        // },
+        // [theme.breakpoints.up('sm')]: {
+        //     height: 80,
+        // },
     }
 }))
 
@@ -43,7 +44,7 @@ function Layout(props) {
                 <>
                     <Grid item><Navbar /></Grid>
                     <Grid item className={classes.searchbar}><SearchBar /></Grid>
-                    <Grid item><BreadcrumbBar content={props.breadcrumbs} /></Grid>
+                    <Grid item className={classes.searchbar}><BreadcrumbBar content={props.breadcrumbs} /></Grid>
                     <Grid item><InfoDiv /></Grid>
                 </>
             }
