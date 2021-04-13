@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Service
 public class SuggestionService {
-    public static int levenshteinDistance (CharSequence lhs, CharSequence rhs) {
+    public static int levenshteinDistance (final CharSequence lhs, final CharSequence rhs) {
         int len0 = lhs.length() + 1;
         int len1 = rhs.length() + 1;
         int[] cost = new int[len0];
@@ -35,7 +35,7 @@ public class SuggestionService {
         return cost[len0 - 1];
     }
 
-    private static int getThreshold(String word, int delta) {
+    private static int getThreshold(final String word, final int delta) {
         if(word.length() > delta) {
             int threshold = word.length() / 3;
             return Math.max(delta, threshold);
@@ -44,7 +44,7 @@ public class SuggestionService {
         return word.length() - delta + 1;
     }
 
-    public static String  suggest(String search, List<DictionaryEntry> words) {
+    public static String  suggest(final String search, final List<DictionaryEntry> words) {
         Map<String, Integer> dictionary = new HashMap<>();
         words.forEach(entry -> {
             String[] separateWords = entry.getEntry().split(" ");
