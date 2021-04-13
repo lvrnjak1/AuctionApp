@@ -11,6 +11,7 @@ import ba.abh.AuctionApp.requests.AuctionRequest;
 import ba.abh.AuctionApp.responses.AuctionResponse;
 import ba.abh.AuctionApp.responses.PageableResponse;
 import ba.abh.AuctionApp.responses.PriceChartResponse;
+import ba.abh.AuctionApp.responses.SuggestionResponse;
 import ba.abh.AuctionApp.services.AuctionService;
 import ba.abh.AuctionApp.services.UserService;
 import org.springframework.data.domain.Page;
@@ -104,7 +105,7 @@ public class AuctionController {
     }
 
     @GetMapping("/did-you-mean")
-    public ResponseEntity<String> didYouMean(@RequestParam String search) {
-        return ResponseEntity.ok(auctionService.suggest(search));
+    public ResponseEntity<SuggestionResponse> didYouMean(@RequestParam String search) {
+        return ResponseEntity.ok(new SuggestionResponse(auctionService.suggest(search)));
     }
 }

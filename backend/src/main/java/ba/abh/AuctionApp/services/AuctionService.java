@@ -1,5 +1,6 @@
 package ba.abh.AuctionApp.services;
 
+import ba.abh.AuctionApp.dictionary.DictionaryRepository;
 import ba.abh.AuctionApp.domain.Auction;
 import ba.abh.AuctionApp.domain.Category;
 import ba.abh.AuctionApp.domain.Color;
@@ -13,6 +14,7 @@ import ba.abh.AuctionApp.repositories.ColorRepository;
 import ba.abh.AuctionApp.repositories.auction.AuctionRepository;
 import ba.abh.AuctionApp.requests.AuctionRequest;
 import ba.abh.AuctionApp.responses.PriceChartResponse;
+import ba.abh.AuctionApp.utility.SuggestionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,15 +31,18 @@ public class AuctionService {
     private final CategoryService categoryService;
     private final ProductService productService;
     private final AuctionRepository auctionRepository;
+    private final DictionaryRepository dictionaryRepository;
 
     public AuctionService(final ColorRepository colorRepository,
                           final CategoryService categoryService,
                           final ProductService productService,
-                          final AuctionRepository auctionRepository) {
+                          final AuctionRepository auctionRepository,
+                          final DictionaryRepository dictionaryRepository) {
         this.colorRepository = colorRepository;
         this.categoryService = categoryService;
         this.productService = productService;
         this.auctionRepository = auctionRepository;
+        this.dictionaryRepository = dictionaryRepository;
     }
 
     public Auction createAuction(final AuctionRequest auctionRequest, final User seller) {
@@ -101,7 +106,8 @@ public class AuctionService {
         return auctionRepository.getPriceChartData(auctionFilter);
     }
 
-    public List<String> suggest(final String search) {
-
+    public String suggest(final String search) {
+        var dictionary = dictionaryRepository.getDictionaryEntries();
+        return SuggestionService.suggest(search, dictionary);
     }
 }
