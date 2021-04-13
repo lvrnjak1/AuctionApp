@@ -16,6 +16,7 @@ import PriceFilter from 'components/price_filter/priceFilter';
 import "components/shop/shop.scss";
 import { getFormattedParams } from 'util/filterParams';
 import { setGrid, setList } from 'state/actions/displayPreferenceActions';
+import { setSuggestion } from 'state/actions/suggestionActions';
 
 function Shop() {
     const dispatch = useDispatch();
@@ -69,10 +70,13 @@ function Shop() {
     useEffect(() => {
         async function fetchProducts() {
             const params = getFormattedParams(filterParams);
-            await getRequest(AUCTIONS_ENDPOINT, params, (response) => handleNewProducts(response.data.auction), errorHandler);
+            await getRequest(AUCTIONS_ENDPOINT, params, (response) => {
+                handleNewProducts(response.data.auctions);
+                dispatch(setSuggestion(response.data.suggestion));
+            }, errorHandler);
         }
         fetchProducts();
-    }, [filterParams]);
+    }, [filterParams, dispatch]);
 
     const loadMore = () => {
         dispatch(setPage(filterParams.page + 1));
