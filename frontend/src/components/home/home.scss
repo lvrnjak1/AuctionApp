@@ -8,6 +8,7 @@
   }
   .top {
     background: $lightGray;
+    max-width: 100%;
     .featured-product {
       margin-left: 30px;
       .featured-product-name {
@@ -51,9 +52,9 @@
     }
 
     .featured-product-image {
-      text-align: center;
+      text-align: left;
       img {
-        margin: 10px 0 0 0;
+        margin: 20px 0px 0 30px;
         height: 300px;
         min-width: 350px;
       }
