@@ -4,12 +4,14 @@
   display: grid;
   margin-bottom: 20px;
   grid-template-columns: repeat(2, 1fr);
+  gap: 1em;
 
-  @media screen and (min-width: $medium) {
+  @media screen and (min-width: 1000px) {
     grid-template-columns: repeat(3, 1fr);
 
     &.col-4 {
       grid-template-columns: repeat(4, 1fr);
+      gap: initial;
     }
   }
 
