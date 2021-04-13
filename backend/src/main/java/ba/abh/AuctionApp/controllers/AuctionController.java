@@ -12,7 +12,6 @@ import ba.abh.AuctionApp.responses.AuctionResponse;
 import ba.abh.AuctionApp.responses.AuctionSearchResponse;
 import ba.abh.AuctionApp.responses.PageableResponse;
 import ba.abh.AuctionApp.responses.PriceChartResponse;
-import ba.abh.AuctionApp.responses.SuggestionResponse;
 import ba.abh.AuctionApp.services.AuctionService;
 import ba.abh.AuctionApp.services.UserService;
 import org.springframework.data.domain.Page;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -118,10 +116,5 @@ public class AuctionController {
                 requestParams.getMinutesLeft(),
                 sortSpecification
         );
-    }
-
-    @GetMapping("/did-you-mean")
-    public ResponseEntity<SuggestionResponse> didYouMean(@RequestParam String search) {
-        return ResponseEntity.ok(new SuggestionResponse(auctionService.suggest(search)));
     }
 }
