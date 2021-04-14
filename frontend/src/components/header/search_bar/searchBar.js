@@ -39,6 +39,8 @@ function SearchBar() {
         }
     }, [history.location.pathname, dispatch]);
 
+    const activeStyle = { color: "#8367D8", textDecoration: "none" };
+
     return (
         <div className="search-bar">
             <div className="search-bar-title">
@@ -56,7 +58,7 @@ function SearchBar() {
                             to="/home"
                             isActive={() => ['/home', '/'].includes(pathname)}
                             className="search-bar-link"
-                            activeStyle={{ color: "#8367D8", textDecoration: "none" }}>
+                            activeStyle={activeStyle}>
                             HOME
                         </NavLink>
                     </li>
@@ -64,7 +66,7 @@ function SearchBar() {
                         <NavLink
                             to="/shop"
                             className="search-bar-link"
-                            activeStyle={{ color: "#8367D8", textDecoration: "none" }}>
+                            activeStyle={activeStyle}>
                             SHOP
                         </NavLink>
                     </li>
@@ -77,7 +79,7 @@ function SearchBar() {
                                 <NavLink
                                     to="/profile"
                                     className="search-bar-link"
-                                    activeStyle={{ color: "#8367D8", textDecoration: "none" }}>
+                                    activeStyle={activeStyle}>
                                     MY ACCOUNT
                                 </NavLink>
                                 {openDropdown && <Dropdown onLeave={() => setOpenDropdown(false)} />}
