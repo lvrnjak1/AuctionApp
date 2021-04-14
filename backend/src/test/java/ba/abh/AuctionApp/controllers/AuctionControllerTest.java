@@ -188,73 +188,73 @@ class AuctionControllerTest {
     @Test
     public void testGetAuctions1() throws Exception {
         mockMvc.perform(get("/auctions"))
-                .andExpect(jsonPath("$.pagination.hasNext", is(false)))
-                .andExpect(jsonPath("$.pagination.hasPrevious", is(false)))
-                .andExpect(jsonPath("$.data", hasSize(8)));
+                .andExpect(jsonPath("$.auctions.pagination.hasNext", is(true)))
+                .andExpect(jsonPath("$.auctions.pagination.hasPrevious", is(false)))
+                .andExpect(jsonPath("$.auctions.data", hasSize(10)));
     }
 
     @Test
     public void testGetAuctions2() throws Exception {
         mockMvc.perform(get("/auctions?limit=3"))
-                .andExpect(jsonPath("$.pagination.hasNext", is(true)))
-                .andExpect(jsonPath("$.pagination.hasPrevious", is(false)))
-                .andExpect(jsonPath("$.data", hasSize(3)));
+                .andExpect(jsonPath("$.auctions.pagination.hasNext", is(true)))
+                .andExpect(jsonPath("$.auctions.pagination.hasPrevious", is(false)))
+                .andExpect(jsonPath("$.auctions.data", hasSize(3)));
     }
 
     @Test
     public void testGetAuctions3() throws Exception {
         mockMvc.perform(get("/auctions?page=1&limit=3"))
-                .andExpect(jsonPath("$.pagination.hasNext", is(true)))
-                .andExpect(jsonPath("$.pagination.hasPrevious", is(false)))
-                .andExpect(jsonPath("$.data", hasSize(3)));
+                .andExpect(jsonPath("$.auctions.pagination.hasNext", is(true)))
+                .andExpect(jsonPath("$.auctions.pagination.hasPrevious", is(false)))
+                .andExpect(jsonPath("$.auctions.data", hasSize(3)));
     }
 
     @Test
     public void testFindByCategory1() throws Exception {
         mockMvc.perform(get("/auctions?categoryId=1"))
-                .andExpect(jsonPath("$.pagination.pageSize", is(7)));
+                .andExpect(jsonPath("$.auctions.pagination.pageSize", is(10)));
     }
 
     @Test
     public void testFindByCategory2() throws Exception {
         mockMvc.perform(get("/auctions?categoryId=2"))
-                .andExpect(jsonPath("$.pagination.pageSize", is(1)));
+                .andExpect(jsonPath("$.auctions.pagination.pageSize", is(3)));
     }
 
     @Test
     public void testFindByCategory3() throws Exception {
         mockMvc.perform(get("/auctions?categoryId=3"))
-                .andExpect(jsonPath("$.pagination.pageSize", is(0)));
+                .andExpect(jsonPath("$.auctions.pagination.pageSize", is(1)));
     }
 
     @Test
     public void testFindByCategory4() throws Exception {
         mockMvc.perform(get("/auctions?categoryId=9"))
-                .andExpect(jsonPath("$.pagination.pageSize", is(4)));
+                .andExpect(jsonPath("$.auctions.pagination.pageSize", is(5)));
     }
 
     @Test
     public void testFindByCategory5() throws Exception {
         mockMvc.perform(get("/auctions?categoryId=12"))
-                .andExpect(jsonPath("$.pagination.pageSize", is(2)));
+                .andExpect(jsonPath("$.auctions.pagination.pageSize", is(3)));
     }
 
     @Test
     public void testFindByCategory6() throws Exception {
         mockMvc.perform(get("/auctions?categoryId=13"))
-                .andExpect(jsonPath("$.pagination.pageSize", is(1)));
+                .andExpect(jsonPath("$.auctions.pagination.pageSize", is(1)));
     }
 
     @Test
     public void testFindByCategory8() throws Exception {
         mockMvc.perform(get("/auctions?categoryId=8"))
-                .andExpect(jsonPath("$.pagination.pageSize", is(1)));
+                .andExpect(jsonPath("$.auctions.pagination.pageSize", is(2)));
     }
 
     @Test
     public void testFindByCategory9() throws Exception {
         mockMvc.perform(get("/auctions?categoryId=17"))
-                .andExpect(jsonPath("$.pagination.pageSize", is(0)));
+                .andExpect(jsonPath("$.auctions.pagination.pageSize", is(1)));
     }
 
     @Test
@@ -293,7 +293,7 @@ class AuctionControllerTest {
                 .andReturn();
 
         JSONObject response = new JSONObject(result.getResponse().getContentAsString());
-        JSONArray data = response.getJSONArray("data");
+        JSONArray data = response.getJSONObject("auctions").getJSONArray("data");
         List<Long> timeLeft = new ArrayList<>();
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.UK);
         for(int i = 0; i < data.length(); i++) {
@@ -314,7 +314,7 @@ class AuctionControllerTest {
                 .andReturn();
 
         JSONObject response = new JSONObject(result.getResponse().getContentAsString());
-        JSONArray data = response.getJSONArray("data");
+        JSONArray data = response.getJSONObject("auctions").getJSONArray("data");
         List<Long> timeLeft = new ArrayList<>();
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.UK);
         for (int i = 0; i < data.length(); i++) {
@@ -330,29 +330,28 @@ class AuctionControllerTest {
     }
 
     @Test
-    public void testSeachAuctions1() throws Exception {
+    public void testSearchAuctions1() throws Exception {
         mockMvc.perform(get("/auctions?name=black"))
-                .andExpect(jsonPath("$.pagination.pageSize", is(1)))
-                .andExpect(jsonPath("$.data[0].product.name", is("Black sandals")));
+                .andExpect(jsonPath("$.auctions.pagination.pageSize", is(3)));
     }
 
     @Test
     public void testSearchAuctions2() throws Exception {
         mockMvc.perform(get("/auctions?name=ShirT"))
-                .andExpect(jsonPath("$.pagination.pageSize", is(1)));
+                .andExpect(jsonPath("$.auctions.pagination.pageSize", is(1)));
     }
 
     @Test
     public void testSearchAuctions3() throws Exception {
         mockMvc.perform(get("/auctions?name=notfound"))
-                .andExpect(jsonPath("$.pagination.pageSize", is(0)));
+                .andExpect(jsonPath("$.auctions.pagination.pageSize", is(0)));
     }
 
     @Test
     public void testFilterAuctions2() throws Exception {
         MvcResult result = mockMvc.perform(get("/auctions?priceMin=100")).andReturn();
         JSONObject response = new JSONObject(result.getResponse().getContentAsString());
-        JSONArray data = response.getJSONArray("data");
+        JSONArray data = response.getJSONObject("auctions").getJSONArray("data");
         for(int i = 0; i < data.length(); i++){
             String price = String.valueOf(data.getJSONObject(i).get("startPrice"));
             assertTrue( Double.parseDouble(price) >= 100);
@@ -363,7 +362,7 @@ class AuctionControllerTest {
     public void testFilterAuctions3() throws Exception {
         MvcResult result = mockMvc.perform(get("/auctions?priceMax=100")).andReturn();
         JSONObject response = new JSONObject(result.getResponse().getContentAsString());
-        JSONArray data = response.getJSONArray("data");
+        JSONArray data = response.getJSONObject("auctions").getJSONArray("data");
         for(int i = 0; i < data.length(); i++){
             String price = String.valueOf(data.getJSONObject(i).get("startPrice"));
             assertTrue( Double.parseDouble(price) <= 100);
@@ -376,7 +375,7 @@ class AuctionControllerTest {
                 .perform(get("/auctions?categoryId=8&categoryId=9"))
                 .andReturn();
         JSONObject response = new JSONObject(result.getResponse().getContentAsString());
-        JSONArray data = response.getJSONArray("data");
+        JSONArray data = response.getJSONObject("auctions").getJSONArray("data");
         for(int i = 0; i < data.length(); i++){
             String catId = String.valueOf(data.getJSONObject(i).getJSONObject("product").getJSONObject("category").get("id"));
             assertTrue(catId.equals("8") || catId.equals("9"));
@@ -389,7 +388,7 @@ class AuctionControllerTest {
                 .perform(get("/auctions?categoryId=1"))
                 .andReturn();
         JSONObject response = new JSONObject(result.getResponse().getContentAsString());
-        JSONArray data = response.getJSONArray("data");
+        JSONArray data = response.getJSONObject("auctions").getJSONArray("data");
         for(int i = 0; i < data.length(); i++){
             Integer catId = (Integer) data.getJSONObject(i).getJSONObject("product").getJSONObject("category").get("id");
             Category cat = categoryRepository.findById(Long.valueOf(catId)).orElseThrow();
@@ -403,7 +402,7 @@ class AuctionControllerTest {
                 .perform(get("/auctions?categoryId=1&priceMax=150"))
                 .andReturn();
         JSONObject response = new JSONObject(result.getResponse().getContentAsString());
-        JSONArray data = response.getJSONArray("data");
+        JSONArray data = response.getJSONObject("auctions").getJSONArray("data");
         for(int i = 0; i < data.length(); i++){
             Integer catId = (Integer) data.getJSONObject(i).getJSONObject("product").getJSONObject("category").get("id");
             Category cat = categoryRepository.findById(Long.valueOf(catId)).orElseThrow();
