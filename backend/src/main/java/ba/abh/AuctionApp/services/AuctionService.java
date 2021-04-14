@@ -121,7 +121,7 @@ public class AuctionService {
     }
 
     public Auction getAuctionById(final Long id) {
-        return auctionRepository.findById(id)
+        return auctionRepository.findAuctionById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Auction with id %d doesn't exist", id)));
     }
 }

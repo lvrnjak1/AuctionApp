@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.Clock;
 import java.time.Instant;
 import java.util.Optional;
 
@@ -28,4 +29,14 @@ public interface AuctionRepository extends JpaRepository<Auction, Long>, Filtere
             "group by a " +
             "order by count(b.id) desc")
     Page<Auction> findAllActiveSortedByNumberOfBids(final Instant date, final Pageable pageable);
+
+    @Query(value = "select a " +
+            "from Auction a " +
+            "where a.id = ?1 and ((a.seller.active = true and a.endDateTime >= ?2) or (a.endDateTime < ?2)) ")
+    Optional<Auction> findAuctionById(final Long id, final Instant today);
+
+    default Optional<Auction> findAuctionById(final Long id) {
+        Instant today = Instant.now(Clock.systemUTC());
+        return findAuctionById(id, today);
+    }
 }
