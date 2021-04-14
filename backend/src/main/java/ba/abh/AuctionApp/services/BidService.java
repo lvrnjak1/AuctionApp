@@ -1,5 +1,6 @@
 package ba.abh.AuctionApp.services;
 
+import ba.abh.AuctionApp.controllers.utility.AuctionStatus;
 import ba.abh.AuctionApp.domain.Auction;
 import ba.abh.AuctionApp.domain.Bid;
 import ba.abh.AuctionApp.domain.User;
@@ -85,18 +86,18 @@ public class BidService {
         return bidRepository.getDetailedAuctionsByBidderEmail(email, pageable);
     }
 
-    public Page<BidProjection> getBidsForSeller(final String email, final String status, final int page, final int limit) {
+    public Page<BidProjection> getBidsForSeller(final String email, final AuctionStatus status, final int page, final int limit) {
         Pageable pageable = PageRequest.of(page, limit);
         Instant today = Instant.now(Clock.systemUTC());
         Page<BidProjection> result;
         switch (status) {
-            case "active":
+            case ACTIVE:
                 result = bidRepository.getActiveAuctionsBySellerEmail(email, today, pageable);
                 break;
-            case "closed":
+            case CLOSED:
                 result = bidRepository.getClosedAuctionsBySellerEmail(email, today, pageable);
                 break;
-            case "scheduled":
+            case SCHEDULED:
                 result = bidRepository.getScheduledAuctionsBySellerEmail(email, today, pageable);
                 break;
             default:

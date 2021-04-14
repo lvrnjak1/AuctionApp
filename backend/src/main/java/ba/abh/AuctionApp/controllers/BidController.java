@@ -1,5 +1,6 @@
 package ba.abh.AuctionApp.controllers;
 
+import ba.abh.AuctionApp.controllers.utility.AuctionStatus;
 import ba.abh.AuctionApp.controllers.utility.RequestParams;
 import ba.abh.AuctionApp.domain.Bid;
 import ba.abh.AuctionApp.domain.User;
@@ -78,7 +79,7 @@ public class BidController {
                                                                  ) @RequestParam(defaultValue = "active") String status,
                                                                  @Valid final RequestParams requestParams) {
         Page<BidProjection> bids = bidService.getBidsForSeller(principal.getName(),
-                status,
+                AuctionStatus.valueOf(status.toUpperCase()),
                 requestParams.getPage() - 1,
                 requestParams.getLimit()
         );
