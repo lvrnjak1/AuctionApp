@@ -46,7 +46,7 @@ function Categories(props) {
 
     return (
         <div className={`categories-div ${props.border && "border"}`}>
-            <button className="title">Categories</button>
+            <button className="category-title">Categories</button>
             <div className="line"></div>
             <ul>
                 {props.items.map(c => {

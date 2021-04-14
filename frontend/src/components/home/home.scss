@@ -8,6 +8,7 @@
   }
   .top {
     background: $lightGray;
+    max-width: 100%;
     .featured-product {
       margin-left: 30px;
       .featured-product-name {
@@ -51,35 +52,36 @@
     }
 
     .featured-product-image {
-      text-align: center;
+      text-align: left;
       img {
-        margin: 10px 0 0 0;
+        margin: 20px 0px 0 30px;
         height: 300px;
         min-width: 350px;
       }
     }
   }
 
+  .home-main {
+    padding: 0px 30px 0px 30px;
+    margin: auto;
+  }
+
+  .title {
+    margin-left: 20px;
+    box-sizing: border-box;
+    font-size: 28px;
+    color: $black;
+    letter-spacing: 0.98px;
+    margin-bottom: 15px;
+  }
+
   .featured-collections {
     text-align: center;
-    margin: 20px;
-    .title {
-      font-size: 28px;
-      color: $black;
-      letter-spacing: 0.98px;
-      margin-bottom: 15px;
-    }
+    margin: auto;
   }
 
   .featured-products {
     text-align: center;
-    margin: 20px;
-    .title {
-      font-size: 28px;
-      color: $black;
-      letter-spacing: 0.98px;
-      margin-bottom: 15px;
-    }
   }
 
   .bottom {
@@ -93,17 +95,18 @@
       border: none;
       cursor: pointer;
       padding: 0 0 15px 0;
+      box-sizing: border-box;
     }
 
     button:focus {
       outline: transparent;
-      border-bottom: 3px solid $purple;
+      border-bottom: 2px solid $purple;
     }
 
     .button-bar {
-      border-bottom: 2px solid $gray;
+      box-sizing: border-box;
+      border-bottom: 1px solid $purple;
       margin-bottom: 15px;
-      margin-right: 10px;
     }
   }
 
@@ -142,21 +145,21 @@
 
     .featured-collections {
       text-align: left;
-      margin: 0 9% 20px 9%;
     }
 
     .featured-products {
       text-align: left;
-      margin: 0 9% 20px 9%;
     }
 
     .bottom {
       text-align: left;
-      margin: 0 9% 0 9%;
     }
   }
 
   @media screen and (min-width: 1300px) {
+    .home-main {
+      padding: 0px 15% 0px 15%;
+    }
     .top {
       height: 400px;
       display: grid;
@@ -198,18 +201,6 @@
 
     .title {
       margin-left: 10px;
-    }
-
-    .featured-collections {
-      margin: 0 15% 30px 15%;
-    }
-
-    .featured-products {
-      margin: 0 15% 30px 15%;
-    }
-
-    .bottom {
-      margin: 0 15% 0 15%;
     }
   }
 

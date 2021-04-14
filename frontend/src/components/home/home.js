@@ -51,12 +51,13 @@ function Home() {
 
             requests.push({
                 endpoint: FEATURED_CATEGORIES_ENDPOINT,
+                params: { limit: 4 },
                 successHandler: (response) => setFeaturedCategories(response.data)
             });
 
             requests.push({
                 endpoint: AUCTIONS_ENDPOINT,
-                params: { limit: 8, sort: "DATE", sortOrder: "DESC" },
+                params: { limit: 4, sort: "DATE", sortOrder: "DESC" },
                 successHandler: (response) => setProducts(response.data.data)
             });
 
@@ -72,10 +73,10 @@ function Home() {
 
         if (e.target.id === "new" && !newArrivalsActive) {
             setNewArrivalsActive(true);
-            params = { limit: 8, sort: "DATE", sortOrder: "DESC" }
+            params = { limit: 4, sort: "DATE", sortOrder: "DESC" }
         } else if (e.target.id === "lastChance" && newArrivalsActive) {
             setNewArrivalsActive(false);
-            params = { limit: 8, minutesLeft: 1440 }
+            params = { limit: 4, minutesLeft: 1440 }
         }
 
         if (endpoint) {
@@ -107,25 +108,26 @@ function Home() {
                         alt={featuredProduct.name} />
                 </div>
             </div>}
-
-            <div className="featured-collections">
-                <p className="title">Featured Categories</p>
-                <div className="title-line"></div>
-                {featuredCategories && <ProductGrid nrows={1} items={featuredCategories} col3 categories grid />}
-            </div>
-
-            <div className="featured-products">
-                <p className="title">Featured Products</p>
-                <div className="title-line"></div>
-                {featuredProducts && <ProductGrid items={featuredProducts} grid small />}
-            </div>
-
-            <div className="bottom">
-                <div className="button-bar">
-                    <button id="new" onClick={toggleBottomGrid} autoFocus>New Arrivals</button>
-                    <button id="lastChance" onClick={toggleBottomGrid}>Last Chance</button>
+            <div className="home-main">
+                <div className="featured-collections">
+                    <p className="title">Featured Categories</p>
+                    <div className="title-line"></div>
+                    {featuredCategories && <ProductGrid nrows={1} items={featuredCategories} categories grid small />}
                 </div>
-                {products && <ProductGrid items={products} grid small />}
+
+                <div className="featured-products">
+                    <p className="title">Featured Products</p>
+                    <div className="title-line"></div>
+                    {featuredProducts && <ProductGrid items={featuredProducts} grid small />}
+                </div>
+
+                <div className="bottom">
+                    <div className="button-bar">
+                        <button id="new" onClick={toggleBottomGrid} autoFocus>New Arrivals</button>
+                        <button id="lastChance" onClick={toggleBottomGrid}>Last Chance</button>
+                    </div>
+                    {products && <ProductGrid items={products} grid small />}
+                </div>
             </div>
         </div>
     );
