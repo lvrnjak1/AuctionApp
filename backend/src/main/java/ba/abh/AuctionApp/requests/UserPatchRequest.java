@@ -20,7 +20,8 @@ public class UserPatchRequest {
     @ValidEmail(message = "Provide a valid email address")
     private JsonNullable<String> email = JsonNullable.undefined();
 
-    @Pattern(regexp = "^(female|FEMALE|MALE|male)$", message = "Possible values are male (MALE) and female (FEMALE)")
+    @Pattern(regexp = "^(female|FEMALE|MALE|male|OTHER|other)$",
+            message = "Possible values are male (MALE), female (FEMALE) and other (OTHER)")
     private JsonNullable<String> gender = JsonNullable.undefined();
 
     private JsonNullable<Long> dateOfBirth = JsonNullable.undefined();
