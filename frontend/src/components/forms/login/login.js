@@ -20,11 +20,9 @@ function Login() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log(history.location.state);
         if (history.location.state) {
             setEmail(history.location.state.email || "");
             if (history.location.state.message) {
-                console.log("here");
                 updateMessage(history.location.state.message, history.location.state.messageClass);
             }
         }
