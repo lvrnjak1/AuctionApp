@@ -12,6 +12,7 @@ pipeline {
       JWT_SECRET= credentials('JWT_SECRET')
       REACT_APP_API_URL = credentials('REACT_APP_API_URL')
       PORT= credentials('PORT')
+      JAVA_HOME="/usr/lib/jvm/java-13-openjdk-amd64"
   }
 
   stages {
