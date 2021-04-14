@@ -60,6 +60,7 @@ public class AuctionController {
         String suggestion = null;
         if(auctionPage.getContent().size() == 0 && requestParams.getName() != null) {
             suggestion = auctionService.suggest(requestParams.getName());
+            if(suggestion.equals(requestParams.getName())) suggestion = null;
         }
         AuctionSearchResponse response = buildPageableResponse(auctionPage, suggestion);
         return ResponseEntity.ok(response);
