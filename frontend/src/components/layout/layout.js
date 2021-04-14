@@ -12,15 +12,6 @@ import { useLocation } from 'react-router-dom';
 const useStyles = makeStyles(theme => ({
     container: {
         width: "100%"
-    },
-    searchbar: {
-        height: 60,
-        [theme.breakpoints.down('sm')]: {
-            height: 120,
-        },
-        [theme.breakpoints.up('sm')]: {
-            height: 60,
-        },
     }
 }))
 
@@ -42,7 +33,7 @@ function Layout(props) {
             {!props.removeHeader &&
                 <>
                     <Grid item><Navbar /></Grid>
-                    <Grid item className={classes.searchbar}><SearchBar /></Grid>
+                    <Grid item><SearchBar /></Grid>
                     <Grid item><BreadcrumbBar content={props.breadcrumbs} /></Grid>
                     <Grid item><InfoDiv /></Grid>
                 </>

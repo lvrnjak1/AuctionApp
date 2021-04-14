@@ -44,14 +44,7 @@ function SearchBar() {
                     <FontAwesomeIcon icon={faGavel} size="sm" className="search-bar-title-icon" />}
                 <p>AUCTION</p>
             </div>
-            <div className="search-input">
-                <form onSubmit={handleSearch}>
-                    <input type="text" placeholder="Search..." value={searchCriteria} onChange={(e) => dispatch(setSearch(e.target.value))} />
-                    <button type="submit" className="search-button">
-                        <FontAwesomeIcon icon={faSearch} size="sm" />
-                    </button>
-                </form>
-            </div>
+
             <div className="search-bar-links">
                 <ul>
                     <li>
@@ -61,6 +54,15 @@ function SearchBar() {
                         <NavLink to="/shop" className="search-bar-link" activeStyle={{ color: "#8367D8", textDecoration: "none" }}>SHOP</NavLink>
                     </li>
                 </ul>
+            </div>
+
+            <div className="search-input">
+                <form onSubmit={handleSearch}>
+                    <input type="text" placeholder="Search..." value={searchCriteria} onChange={(e) => dispatch(setSearch(e.target.value))} />
+                    <button type="submit" className="search-button">
+                        <FontAwesomeIcon icon={faSearch} size="sm" />
+                    </button>
+                </form>
             </div>
         </div>
     )
