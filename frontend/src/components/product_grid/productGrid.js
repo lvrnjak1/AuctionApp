@@ -24,7 +24,10 @@ function ProductGrid(props) {
         let items = [];
         for (let i = 0; i < nItems; i++) {
             items.push(
-                <Product key={i} product={getProduct(i)} grid={props.grid} small={props.ncols === 4 || props.small} />
+                <Product key={i} product={getProduct(i)}
+                    grid={props.grid}
+                    small={props.ncols === 4 || props.small}
+                    categories={props.categories} />
             )
         }
 
