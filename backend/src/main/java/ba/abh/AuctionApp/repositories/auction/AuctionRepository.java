@@ -12,17 +12,19 @@ import java.util.Optional;
 
 @Repository
 public interface AuctionRepository extends JpaRepository<Auction, Long>, FilteredAuctionRepository {
-    Optional<Auction> findByIdAndStartDateTimeBeforeAndEndDateTimeAfter(final Long auctionId,
-                                                                        final Instant dateBefore,
-                                                                        final Instant dateAfter);
+    Optional<Auction> findByIdAndStartDateTimeBeforeAndEndDateTimeAfterAndSeller_Active(final Long auctionId,
+                                                                                        final Instant dateBefore,
+                                                                                        final Instant dateAfter,
+                                                                                        final boolean active);
 
     default Optional<Auction> findActiveById(final Long auctionId, final Instant date) {
-        return findByIdAndStartDateTimeBeforeAndEndDateTimeAfter(auctionId, date, date);
+        return findByIdAndStartDateTimeBeforeAndEndDateTimeAfterAndSeller_Active(auctionId, date, date, true);
     }
 
     @Query("select a from Auction a " +
             "left join Bid b on b.auction = a " +
-            "where a.startDateTime <= ?1 and a.endDateTime >= ?1 " +
+            "left join User u on u = a.seller " +
+            "where a.startDateTime <= ?1 and a.endDateTime >= ?1 and u.active = true " +
             "group by a " +
             "order by count(b.id) desc")
     Page<Auction> findAllActiveSortedByNumberOfBids(final Instant date, final Pageable pageable);

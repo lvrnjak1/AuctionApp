@@ -83,7 +83,8 @@ public class BidService {
 
     public Page<BidProjection> getBidsForBidder(final String email, final int page, final int limit) {
         Pageable pageable = PageRequest.of(page, limit);
-        return bidRepository.getDetailedAuctionsByBidderEmail(email, pageable);
+        Instant today = Instant.now(Clock.systemUTC());
+        return bidRepository.getDetailedAuctionsByBidderEmail(email, today, pageable);
     }
 
     public Page<BidProjection> getBidsForSeller(final String email, final AuctionStatus status, final int page, final int limit) {
