@@ -52,11 +52,40 @@ const getTomorrow = () => {
     return tomorrow;
 }
 
+const getMonths = () => {
+    return [
+        { name: "Jan", key: 0 },
+        { name: "Feb", key: 1 },
+        { name: "Mar", key: 2 },
+        { name: "April", key: 3 },
+        { name: "May", key: 4 },
+        { name: "June", key: 5 },
+        { name: "July", key: 6 },
+        { name: "Aug", key: 7 },
+        { name: "Sept", key: 8 },
+        { name: "Oct", key: 9 },
+        { name: "Nov", key: 10 },
+        { name: "Dec", key: 11 }
+    ];
+}
+
+function getYears() {
+    let years = [];
+    const currentYear = new Date().getFullYear();
+    for (let i = currentYear; i <= currentYear + 4; i++) {
+        years.push(i);
+    }
+
+    return years;
+}
+
 export {
     getDifferenceBetweenDates,
     getTimeLeft,
     formatDate,
     dateToYMD,
     getMaxBirthdate,
-    getTomorrow
+    getTomorrow,
+    getMonths,
+    getYears
 }
