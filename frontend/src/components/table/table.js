@@ -2,6 +2,9 @@ import React from 'react';
 import { TableContainer, Table, TableBody, TableRow, TableCell, Paper, TableHead } from '@material-ui/core';
 import "components/table/table.scss";
 import { formatDate } from 'util/dateTimeService';
+import Transformation from 'cloudinary-react/lib/components/Transformation';
+import Image from 'cloudinary-react/lib/components/Image';
+import { getPublicId } from 'util/images_util';
 
 function CustomTable(props) {
     const { items } = props;
@@ -21,7 +24,10 @@ function CustomTable(props) {
                         return <TableRow key={index}>
                             <TableCell className="col col-bidder" component="th" scope="row">
                                 <div className="avatar">
-                                    <img src="/images/profile-pic.png" alt="profile" />
+                                    {row.bidder.profilePhotoUrl ? <Image className="small-image" cloudName="lvrnjak" publicId={getPublicId(row.bidder.profilePhotoUrl)} >
+                                        <Transformation height={60} width={60} crop="scale" quality="auto" flags="lossy" />
+                                    </Image> :
+                                        <img src="/images/profile-pic.png" alt="profile" />}
                                 </div>
                                 <p> {`${row.bidder.name} ${row.bidder.surname}`}</p>
                             </TableCell>
