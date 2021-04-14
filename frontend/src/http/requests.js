@@ -40,6 +40,18 @@ const getRequest = async (endpoint, queryParams, successHandler, errorHandler, r
     }
 }
 
+const deleteRequest = async (endpoint, queryParams, successHandler, errorHandler, requestConfig) => {
+    try {
+        store.dispatch(setAsyncTaskInProgress(true));
+        const response = await axios.delete(endpoint, { params: queryParams, ...requestConfig });
+        store.dispatch(setAsyncTaskInProgress(false));
+        successHandler(response);
+    } catch (error) {
+        store.dispatch(setAsyncTaskInProgress(false));
+        errorHandler(error);
+    }
+}
+
 const sendMultipleGetRequests = async (requests) => {
     store.dispatch(setAsyncTaskInProgress(true));
     const reqs = []
@@ -100,5 +112,6 @@ export {
     sendMultipleGetRequests,
     patchRequest,
     uploadFormData,
-    uploadMultipleImages
+    uploadMultipleImages,
+    deleteRequest
 }

@@ -1,16 +1,21 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import "components/profile/profile.scss";
 import "components/settings/settings.scss";
-import { getRequest } from 'http/requests';
+import { deleteRequest, getRequest } from 'http/requests';
 import { updateMessage } from 'util/info_div_util';
-import { getAuthorizationConfig } from 'util/auth/auth';
-import { USER_PROFILE_ENDPOINT } from 'http/endpoints';
+import { getAuthorizationConfig, logoutUser } from 'util/auth/auth';
+import { USERS_ENDPOINT, USER_PROFILE_ENDPOINT } from 'http/endpoints';
 import ConfirmationDialog from 'components/confirmation_dialog/confirmationDialog';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { resetLoggedIn } from 'state/actions/loggedInActions';
 
 function Settings() {
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [dialogOpen, setDialogOpen] = useState(false);
+    const history = useHistory();
+    const dispatch = useDispatch();
 
     const setUserData = useCallback((userData) => {
         setEmail(userData.email);
@@ -42,8 +47,23 @@ function Settings() {
         setDialogOpen(false);
     }
 
-    const handleDeactivateAccount = () => {
+    const handleSuccessfulDeactivate = () => {
+        logoutUser();
+        dispatch(resetLoggedIn());
+        history.push("/login", {
+            message: "You account has been deactivated. We are sorry to see you go!",
+            messageClass: "success"
+        });
+    }
+
+    const handleDeactivateAccount = async () => {
         setDialogOpen(false);
+        await deleteRequest(USERS_ENDPOINT,
+            {},
+            handleSuccessfulDeactivate,
+            () => updateMessage("Something went wrong. Try this again", "error"),
+            getAuthorizationConfig()
+        );
     }
 
     return (

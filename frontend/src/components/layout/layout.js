@@ -21,7 +21,7 @@ function Layout(props) {
     const { pathname } = useLocation();
 
     useEffect(() => {
-        dispatch(resetInfoMessage());
+        return () => dispatch(resetInfoMessage());
     });
 
     useEffect(() => {

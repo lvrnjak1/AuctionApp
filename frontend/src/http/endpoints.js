@@ -10,6 +10,7 @@ export const CHECK_OTP_TOKEN_ENDPOINT = `${process.env.REACT_APP_API_URL}/passwo
 export const PRICE_CHART_ENDPOINT = `${process.env.REACT_APP_API_URL}/auctions/price-chart`;
 export const USER_PROFILE_ENDPOINT = `${process.env.REACT_APP_API_URL}/users/profile`;
 export const USER_CARD_INFO_ENDPOINT = `${process.env.REACT_APP_API_URL}/users/card`;
+export const USERS_ENDPOINT = `${process.env.REACT_APP_API_URL}/users`;
 export const UPLOAD_IMAGE_ENDPOINT = `https://api.Cloudinary.com/v1_1/lvrnjak/image/upload`;
 export const DETAILED_BIDS_ENDPOINT = `${process.env.REACT_APP_API_URL}/bids/detailed`;
 export const SELLER_BIDS_ENDPOINT = `${process.env.REACT_APP_API_URL}/seller/bids`;
