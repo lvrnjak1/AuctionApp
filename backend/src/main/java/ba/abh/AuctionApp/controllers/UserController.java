@@ -26,8 +26,8 @@ public class UserController {
 
     @PatchMapping("/profile")
     @Secured("ROLE_BUYER")
-    public ResponseEntity<User> patchMyProfile(final Principal principal,
-                                               @RequestBody @Valid UserPatchRequest patchRequest) {
+    public ResponseEntity<User> patchUserProfile(final Principal principal,
+                                                 @RequestBody @Valid UserPatchRequest patchRequest) {
         User user = userService.getUserByEmail(principal.getName());
         User patched = userService.patchUser(user, patchRequest);
         return ResponseEntity.ok(patched);
