@@ -36,7 +36,7 @@ function ItemPage() {
     };
 
     const isSeller = (sellerId) => {
-        return getUser().id === (sellerId);
+        return getUser() ? getUser().id === (sellerId) : false;
     };
 
     const getBids = async () => {
