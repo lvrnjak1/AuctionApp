@@ -166,4 +166,10 @@ public class UserService {
         user.addRole(roleService.findByRoleName(RoleName.valueOf(roleName)));
         userRepository.save(user);
     }
+
+    public void deactivateAccount(final String email) {
+        User user = getUserByEmail(email);
+        user.setActive(false);
+        userRepository.save(user);
+    }
 }

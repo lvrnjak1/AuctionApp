@@ -13,7 +13,8 @@ add column gender varchar(255),
 add column date_of_birth timestamp with time zone,
 add column phone_number varchar(255),
 add column profile_photo_url varchar(255),
-add column card_details_id bigint constraint fk_credit_card references card_details;
+add column card_details_id bigint constraint fk_credit_card references card_details,
+add column active boolean default true;
 
 alter table products add column long_description varchar;
 update products set long_description = description;

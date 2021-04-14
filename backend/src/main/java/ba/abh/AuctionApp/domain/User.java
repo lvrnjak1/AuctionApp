@@ -46,6 +46,7 @@ public class User extends BaseEntity implements UserDetails {
     private Instant dateOfBirth;
     private String phoneNumber;
     private String profilePhotoUrl;
+    private boolean active = true;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
@@ -156,6 +157,14 @@ public class User extends BaseEntity implements UserDetails {
         this.cardDetails = cardDetails;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(final boolean active) {
+        this.active = active;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
@@ -171,7 +180,8 @@ public class User extends BaseEntity implements UserDetails {
                 Objects.equals(phoneNumber, user.phoneNumber) &&
                 Objects.equals(profilePhotoUrl, user.profilePhotoUrl) &&
                 Objects.equals(roles, user.roles) &&
-                Objects.equals(cardDetails, user.cardDetails);
+                Objects.equals(cardDetails, user.cardDetails) &&
+                Objects.equals(active, user.active);
     }
 
     @Override
@@ -219,6 +229,6 @@ public class User extends BaseEntity implements UserDetails {
     @JsonIgnore
     @Override
     public boolean isEnabled() {
-        return true;
+        return active;
     }
 }
