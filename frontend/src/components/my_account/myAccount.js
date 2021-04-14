@@ -9,42 +9,8 @@ import Bids from 'components/bids/bids';
 import CustomTabs from 'components/tabs/tabs';
 import { getToken } from 'util/auth/auth';
 
-// const useStyles = makeStyles({
-//     iconLabelWrapper: {
-//         flexDirection: "row"
-//     }
-// });
-
-// function TabPanel(props) {
-//     const { children, value, index, ...other } = props;
-
-//     return (
-//         <div
-//             role="tabpanel"
-//             hidden={value !== index}
-//             id={`simple-tabpanel-${index}`}
-//             aria-labelledby={`simple-tab-${index}`}
-//             {...other}
-//         >
-//             {value === index && (
-//                 <Box p={3}>
-//                     <Typography component="span">{children}</Typography>
-//                 </Box>
-//             )}
-//         </div>
-//     );
-// }
-
-// function a11yProps(index) {
-//     return {
-//         id: `simple-tab-${index}`,
-//         'aria-controls': `simple-tabpanel-${index}`,
-//     };
-// }
-
 function MyAccount() {
     const [value, setValue] = React.useState(0);
-    // const classes = useStyles();
     const location = useLocation();
     const history = useHistory();
 
