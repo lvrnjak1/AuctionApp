@@ -4,7 +4,6 @@ import ba.abh.AuctionApp.controllers.utility.AuctionStatus;
 import ba.abh.AuctionApp.controllers.utility.RequestParams;
 import ba.abh.AuctionApp.domain.Bid;
 import ba.abh.AuctionApp.domain.User;
-import ba.abh.AuctionApp.pagination.PageableEntity;
 import ba.abh.AuctionApp.pagination.PaginationDetails;
 import ba.abh.AuctionApp.repositories.bid.BidProjection;
 import ba.abh.AuctionApp.requests.BidRequest;
@@ -55,14 +54,14 @@ public class BidController {
     }
 
     @GetMapping("/auctions/{auctionId}/bids")
-    public ResponseEntity<PageableResponse> getAllBidsForAuction(@PathVariable final Long auctionId,
+    public ResponseEntity<PageableResponse<BidResponse>> getAllBidsForAuction(@PathVariable final Long auctionId,
                                                                  @Valid final RequestParams requestParams) {
         Page<Bid> bidPage = bidService.findBidsForAuction(auctionId, requestParams.getPage() - 1, requestParams.getLimit());
         return ResponseEntity.ok(buildPageableResponse(bidPage));
     }
 
     @GetMapping("/bids/detailed")
-    public ResponseEntity<PageableResponse> getDetailedBidsForAuction(final Principal principal,
+    public ResponseEntity<PageableResponse<DetailedAuctionResponse>> getDetailedBidsForAuction(final Principal principal,
                                                                       @Valid final RequestParams requestParams) {
         Page<BidProjection> bids = bidService.getBidsForBidder(principal.getName(),
                 requestParams.getPage() - 1,
@@ -73,7 +72,7 @@ public class BidController {
 
     @GetMapping("/seller/bids")
     @Secured("ROLE_SELLER")
-    public ResponseEntity<PageableResponse> getSoldBidsForSeller(final Principal principal,
+    public ResponseEntity<PageableResponse<DetailedAuctionResponse>> getSoldBidsForSeller(final Principal principal,
                                                                  @Pattern(regexp = "^(active|closed|scheduled|all)$",
                                                                          message = "Invalid bid status"
                                                                  ) @RequestParam(defaultValue = "active") String status,
@@ -86,19 +85,19 @@ public class BidController {
         return ResponseEntity.ok().body(buildDetailedBidsResponse(bids));
     }
 
-    private PageableResponse buildPageableResponse(final Page<Bid> page) {
+    private PageableResponse<BidResponse> buildPageableResponse(final Page<Bid> page) {
         PaginationDetails details = new PaginationDetails(page);
-        List<? extends PageableEntity> data = page
+        final  List<BidResponse> data = page
                 .getContent()
                 .stream()
                 .map(BidResponse::new)
-                .collect(Collectors.toList());
-        return new PageableResponse(details, (List<PageableEntity>) data);
+                .collect(Collectors.toUnmodifiableList());
+        return new PageableResponse<>(details, data);
     }
 
-    private PageableResponse buildDetailedBidsResponse(final Page<BidProjection> bidsPage) {
+    private PageableResponse<DetailedAuctionResponse> buildDetailedBidsResponse(final Page<BidProjection> bidsPage) {
         PaginationDetails details = new PaginationDetails(bidsPage);
-        List<? extends PageableEntity> data = bidsPage
+        final List<DetailedAuctionResponse> data = bidsPage
                 .getContent()
                 .stream()
                 .map(bidProjection -> {
@@ -106,7 +105,7 @@ public class BidController {
                     BidMetadata bidMetadata = new BidMetadata(bidProjection);
                     return new DetailedAuctionResponse(auctionResponse, bidMetadata);
                 })
-                .collect(Collectors.toList());
-        return new PageableResponse(details, (List<PageableEntity>) data);
+                .collect(Collectors.toUnmodifiableList());
+        return new PageableResponse<>(details, data);
     }
 }

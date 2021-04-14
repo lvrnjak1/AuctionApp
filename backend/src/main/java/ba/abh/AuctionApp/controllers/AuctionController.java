@@ -6,7 +6,6 @@ import ba.abh.AuctionApp.domain.User;
 import ba.abh.AuctionApp.filters.AuctionFilter;
 import ba.abh.AuctionApp.filters.ProductFilter;
 import ba.abh.AuctionApp.filters.SortSpecification;
-import ba.abh.AuctionApp.pagination.PageableEntity;
 import ba.abh.AuctionApp.pagination.PaginationDetails;
 import ba.abh.AuctionApp.requests.AuctionRequest;
 import ba.abh.AuctionApp.responses.AuctionResponse;
@@ -67,9 +66,9 @@ public class AuctionController {
     }
 
     @GetMapping("/featured")
-    public ResponseEntity<PageableResponse> getFeaturedCategories(@Valid final RequestParams requestParams) {
+    public ResponseEntity<PageableResponse<AuctionResponse>> getFeaturedAuctions(@Valid final RequestParams requestParams) {
         Page<Auction> auctionPage = auctionService.getFeaturedProducts(requestParams.getPage() - 1, requestParams.getLimit());
-        PageableResponse response = buildPageableResponse(auctionPage);
+        PageableResponse<AuctionResponse> response = buildPageableResponse(auctionPage);
         return ResponseEntity.ok(response);
     }
 
@@ -86,24 +85,24 @@ public class AuctionController {
         return ResponseEntity.ok().body(priceChartResponse);
     }
 
-    private PageableResponse buildPageableResponse(final Page<Auction> page) {
+    private PageableResponse<AuctionResponse> buildPageableResponse(final Page<Auction> page) {
         PaginationDetails details = new PaginationDetails(page);
-        List<? extends PageableEntity> data = page
+        final List<AuctionResponse> data = page
                 .getContent()
                 .stream()
                 .map(AuctionResponse::new)
-                .collect(Collectors.toList());
-        return new PageableResponse(details, (List<PageableEntity>) data);
+                .collect(Collectors.toUnmodifiableList());
+        return new PageableResponse<>(details, data);
     }
 
     private AuctionSearchResponse buildPageableResponse(final Page<Auction> page, String suggestion) {
         PaginationDetails details = new PaginationDetails(page);
-        List<? extends PageableEntity> data = page
+        final List<AuctionResponse> data = page
                 .getContent()
                 .stream()
                 .map(AuctionResponse::new)
-                .collect(Collectors.toList());
-        return new AuctionSearchResponse(new PageableResponse(details, (List<PageableEntity>) data), suggestion);
+                .collect(Collectors.toUnmodifiableList());
+        return new AuctionSearchResponse(new PageableResponse<>(details, data), suggestion);
     }
 
     private AuctionFilter constructAuctionFilter(final RequestParams requestParams) {

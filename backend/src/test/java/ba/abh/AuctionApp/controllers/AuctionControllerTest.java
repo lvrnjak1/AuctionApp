@@ -157,7 +157,6 @@ class AuctionControllerTest {
                 .andExpect(jsonPath("message", containsString("Start price must be present")))
                 .andExpect(jsonPath("message", containsString("Name must be present")))
                 .andExpect(jsonPath("message", containsString("Category id must be present")))
-                .andExpect(jsonPath("message", containsString("Size must be present")))
                 .andExpect(jsonPath("message", containsString("Provide at least one color")))
                 .andExpect(jsonPath("message", containsString("Start price must be present")));
     }
