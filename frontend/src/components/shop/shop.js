@@ -16,7 +16,7 @@ import PriceFilter from 'components/price_filter/priceFilter';
 import "components/shop/shop.scss";
 import { getFormattedParams } from 'util/filterParams';
 import { setGrid, setList } from 'state/actions/displayPreferenceActions';
-import { setSuggestion } from 'state/actions/suggestionActions';
+import { resetSuggestion, setSuggestion } from 'state/actions/suggestionActions';
 
 function Shop() {
     const dispatch = useDispatch();
@@ -33,6 +33,7 @@ function Shop() {
     const onUnmount = useCallback(() => {
         dispatch(resetCurrentCategory(false));
         dispatch(resetFilterParams());
+        dispatch(resetSuggestion());
     }, [dispatch]);
 
     const setCategoriesCallback = useCallback((data) => {
