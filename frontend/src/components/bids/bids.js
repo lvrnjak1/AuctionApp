@@ -5,11 +5,9 @@ import { DETAILED_BIDS_ENDPOINT } from 'http/endpoints';
 import { getAuthorizationConfig } from 'util/auth/auth';
 import { updateMessage } from 'util/info_div_util';
 import { getTimeLeft } from 'util/dateTimeService';
-import { getPublicId } from 'util/images_util';
-import Image from 'cloudinary-react/lib/components/Image';
-import Transformation from 'cloudinary-react/lib/components/Transformation';
 import { useHistory } from 'react-router-dom';
 import "components/bids/bids.scss";
+import CustomImage from 'components/image/image';
 
 const getHeadings = () => {
     return [
@@ -49,9 +47,12 @@ function Bids() {
             />
         }
         const imageUrl = el.auction.product.images[0].imageUrl;
-        return <Image className="image left-margin" cloudName="lvrnjak" publicId={getPublicId(imageUrl)} >
-            <Transformation height={80} width={80} crop="fill" quality="auto" />
-        </Image>
+        return <CustomImage styles="image left-margin"
+            url={imageUrl}
+            height={80}
+            width={80}
+            crop="fill"
+            altText={"Item in table"} />
     }
 
     const handleOnViewClick = (el) => {

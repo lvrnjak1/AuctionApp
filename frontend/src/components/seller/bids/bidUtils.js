@@ -1,7 +1,5 @@
-import Image from "cloudinary-react/lib/components/Image";
-import Transformation from "cloudinary-react/lib/components/Transformation";
+import CustomImage from "components/image/image";
 import { formatDate, getTimeLeft } from "util/dateTimeService";
-import { getPublicId } from "util/images_util";
 
 const getImage = (el) => {
     if (el.auction.product.images.length === 0) {
@@ -12,9 +10,12 @@ const getImage = (el) => {
         />
     }
     const imageUrl = el.auction.product.images[0].imageUrl;
-    return <Image className="image left-margin" cloudName="lvrnjak" publicId={getPublicId(imageUrl)} >
-        <Transformation height={80} width={80} crop="fill" quality="auto" flags="lossy" />
-    </Image>
+    return <CustomImage styles="image left-margin"
+        url={imageUrl}
+        height={80}
+        width={80}
+        crop="fill"
+        altText={"Item in table"} />
 }
 
 const getTableRows = (data, handleOnViewClick, status) => {

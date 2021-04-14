@@ -8,12 +8,10 @@ import ExpirationDatePicker from "components/profile/expirationDatePicker";
 import { getRequest, patchRequest, uploadFormData } from 'http/requests';
 import { UPLOAD_IMAGE_ENDPOINT, USER_PROFILE_ENDPOINT, USER_CARD_INFO_ENDPOINT } from 'http/endpoints';
 import { getAuthorizationConfig } from 'util/auth/auth';
-import Image from 'cloudinary-react/lib/components/Image';
-import Transformation from 'cloudinary-react/lib/components/Transformation';
-import { getPublicId } from 'util/images_util';
 import { dateToYMD, getMaxBirthdate } from 'util/dateTimeService';
 import { updateMessage } from 'util/info_div_util';
 import Loader from 'react-loader-spinner';
+import CustomImage from 'components/image/image';
 
 function Profile() {
     const [name, setName] = useState("");
@@ -173,14 +171,7 @@ function Profile() {
                 <div className="form-content">
                     <div className="profile-photo">
                         <div className="image">
-                            {photo !== null ? <Image className="img" cloudName="lvrnjak" publicId={getPublicId(photo)} >
-                                <Transformation height={280} width={200} crop="pad" quality="auto" flags="lossy" />
-                            </Image> : <img
-                                    src={process.env.PUBLIC_URL + '/images/image-placeholder.png'}
-                                    alt="profile"
-                                    className="img"
-                                />
-                            }
+                            <CustomImage styles="img" url={photo} height={280} width={200} crop="pad" altText={"Profile avatar"} />
                         </div>
                         <div className="file-button-group">
                             <input type="file" name="file" id="file" className="input-file" onChange={handleImageUpload} />

@@ -3,14 +3,13 @@ import { useHistory, useParams } from 'react-router-dom';
 import "components/item/item.scss";
 import { getRequest, postRequest } from 'http/requests';
 import { AUCTIONS_ENDPOINT } from 'http/endpoints';
-import { Image, Transformation } from 'cloudinary-react';
 import CustomTable from 'components/table/table';
 import { getAuthorizationConfig, getToken, getUser, logoutUser } from 'util/auth/auth';
 import { useDispatch } from 'react-redux';
 import { resetLoggedIn } from 'state/actions/loggedInActions';
 import { formatDate, getDifferenceBetweenDates } from 'util/dateTimeService';
 import { updateMessage } from 'util/info_div_util';
-import { getPublicId } from 'util/images_util';
+import CustomImage from 'components/image/image';
 
 function ItemPage() {
 
@@ -151,21 +150,23 @@ function ItemPage() {
             <div className="item">
                 <div className="image-gallery">
                     <div className="large-image-container">
-                        <Image
-                            className="large-image"
-                            cloudName="lvrnjak"
-                            publicId={getPublicId(item.product.images[largeImageIndex].imageUrl)}
-                        >
-                            <Transformation height={500} width={400} crop="scale" quality="auto" flags="lossy" />
-                        </Image>
+                        <CustomImage styles="large-image"
+                            url={item.product.images[largeImageIndex].imageUrl}
+                            height={500}
+                            width={400}
+                            crop="scale"
+                            altText={"Item large"} />
                     </div>
                     <div className="image-grid">
                         {item.product.images.map(image => {
                             const index = item.product.images.indexOf(image);
                             return <button key={image.id} className="image-button" onClick={() => setLargeImageIndex(index)}>
-                                <Image className="small-image" cloudName="lvrnjak" publicId={getPublicId(image.imageUrl)} >
-                                    <Transformation height={150} width={150} crop="scale" quality="auto" flags="lossy" />
-                                </Image>
+                                <CustomImage styles="small-image"
+                                    url={image.imageUrl}
+                                    height={150}
+                                    width={150}
+                                    crop="scale"
+                                    altText={"Item small"} />
                             </button>
                         })}
                     </div>
