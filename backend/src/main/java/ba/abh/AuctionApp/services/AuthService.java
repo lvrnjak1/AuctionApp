@@ -15,6 +15,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AuthService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
@@ -59,9 +61,12 @@ public class AuthService implements UserDetailsService {
 
     @Override
     public User loadUserByUsername(final String s) throws UsernameNotFoundException {
-        return userRepository
-                .findByEmail(s)
-                .orElseThrow(() -> new InvalidCredentialsException(String.format("Email %s isn't associated with an account", s)));
+        Optional<User> user = userRepository.findByEmail(s);
+        if(user.isPresent() && user.get().isEnabled()) {
+            return user.get();
+        }
+
+        throw new InvalidCredentialsException(String.format("Email %s isn't associated with an account", s));
     }
 
     public String authenticate(final String email, final String password) {
