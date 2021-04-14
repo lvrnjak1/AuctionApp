@@ -5,10 +5,12 @@ import { getRequest } from 'http/requests';
 import { updateMessage } from 'util/info_div_util';
 import { getAuthorizationConfig } from 'util/auth/auth';
 import { USER_PROFILE_ENDPOINT } from 'http/endpoints';
+import ConfirmationDialog from 'components/confirmation_dialog/confirmationDialog';
 
 function Settings() {
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
+    const [dialogOpen, setDialogOpen] = useState(false);
 
     const setUserData = useCallback((userData) => {
         setEmail(userData.email);
@@ -31,6 +33,19 @@ function Settings() {
         return () => (isSubscribed = false)
     }, [setUserData])
 
+    const openDialog = (e) => {
+        e.preventDefault();
+        setDialogOpen(true);
+    }
+
+    const handleDialogClose = () => {
+        setDialogOpen(false);
+    }
+
+    const handleDeactivateAccount = () => {
+        setDialogOpen(false);
+    }
+
     return (
         <form className="settings">
             <div className="form">
@@ -46,9 +61,10 @@ function Settings() {
                 <p className="form-title">Account</p>
                 <div className="form-content">
                     <p>Do you want to deactivate your account?</p>
-                    <button className="btn deactivate-btn">Deactivate</button>
+                    <button className="btn deactivate-btn" onClick={openDialog}>Deactivate</button>
                 </div>
             </div>
+            <ConfirmationDialog open={dialogOpen} onClose={handleDialogClose} onOk={handleDeactivateAccount} />
         </form>
     );
 }

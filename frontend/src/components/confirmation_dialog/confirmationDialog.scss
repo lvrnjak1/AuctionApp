@@ -1,0 +1,21 @@
+@import "util/style/constants.scss";
+
+.dialog-btn {
+  cursor: pointer;
+  background: transparent;
+  border: transparent;
+  font-size: 20px;
+  color: $black;
+  margin: 0 5px 5px 0;
+  letter-spacing: 0.63px;
+
+  &:hover,
+  &:focus {
+    font-weight: bold;
+    outline: transparent;
+  }
+}
+
+.confirm-btn {
+  color: $purple;
+}
