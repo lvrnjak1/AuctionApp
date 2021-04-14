@@ -215,6 +215,7 @@ function Profile() {
                             <option value=""></option>
                             <option value="MALE">Male</option>
                             <option value="FEMALE">Female</option>
+                            <option value="OTHER">Male</option>
                         </select>
 
                         <label>Date of birth</label>

@@ -1,13 +1,6 @@
 @import "util/style/constants.scss";
 
 .search-bar {
-<<<<<<< HEAD
-  padding-left: 11.1%;
-  padding-right: 11.1%;
-  height: fit-content;
-  text-align: center;
-  padding-bottom: 10px;
-=======
   display: grid;
   grid-template-columns: 40% 60%;
   grid-template-rows: 1fr 1fr;
@@ -31,7 +24,6 @@
     }
   }
 
->>>>>>> Restyle search bar
   .search-input {
     display: flex;
     align-items: center;
@@ -56,14 +48,6 @@
         border: transparent;
         font-size: 18px;
         cursor: pointer;
-<<<<<<< HEAD
-        margin-left: -35px;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-=======
->>>>>>> Restyle search bar
         color: $purple;
         &:focus {
           outline: transparent;
@@ -109,22 +93,6 @@
     }
   }
 
-<<<<<<< HEAD
-  @media screen and (min-width: 600px) {
-    display: grid;
-    grid-template-columns: 30% 40% 30%;
-    grid-auto-flow: dense;
-    padding-left: 10px;
-    padding-right: 10px;
-    .search-input {
-      grid-column: 2 / 3;
-      form {
-        input {
-          width: 90%;
-        }
-        .search-button {
-          font-size: 22px;
-=======
   @media screen and (min-width: $medium) {
     grid-template-columns: 5% 25% 25% 40% 5%;
     grid-template-rows: 1fr;
@@ -142,42 +110,18 @@
         }
         .search-button {
           font-size: 1.2rem;
->>>>>>> Restyle search bar
         }
       }
     }
     .search-bar-links {
-<<<<<<< HEAD
-      grid-column: 3 / 4;
-      display: flex;
-      justify-content: flex-end;
-      ul {
-        text-align: right;
-      }
-=======
       grid-column: 4 / 5;
       display: flex;
       align-items: center;
       justify-content: flex-end;
->>>>>>> Restyle search bar
     }
   }
 
   @media screen and (min-width: $large) {
-<<<<<<< HEAD
-    grid-template-columns: 30% 40% 30%;
-    padding-left: 11.1%;
-    padding-right: 11.1%;
-    padding-top: 10px;
-    .search-input {
-      justify-content: left;
-      form {
-        input {
-          width: 400px;
-        }
-        .search-button {
-          font-size: 22px;
-=======
     grid-template-columns: 11% 25% 25% 29% 11%;
     .search-input {
       form {
@@ -186,7 +130,6 @@
         }
         .search-button {
           font-size: 1.2rem;
->>>>>>> Restyle search bar
         }
       }
     }
