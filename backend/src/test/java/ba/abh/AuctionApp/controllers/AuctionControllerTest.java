@@ -21,6 +21,7 @@ import java.util.Locale;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -64,26 +65,6 @@ class AuctionControllerTest {
                 .andExpect(jsonPath("$.product.category.name", is("Toys")))
                 .andExpect(jsonPath("$.product.images", hasSize(0)))
                 .andExpect(jsonPath("$.product.size", is("SMALL")));
-    }
-
-    @Test
-    public void testCreateAuctionNotSeller() throws Exception {
-        mockMvc.perform(post("/auctions")
-                .with(user("lamija.vrnjak@gmail.com").password("password").roles("BUYER"))
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\n" +
-                        "    \"startDateTime\": 1646305200000,\n" +
-                        "    \"endDateTime\": 1648980000000,\n" +
-                        "    \"startPrice\": 140,\n" +
-                        "    \"product\": {\n" +
-                        "        \"name\": \"Barbie\",\n" +
-                        "        \"description\": \"Pink barbie doll\",\n" +
-                        "        \"categoryId\": 18,\n" +
-                        "        \"size\": \"SMALL\",\n" +
-                        "        \"colors\": [1,7]\n" +
-                        "    }\n" +
-                        "}"))
-                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -157,7 +138,6 @@ class AuctionControllerTest {
                 .andExpect(jsonPath("message", containsString("Start price must be present")))
                 .andExpect(jsonPath("message", containsString("Name must be present")))
                 .andExpect(jsonPath("message", containsString("Category id must be present")))
-                .andExpect(jsonPath("message", containsString("Provide at least one color")))
                 .andExpect(jsonPath("message", containsString("Start price must be present")));
     }
 
@@ -409,5 +389,33 @@ class AuctionControllerTest {
             assertEquals((long) cat.getParentCategory().getId(), 1L);
             assertTrue(Double.parseDouble(price) <= 150);
         }
+    }
+
+    @Test
+    public void testDidYouMean1() throws Exception {
+        mockMvc.perform(get("/auctions?name=bluck"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("suggestion", is("black")));
+    }
+
+    @Test
+    public void testDidYouMean2() throws Exception {
+        mockMvc.perform(get("/auctions?name=bluck sndals"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("suggestion", is("black sandals")));
+    }
+
+    @Test
+    public void testDidYouMean3() throws Exception {
+        mockMvc.perform(get("/auctions?name=shose"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("suggestion", is("shoes")));
+    }
+
+    @Test
+    public void testDidYouMean4() throws Exception {
+        mockMvc.perform(get("/auctions?name=xx"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("suggestion", is(nullValue())));
     }
 }
