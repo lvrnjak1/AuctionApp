@@ -1,17 +1,23 @@
 package ba.abh.AuctionApp.domain;
 
+import ba.abh.AuctionApp.domain.enums.Gender;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
@@ -34,12 +40,24 @@ public class User extends BaseEntity implements UserDetails {
     @JsonIgnore
     private String password;
 
+    @Enumerated(value = EnumType.STRING)
+    private Gender gender;
+
+    private Instant dateOfBirth;
+    private String phoneNumber;
+    private String profilePhotoUrl;
+    private boolean active = true;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "card_details_id", referencedColumnName = "id")
+    private CardDetails cardDetails;
 
     public User() {
     }
@@ -99,6 +117,54 @@ public class User extends BaseEntity implements UserDetails {
         roles.add(role);
     }
 
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(final Gender gender) {
+        this.gender = gender;
+    }
+
+    public Instant getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(final Instant dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(final String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getProfilePhotoUrl() {
+        return profilePhotoUrl;
+    }
+
+    public void setProfilePhotoUrl(final String profilePhotoUrl) {
+        this.profilePhotoUrl = profilePhotoUrl;
+    }
+
+    public CardDetails getCardDetails() {
+        return cardDetails;
+    }
+
+    public void setCardDetails(final CardDetails cardDetails) {
+        this.cardDetails = cardDetails;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(final boolean active) {
+        this.active = active;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
@@ -109,12 +175,22 @@ public class User extends BaseEntity implements UserDetails {
                 Objects.equals(surname, user.surname) &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(password, user.password) &&
-                Objects.equals(roles, user.roles);
+                gender == user.gender &&
+                Objects.equals(dateOfBirth, user.dateOfBirth) &&
+                Objects.equals(phoneNumber, user.phoneNumber) &&
+                Objects.equals(profilePhotoUrl, user.profilePhotoUrl) &&
+                Objects.equals(roles, user.roles) &&
+                Objects.equals(cardDetails, user.cardDetails) &&
+                Objects.equals(active, user.active);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, surname, email, password, roles);
+        return Objects.hash(super.hashCode(),
+                name,
+                surname,
+                email
+        );
     }
 
     @JsonIgnore
@@ -153,6 +229,6 @@ public class User extends BaseEntity implements UserDetails {
     @JsonIgnore
     @Override
     public boolean isEnabled() {
-        return true;
+        return active;
     }
 }

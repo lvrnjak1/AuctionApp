@@ -58,7 +58,7 @@ function Home() {
             requests.push({
                 endpoint: AUCTIONS_ENDPOINT,
                 params: { limit: 4, sort: "DATE", sortOrder: "DESC" },
-                successHandler: (response) => setProducts(response.data.data)
+                successHandler: (response) => setProducts(response.data.auctions.data)
             });
 
             await sendMultipleGetRequests(requests);
@@ -82,7 +82,7 @@ function Home() {
         if (endpoint) {
             await getRequest(endpoint,
                 params,
-                (response) => setProducts(response.data.data),
+                (response) => setProducts(response.data.auctions.data),
                 () => updateMessage("Try reloading the page.", "error")
             );
         }

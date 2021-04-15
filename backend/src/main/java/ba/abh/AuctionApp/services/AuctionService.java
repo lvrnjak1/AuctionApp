@@ -5,6 +5,7 @@ import ba.abh.AuctionApp.domain.Auction;
 import ba.abh.AuctionApp.domain.Category;
 import ba.abh.AuctionApp.domain.Color;
 import ba.abh.AuctionApp.domain.Product;
+import ba.abh.AuctionApp.domain.ProductImage;
 import ba.abh.AuctionApp.domain.User;
 import ba.abh.AuctionApp.domain.enums.Size;
 import ba.abh.AuctionApp.exceptions.custom.InvalidDateException;
@@ -22,6 +23,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.Clock;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -54,13 +57,16 @@ public class AuctionService {
         Auction auction = getAuctionFromAuctionRequest(auctionRequest, seller);
         Product product = productService.save(auction.getProduct());
         auctionRepository.save(auction);
-        saveImagesForProduct(auctionRequest.getProduct().getImages(), product.getId());
+        saveImagesForProduct(auctionRequest.getProduct().getImages(), product);
         return auction;
     }
 
     private Auction getAuctionFromAuctionRequest(final AuctionRequest auctionRequest, final User seller) {
         Size size = auctionRequest.getProduct().getSize();
-        Set<Color> colors = colorRepository.getColorByIdIn(auctionRequest.getProduct().getColors());
+        Set<Color> colors = new HashSet<>();
+        if(auctionRequest.getProduct().getColors() != null){
+            colors = colorRepository.getColorByIdIn(auctionRequest.getProduct().getColors());
+        }
         Category category = categoryService.findById(auctionRequest.getProduct().getCategoryId());
 
         Product product = new Product(auctionRequest.getProduct().getName(),
@@ -78,9 +84,12 @@ public class AuctionService {
         );
     }
 
-    private void saveImagesForProduct(final List<String> imageUrls, Long productId) {
-        if (imageUrls != null) {
-            imageUrls.forEach(imageUrl -> productService.saveImageForProduct(productId, imageUrl));
+    private void saveImagesForProduct(final List<String> imageUrls, Product product) {
+        if (imageUrls != null && imageUrls.size() > 0) {
+            List<ProductImage> productImages = new ArrayList<>();
+            product.setImages(productImages);
+            imageUrls.forEach(image -> productImages.add(new ProductImage(image, product)));
+            productService.saveImages(productImages);
         }
     }
 
@@ -109,5 +118,10 @@ public class AuctionService {
     public String suggest(final String search) {
         var dictionary = dictionaryRepository.getDictionaryEntries();
         return SuggestionService.suggest(search, dictionary);
+    }
+
+    public Auction getAuctionById(final Long id) {
+        return auctionRepository.findAuctionById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Auction with id %d doesn't exist", id)));
     }
 }

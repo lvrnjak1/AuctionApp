@@ -1,0 +1,33 @@
+@import "util/style/constants.scss";
+
+.settings {
+  .deactivate-btn {
+    border-color: $offWhite;
+    float: none;
+  }
+
+  .form-title {
+    font-weight: normal;
+    text-transform: capitalize;
+  }
+
+  .form-content {
+    p {
+      margin: 5px;
+    }
+  }
+
+  span {
+    margin-left: 10px;
+  }
+
+  .purple-text {
+    color: $purple;
+  }
+
+  @media screen and(min-width: $medium) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+}

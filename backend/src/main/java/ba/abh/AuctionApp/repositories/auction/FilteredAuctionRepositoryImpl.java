@@ -63,6 +63,8 @@ public class FilteredAuctionRepositoryImpl implements FilteredAuctionRepository 
                                                 final AuctionFilter filter) {
         List<Predicate> predicates = new ArrayList<>();
 
+        predicates.add(criteriaBuilder.isTrue(root.get("seller").get("active")));
+
         if (filter.getSellerId() != null) {
             predicates.add(criteriaBuilder.equal(root.get("seller"), filter.getSellerId()));
         }

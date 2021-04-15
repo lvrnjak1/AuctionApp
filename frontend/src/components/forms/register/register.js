@@ -8,7 +8,7 @@ import { resetInfoMessage } from 'state/actions/infoMessageActions';
 import { updateMessage } from 'util/info_div_util';
 import { loginUser } from 'util/auth/auth';
 import { setLoggedIn } from 'state/actions/loggedInActions';
-import { emailRegex } from 'util/emailValidator';
+import { emailRegex } from 'util/validators';
 
 function Register() {
     const [name, setName] = useState("");

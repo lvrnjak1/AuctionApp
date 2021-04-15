@@ -7,6 +7,8 @@ import ba.abh.AuctionApp.repositories.ProductImageRepository;
 import ba.abh.AuctionApp.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
@@ -33,5 +35,9 @@ public class ProductService {
         ProductImage productImage = new ProductImage(imageUrl, product);
         productImageRepository.save(productImage);
         product.getImages().add(productImage);
+    }
+
+    public void saveImages(final List<ProductImage> productImages) {
+        productImageRepository.saveAll(productImages);
     }
 }

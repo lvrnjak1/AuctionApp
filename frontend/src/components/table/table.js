@@ -2,6 +2,7 @@ import React from 'react';
 import { TableContainer, Table, TableBody, TableRow, TableCell, Paper, TableHead } from '@material-ui/core';
 import "components/table/table.scss";
 import { formatDate } from 'util/dateTimeService';
+import CustomImage from 'components/image/image';
 
 function CustomTable(props) {
     const { items } = props;
@@ -21,7 +22,13 @@ function CustomTable(props) {
                         return <TableRow key={index}>
                             <TableCell className="col col-bidder" component="th" scope="row">
                                 <div className="avatar">
-                                    <img src="/images/profile-pic.png" alt="profile" />
+                                    <CustomImage styles="small-image"
+                                        url={row.bidder.profilePhotoUrl}
+                                        height={60}
+                                        width={60}
+                                        crop="scale"
+                                        altText={"Small avatar"}
+                                        avatar={true} />
                                 </div>
                                 <p> {`${row.bidder.name} ${row.bidder.surname}`}</p>
                             </TableCell>

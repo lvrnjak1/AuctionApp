@@ -1,0 +1,84 @@
+@import "util/style/constants.scss";
+
+.upload-wrapper {
+  width: 100%;
+  min-height: 200px;
+  background: $lightWhite;
+  display: grid;
+  grid-template-rows: 50% 10% 40%;
+  border: 2px dashed $lightGray2;
+  box-sizing: border-box;
+  margin-top: 20px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  .upload-button {
+    align-self: flex-end;
+    width: fit-content;
+    height: fit-content;
+    cursor: pointer;
+    color: $purple;
+    font-weight: bold;
+    background: transparent;
+    border: transparent;
+    font-size: 14px;
+    &:focus {
+      outline: transparent;
+    }
+    span {
+      cursor: initial;
+      font-weight: normal;
+      color: $black;
+    }
+  }
+
+  .upload-text {
+    font-size: 14px;
+    color: $black;
+    letter-spacing: 0.49px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+  }
+}
+
+.uploaded-photos {
+  width: 100%;
+  background: $lightWhite;
+  box-sizing: border-box;
+  padding: 0 10px;
+  border: 1px solid $lightGray2;
+  overflow-x: hidden;
+  word-break: break-all;
+  max-height: 200px;
+  overflow-y: scroll;
+  .uploaded-photo {
+    position: relative;
+    &:hover {
+      background: $lightGray3;
+    }
+    p {
+      margin: 0;
+      font-size: 14px;
+      max-width: 80%;
+      display: block;
+      overflow: hidden;
+    }
+    button {
+      cursor: pointer;
+      float: right;
+      background: transparent;
+      border: transparent;
+      font-size: 12px;
+      position: absolute;
+      bottom: 0;
+      top: 0;
+      right: 0;
+      padding-right: 10px;
+      color: $purple;
+      &:focus {
+        outline: transparent;
+      }
+    }
+  }
+}

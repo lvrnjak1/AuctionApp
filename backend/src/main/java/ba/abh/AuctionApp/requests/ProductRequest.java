@@ -3,7 +3,6 @@ package ba.abh.AuctionApp.requests;
 import ba.abh.AuctionApp.domain.enums.Size;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -16,12 +15,8 @@ public class ProductRequest {
     @NotNull(message = "Category id must be present")
     private Long categoryId;
 
-    @NotNull(message = "Size must be present")
     private Size size;
-
-    @NotEmpty(message = "Provide at least one color")
     private List<Long> colors;
-
     private List<String> images;
 
     public ProductRequest(final String name,

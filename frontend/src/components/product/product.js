@@ -1,30 +1,35 @@
 import React from 'react';
 import "components/product/product.scss";
 import { useHistory } from 'react-router-dom';
-import { getPublicId } from 'util/images_util';
-import Transformation from 'cloudinary-react/lib/components/Transformation';
-import Image from 'cloudinary-react/lib/components/Image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGavel } from "@fortawesome/free-solid-svg-icons"
+import CustomImage from 'components/image/image';
+import { useDispatch } from 'react-redux';
+import { addCategoryId } from 'state/actions/filterParamsActions';
 
 function Product(props) {
     const history = useHistory();
+    const dispatch = useDispatch();
 
-    const handleProductClick = (id, name) => {
+    const handleProductClick = (id) => {
         if (!props.categories) {
             history.push(`shop/item/${id}`);
         } else {
-            history.push("/shop", { categoryId: id, categoryName: name });
+            dispatch(addCategoryId(id))
+            history.push("/shop");
         }
     }
 
     return (
         props.product &&
         <div className={`${props.grid ? "product-grid" : "product-list"} ${props.small && "small"}`}>
-            <button className="image-button" onClick={() => handleProductClick(props.product.id, props.product.name)}>
-                <Image className="product-image" cloudName="lvrnjak" publicId={getPublicId(props.product.imageUrl)} >
-                    <Transformation height={250} width={200} crop="fill" quality="auto" flags="lossy" />
-                </Image>
+            <button className="image-button" onClick={() => handleProductClick(props.product.id)}>
+                <CustomImage styles="product-image"
+                    url={props.product.imageUrl}
+                    height={250}
+                    width={200}
+                    crop="fill"
+                    altText={"Item in grid"} />
             </button>
             <div className="about">
                 <p className="name">{props.product.name}</p>

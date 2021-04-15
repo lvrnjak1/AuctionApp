@@ -225,7 +225,7 @@ insert into product_colors(product_id, color_id) values (2, 8);
 insert into product_colors(product_id, color_id) values (2, 9);
 insert into product_colors(product_id, color_id) values (2, 10);
 insert into auctions (id, end_date_time, start_date_time, start_price, product_id, seller_id)
-values (2, '2021-04-10 11:15:00.000000', '2021-03-02 11:30:00.000000', 30, 2, 1);
+values (2, '2021-04-18 11:15:00.000000', '2021-03-02 11:30:00.000000', 30, 2, 1);
 
 insert into products (id, description, name, size, category_id)
 values (3,

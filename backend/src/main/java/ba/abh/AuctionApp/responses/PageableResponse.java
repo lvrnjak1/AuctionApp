@@ -5,11 +5,11 @@ import ba.abh.AuctionApp.pagination.PaginationDetails;
 
 import java.util.List;
 
-public class PageableResponse {
+public class PageableResponse<T extends PageableEntity> {
     private PaginationDetails pagination;
-    private List<PageableEntity> data;
+    private List<T> data;
 
-    public PageableResponse(final PaginationDetails pagination, final List<PageableEntity> data) {
+    public PageableResponse(final PaginationDetails pagination, final List<T> data) {
         this.pagination = pagination;
         this.data = data;
     }
@@ -22,11 +22,11 @@ public class PageableResponse {
         this.pagination = pagination;
     }
 
-    public List<PageableEntity> getData() {
+    public List<T> getData() {
         return data;
     }
 
-    public void setData(final List<PageableEntity> data) {
+    public void setData(final List<T> data) {
         this.data = data;
     }
 }

@@ -1,0 +1,45 @@
+@import "util/style/constants.scss";
+
+.account-page {
+  margin: auto;
+  padding: 10px 15px;
+  box-sizing: border-box;
+  .tab {
+    background: $gray2;
+    margin-right: 5px;
+    text-transform: capitalize;
+    font-size: 16px;
+    letter-spacing: 0.56px;
+    min-width: max-content;
+    min-height: initial;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .tab-icon {
+    margin: auto;
+    margin-right: 6px;
+  }
+
+  .Mui-selected {
+    background: $purple;
+    color: $white;
+  }
+
+  .MuiBox-root {
+    padding: 0;
+  }
+
+  .MuiTabs-root {
+    align-items: flex-end;
+    max-height: 45px;
+  }
+
+  .MuiTabs-indicator {
+    display: none;
+  }
+
+  @media screen and (min-width: $medium) {
+    width: 80%;
+  }
+}

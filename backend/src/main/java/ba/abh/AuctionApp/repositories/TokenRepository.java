@@ -12,7 +12,15 @@ import java.util.UUID;
 
 @Repository
 public interface TokenRepository extends JpaRepository<Token, Long> {
-    List<Token> findAllByUserAndType(final User user, final TokenType tokenType);
+    List<Token> findAllByUserAndTypeAndUser_Active(final User user, final TokenType tokenType, final boolean active);
 
-    Optional<Token> findByTokenAndType(final UUID token, final TokenType tokenType);
+    default List<Token> findAllByUserAndType(final User user, final TokenType tokenType) {
+        return findAllByUserAndTypeAndUser_Active(user, tokenType, true);
+    }
+
+    Optional<Token> findByTokenAndTypeAndUser_Active(final UUID token, final TokenType tokenType, final boolean active);
+
+    default Optional<Token> findByTokenAndType(final UUID token, final TokenType tokenType) {
+        return findByTokenAndTypeAndUser_Active(token, tokenType, true);
+    }
 }

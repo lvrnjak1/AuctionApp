@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGavel } from "@fortawesome/free-solid-svg-icons";
-import { NavLink, useHistory } from "react-router-dom"
+import { NavLink, useHistory, useLocation } from "react-router-dom"
 import "components/header/search_bar/searchBar.scss"
 import Loader from 'react-loader-spinner';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,6 +9,8 @@ import { makeStyles } from '@material-ui/core';
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { setName } from 'state/actions/filterParamsActions';
 import { resetSearch, setSearch } from 'state/actions/searchActions';
+import Dropdown from 'components/dropdown/dropdown';
+import { getToken } from 'util/auth/auth';
 
 const useStyles = makeStyles(theme => ({
     loader: {
@@ -22,6 +24,8 @@ function SearchBar() {
     const searchCriteria = useSelector(state => state.searchCriteria);
     const history = useHistory();
     const dispatch = useDispatch();
+    const { pathname } = useLocation();
+    const [openDropdown, setOpenDropdown] = useState(false);
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -34,6 +38,8 @@ function SearchBar() {
             dispatch(resetSearch(""));
         }
     }, [history.location.pathname, dispatch]);
+
+    const activeStyle = { color: "#8367D8", textDecoration: "none" };
 
     return (
         <div className="search-bar">
@@ -48,10 +54,37 @@ function SearchBar() {
             <div className="search-bar-links">
                 <ul>
                     <li>
-                        <NavLink to="/home" className="search-bar-link" activeStyle={{ color: "#8367D8", textDecoration: "none" }}>HOME</NavLink>
+                        <NavLink
+                            to="/home"
+                            isActive={() => ['/home', '/'].includes(pathname)}
+                            className="search-bar-link"
+                            activeStyle={activeStyle}>
+                            HOME
+                        </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/shop" className="search-bar-link" activeStyle={{ color: "#8367D8", textDecoration: "none" }}>SHOP</NavLink>
+                        <NavLink
+                            to="/shop"
+                            className="search-bar-link"
+                            activeStyle={activeStyle}>
+                            SHOP
+                        </NavLink>
+                    </li>
+                    <li>
+                        <div
+                            className="dropdown-container"
+                            onMouseOver={() => setOpenDropdown(true)}
+                        >
+                            {getToken() && <>
+                                <NavLink
+                                    to="/profile"
+                                    className="search-bar-link"
+                                    activeStyle={activeStyle}>
+                                    MY ACCOUNT
+                                </NavLink>
+                                {openDropdown && <Dropdown onLeave={() => setOpenDropdown(false)} />}
+                            </>}
+                        </div>
                     </li>
                 </ul>
             </div>

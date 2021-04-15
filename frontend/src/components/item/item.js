@@ -3,14 +3,13 @@ import { useHistory, useParams } from 'react-router-dom';
 import "components/item/item.scss";
 import { getRequest, postRequest } from 'http/requests';
 import { AUCTIONS_ENDPOINT } from 'http/endpoints';
-import { Image, Transformation } from 'cloudinary-react';
 import CustomTable from 'components/table/table';
-import { getAuthorizationConfig, getToken, logoutUser } from 'util/auth/auth';
+import { getAuthorizationConfig, getToken, getUser, logoutUser } from 'util/auth/auth';
 import { useDispatch } from 'react-redux';
 import { resetLoggedIn } from 'state/actions/loggedInActions';
-import { getDifferenceBetweenDates } from 'util/dateTimeService';
+import { formatDate, getDifferenceBetweenDates } from 'util/dateTimeService';
 import { updateMessage } from 'util/info_div_util';
-import { getPublicId } from 'util/images_util';
+import CustomImage from 'components/image/image';
 
 function ItemPage() {
 
@@ -22,6 +21,22 @@ function ItemPage() {
     const [bids, setBids] = useState([]);
     const [paginationMetaData, setPaginationMetaData] = useState();
     const dispatch = useDispatch();
+
+    const isClosed = () => {
+        const now = new Date();
+        const end = new Date(item.endDateTime);
+        return end - now < 0;
+    }
+
+    const isScheduled = (date) => {
+        const now = new Date();
+        const start = new Date(date);
+        return now - start < 0;
+    };
+
+    const isSeller = (sellerId) => {
+        return getUser() ? getUser().id === (sellerId) : false;
+    };
 
     const getBids = async () => {
         const bidsEndpoint = `${AUCTIONS_ENDPOINT}/${id}/bids`;
@@ -39,7 +54,12 @@ function ItemPage() {
             const endpoint = `${AUCTIONS_ENDPOINT}/${id}`;
             await getRequest(endpoint,
                 {},
-                (res) => setItem(res.data),
+                (res) => {
+                    if (isScheduled(res.data.startDateTime) && !isSeller(res.data.sellerId)) {
+                        history.push("/404")
+                    }
+                    setItem(res.data)
+                },
                 (err) => history.push("/404")
             );
 
@@ -119,26 +139,34 @@ function ItemPage() {
         }
     }
 
+    const getInactiveMessage = () => {
+        if (isClosed()) return `Auction closed on ${formatDate(new Date(item.endDateTime))}.`;
+        if (isScheduled(item.startDateTime)) return `Auction starts on ${formatDate(new Date(item.startDateTime))}.`;
+        if (isSeller(item.sellerId)) return `You are selling this item.`;
+    }
+
     return (
         item ? <div className="item-page">
             <div className="item">
                 <div className="image-gallery">
                     <div className="large-image-container">
-                        <Image
-                            className="large-image"
-                            cloudName="lvrnjak"
-                            publicId={getPublicId(item.product.images[largeImageIndex].imageUrl)}
-                        >
-                            <Transformation height={500} width={400} crop="scale" quality="auto" flags="lossy" />
-                        </Image>
+                        <CustomImage styles="large-image"
+                            url={item.product.images[largeImageIndex].imageUrl}
+                            height={500}
+                            width={400}
+                            crop="scale"
+                            altText={"Item large"} />
                     </div>
                     <div className="image-grid">
                         {item.product.images.map(image => {
                             const index = item.product.images.indexOf(image);
                             return <button key={image.id} className="image-button" onClick={() => setLargeImageIndex(index)}>
-                                <Image className="small-image" cloudName="lvrnjak" publicId={getPublicId(image.imageUrl)} >
-                                    <Transformation height={150} width={150} crop="scale" quality="auto" flags="lossy" />
-                                </Image>
+                                <CustomImage styles="small-image"
+                                    url={image.imageUrl}
+                                    height={150}
+                                    width={150}
+                                    crop="scale"
+                                    altText={"Item small"} />
                             </button>
                         })}
                     </div>
@@ -147,29 +175,33 @@ function ItemPage() {
                     <p className="name">{item.product.name}</p>
                     <p className="price">{`Start from - $${item.startPrice.toFixed(2)}`}</p>
                     <div className="bid-info">
-                        <form onSubmit={handlePlaceBid}>
-                            <input
-                                className="bid-input"
-                                required
-                                type="number"
-                                step=".01"
-                                value={bid}
-                                min={0}
-                                max={1000000}
-                                onChange={(e) => handleInputChange(e)}
-                            />
-                            <button className="bid-button" type="submit">{`Place bid >`}</button>
-                        </form>
-                        <p className="input-label">
-                            {getLowestPossibleBidFormated()}
-                        </p>
-                        <ul className="bid-info-text">
+                        {!isClosed() && !isScheduled(item.startDateTime) && !isSeller(item.sellerId) ? <>
+                            <form onSubmit={handlePlaceBid}>
+                                <input
+                                    className="bid-input"
+                                    required
+                                    type="number"
+                                    step=".01"
+                                    value={bid}
+                                    min={0}
+                                    max={1000000}
+                                    onChange={(e) => handleInputChange(e)}
+                                />
+                                <button className="bid-button" type="submit">{`Place bid >`}</button>
+                            </form>
+                            <p className="input-label">
+                                {getLowestPossibleBidFormated()}
+                            </p>
+                        </> : <p>{getInactiveMessage()}</p>
+                        }
+                        {!isScheduled(item.startDateTime) && <ul className="bid-info-text">
                             <li>{`Highest bid:`}
                                 <p className="highest-bid"> {`${bids.length > 0 ? `$${bids[0].amount.toFixed(2)}` : ""}`}</p>
                             </li>
                             <li>{`No bids: ${paginationMetaData ? paginationMetaData.available : "0"}`}</li>
-                            <li>{`Time left: ${getTimeLeft()}`}</li>
+                            {!isClosed() && <li>{`Time left: ${getTimeLeft()}`}</li>}
                         </ul>
+                        }
                     </div>
                     <div className="details">
                         <p className="details-title">Details</p>

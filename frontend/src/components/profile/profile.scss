@@ -1,0 +1,232 @@
+@import "util/style/constants.scss";
+
+form {
+  margin-top: 10px;
+  font-size: 18px;
+  color: $black;
+}
+
+.btn {
+  cursor: pointer;
+  background: $white;
+  border: 3px solid $purple;
+  box-shadow: 3px 3px 0 0 rgba(131, 103, 216, 0.31);
+  font-weight: bold;
+  font-size: 16px;
+  color: $black;
+  letter-spacing: 0.63px;
+  padding: 0.5em 1em;
+  margin-top: 10px;
+  display: block;
+  max-width: 200px;
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+  float: right;
+  &:focus {
+    outline: transparent;
+  }
+  &:disabled {
+    border-color: $gray;
+  }
+}
+
+.form {
+  .profile-photo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 10px;
+
+    .file-button-group {
+      .btn {
+        margin: auto;
+        margin-bottom: 10px;
+        float: left;
+      }
+    }
+  }
+}
+
+.input {
+  display: block;
+  width: 100%;
+  padding: 10px 5px;
+  background: $lightWhite;
+  border: 1px solid $lightGray2;
+  margin-bottom: 10px;
+}
+
+.select {
+  width: 30%;
+}
+
+.small-select {
+  display: inline;
+  width: 30%;
+  margin-right: 20px;
+}
+
+.form {
+  background: $white;
+  border: 1px solid $lightGray2;
+  margin-bottom: 30px;
+}
+
+.form-title {
+  background: $lightGray;
+  margin: 0;
+  padding: 5px 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 0.7px;
+}
+
+.form-content {
+  padding: 20px;
+  height: max-content;
+}
+
+.file-btn {
+  border: 3px solid $offWhite;
+  box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.05);
+  font-size: 16px;
+}
+
+label {
+  display: block;
+  letter-spacing: 0.63px;
+  margin-bottom: 2px;
+
+  .req {
+    color: $gray;
+  }
+}
+
+.profile-form {
+  width: 100%;
+
+  .account-details {
+    clear: both;
+  }
+
+  .image {
+    height: 280px;
+    width: 200px;
+    background: $lightGray3;
+    overflow: hidden;
+    border: 1px solid $lightGray2;
+    margin-bottom: 10px;
+    .img {
+      width: 200px;
+      max-width: 100%;
+    }
+  }
+
+  .phone-input {
+    margin-bottom: 10px;
+    width: 100%;
+    .PhoneInputInput {
+      background: $lightWhite;
+      border: 1px solid $lightGray2;
+      display: inline;
+      padding: 10px 5px;
+    }
+  }
+
+  .input-file {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+}
+
+.card-info-form {
+  .credit-card-logo {
+    width: 50px;
+    height: 30px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+
+  .credit-cards {
+    font-size: 16px;
+    color: $gray;
+    margin-left: 30px;
+    p {
+      margin: 0 0 10px 0;
+    }
+  }
+
+  .form-content {
+    width: max-content;
+    margin: auto;
+  }
+}
+
+@media screen and (min-width: $large) {
+  .form {
+    .profile-photo {
+      display: initial;
+    }
+
+    .input,
+    .phone-input {
+      width: 80%;
+    }
+
+    .input,
+    .PhoneInputInput {
+      padding: 10px 5px;
+    }
+
+    .form-title {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    .select {
+      width: 30%;
+    }
+
+    .small-select {
+      width: 15%;
+      margin-right: 15px;
+    }
+
+    .flex-form-group {
+      display: flex;
+      width: 500px;
+      .input {
+        padding: 10px;
+        max-width: inherit;
+      }
+
+      .input-label-group {
+        width: 50%;
+      }
+
+      .pickers {
+        width: 50%;
+      }
+      .small-select {
+        max-width: initial;
+        width: calc(50% - 20px);
+      }
+    }
+  }
+  .profile-form {
+    .form-content {
+      display: grid;
+      grid-template-columns: min-content 70%;
+      gap: 30px;
+
+      .account-details {
+        grid-column: 2 / 3;
+      }
+    }
+  }
+}
