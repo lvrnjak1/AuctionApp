@@ -20,8 +20,8 @@ function ConfirmationDialog(props) {
                 <DialogTitle id="alert-dialog-slide-title">{"Do you want to deactivate your account?"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                        If you choose to do this, you will permanently deactivate your account, thereby
-                        loosing your data.
+                        If you choose to do this, you will temporarily deactivate your account. Your data won't be deleted
+                        but it will not be shown to other users.
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

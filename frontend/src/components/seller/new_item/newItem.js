@@ -15,8 +15,8 @@ import Loader from 'react-loader-spinner';
 function NewItem() {
     const [activeStep, setActiveStep] = useState(0);
     const [productName, setProductName] = useState("");
-    const [category, setCategory] = useState("");
-    const [subcategory, setSubcategory] = useState("");
+    const [category, setCategory] = useState(1);
+    const [subcategory, setSubcategory] = useState(7);
     const [productDescription, setProductDescription] = useState("");
     const [startPrice, setStartPrice] = useState(0);
     const [startDateTime, setStartDateTime] = useState(getTomorrow());
@@ -49,8 +49,6 @@ function NewItem() {
         }
         setUploading(true);
         await uploadMultipleImages(images, async (responses) => {
-            console.log(responses);
-
             const body = {
                 startDateTime: new Date(startDateTime).getTime(),
                 endDateTime: new Date(endDateTime).getTime(),
@@ -77,7 +75,6 @@ function NewItem() {
     }
 
     const handleNext = (e) => {
-        console.log(e);
         e.preventDefault();
         if (activeStep === getSteps().length - 1) {
             handleSubmit();
