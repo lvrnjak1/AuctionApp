@@ -71,7 +71,12 @@ function Profile() {
         async function getUserProfile() {
             await getRequest(USER_PROFILE_ENDPOINT,
                 {},
-                (response) => { if (isSubscribed) setUserData(response.data) },
+                (response) => {
+                    if (isSubscribed) {
+                        setUserData(response.data)
+                        if (response.data.cardDetails !== null) setCardData(response.data.cardDetails);
+                    }
+                },
                 () => { if (isSubscribed) updateMessage("Something went wrong, try reloading the page", "error", 3000) },
                 getAuthorizationConfig()
             );
@@ -80,7 +85,7 @@ function Profile() {
         getUserProfile();
 
         return () => (isSubscribed = false)
-    }, [setUserData])
+    }, [setUserData, setCardData])
 
     const handleInputChange = (e, setter) => {
         setter(e.target.value);
