@@ -14,3 +14,5 @@ spring:
 app:
   jwtSecret: ${JWT_SECRET}
   jwtExpirationMs: 600000000
+  stripe-public-key: ${STRIPE_PUBLIC_KEY}
+  stripe-secret-key: ${STRIPE_SECRET_KEY}

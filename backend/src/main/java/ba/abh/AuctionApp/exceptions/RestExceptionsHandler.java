@@ -10,6 +10,7 @@ import ba.abh.AuctionApp.exceptions.custom.InvalidPaginationException;
 import ba.abh.AuctionApp.exceptions.custom.LowBidException;
 import ba.abh.AuctionApp.exceptions.custom.ResourceNotFoundException;
 import ba.abh.AuctionApp.exceptions.custom.SelfOutbidException;
+import com.stripe.exception.StripeException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
@@ -77,6 +78,11 @@ public class RestExceptionsHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(InvalidCreditCardInfoException.class)
     public ResponseEntity<Object> handleInvalidCreditCardInfo(final InvalidCreditCardInfoException ex) {
         return buildResponseEntity(ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(StripeException.class)
+    public ResponseEntity<Object> handleStripeException(final StripeException ex) {
+        return buildResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @Override

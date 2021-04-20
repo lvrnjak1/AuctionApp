@@ -34,6 +34,16 @@
       "name": "spring.sendgrid.reset-url",
       "type": "java.lang.String",
       "description": "Description for spring.sendgrid.reset-url."
+    },
+    {
+      "name": "app.stripe-public-key",
+      "type": "java.lang.String",
+      "description": "Description for app.stripe-public-key."
+    },
+    {
+      "name": "app.stripe-secret-key",
+      "type": "java.lang.String",
+      "description": "Description for app.stripe-secret-key."
     }
   ]
 }
