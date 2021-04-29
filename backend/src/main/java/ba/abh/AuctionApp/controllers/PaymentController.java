@@ -20,7 +20,7 @@ public class PaymentController {
     }
 
     @PostMapping
-    public ResponseEntity<String> completePayment(@RequestBody PaymentRequest paymentRequest) throws StripeException {
+    public ResponseEntity<String> completePayment(@RequestBody final PaymentRequest paymentRequest) throws StripeException {
         String chargeId = paymentService.charge(paymentRequest);
         return chargeId != null ? ResponseEntity.ok().build() :
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Payment couldn't be processed." +

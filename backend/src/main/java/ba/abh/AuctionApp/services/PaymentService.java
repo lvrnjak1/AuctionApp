@@ -21,7 +21,7 @@ public class PaymentService {
         Stripe.apiKey = stripeSecretKey;
     }
 
-    public String charge(PaymentRequest paymentRequest) throws StripeException {
+    public String charge(final PaymentRequest paymentRequest) throws StripeException {
         Map<String, Object> chargeParams = new HashMap<>();
         chargeParams.put("amount", paymentRequest.getAmount());
         chargeParams.put("currency", paymentRequest.getCurrency());
