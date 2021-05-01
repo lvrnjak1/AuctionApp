@@ -13,6 +13,7 @@ public class AuctionResponse implements PageableEntity {
     private Double startPrice;
     private Product product;
     private Long sellerId;
+    private boolean isWishlist;
 
     public AuctionResponse(final Auction auction) {
         this.id = auction.getId();
@@ -21,6 +22,7 @@ public class AuctionResponse implements PageableEntity {
         this.startPrice = auction.getStartPrice();
         this.product = auction.getProduct();
         this.sellerId = auction.getSeller().getId();
+        this.isWishlist = false;
     }
 
     public Long getId() {
@@ -69,5 +71,13 @@ public class AuctionResponse implements PageableEntity {
 
     public void setSellerId(final Long sellerId) {
         this.sellerId = sellerId;
+    }
+
+    public boolean isWishlist() {
+        return isWishlist;
+    }
+
+    public void setWishlist(final boolean wishlist) {
+        isWishlist = wishlist;
     }
 }
