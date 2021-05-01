@@ -20,6 +20,7 @@ function ItemPage() {
     const [bid, setBid] = useState("");
     const [bids, setBids] = useState([]);
     const [paginationMetaData, setPaginationMetaData] = useState();
+    const [winner, setWinner] = useState();
     const dispatch = useDispatch();
 
     const isClosed = () => {
@@ -72,6 +73,12 @@ function ItemPage() {
                 },
                 (err) => history.push("/404")
             );
+
+            const auctionWinnerEndpoint = `${AUCTIONS_ENDPOINT}/${id}/winner`;
+            await getRequest(auctionWinnerEndpoint, {},
+                (response) => { console.log(response) },
+                (error) => { console.log(error.response) },
+                getAuthorizationConfig());
         }
 
         fetchAuctionById();
