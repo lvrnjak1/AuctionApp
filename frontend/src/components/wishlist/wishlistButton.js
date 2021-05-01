@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { putRequest } from "http/requests";
 import { AUCTIONS_ENDPOINT } from 'http/endpoints';
 import { updateMessage } from 'util/info_div_util';
-import { getAuthorizationConfig } from 'util/auth/auth';
+import { getAuthorizationConfig, getToken } from 'util/auth/auth';
 
 function WishlistButton(props) {
     const [isInWishlist, setIsInWishlist] = useState(false);
@@ -25,7 +25,7 @@ function WishlistButton(props) {
     }
 
     return (
-        <button className={`wishlist-button ${isInWishlist && "purple-button"}`} onClick={handleClick}>
+        getToken() && <button className={`wishlist-button ${isInWishlist && "purple-button"}`} onClick={handleClick}>
             {!props.hideText && "Wishlist"}
             <FontAwesomeIcon
                 icon={faHeart}

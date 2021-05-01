@@ -7,6 +7,7 @@ import CustomImage from 'components/image/image';
 import { useDispatch } from 'react-redux';
 import { addCategoryId } from 'state/actions/filterParamsActions';
 import WishlistButton from 'components/wishlist/wishlistButton';
+import { getToken } from 'util/auth/auth';
 
 function Product(props) {
     const history = useHistory();
@@ -25,7 +26,7 @@ function Product(props) {
         return <div className="button-group">
             <WishlistButton id={props.product.id} black={iconBlack} hideText={hideButtonText} inWishlist={props.product.wishlist} />
             <button className="bid-button" onClick={() => handleProductClick(props.product.id, props.product.name)}>
-                {!hideButtonText && "Bid"} <FontAwesomeIcon icon={faGavel} className={`button-icon ${iconBlack ? "black" : ""}`} />
+                {(!hideButtonText || !getToken()) && "Bid"} <FontAwesomeIcon icon={faGavel} className={`button-icon ${iconBlack ? "black" : ""}`} />
             </button>
         </div>
     }
