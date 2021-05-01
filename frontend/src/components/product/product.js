@@ -21,28 +21,34 @@ function Product(props) {
         }
     }
 
+    const getButtonGroup = (iconBlack, hideButtonText) => {
+        return <div className="button-group">
+            <WishlistButton id={props.product.id} black={iconBlack} hideText={true} />
+            <button className="bid-button" onClick={() => handleProductClick(props.product.id, props.product.name)}>
+                {!hideButtonText && "Bid"} <FontAwesomeIcon icon={faGavel} className={`button-icon ${iconBlack ? "black" : ""}`} />
+            </button>
+        </div>
+    }
+
     return (
         props.product &&
         <div className={`${props.grid ? "product-grid" : "product-list"} ${props.small && "small"}`}>
-            <button className="image-button" onClick={() => handleProductClick(props.product.id)}>
-                <CustomImage styles="product-image"
+            <button className="image-button overlay-container" onClick={() => {
+                if (!props.grid) handleProductClick(props.product.id)
+            }}>
+                <CustomImage className="overlayed-image" styles="product-image"
                     url={props.product.imageUrl}
                     height={250}
                     width={200}
                     crop="fill"
                     altText={"Item in grid"} />
+                <div className="overlay">{getButtonGroup(true, true)}</div>
             </button>
             <div className="about">
                 <p className="name">{props.product.name}</p>
                 {!props.grid && <p className="description">{props.product.description}</p>}
                 {props.product.price && <p className="price">{`Start from - $${props.product.price}`}</p>}
-                {!props.grid && <div className="button-group">
-                    <WishlistButton id={props.product.id} />
-                    <button className="bid-button" onClick={() => handleProductClick(props.product.id, props.product.name)}>
-                        Bid <FontAwesomeIcon icon={faGavel} className="button-icon" />
-                    </button>
-                </div>
-                }
+                {!props.grid && getButtonGroup()}
             </div>
         </div>
     );

@@ -7,7 +7,10 @@ function WishlistButton(props) {
 
     return (
         <button className="wishlist-button">
-            Wishlist <FontAwesomeIcon icon={faHeart} className={`wishlist-icon ${props.black ? "black" : ""}`} />
+            {!props.hideText && "Wishlist"}
+            <FontAwesomeIcon
+                icon={faHeart}
+                className={`wishlist-icon ${props.black && "black"} ${!props.hideText && "margin-right"}`} />
         </button>
     );
 }
