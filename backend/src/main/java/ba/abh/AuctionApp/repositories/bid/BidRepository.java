@@ -15,6 +15,13 @@ import java.util.Optional;
 public interface BidRepository extends JpaRepository<Bid, Long> {
     Page<Bid> findAllByAuction(final Auction auction, final Pageable pageable);
 
+//    @Query(value = "select b from Bid b " +
+//            "where b.auction = ?1 " +
+//            "group by b " +
+//            "having b.amount = max((select max(amount) from Bid where auction.id = ?1 and bidder = b.bidder)) " +
+//            "order by b.amount desc")
+//    Page<Bid> findBidsByAuctionAndDistinctUsers(final Auction auction, final Pageable pageable);
+
     Optional<Bid> findFirstByAuctionOrderByAmountDesc(final Auction auction);
 
     @Query(value = "select a as auction, coalesce(count(b2.id), 0) as numberOfBids, " +

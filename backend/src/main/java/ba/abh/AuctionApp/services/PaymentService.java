@@ -1,5 +1,6 @@
 package ba.abh.AuctionApp.services;
 
+import ba.abh.AuctionApp.domain.User;
 import ba.abh.AuctionApp.requests.PaymentRequest;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
@@ -15,18 +16,23 @@ import java.util.Map;
 public class PaymentService {
     @Value("${stripe-secret-key}")
     private String stripeSecretKey;
+    private final BidService bidService;
+
+    public PaymentService(final BidService bidService) {
+        this.bidService = bidService;
+    }
 
     @PostConstruct
     public void init() {
         Stripe.apiKey = stripeSecretKey;
     }
 
-    public String charge(final PaymentRequest paymentRequest) throws StripeException {
+    public String charge(final PaymentRequest paymentRequest, final User user) throws StripeException {
+        int amountInCents = bidService.getPaymentAmountInCents(paymentRequest.getAuctionId(), user);
         Map<String, Object> chargeParams = new HashMap<>();
-        chargeParams.put("amount", paymentRequest.getAmount());
-        chargeParams.put("currency", paymentRequest.getCurrency());
-        chargeParams.put("source", paymentRequest.getToken().getId());
-        chargeParams.put("description", paymentRequest.getDescription());
+        chargeParams.put("amount", amountInCents);
+        chargeParams.put("currency", "usd");
+        chargeParams.put("source", paymentRequest.getToken());
 
         Charge charge = Charge.create(chargeParams);
         return charge.getId();

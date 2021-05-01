@@ -7,6 +7,7 @@ import ba.abh.AuctionApp.domain.User;
 import ba.abh.AuctionApp.exceptions.custom.InvalidBidException;
 import ba.abh.AuctionApp.exceptions.custom.InvalidDateException;
 import ba.abh.AuctionApp.exceptions.custom.LowBidException;
+import ba.abh.AuctionApp.exceptions.custom.ResourceNotFoundException;
 import ba.abh.AuctionApp.exceptions.custom.SelfOutbidException;
 import ba.abh.AuctionApp.repositories.bid.BidProjection;
 import ba.abh.AuctionApp.repositories.bid.BidRepository;
@@ -17,9 +18,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.time.Clock;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -29,9 +29,6 @@ import java.util.Optional;
 public class BidService {
     private final BidRepository bidRepository;
     private final AuctionService auctionService;
-
-    @PersistenceContext
-    private EntityManager entityManager;
 
     public BidService(final BidRepository bidRepository,
                       final AuctionService auctionService) {
@@ -108,4 +105,37 @@ public class BidService {
 
         return result;
     }
+
+    public int getPaymentAmountInCents(final Long auctionId, final User user) {
+        Bid winnerBid = getWinnerBid(auctionId);
+        if (!winnerBid.getBidder().equals(user)) {
+            throw new ResourceNotFoundException("You are not the highest bidder on this auction");
+        }
+
+        return (int) (winnerBid.getAmount() * 100);
+    }
+
+    private int getWinnerIndex(final Auction auction) {
+        int nDaysToPay = 1;
+        Instant now = Instant.now(Clock.systemUTC());
+        long daysPassed = Duration.between(auction.getEndDateTime(), now).toDays();
+        return (int) (daysPassed / nDaysToPay);
+    }
+
+    private Bid getWinnerBid(final Long auctionId) {
+        Auction auction = auctionService.getAuctionById(auctionId);
+        int index = getWinnerIndex(auction);
+        Page<Bid> bidPage = bidRepository.findBidsByAuctionAndDistinctUsers(auction, index);
+        if (bidPage.getContent().isEmpty()) {
+            throw new ResourceNotFoundException("This auction is closed");
+        }
+
+        return bidPage.getContent().get(0);
+    }
+
+    public User getAuctionWinner(final Long auctionId) {
+        Bid bid = getWinnerBid(auctionId);
+        return bid.getBidder();
+    }
 }
+

@@ -13,6 +13,7 @@ import ba.abh.AuctionApp.responses.AuctionSearchResponse;
 import ba.abh.AuctionApp.responses.PageableResponse;
 import ba.abh.AuctionApp.responses.PriceChartResponse;
 import ba.abh.AuctionApp.services.AuctionService;
+import ba.abh.AuctionApp.services.BidService;
 import ba.abh.AuctionApp.services.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -34,10 +35,14 @@ import java.util.stream.Collectors;
 public class AuctionController {
     private final AuctionService auctionService;
     private final UserService userService;
+    private final BidService bidService;
 
-    public AuctionController(final AuctionService auctionService, final UserService userService) {
+    public AuctionController(final AuctionService auctionService,
+                             final UserService userService,
+                             final BidService bidService) {
         this.auctionService = auctionService;
         this.userService = userService;
+        this.bidService = bidService;
     }
 
     @PostMapping
@@ -84,6 +89,12 @@ public class AuctionController {
         AuctionFilter auctionFilter = constructAuctionFilter(requestParam);
         PriceChartResponse priceChartResponse = auctionService.getChartData(auctionFilter);
         return ResponseEntity.ok().body(priceChartResponse);
+    }
+
+    @GetMapping("/{auctionId}/winner")
+    private ResponseEntity<?> getAuctionWinner(@PathVariable final Long auctionId) {
+        User user = bidService.getAuctionWinner(auctionId);
+        return ResponseEntity.ok(user);
     }
 
     private PageableResponse<AuctionResponse> buildPageableResponse(final Page<Auction> page) {

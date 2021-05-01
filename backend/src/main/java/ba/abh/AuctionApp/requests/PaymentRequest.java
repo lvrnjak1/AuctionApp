@@ -2,50 +2,24 @@ package ba.abh.AuctionApp.requests;
 
 import ba.abh.AuctionApp.utility.stripe.StripeToken;
 
-public class PaymentRequest {
-    public enum Currency {
-        USD
-    }
+import javax.validation.constraints.NotNull;
 
-    private String description;
-    private int amount;
-    private Currency currency;
-    private String stripeEmail;
+public class PaymentRequest {
+    @NotNull(message = "Auction id can't be null")
+    private Long auctionId;
+
+    @NotNull(message = "Token shouldn't be null")
     private StripeToken token;
 
     public PaymentRequest() {
     }
 
-    public String getDescription() {
-        return description;
+    public Long getAuctionId() {
+        return auctionId;
     }
 
-    public void setDescription(final String description) {
-        this.description = description;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(final int amount) {
-        this.amount = amount;
-    }
-
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(final Currency currency) {
-        this.currency = currency;
-    }
-
-    public String getStripeEmail() {
-        return stripeEmail;
-    }
-
-    public void setStripeEmail(final String stripeEmail) {
-        this.stripeEmail = stripeEmail;
+    public void setAuctionId(final Long auctionId) {
+        this.auctionId = auctionId;
     }
 
     public StripeToken getToken() {
