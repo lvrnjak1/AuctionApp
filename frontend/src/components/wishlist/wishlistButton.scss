@@ -1,0 +1,21 @@
+@import "util/style/constants.scss";
+
+.wishlist-button {
+  cursor: pointer;
+  background: $white;
+  border: 3px solid $lightGray3;
+  font-size: 15px;
+  color: $black;
+  letter-spacing: 0.52px;
+  line-height: 22px;
+  padding: 5px 15px;
+
+  .wishlist-icon {
+    color: $lightGray2;
+    margin-left: 5px;
+  }
+
+  .black {
+    color: $black;
+  }
+}

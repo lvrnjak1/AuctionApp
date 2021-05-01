@@ -10,6 +10,7 @@ import { resetLoggedIn } from 'state/actions/loggedInActions';
 import { formatDate, getDifferenceBetweenDates } from 'util/dateTimeService';
 import { updateMessage } from 'util/info_div_util';
 import CustomImage from 'components/image/image';
+import WishlistButton from 'components/wishlist/wishlistButton';
 
 function ItemPage() {
 
@@ -203,6 +204,7 @@ function ItemPage() {
                         </ul>
                         }
                     </div>
+                    <WishlistButton id={id} />
                     <div className="details">
                         <p className="details-title">Details</p>
                         <p className="details-content">{item.product.description || "There are no details about this item."}</p>

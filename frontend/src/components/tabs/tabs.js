@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import "components/tabs/tabs.scss";
 import { Box, Tabs, Typography, Tab } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { makeStyles } from '@material-ui/styles';

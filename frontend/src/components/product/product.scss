@@ -118,16 +118,19 @@
   .button-group {
     display: flex;
     align-items: flex-end;
+    &:first-child {
+      margin-right: 5px;
+    }
+
     .bid-button {
       cursor: pointer;
-      height: 36px;
-      width: 100px;
       background: $white;
       border: 3px solid $lightGray3;
       font-size: 15px;
       color: $black;
       letter-spacing: 0.52px;
       line-height: 22px;
+      padding: 5px 15px;
     }
 
     .button-icon {
