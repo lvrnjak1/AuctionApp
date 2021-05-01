@@ -22,3 +22,14 @@
     color: $black;
   }
 }
+
+.purple-button {
+  background: $purple;
+  color: $white;
+  border: 3px solid $purple;
+
+  .black,
+  .wishlist-icon {
+    color: $white;
+  }
+}

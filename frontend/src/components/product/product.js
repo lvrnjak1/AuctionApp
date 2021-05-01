@@ -23,7 +23,7 @@ function Product(props) {
 
     const getButtonGroup = (iconBlack, hideButtonText) => {
         return <div className="button-group">
-            <WishlistButton id={props.product.id} black={iconBlack} hideText={true} />
+            <WishlistButton id={props.product.id} black={iconBlack} hideText={hideButtonText} inWishlist={props.product.wishlist} />
             <button className="bid-button" onClick={() => handleProductClick(props.product.id, props.product.name)}>
                 {!hideButtonText && "Bid"} <FontAwesomeIcon icon={faGavel} className={`button-icon ${iconBlack ? "black" : ""}`} />
             </button>
@@ -33,7 +33,7 @@ function Product(props) {
     return (
         props.product &&
         <div className={`${props.grid ? "product-grid" : "product-list"} ${props.small && "small"}`}>
-            <button className="image-button overlay-container" onClick={() => {
+            <div className="image-button overlay-container" onClick={() => {
                 if (!props.grid) handleProductClick(props.product.id)
             }}>
                 <CustomImage className="overlayed-image" styles="product-image"
@@ -43,7 +43,7 @@ function Product(props) {
                     crop="fill"
                     altText={"Item in grid"} />
                 <div className="overlay">{getButtonGroup(true, true)}</div>
-            </button>
+            </div>
             <div className="about">
                 <p className="name">{props.product.name}</p>
                 {!props.grid && <p className="description">{props.product.description}</p>}
