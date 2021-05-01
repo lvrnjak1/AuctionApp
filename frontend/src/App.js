@@ -81,7 +81,7 @@ function App() {
               <NewItem />
             </Layout>
           </Route>
-          <Route exact path={["/profile", "/bids", "/seller", "/settings"]}>
+          <Route exact path={["/profile", "/bids", "/seller", "/settings", "/wishlist"]}>
             <Layout breadcrumbs={{ current: "my account" }}>
               <MyAccount />
             </Layout>
