@@ -3,6 +3,7 @@ package ba.abh.AuctionApp.services;
 import ba.abh.AuctionApp.domain.Auction;
 import ba.abh.AuctionApp.domain.User;
 import ba.abh.AuctionApp.domain.Wishlist;
+import ba.abh.AuctionApp.repositories.WishlistProjection;
 import ba.abh.AuctionApp.repositories.WishlistRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,9 +37,9 @@ public class WishlistService {
         }
     }
 
-    public Page<Wishlist> getWishlistForUser(final User user, final int page, final int limit) {
+    public Page<WishlistProjection> getWishlistForUser(final User user, final int page, final int limit) {
         Pageable pageable = PageRequest.of(page, limit);
-        return wishlistRepository.findWishlistByUser(user, pageable);
+        return wishlistRepository.findWishlistByUserDetailed(user, pageable);
     }
 
     public boolean isInWishlist(final Auction auction, final User user) {

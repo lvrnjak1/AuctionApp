@@ -3,17 +3,17 @@ package ba.abh.AuctionApp.controllers;
 import ba.abh.AuctionApp.controllers.utility.RequestParams;
 import ba.abh.AuctionApp.domain.Auction;
 import ba.abh.AuctionApp.domain.User;
-import ba.abh.AuctionApp.domain.Wishlist;
 import ba.abh.AuctionApp.filters.AuctionFilter;
 import ba.abh.AuctionApp.filters.ProductFilter;
 import ba.abh.AuctionApp.filters.SortSpecification;
 import ba.abh.AuctionApp.pagination.PaginationDetails;
+import ba.abh.AuctionApp.repositories.WishlistProjection;
 import ba.abh.AuctionApp.requests.AuctionRequest;
 import ba.abh.AuctionApp.responses.AuctionResponse;
 import ba.abh.AuctionApp.responses.AuctionSearchResponse;
+import ba.abh.AuctionApp.responses.DetailedWishlistResponse;
 import ba.abh.AuctionApp.responses.PageableResponse;
 import ba.abh.AuctionApp.responses.PriceChartResponse;
-import ba.abh.AuctionApp.responses.WishlistResponse;
 import ba.abh.AuctionApp.services.AuctionService;
 import ba.abh.AuctionApp.services.UserService;
 import ba.abh.AuctionApp.services.WishlistService;
@@ -105,7 +105,7 @@ public class AuctionController {
     @GetMapping("/wishlist")
     public ResponseEntity<?> getUserWishlist(final Principal principal, @Valid final RequestParams requestParams) {
         User user = userService.getUserByEmail(principal.getName());
-        Page<Wishlist> wishlist = wishlistService.getWishlistForUser(user, requestParams.getPage() - 1, requestParams.getLimit());
+        Page<WishlistProjection> wishlist = wishlistService.getWishlistForUser(user, requestParams.getPage() - 1, requestParams.getLimit());
         return ResponseEntity.ok().body(buildWishlistResponse(wishlist));
     }
 
@@ -129,12 +129,12 @@ public class AuctionController {
         return new AuctionSearchResponse(new PageableResponse<>(details, data), suggestion);
     }
 
-    private PageableResponse<WishlistResponse> buildWishlistResponse(final Page<Wishlist> page) {
+    private PageableResponse<DetailedWishlistResponse> buildWishlistResponse(final Page<WishlistProjection> page) {
         PaginationDetails details = new PaginationDetails(page);
-        final List<WishlistResponse> data = page
+        final List<DetailedWishlistResponse> data = page
                 .getContent()
                 .stream()
-                .map(WishlistResponse::new)
+                .map(wishlistProjection -> new DetailedWishlistResponse(wishlistProjection.getAuction(), wishlistProjection.getHighestBid()))
                 .collect(Collectors.toUnmodifiableList());
         return new PageableResponse<>(details, data);
     }
