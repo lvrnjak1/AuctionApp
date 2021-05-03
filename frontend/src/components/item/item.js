@@ -59,7 +59,7 @@ function ItemPage() {
                     if (isScheduled(res.data.startDateTime) && !isSeller(res.data.sellerId)) {
                         history.push("/404")
                     }
-                    setItem(res.data)
+                    setItem(res.data);
                 },
                 (err) => history.push("/404")
             );
@@ -204,7 +204,7 @@ function ItemPage() {
                         </ul>
                         }
                     </div>
-                    <WishlistButton id={id} />
+                    <WishlistButton id={id} inWishlist={item.wishlist} message={true} />
                     <div className="details">
                         <p className="details-title">Details</p>
                         <p className="details-content">{item.product.description || "There are no details about this item."}</p>

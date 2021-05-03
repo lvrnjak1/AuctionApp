@@ -1,5 +1,16 @@
 @import "util/style/constants.scss";
 
+.wishlist-button-container {
+  display: flex;
+  align-items: center;
+  .info-message {
+    margin: 0;
+    padding: 0;
+    color: $gray;
+    margin-left: 10px;
+  }
+}
+
 .wishlist-button {
   cursor: pointer;
   background: $white;
@@ -9,6 +20,11 @@
   letter-spacing: 0.52px;
   line-height: 22px;
   padding: 5px 15px;
+
+  &:hover,
+  &:focus {
+    outline: transparent;
+  }
 
   .wishlist-icon {
     color: $lightGray2;
