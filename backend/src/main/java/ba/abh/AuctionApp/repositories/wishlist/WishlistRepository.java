@@ -1,4 +1,4 @@
-package ba.abh.AuctionApp.repositories;
+package ba.abh.AuctionApp.repositories.wishlist;
 
 import ba.abh.AuctionApp.domain.Auction;
 import ba.abh.AuctionApp.domain.User;
@@ -14,7 +14,6 @@ import java.util.Optional;
 @Repository
 public interface WishlistRepository extends JpaRepository<Wishlist, Long> {
     Optional<Wishlist> findByAuctionAndUser(final Auction auction, final User user);
-    Page<Wishlist> findWishlistByUser(final User user, final Pageable pageable);
 
     @Query(value = "select a as auction, coalesce(max(b.amount), 0) as highestBid, coalesce(max(b1.amount), 0) as yourPrice " +
             "from Wishlist w " +

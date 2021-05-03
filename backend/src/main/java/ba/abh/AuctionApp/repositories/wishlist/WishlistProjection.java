@@ -1,4 +1,4 @@
-package ba.abh.AuctionApp.repositories;
+package ba.abh.AuctionApp.repositories.wishlist;
 
 import ba.abh.AuctionApp.domain.Auction;
 import org.springframework.beans.factory.annotation.Value;

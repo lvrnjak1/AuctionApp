@@ -7,7 +7,7 @@ import ba.abh.AuctionApp.filters.AuctionFilter;
 import ba.abh.AuctionApp.filters.ProductFilter;
 import ba.abh.AuctionApp.filters.SortSpecification;
 import ba.abh.AuctionApp.pagination.PaginationDetails;
-import ba.abh.AuctionApp.repositories.WishlistProjection;
+import ba.abh.AuctionApp.repositories.wishlist.WishlistProjection;
 import ba.abh.AuctionApp.requests.AuctionRequest;
 import ba.abh.AuctionApp.responses.AuctionResponse;
 import ba.abh.AuctionApp.responses.AuctionSearchResponse;
