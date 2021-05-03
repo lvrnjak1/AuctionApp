@@ -3,6 +3,11 @@ import "components/wishlist/wishlist.scss";
 import { useHistory } from 'react-router-dom';
 import CustomImage from 'components/image/image';
 import CustomTable from 'components/custom_table/customTable';
+import { WISHLIST_ENDPOINT } from 'http/endpoints';
+import { getRequest } from 'http/requests';
+import { updateMessage } from 'util/info_div_util';
+import { getAuthorizationConfig } from 'util/auth/auth';
+import { getTimeLeft } from 'util/dateTimeService';
 
 const getHeadings = () => {
     return [
@@ -29,7 +34,11 @@ function Wishlist(props) {
     }, []);
 
     const isMyHighestBid = (el) => {
-        return el.bidMetadata.yourPrice === el.bidMetadata.highestBid;
+        return el.yourPrice === el.highestBid && el.highestBid !== 0;
+    }
+
+    const handleOnViewClick = (el) => {
+        history.push(`shop/item/${el.auction.id}`);
     }
 
     const getImage = (el) => {
@@ -51,48 +60,46 @@ function Wishlist(props) {
 
     const getTableRows = () => {
         let rows = [];
-        // data.forEach(el => {
-        // const endDate = new Date(el.auction.endDateTime);
-        // let time;
-        // if (endDate - new Date() < 0) {
-        //     time = "Closed";
-        // } else {
-        //     time = getTimeLeft(el.auction.endDateTime);
-        // }
-        // rows.push([getImage(el),
-        // <p className="bold-text p-reset">{el.auction.product.name}</p>,
-        // <p className="p-reset">{time}</p>,
-        // <p className={`p-reset center-align ${isMyHighestBid(el) ? "green-text bold-text" : ""}`}>
-        //     {`$${el.bidMetadata.yourPrice.toFixed(2)}`}
-        // </p>,
-        // <p className="p-reset center-align">{el.bidMetadata.numberOfBids}</p>,
-        // <p className={`bold-text p-reset center-align ${isMyHighestBid(el) ? "green-text" : "blue-text"}`}>
-        //     {`$${el.bidMetadata.highestBid.toFixed(2)}`}
-        // </p>,
-        // <button className="table-button" onClick={() => handleOnViewClick(el)}>View</button>
-        // ]);
-        // });
+        data.forEach(el => {
+            const endDate = new Date(el.auction.endDateTime);
+            let time;
+            let status = "OPEN";
+            if (endDate - new Date() < 0) {
+                time = "0s";
+                status = "CLOSED";
+            } else {
+                time = getTimeLeft(el.auction.endDateTime);
+            }
+            rows.push([getImage(el),
+            <p className="bold-text p-reset">{el.auction.product.name}</p>,
+            <p className="p-reset">{time}</p>,
+            <p className={`bold-text p-reset center-align ${isMyHighestBid(el) ? "green-text" : "blue-text"}`}>
+                {`$${el.highestBid.toFixed(2)}`}
+            </p>,
+            <p className={`center-align status ${status === "CLOSED" && "status-closed"}`}>{status}</p>,
+            <button className="table-button" onClick={() => handleOnViewClick(el)}>View</button>
+            ]);
+        });
 
-        // return rows;
-        return [];
+        return rows;
     }
 
     useEffect(() => {
-        // async function getData() {
-        //     await getRequest(DETAILED_BIDS_ENDPOINT,
-        //         { page, limit },
-        //         (response) => { handleResponse(response.data) },
-        //         () => { updateMessage("Something went wrong, try refreshing the page", "error") },
-        //         getAuthorizationConfig()
-        //     );
-        // }
+        async function getData() {
+            await getRequest(WISHLIST_ENDPOINT,
+                { page, limit },
+                (response) => { handleResponse(response.data); },
+                () => { updateMessage("Something went wrong, try refreshing the page", "error") },
+                getAuthorizationConfig()
+            );
+        }
 
-        // getData();
+        getData();
     }, [page, limit, handleResponse])
 
 
     return (
-        /*data !== null && */<div className="custom-table-container" >
+        data !== null && <div className="custom-table-container" >
             <CustomTable
                 headings={headings}
                 data={getTableRows()}
