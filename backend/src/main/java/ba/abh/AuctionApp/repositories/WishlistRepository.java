@@ -16,8 +16,9 @@ public interface WishlistRepository extends JpaRepository<Wishlist, Long> {
     Optional<Wishlist> findByAuctionAndUser(final Auction auction, final User user);
     Page<Wishlist> findWishlistByUser(final User user, final Pageable pageable);
 
-    @Query(value = "select a as auction, coalesce(max(b.amount), 0) as highestBid " +
+    @Query(value = "select a as auction, coalesce(max(b.amount), 0) as highestBid, coalesce(max(b1.amount), 0) as yourPrice " +
             "from Wishlist w " +
+            "left join Bid b1 on b1.auction = w.auction and b1.bidder = ?1 " +
             "join Auction a on a = w.auction and w.user = ?1 left join Bid b on a = b.auction " +
             "group by a")
     Page<WishlistProjection> findWishlistByUserDetailed(final User user, final Pageable pageable);

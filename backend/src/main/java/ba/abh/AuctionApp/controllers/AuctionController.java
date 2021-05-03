@@ -134,7 +134,9 @@ public class AuctionController {
         final List<DetailedWishlistResponse> data = page
                 .getContent()
                 .stream()
-                .map(wishlistProjection -> new DetailedWishlistResponse(wishlistProjection.getAuction(), wishlistProjection.getHighestBid()))
+                .map(wishlistProjection -> new DetailedWishlistResponse(wishlistProjection.getAuction(),
+                        wishlistProjection.getHighestBid(),
+                        wishlistProjection.getYourPrice()))
                 .collect(Collectors.toUnmodifiableList());
         return new PageableResponse<>(details, data);
     }

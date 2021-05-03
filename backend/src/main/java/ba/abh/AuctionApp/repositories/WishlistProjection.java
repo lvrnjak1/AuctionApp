@@ -9,4 +9,7 @@ public interface WishlistProjection {
 
     @Value("#{target.highestBid}")
     Double getHighestBid();
+
+    @Value("#{target.yourPrice}")
+    Double getYourPrice();
 }
