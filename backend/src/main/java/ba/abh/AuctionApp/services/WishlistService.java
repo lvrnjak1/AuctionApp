@@ -32,7 +32,7 @@ public class WishlistService {
         if (optionalWishlist.isEmpty()) {
             Wishlist wishlist = new Wishlist(auction, user);
             wishlistRepository.save(wishlist);
-        }else{
+        } else {
             wishlistRepository.delete(optionalWishlist.get());
         }
     }
