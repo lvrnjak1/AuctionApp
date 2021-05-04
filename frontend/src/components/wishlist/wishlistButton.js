@@ -18,8 +18,7 @@ function WishlistButton(props) {
 
     useEffect(() => {
         setIsInWishlist(props.inWishlist);
-        dispatch(setPage(filterParams.page));
-    }, [props.inWishlist, dispatch, filterParams.page]);
+    }, [props.inWishlist]);
 
     useEffect(() => {
         setMessageVisible(props.message);
@@ -42,6 +41,8 @@ function WishlistButton(props) {
             },
             () => { updateMessage("Something went wrong, try again", "error") },
             getAuthorizationConfig());
+
+        dispatch(setPage(filterParams.page));
     }
 
     return (
