@@ -14,6 +14,7 @@ import ba.abh.AuctionApp.responses.DetailedAuctionResponse;
 import ba.abh.AuctionApp.responses.PageableResponse;
 import ba.abh.AuctionApp.services.BidService;
 import ba.abh.AuctionApp.services.UserService;
+import ba.abh.AuctionApp.services.WishlistService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,10 +38,13 @@ import java.util.stream.Collectors;
 public class BidController {
     private final BidService bidService;
     private final UserService userService;
+    private final WishlistService wishlistService;
 
-    public BidController(final BidService bidService, final UserService userService) {
+    public BidController(final BidService bidService, final UserService userService,
+                         final WishlistService wishlistService) {
         this.bidService = bidService;
         this.userService = userService;
+        this.wishlistService = wishlistService;
     }
 
     @PostMapping("/auctions/{auctionId}/bids")
@@ -67,7 +71,7 @@ public class BidController {
                 requestParams.getPage() - 1,
                 requestParams.getLimit()
         );
-        return ResponseEntity.ok().body(buildDetailedBidsResponse(bids));
+        return ResponseEntity.ok().body(buildDetailedBidsResponse(bids, userService.getUserByEmail(principal.getName())));
     }
 
     @GetMapping("/seller/bids")
@@ -82,7 +86,7 @@ public class BidController {
                 requestParams.getPage() - 1,
                 requestParams.getLimit()
         );
-        return ResponseEntity.ok().body(buildDetailedBidsResponse(bids));
+        return ResponseEntity.ok().body(buildDetailedBidsResponse(bids, userService.getUserByEmail(principal.getName())));
     }
 
     private PageableResponse<BidResponse> buildPageableResponse(final Page<Bid> page) {
@@ -95,13 +99,15 @@ public class BidController {
         return new PageableResponse<>(details, data);
     }
 
-    private PageableResponse<DetailedAuctionResponse> buildDetailedBidsResponse(final Page<BidProjection> bidsPage) {
+    private PageableResponse<DetailedAuctionResponse> buildDetailedBidsResponse(final Page<BidProjection> bidsPage, final User user) {
         PaginationDetails details = new PaginationDetails(bidsPage);
         final List<DetailedAuctionResponse> data = bidsPage
                 .getContent()
                 .stream()
                 .map(bidProjection -> {
                     AuctionResponse auctionResponse = new AuctionResponse(bidProjection.getAuction());
+                    boolean isInWishlist = wishlistService.isInWishlist(bidProjection.getAuction(), user);
+                    auctionResponse.setWishlist(isInWishlist);
                     BidMetadata bidMetadata = new BidMetadata(bidProjection);
                     return new DetailedAuctionResponse(auctionResponse, bidMetadata);
                 })

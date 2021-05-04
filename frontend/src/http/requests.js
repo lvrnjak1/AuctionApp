@@ -1,6 +1,7 @@
 import axios from "axios";
 import { setAsyncTaskInProgress } from "state/actions/asyncTaskInProgressActions";
 import store from "state/store";
+import { getAuthorizationConfig, getToken } from "util/auth/auth";
 import { updateMessage } from "util/info_div_util";
 import { UPLOAD_IMAGE_ENDPOINT } from "./endpoints";
 
@@ -31,7 +32,22 @@ const postRequest = async (endpoint, body, successHandler, errorHandler, request
 const getRequest = async (endpoint, queryParams, successHandler, errorHandler, requestConfig) => {
     try {
         store.dispatch(setAsyncTaskInProgress(true));
+        if (!requestConfig && getToken()) {
+            requestConfig = getAuthorizationConfig();
+        }
         const response = await axios.get(endpoint, { params: queryParams, ...requestConfig });
+        store.dispatch(setAsyncTaskInProgress(false));
+        successHandler(response);
+    } catch (error) {
+        store.dispatch(setAsyncTaskInProgress(false));
+        errorHandler(error);
+    }
+}
+
+const putRequest = async (endpoint, queryParams, successHandler, errorHandler, requestConfig) => {
+    try {
+        store.dispatch(setAsyncTaskInProgress(true));
+        const response = await axios.put(endpoint, {}, requestConfig);
         store.dispatch(setAsyncTaskInProgress(false));
         successHandler(response);
     } catch (error) {
@@ -109,6 +125,7 @@ const uploadMultipleImages = async (images, successHandler) => {
 export {
     postRequest,
     getRequest,
+    putRequest,
     sendMultipleGetRequests,
     patchRequest,
     uploadFormData,

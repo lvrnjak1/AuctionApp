@@ -7,7 +7,8 @@ function Dropdown(props) {
         { to: "/profile", text: "Profile", index: 0 },
         { to: "/seller", text: "Become Seller", index: 1 },
         { to: "/bids", text: "Your bids", index: 2 },
-        { to: "/settings", text: "Settings", index: 3 }
+        { to: "/wishlist", text: "Wishlist", index: 3 },
+        { to: "/settings", text: "Settings", index: 4 }
     ]
     return (
         <div className="dropdown" onMouseLeave={props.onLeave}>

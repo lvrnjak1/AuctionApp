@@ -17,7 +17,8 @@ function ProductGrid(props) {
             props.items[index].startPrice.toFixed(2);
         const id = props.items[index].id;
         const description = props.categories ? null : props.items[index].product.description;
-        return { name, imageUrl, price, id, description };
+        const wishlist = props.categories ? false : props.items[index].wishlist;
+        return { name, imageUrl, price, id, description, wishlist };
     }
 
     const getItems = () => {
