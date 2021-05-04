@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import "components/wishlist/wishlist.scss";
 import { useHistory } from 'react-router-dom';
 import CustomImage from 'components/image/image';
 import CustomTable from 'components/custom_table/customTable';
@@ -104,10 +103,10 @@ function Wishlist(props) {
                 headings={headings}
                 data={getTableRows()}
                 pagination={pagination}
-                onChangePage={() => setPage(page + 1)}
+                onChangePage={(event, value) => setPage(value + 1)}
                 onChangeRowsPerPage={(event) => {
                     setLimit(parseInt(event.target.value));
-                    setPage(1)
+                    setPage(1);
                 }}
                 rowsPerPage={limit} />
         </div>

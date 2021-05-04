@@ -24,7 +24,7 @@ function Product(props) {
 
     const getButtonGroup = (iconBlack, hideButtonText) => {
         return <div className="button-group">
-            <WishlistButton id={props.product.id} black={iconBlack} hideText={hideButtonText} inWishlist={props.product.wishlist} />
+            <WishlistButton id={props.product.id} black={iconBlack} showButtonText={!hideButtonText} inWishlist={props.product.wishlist} />
             <button className="bid-button" onClick={() => handleProductClick(props.product.id, props.product.name)}>
                 {(!hideButtonText || !getToken()) && "Bid"} <FontAwesomeIcon icon={faGavel} className={`button-icon ${iconBlack ? "black" : ""}`} />
             </button>

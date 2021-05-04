@@ -204,7 +204,7 @@ function ItemPage() {
                         </ul>
                         }
                     </div>
-                    <WishlistButton id={id} inWishlist={item.wishlist} message={true} />
+                    <WishlistButton id={id} inWishlist={item.wishlist} message={true} showButtonText={true} />
                     <div className="details">
                         <p className="details-title">Details</p>
                         <p className="details-content">{item.product.description || "There are no details about this item."}</p>
